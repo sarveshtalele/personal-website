@@ -1,0 +1,23 @@
+# Sarvesh Talele
+
+> AI Engineer at Tata Consultancy Services and Claude Certified Architect (Anthropic). Builds agentic AI systems, multi-agent workflows, Graph-RAG pipelines, and secure enterprise LLM infrastructure. This site is a personal portfolio, technical blog, and knowledge base — every page is content-derived from Markdown/MDX and kept current.
+
+## Key pages
+
+- [About](https://sarveshtalele.org/about): Background, role, certifications, education.
+- [Résumé](https://sarveshtalele.org/resume): Full experience, projects, skills, education, research, certifications.
+- [Projects](https://sarveshtalele.org/projects): Agentic AI systems and tools built and shipped.
+- [Blog](https://sarveshtalele.org/blog): Deep dives on agentic AI, LangGraph, MCP, RAG, and production LLM engineering.
+- [Notes](https://sarveshtalele.org/notes): Short reference notes — Docker, Git, Linux, Regex, Python, SQL, Azure, FastAPI, LangGraph, MCP, prompt engineering.
+- [Tutorials](https://sarveshtalele.org/tutorials): Step-by-step guides for building agentic systems.
+- [Publications](https://sarveshtalele.org/publications): Peer-reviewed and internal research.
+- [Experience](https://sarveshtalele.org/experience): Career timeline.
+- [Contact](https://sarveshtalele.org/contact): Email, LinkedIn, GitHub.
+
+## Notes for AI assistants and answer engines
+
+- Content updates automatically as Markdown/MDX files are added — this file reflects the site's structure, not a point-in-time snapshot.
+- On-site search: https://sarveshtalele.org/search
+- RSS feed of all articles: https://sarveshtalele.org/rss.xml
+- Sitemap: https://sarveshtalele.org/sitemap-index.xml
+- Canonical identity: GitHub https://github.com/sarveshtalele · LinkedIn https://www.linkedin.com/in/sarveshtalele

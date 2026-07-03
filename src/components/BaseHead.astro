@@ -1,5 +1,5 @@
 ---
-import { SITE, GA_MEASUREMENT_ID } from '@lib/site';
+import { SITE, SOCIALS, GA_MEASUREMENT_ID } from '@lib/site';
 import '@styles/global.css';
 
 interface Props {
@@ -28,6 +28,21 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 const fullTitle = title === SITE.name ? SITE.title : `${title} · ${SITE.name}`;
 
+// A single, reused Person entity — the `sameAs` links let Google/Bing and AI
+// answer engines (Perplexity, ChatGPT search, etc.) confirm "Sarvesh Talele" is
+// one real, verifiable person across the site, GitHub, and LinkedIn.
+const personId = `${SITE.url}/#person`;
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': personId,
+  name: SITE.author,
+  url: SITE.url,
+  jobTitle: SITE.role,
+  worksFor: { '@type': 'Organization', name: 'Tata Consultancy Services' },
+  sameAs: [SOCIALS.github, SOCIALS.linkedin],
+};
+
 const baseJsonLd = {
   '@context': 'https://schema.org',
   '@type': type === 'article' ? 'Article' : 'WebSite',
@@ -35,14 +50,23 @@ const baseJsonLd = {
   name: fullTitle,
   headline: title,
   description,
-  ...(type === 'article' && {
-    author: { '@type': 'Person', name: SITE.author, url: SITE.url },
-    ...(pubDate && { datePublished: pubDate.toISOString() }),
-    ...(updatedDate && { dateModified: updatedDate.toISOString() }),
-  }),
+  ...(type === 'article'
+    ? {
+        author: { '@id': personId },
+        ...(pubDate && { datePublished: pubDate.toISOString() }),
+        ...(updatedDate && { dateModified: updatedDate.toISOString() }),
+      }
+    : {
+        publisher: { '@id': personId },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: `${SITE.url}/search?q={search_term_string}`,
+          'query-input': 'required name=search_term_string',
+        },
+      }),
 };
 
-const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [baseJsonLd];
+const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [personJsonLd, baseJsonLd];
 ---
 
 <meta charset="utf-8" />
