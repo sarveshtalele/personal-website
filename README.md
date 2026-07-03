@@ -73,6 +73,43 @@ Body content here. Standard Markdown, GFM tables, and (in .mdx files) the `<Call
 
 Math is supported via `remark-math` + `rehype-katex` — write `$inline$` or `$$block$$` LaTeX in any post.
 
+### Adding images to a post
+
+Two ways, pick based on whether you want automatic optimization:
+
+**1. Colocated (recommended) — optimized, resized, converted to WebP automatically.**
+Turn the post into a folder and put the image next to it:
+
+```
+src/content/blog/my-post/index.md   ← was my-post.md
+src/content/blog/my-post/cover.jpg
+```
+
+Reference it with a relative path — in frontmatter for the banner image, and/or inline in the body:
+
+```md
+---
+title: My post
+heroImage: ./cover.jpg
+---
+
+Some text.
+
+![Alt text](./cover.jpg)
+```
+
+`heroImage` automatically renders as a banner on the post page and as the thumbnail on blog cards. This works
+the same way for `image` in `src/content/projects/`.
+
+**2. Public folder — simple, but not optimized (served as-is).**
+Drop the file in `public/images/` and reference it by absolute path — no frontmatter field needed, just inline:
+
+```md
+![Alt text](/images/my-screenshot.png)
+```
+
+Use this for quick screenshots where you don't need responsive/WebP output.
+
 ## Site-wide settings
 
 Edit `src/lib/site.ts` to change:

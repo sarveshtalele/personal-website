@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import { formatDate } from '@utils/format';
 import Tag from './Tag.astro';
 
@@ -9,7 +10,18 @@ interface Props {
 const { post } = Astro.props;
 ---
 
-<article class="card card-hover group relative flex h-full flex-col p-6">
+<article class="card card-hover group relative flex h-full flex-col overflow-hidden p-6">
+  {
+    post.data.heroImage && (
+      <Image
+        src={post.data.heroImage}
+        alt=""
+        width={480}
+        height={240}
+        class="-mx-6 -mt-6 mb-5 h-40 w-[calc(100%+3rem)] object-cover"
+      />
+    )
+  }
   <div class="flex items-center gap-3 text-xs text-fg-faint">
     <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
     <span aria-hidden="true">·</span>

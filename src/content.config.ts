@@ -3,34 +3,36 @@ import { glob } from 'astro/loaders';
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    category: z.string().default('General'),
-    tags: z.array(z.string()).default([]),
-    heroImage: z.string().optional(),
-    featured: z.boolean().default(false),
-    draft: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      pubDate: z.coerce.date(),
+      updatedDate: z.coerce.date().optional(),
+      category: z.string().default('General'),
+      tags: z.array(z.string()).default([]),
+      heroImage: image().optional(),
+      featured: z.boolean().default(false),
+      draft: z.boolean().default(false),
+    }),
 });
 
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    tags: z.array(z.string()).default([]),
-    techStack: z.array(z.string()).default([]),
-    github: z.string().optional(),
-    demo: z.string().optional(),
-    docs: z.string().optional(),
-    image: z.string().optional(),
-    featured: z.boolean().default(false),
-    status: z.enum(['active', 'completed', 'archived']).default('completed'),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      pubDate: z.coerce.date(),
+      tags: z.array(z.string()).default([]),
+      techStack: z.array(z.string()).default([]),
+      github: z.string().optional(),
+      demo: z.string().optional(),
+      docs: z.string().optional(),
+      image: image().optional(),
+      featured: z.boolean().default(false),
+      status: z.enum(['active', 'completed', 'archived']).default('completed'),
+    }),
 });
 
 const notes = defineCollection({
