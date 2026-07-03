@@ -1,0 +1,44 @@
+---
+title: Docker cheatsheet
+description: Everyday Docker commands for containers, images, volumes, and networks.
+pubDate: 2025-08-01
+tags: [Docker]
+---
+
+## Containers
+
+```bash
+docker ps -a                      # list all containers
+docker run -d -p 8000:8000 IMAGE  # run detached, map port
+docker exec -it CONTAINER sh      # shell into a running container
+docker logs -f CONTAINER          # follow logs
+docker rm -f CONTAINER            # force remove
+```
+
+## Images
+
+```bash
+docker build -t name:tag .
+docker images
+docker rmi IMAGE
+docker system prune -a            # reclaim disk space
+```
+
+## Volumes
+
+```bash
+docker volume ls
+docker run -v myvolume:/data IMAGE
+```
+
+## Compose
+
+```bash
+docker compose up -d
+docker compose logs -f service
+docker compose down -v
+```
+
+<Callout type="tip">
+  Use `docker compose down -v` sparingly — the `-v` flag deletes named volumes, including databases.
+</Callout>

@@ -1,0 +1,72 @@
+---
+title: LinkedIn Autonomous Content Creation Agentic System
+description: An autonomous multi-agent content generation system using LangGraph and RAG that ingests multi-source data, extracts trends, and generates high-quality LinkedIn posts automatically.
+pubDate: 2024-11-01
+tags: [Agentic AI, LangGraph, RAG]
+techStack: [Python, LangGraph, LangChain, RAG, FastAPI]
+github: https://github.com/sarveshtalele
+featured: true
+status: active
+---
+
+## Overview
+
+Writing consistently on LinkedIn is high-value and low-throughput — most professionals have opinions worth
+sharing but not the hours to research, draft, and revise a post every week. This project automates the pipeline
+end to end, from raw source material to a publish-ready draft.
+
+## Problem
+
+Manually producing well-researched LinkedIn content requires:
+
+- Monitoring multiple sources for relevant trends and news
+- Extracting the signal worth writing about
+- Drafting in a voice consistent with prior posts
+- Reviewing and revising before publishing
+
+Doing this by hand doesn't scale past one or two posts a week.
+
+## Solution
+
+A modular multi-agent pipeline where each stage is a distinct, independently testable agent:
+
+```
+ingestion → keyword extraction → RAG retrieval → writer → reviewer
+```
+
+Each agent has a single responsibility, which makes the system easy to debug and to extend — swapping the
+retrieval source or the writer's tone doesn't require touching the rest of the pipeline.
+
+## Architecture
+
+- **Ingestion agent** — pulls from multiple source feeds and normalizes content
+- **Keyword extraction agent** — surfaces the trends and topics worth writing about
+- **RAG retrieval agent** — grounds drafts in relevant prior context and source material
+- **Writer agent** — produces a first draft in a consistent voice
+- **Reviewer agent** — critiques and iterates on the draft before it's marked ready
+
+## Features
+
+- Fully automated research-to-draft pipeline
+- Modular agents that can be independently upgraded or replaced
+- Iterative review loop instead of single-shot generation
+
+## Tech Stack
+
+Python, LangGraph, LangChain (RAG), FastAPI for the service layer.
+
+## Lessons Learned
+
+Splitting the pipeline into single-purpose agents connected by LangGraph made failures far easier to localize
+than a single large prompt would have — when output quality dropped, it was almost always traceable to one
+stage.
+
+## Challenges
+
+Keeping the reviewer agent's feedback actionable (rather than vague) required tightening its prompt with
+concrete revision criteria instead of an open-ended "improve this" instruction.
+
+## Future Improvements
+
+- Add analytics feedback loop so the reviewer learns from post performance
+- Support scheduling and multi-platform publishing

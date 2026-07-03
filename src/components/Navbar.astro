@@ -1,0 +1,126 @@
+---
+import { Search, Menu, X, Sparkles } from '@lucide/astro';
+import GithubIcon from './icons/GithubIcon.astro';
+import LinkedinIcon from './icons/LinkedinIcon.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { NAV_LINKS, SOCIALS, SITE } from '@lib/site';
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => currentPath === href || (href !== '/' && currentPath.startsWith(href));
+---
+
+<header class="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-lg">
+  <nav class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6" aria-label="Main navigation">
+    <a href="/" class="flex items-center gap-2 font-semibold tracking-tight text-fg transition-colors hover:text-primary">
+      <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-white">
+        <Sparkles class="h-4 w-4" aria-hidden="true" />
+      </span>
+      <span class="hidden sm:inline">{SITE.name}</span>
+    </a>
+
+    <ul class="hidden items-center gap-1 lg:flex">
+      {
+        NAV_LINKS.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+              class:list={[
+                'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                isActive(link.href) ? 'bg-primary-soft text-primary' : 'text-fg-muted hover:bg-bg-alt hover:text-fg',
+              ]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-1">
+      <a
+        href="/search"
+        class="inline-flex h-9 items-center gap-2 rounded-xl px-2.5 text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg sm:border sm:border-line sm:bg-surface"
+        aria-label="Search the site"
+      >
+        <Search class="h-[18px] w-[18px]" aria-hidden="true" />
+        <span class="hidden text-xs text-fg-faint sm:inline">Search</span>
+        <kbd class="hidden rounded border border-line bg-bg-alt px-1.5 py-0.5 text-[10px] font-medium text-fg-faint sm:inline">/</kbd>
+      </a>
+      <ThemeToggle />
+      <a
+        href={SOCIALS.github}
+        class="hidden h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg sm:inline-flex"
+        aria-label="GitHub profile"
+        rel="me noopener"
+        target="_blank"
+      >
+        <GithubIcon class="h-[18px] w-[18px]" />
+      </a>
+      <a
+        href={SOCIALS.linkedin}
+        class="hidden h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg sm:inline-flex"
+        aria-label="LinkedIn profile"
+        rel="me noopener"
+        target="_blank"
+      >
+        <LinkedinIcon class="h-[18px] w-[18px]" />
+      </a>
+      <button
+        id="mobile-menu-button"
+        type="button"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg lg:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <Menu class="h-5 w-5 menu-open-icon" aria-hidden="true" />
+        <X class="hidden h-5 w-5 menu-close-icon" aria-hidden="true" />
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="hidden border-t border-line bg-bg lg:hidden">
+    <ul class="mx-auto max-w-6xl space-y-1 px-4 py-4 sm:px-6">
+      {
+        NAV_LINKS.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+              class:list={[
+                'block rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                isActive(link.href) ? 'bg-primary-soft text-primary' : 'text-fg-muted hover:bg-bg-alt hover:text-fg',
+              ]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
+
+<script>
+  function bindNavbar() {
+    const button = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    if (!button || !menu) return;
+    button.addEventListener('click', () => {
+      const open = menu.classList.toggle('hidden') === false;
+      button.setAttribute('aria-expanded', String(open));
+      button.querySelector('.menu-open-icon')?.classList.toggle('hidden', open);
+      button.querySelector('.menu-close-icon')?.classList.toggle('hidden', !open);
+    });
+
+    // "/" focuses search from anywhere
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
+        e.preventDefault();
+        window.location.href = '/search';
+      }
+    });
+  }
+  bindNavbar();
+</script>

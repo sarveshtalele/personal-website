@@ -1,0 +1,61 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '@layouts/ArticleLayout.astro';
+import Button from '@components/Button.astro';
+import { mdxComponents } from '@components/mdx-components';
+import { ExternalLink, FileText } from '@lucide/astro';
+import GithubIcon from '@components/icons/GithubIcon.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content, headings } = await render(project);
+const { title, description, pubDate, tags, techStack, github, demo, docs } = project.data;
+---
+
+<ArticleLayout
+  title={title}
+  description={description}
+  pubDate={pubDate}
+  tags={tags}
+  headings={headings}
+  crumbs={[{ label: 'Projects', href: '/projects' }, { label: title }]}
+  showShare
+>
+  {
+    (github || demo || docs) && (
+      <div class="mb-8 flex flex-wrap gap-3">
+        {github && (
+          <Button href={github} variant="secondary" external>
+            <GithubIcon class="h-4 w-4" /> Source
+          </Button>
+        )}
+        {demo && (
+          <Button href={demo} variant="primary" external>
+            <ExternalLink class="h-4 w-4" aria-hidden="true" /> Live demo
+          </Button>
+        )}
+        {docs && (
+          <Button href={docs} variant="secondary" external>
+            <FileText class="h-4 w-4" aria-hidden="true" /> Docs
+          </Button>
+        )}
+      </div>
+    )
+  }
+
+  {
+    techStack.length > 0 && (
+      <div class="mb-8 flex flex-wrap gap-2">
+        {techStack.map((tech) => (
+          <span class="rounded-lg border border-line bg-bg-alt px-2.5 py-1 text-xs font-medium text-fg-muted">{tech}</span>
+        ))}
+      </div>
+    )
+  }
+
+  <Content components={mdxComponents} />
+</ArticleLayout>

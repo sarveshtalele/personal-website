@@ -1,0 +1,52 @@
+---
+import { GISCUS } from '@lib/site';
+---
+
+{
+  GISCUS.repo && GISCUS.repoId && (
+    <section class="mt-12 border-t border-line pt-8" aria-label="Comments">
+      <div
+        id="giscus-container"
+        data-repo={GISCUS.repo}
+        data-repo-id={GISCUS.repoId}
+        data-category={GISCUS.category}
+        data-category-id={GISCUS.categoryId}
+      />
+    </section>
+  )
+}
+
+<script>
+  function loadGiscus() {
+    const container = document.getElementById('giscus-container');
+    if (!container) return;
+
+    const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    Object.entries({
+      'data-repo': container.dataset.repo!,
+      'data-repo-id': container.dataset.repoId!,
+      'data-category': container.dataset.category!,
+      'data-category-id': container.dataset.categoryId!,
+      'data-mapping': 'pathname',
+      'data-strict': '0',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'bottom',
+      'data-theme': theme,
+      'data-lang': 'en',
+    }).forEach(([key, value]) => script.setAttribute(key, value));
+    container.appendChild(script);
+
+    // Keep the widget in sync with the site theme toggle
+    new MutationObserver(() => {
+      const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+      const nextTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      iframe?.contentWindow?.postMessage({ giscus: { setConfig: { theme: nextTheme } } }, 'https://giscus.app');
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  }
+  loadGiscus();
+</script>

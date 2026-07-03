@@ -1,0 +1,29 @@
+---
+title: Prompt engineering checklist
+description: A pre-flight checklist before shipping a new agent prompt to production.
+pubDate: 2026-02-14
+tags: [Prompt Engineering]
+---
+
+## Before shipping a prompt
+
+- [ ] Output format is explicitly specified (schema, not prose description)
+- [ ] Hard constraints are stated immediately before the task, not buried earlier
+- [ ] At least 3 edge cases have been manually tested
+- [ ] The prompt is version-controlled with a changelog entry
+- [ ] There's a fallback behavior defined for malformed output
+- [ ] Token budget is accounted for (input + expected output)
+
+## Common failure patterns
+
+| Symptom | Likely cause |
+|---|---|
+| Inconsistent output structure | Format described in prose, not enforced |
+| Ignores late instructions | Constraints buried too early in a long prompt |
+| Overly verbose reviewer feedback | No concrete rubric given |
+| Silent truncation | Output budget not reserved separately from input |
+
+<Callout type="warning">
+  A prompt that works in a demo is not a prompt that's ready for production — test it against inputs it wasn't
+  designed for before shipping.
+</Callout>

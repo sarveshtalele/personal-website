@@ -1,0 +1,46 @@
+---
+import { Info, Lightbulb, TriangleAlert, CircleCheck } from '@lucide/astro';
+
+interface Props {
+  type?: 'info' | 'tip' | 'warning' | 'success';
+  title?: string;
+}
+const { type = 'info', title } = Astro.props;
+
+const config = {
+  info: { icon: Info, classes: 'border-primary/30 bg-primary-soft', iconColor: 'text-primary', defaultTitle: 'Note' },
+  tip: { icon: Lightbulb, classes: 'border-primary/30 bg-primary-soft', iconColor: 'text-primary', defaultTitle: 'Tip' },
+  warning: {
+    icon: TriangleAlert,
+    classes: 'border-warning/40 bg-warning/10',
+    iconColor: 'text-warning',
+    defaultTitle: 'Warning',
+  },
+  success: {
+    icon: CircleCheck,
+    classes: 'border-success/40 bg-success/10',
+    iconColor: 'text-success',
+    defaultTitle: 'Success',
+  },
+};
+const { icon: Icon, classes, iconColor, defaultTitle } = config[type];
+---
+
+<aside class:list={['my-6 flex gap-3 rounded-xl border p-4', classes]} role="note">
+  <Icon class:list={['mt-1 h-5 w-5 shrink-0', iconColor]} aria-hidden="true" />
+  <div class="min-w-0 text-[0.95rem]">
+    <p class="font-semibold text-fg">{title ?? defaultTitle}</p>
+    <div class="callout-body mt-1 text-fg-muted">
+      <slot />
+    </div>
+  </div>
+</aside>
+
+<style>
+  .callout-body :global(p) {
+    margin: 0;
+  }
+  .callout-body :global(p + p) {
+    margin-top: 0.5em;
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import { Award, ExternalLink } from '@lucide/astro';
+import { formatDate, byDateDesc } from '@utils/format';
+
+const certifications = (await getCollection('certifications')).sort(byDateDesc((c) => c.data.date));
+---
+
+<PageLayout
+  title="Certifications"
+  description="Professional certifications in AI engineering, data analytics, and applied AI."
+  eyebrow="Credentials"
+  crumbs={[{ label: 'Certifications' }]}
+>
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      certifications.map((cert) => (
+        <div class="card flex items-start gap-4 p-5">
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
+            <Award class="h-5 w-5" aria-hidden="true" />
+          </span>
+          <div class="min-w-0">
+            <p class="text-sm font-semibold text-fg">{cert.data.title}</p>
+            <p class="mt-0.5 text-sm text-fg-muted">{cert.data.issuer}</p>
+            <p class="mt-0.5 text-xs text-fg-faint">{formatDate(cert.data.date)}</p>
+            {cert.data.credentialUrl && (
+              <a
+                href={cert.data.credentialUrl}
+                target="_blank"
+                rel="noopener"
+                class="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary hover:text-primary-strong"
+              >
+                Verify <ExternalLink class="h-3 w-3" aria-hidden="true" />
+              </a>
+            )}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</PageLayout>

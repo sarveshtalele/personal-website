@@ -1,0 +1,66 @@
+---
+import { Mail, Rss } from '@lucide/astro';
+import GithubIcon from './icons/GithubIcon.astro';
+import LinkedinIcon from './icons/LinkedinIcon.astro';
+import { SITE, SOCIALS, NAV_LINKS } from '@lib/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-line bg-bg-alt">
+  <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <div class="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+      <div class="max-w-sm">
+        <p class="font-semibold text-fg">{SITE.name}</p>
+        <p class="mt-2 text-sm text-fg-muted">
+          {SITE.role}. Building agentic AI systems and writing about what I learn along the way.
+        </p>
+        <div class="mt-4 flex items-center gap-2">
+          <a
+            href={SOCIALS.github}
+            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
+            aria-label="GitHub"
+            rel="me noopener"
+            target="_blank"><GithubIcon class="h-[18px] w-[18px]" /></a
+          >
+          <a
+            href={SOCIALS.linkedin}
+            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
+            aria-label="LinkedIn"
+            rel="me noopener"
+            target="_blank"><LinkedinIcon class="h-[18px] w-[18px]" /></a
+          >
+          <a
+            href={SOCIALS.email}
+            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
+            aria-label="Email"><Mail class="h-[18px] w-[18px]" aria-hidden="true" /></a
+          >
+          <a
+            href={SOCIALS.rss}
+            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
+            aria-label="RSS feed"><Rss class="h-[18px] w-[18px]" aria-hidden="true" /></a
+          >
+        </div>
+      </div>
+
+      <nav aria-label="Footer navigation" class="grid grid-cols-2 gap-x-12 gap-y-2 text-sm sm:grid-cols-2">
+        {
+          [...NAV_LINKS, { label: 'Publications', href: '/publications' }, { label: 'Talks', href: '/talks' }, { label: 'Contact', href: '/contact' }, { label: 'Privacy', href: '/privacy' }].map(
+            (link) => (
+              <a href={link.href} class="text-fg-muted transition-colors hover:text-primary">
+                {link.label}
+              </a>
+            )
+          )
+        }
+      </nav>
+    </div>
+
+    <div class="mt-10 flex flex-col gap-2 border-t border-line pt-6 text-sm text-fg-faint sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {SITE.author}. All rights reserved.</p>
+      <p>
+        Built with <a href="https://astro.build" class="font-medium text-fg-muted transition-colors hover:text-primary" rel="noopener" target="_blank">Astro</a>
+      </p>
+    </div>
+  </div>
+</footer>

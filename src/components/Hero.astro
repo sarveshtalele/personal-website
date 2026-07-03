@@ -1,0 +1,60 @@
+---
+import { ArrowRight, Download } from '@lucide/astro';
+import GithubIcon from './icons/GithubIcon.astro';
+import LinkedinIcon from './icons/LinkedinIcon.astro';
+import { SITE, SOCIALS } from '@lib/site';
+import Button from './Button.astro';
+---
+
+<section class="relative overflow-hidden border-b border-line bg-bg-alt/60">
+  <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+    <div class="flex flex-col-reverse items-start gap-10 lg:flex-row lg:items-center lg:justify-between">
+    <div class="max-w-3xl">
+      <p class="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-sm font-medium text-fg-muted">
+        {SITE.role}
+      </p>
+      <h1 class="mt-6 text-4xl font-bold tracking-tight text-fg sm:text-5xl lg:text-6xl">
+        I build agentic AI systems that hold up in production.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-fg-muted">
+        Hi, I'm Sarvesh — an AI Engineer at Tata Consultancy Services architecting multi-agent workflows, Graph-RAG
+        pipelines, and secure LLM infrastructure for enterprise scale. This site is my running notebook: projects,
+        deep dives, and notes on the tools I use every day.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <Button href="/projects" variant="primary">
+          View Projects <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </Button>
+        <Button href="/blog" variant="secondary">Read Blog</Button>
+        <Button href="/resume.pdf" variant="secondary" download>
+          <Download class="h-4 w-4" aria-hidden="true" /> Résumé
+        </Button>
+        <div class="ml-1 flex items-center gap-1">
+          <a
+            href={SOCIALS.github}
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
+            aria-label="GitHub"
+            target="_blank"
+            rel="me noopener"><GithubIcon class="h-5 w-5" /></a
+          >
+          <a
+            href={SOCIALS.linkedin}
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
+            aria-label="LinkedIn"
+            target="_blank"
+            rel="me noopener"><LinkedinIcon class="h-5 w-5" /></a
+          >
+        </div>
+      </div>
+    </div>
+
+    <img
+      src="/images/sarvesh-talele.jpg"
+      alt={SITE.author}
+      width="176"
+      height="176"
+      class="h-36 w-36 shrink-0 rounded-2xl border border-line object-cover shadow-sm sm:h-44 sm:w-44"
+    />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,66 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+const { headings } = Astro.props;
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+  toc.length > 1 && (
+    <nav aria-label="Table of contents" class="toc text-sm">
+      <p class="mb-3 font-semibold uppercase tracking-widest text-fg-faint" style="font-size: 0.7rem">
+        On this page
+      </p>
+      <ul class="space-y-2 border-l border-line">
+        {toc.map((heading) => (
+          <li class:list={[heading.depth === 3 && 'pl-4']}>
+            <a
+              href={`#${heading.slug}`}
+              data-toc-link={heading.slug}
+              class="-ml-px block border-l-2 border-transparent pl-4 text-fg-faint transition-colors hover:text-fg"
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  .toc a[data-active='true'] {
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: 500;
+  }
+</style>
+
+<script>
+  function initToc() {
+    const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+    if (links.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            links.forEach((link) => link.removeAttribute('data-active'));
+            document.querySelector(`[data-toc-link="${entry.target.id}"]`)?.setAttribute('data-active', 'true');
+          }
+        }
+      },
+      { rootMargin: '-80px 0% -70% 0%' }
+    );
+
+    links.forEach((link) => {
+      const id = link.dataset.tocLink;
+      const heading = id ? document.getElementById(id) : null;
+      if (heading) observer.observe(heading);
+    });
+  }
+  initToc();
+</script>

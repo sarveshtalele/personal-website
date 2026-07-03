@@ -1,0 +1,30 @@
+---
+title: Setting up a secure LLM proxy on Azure
+description: Notes on architecting a traced, audited LLM proxy for enterprise API consumption.
+pubDate: 2025-09-14
+tags: [Azure, LiteLLM]
+---
+
+## Why a proxy layer
+
+Routing every team's LLM calls through a central proxy gives you one place to:
+
+- Authenticate and rate-limit per team or user
+- Trace and audit token consumption
+- Swap or load-balance across model providers without touching client code
+
+## Core pieces
+
+- **LiteLLM Proxy** as the routing layer — presents an OpenAI-compatible API in front of multiple providers
+- **Azure API Management** in front of the proxy for auth, quotas, and network policy
+- **Application Insights** for tracing latency and error rates per route
+
+## Latency wins
+
+Most of the win came from connection reuse and provider-side keep-alives, not from removing hops — a proxy
+adds a hop, but a well-configured one adds single-digit milliseconds while giving you full observability.
+
+<Callout type="warning" title="Watch for">
+  Don't put per-request logging on the hot path synchronously — batch or async-ship logs, or you'll trade proxy
+  overhead for logging overhead.
+</Callout>

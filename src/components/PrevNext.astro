@@ -1,0 +1,38 @@
+---
+import { ChevronLeft, ChevronRight } from '@lucide/astro';
+
+interface Entry {
+  href: string;
+  title: string;
+}
+interface Props {
+  prev?: Entry;
+  next?: Entry;
+}
+const { prev, next } = Astro.props;
+---
+
+{
+  (prev || next) && (
+    <nav aria-label="Previous and next posts" class="mt-12 grid gap-4 border-t border-line pt-8 sm:grid-cols-2">
+      {prev ? (
+        <a href={prev.href} class="card card-hover group p-5">
+          <span class="flex items-center gap-1 text-xs text-fg-faint">
+            <ChevronLeft class="h-3.5 w-3.5" aria-hidden="true" /> Previous
+          </span>
+          <span class="mt-1.5 block text-sm font-semibold text-fg transition-colors group-hover:text-primary">{prev.title}</span>
+        </a>
+      ) : (
+        <span class="hidden sm:block" />
+      )}
+      {next && (
+        <a href={next.href} class="card card-hover group p-5 text-right">
+          <span class="flex items-center justify-end gap-1 text-xs text-fg-faint">
+            Next <ChevronRight class="h-3.5 w-3.5" aria-hidden="true" />
+          </span>
+          <span class="mt-1.5 block text-sm font-semibold text-fg transition-colors group-hover:text-primary">{next.title}</span>
+        </a>
+      )}
+    </nav>
+  )
+}

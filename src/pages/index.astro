@@ -1,0 +1,161 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/Hero.astro';
+import Container from '@components/Container.astro';
+import Section from '@components/Section.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import BlogCard from '@components/BlogCard.astro';
+import NoteCard from '@components/NoteCard.astro';
+import SkillBadge from '@components/SkillBadge.astro';
+import Timeline from '@components/Timeline.astro';
+import GitHubActivity from '@components/GitHubActivity.astro';
+import Newsletter from '@components/Newsletter.astro';
+import Button from '@components/Button.astro';
+import { Award, FlaskConical, Mail } from '@lucide/astro';
+import { byDateDesc, formatDate } from '@utils/format';
+import { SKILLS, SITE, SOCIALS } from '@lib/site';
+
+const allProjects = await getCollection('projects', ({ data }) => data.featured);
+const featuredProjects = allProjects.sort(byDateDesc((p) => p.data.pubDate)).slice(0, 3);
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const latestPosts = allPosts.sort(byDateDesc((p) => p.data.pubDate)).slice(0, 3);
+
+const allNotes = await getCollection('notes');
+const latestNotes = allNotes.sort(byDateDesc((n) => n.data.pubDate)).slice(0, 4);
+
+const experience = (await getCollection('experience')).sort(byDateDesc((e) => e.data.startDate));
+
+const certifications = (await getCollection('certifications')).sort(byDateDesc((c) => c.data.date));
+
+const publications = (await getCollection('publications')).sort(byDateDesc((p) => p.data.pubDate));
+---
+
+<BaseLayout title={SITE.name} description={SITE.description}>
+  <Hero />
+
+  <Container>
+    {
+      featuredProjects.length > 0 && (
+        <Section eyebrow="Featured Work" title="Selected projects" href="/projects" linkLabel="All projects">
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredProjects.map((project) => (
+              <ProjectCard project={project} />
+            ))}
+          </div>
+        </Section>
+      )
+    }
+
+    {
+      latestPosts.length > 0 && (
+        <Section eyebrow="Writing" title="Latest articles" href="/blog" linkLabel="All articles">
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {latestPosts.map((post) => (
+              <BlogCard post={post} />
+            ))}
+          </div>
+        </Section>
+      )
+    }
+
+    {
+      latestNotes.length > 0 && (
+        <Section eyebrow="Knowledge Base" title="Latest notes" href="/notes" linkLabel="Browse notes">
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {latestNotes.map((note) => (
+              <NoteCard note={note} />
+            ))}
+          </div>
+        </Section>
+      )
+    }
+
+    <Section eyebrow="Toolbox" title="Skills & technologies">
+      <div class="space-y-6">
+        {
+          SKILLS.map((group) => (
+            <div>
+              <p class="mb-3 text-sm font-semibold text-fg-muted">{group.group}</p>
+              <div class="flex flex-wrap gap-2">
+                {group.items.map((skill) => (
+                  <SkillBadge skill={skill} />
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </Section>
+
+    <Section eyebrow="Career" title="Experience" href="/experience" linkLabel="Full history">
+      <Timeline entries={experience.slice(0, 2)} maxHighlights={3} />
+    </Section>
+
+    <Section eyebrow="Open Source" title="GitHub activity">
+      <GitHubActivity />
+    </Section>
+
+    {
+      certifications.length > 0 && (
+        <Section eyebrow="Credentials" title="Certifications" href="/certifications" linkLabel="All certifications">
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {certifications.map((cert) => (
+              <div class="card flex items-start gap-4 p-5">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
+                  <Award class="h-5 w-5" aria-hidden="true" />
+                </span>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-fg">{cert.data.title}</p>
+                  <p class="mt-0.5 text-sm text-fg-muted">{cert.data.issuer}</p>
+                  <p class="mt-0.5 text-xs text-fg-faint">{formatDate(cert.data.date)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+      )
+    }
+
+    {
+      publications.length > 0 && (
+        <Section eyebrow="Research" title="Publications" href="/publications" linkLabel="All publications">
+          <div class="space-y-4">
+            {publications.map((pub) => (
+              <div class="card flex items-start gap-4 p-5">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
+                  <FlaskConical class="h-5 w-5" aria-hidden="true" />
+                </span>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-fg">{pub.data.title}</p>
+                  <p class="mt-0.5 text-sm text-fg-muted">{pub.data.venue} · {formatDate(pub.data.pubDate)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+      )
+    }
+
+    <Section eyebrow="Newsletter" class="pb-20">
+      <Newsletter />
+    </Section>
+
+    <Section eyebrow="Get in Touch" title="Let's build something" class="pb-24">
+      <div class="card flex flex-col items-start gap-6 p-8 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p class="text-fg-muted">
+            Have a project, a role, or a question about agentic AI? I read every message.
+          </p>
+        </div>
+        <div class="flex shrink-0 gap-3">
+          <Button href="/contact" variant="primary">
+            <Mail class="h-4 w-4" aria-hidden="true" /> Contact me
+          </Button>
+          <Button href={SOCIALS.linkedin} variant="secondary" external>LinkedIn</Button>
+        </div>
+      </div>
+    </Section>
+  </Container>
+</BaseLayout>

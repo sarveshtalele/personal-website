@@ -1,0 +1,23 @@
+---
+import { slugifyTag } from '@utils/format';
+
+interface Props {
+  tag: string;
+  href?: string;
+  linked?: boolean;
+}
+const { tag, href, linked = false } = Astro.props;
+const url = href ?? `/blog/tags/${slugifyTag(tag)}`;
+const classes =
+  'inline-flex items-center rounded-full border border-line bg-bg-alt px-2.5 py-0.5 text-xs font-medium text-fg-muted transition-colors';
+---
+
+{
+  linked ? (
+    <a href={url} class:list={[classes, 'hover:border-primary hover:bg-primary-soft hover:text-primary']}>
+      {tag}
+    </a>
+  ) : (
+    <span class={classes}>{tag}</span>
+  )
+}

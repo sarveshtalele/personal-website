@@ -1,0 +1,32 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Privacy Policy"
+  description="How this site handles analytics, cookies, and comments."
+  eyebrow="Legal"
+  crumbs={[{ label: 'Privacy' }]}
+>
+  <div class="prose max-w-none">
+    <p>This site is a static personal website. It does not collect personal data beyond what is described below.</p>
+    <h2>Analytics</h2>
+    <p>
+      This site may use Google Analytics 4 to understand aggregate traffic patterns (pages viewed, referrers,
+      approximate location). No personally identifiable information is collected or sold.
+    </p>
+    <h2>Comments</h2>
+    <p>
+      Blog comments are powered by <a href="https://giscus.app" target="_blank" rel="noopener">Giscus</a>, which
+      stores comments as GitHub Discussions in the site's repository. Giscus requires you to sign in with a
+      GitHub account to comment; GitHub's own privacy policy applies to that interaction.
+    </p>
+    <h2>Third-party embeds</h2>
+    <p>
+      The homepage displays a GitHub contribution graph and recent repositories, fetched client-side from the
+      public GitHub API. No data is sent to GitHub beyond a standard read-only API request.
+    </p>
+    <h2>Contact</h2>
+    <p>Questions about this policy can be sent to talelesarvesh@gmail.com.</p>
+  </div>
+</PageLayout>

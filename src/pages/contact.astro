@@ -1,0 +1,68 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import { Mail } from '@lucide/astro';
+import GithubIcon from '@components/icons/GithubIcon.astro';
+import LinkedinIcon from '@components/icons/LinkedinIcon.astro';
+import { SITE, SOCIALS } from '@lib/site';
+---
+
+<PageLayout
+  title="Contact"
+  description="Get in touch about roles, collaborations, or questions on agentic AI engineering."
+  eyebrow="Say Hello"
+  crumbs={[{ label: 'Contact' }]}
+>
+  <div class="grid gap-6 sm:grid-cols-3">
+    <a href={SOCIALS.email} class="card card-hover flex flex-col items-start gap-3 p-6">
+      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
+        <Mail class="h-5 w-5" aria-hidden="true" />
+      </span>
+      <div>
+        <p class="font-semibold text-fg">Email</p>
+        <p class="mt-1 text-sm text-fg-muted">{SITE.email}</p>
+      </div>
+    </a>
+    <a href={SOCIALS.linkedin} target="_blank" rel="me noopener" class="card card-hover flex flex-col items-start gap-3 p-6">
+      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
+        <LinkedinIcon class="h-5 w-5" />
+      </span>
+      <div>
+        <p class="font-semibold text-fg">LinkedIn</p>
+        <p class="mt-1 text-sm text-fg-muted">Connect professionally</p>
+      </div>
+    </a>
+    <a href={SOCIALS.github} target="_blank" rel="me noopener" class="card card-hover flex flex-col items-start gap-3 p-6">
+      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
+        <GithubIcon class="h-5 w-5" />
+      </span>
+      <div>
+        <p class="font-semibold text-fg">GitHub</p>
+        <p class="mt-1 text-sm text-fg-muted">See what I'm building</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="card mt-10 p-8">
+    <h2 class="text-lg font-semibold text-fg">Send a message</h2>
+    <p class="mt-1 text-sm text-fg-muted">This opens your email client with the details pre-filled.</p>
+    <form action={`mailto:${SITE.email}`} method="get" class="mt-6 space-y-4">
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label for="name" class="mb-1.5 block text-sm font-medium text-fg">Name</label>
+          <input id="name" name="name" type="text" required class="w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm text-fg focus:border-primary" />
+        </div>
+        <div>
+          <label for="subject" class="mb-1.5 block text-sm font-medium text-fg">Subject</label>
+          <input id="subject" name="subject" type="text" required class="w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm text-fg focus:border-primary" />
+        </div>
+      </div>
+      <div>
+        <label for="body" class="mb-1.5 block text-sm font-medium text-fg">Message</label>
+        <textarea id="body" name="body" rows="5" required class="w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm text-fg focus:border-primary"></textarea>
+      </div>
+      <button type="submit" class="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-strong dark:font-semibold dark:text-slate-900">
+        Send message
+      </button>
+    </form>
+  </div>
+</PageLayout>

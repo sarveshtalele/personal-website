@@ -1,0 +1,108 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import SkillBadge from '@components/SkillBadge.astro';
+import Button from '@components/Button.astro';
+import { SKILLS, SOCIALS, SITE, EDUCATION } from '@lib/site';
+import { GraduationCap, Mail } from '@lucide/astro';
+import GithubIcon from '@components/icons/GithubIcon.astro';
+import LinkedinIcon from '@components/icons/LinkedinIcon.astro';
+---
+
+<PageLayout
+  title="About"
+  description="AI Engineer at Tata Consultancy Services building agentic AI automations, Graph-RAG pipelines, and secure LLM infrastructure at enterprise scale."
+  eyebrow="Who I Am"
+  crumbs={[{ label: 'About' }]}
+>
+  <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <div class="prose max-w-none">
+      <p>
+        I'm Sarvesh Talele, an AI Engineer at <strong>Tata Consultancy Services</strong> in Thane, India, where I
+        partner directly with CXO leadership to architect agentic AI automations for enterprise-scale operations.
+      </p>
+      <p>
+        My work sits at the intersection of production engineering and applied AI: designing multi-agent
+        workflows with the Microsoft Foundry SDK and MCP tool-calling, building Graph-RAG and hybrid retrieval
+        architectures with LangChain, and running a secure LLM proxy on Azure that serves 100+ enterprise users
+        with sub-second response times.
+      </p>
+      <p>
+        Before AI engineering, I trained as a mechanical engineer at the University of Mumbai. That background
+        shows up in how I think about systems — as things with tolerances, failure modes, and maintenance
+        cycles, not just clever demos.
+      </p>
+      <p>
+        Outside of my day job, I write about the tools I use daily — LangGraph, MCP, prompt engineering, RAG
+        design — and keep a running set of notes as a personal reference and, hopefully, a useful one for
+        anyone else building in this space.
+      </p>
+
+      <h2>Certifications</h2>
+      <ul>
+        <li>Claude Certified Architect — Anthropic</li>
+        <li>Professional Certificate for CSAI — Harvard Extension School</li>
+        <li>Google Data Analytics Professional Certificate — Google</li>
+      </ul>
+    </div>
+
+    <aside class="space-y-8">
+      <img
+        src="/images/sarvesh-talele.jpg"
+        alt={SITE.author}
+        width="320"
+        height="320"
+        class="aspect-square w-full rounded-2xl border border-line object-cover shadow-sm"
+      />
+      <div class="card p-6">
+        <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Connect</p>
+        <div class="mt-4 space-y-2">
+          <a href={SOCIALS.github} target="_blank" rel="me noopener" class="flex items-center gap-2 text-sm font-medium text-fg-muted transition-colors hover:text-primary">
+            <GithubIcon class="h-4 w-4" /> GitHub
+          </a>
+          <a href={SOCIALS.linkedin} target="_blank" rel="me noopener" class="flex items-center gap-2 text-sm font-medium text-fg-muted transition-colors hover:text-primary">
+            <LinkedinIcon class="h-4 w-4" /> LinkedIn
+          </a>
+          <a href={SOCIALS.email} class="flex items-center gap-2 text-sm font-medium text-fg-muted transition-colors hover:text-primary">
+            <Mail class="h-4 w-4" aria-hidden="true" /> Email
+          </a>
+        </div>
+        <Button href="/resume.pdf" variant="primary" download class="mt-5 w-full">Download résumé</Button>
+      </div>
+
+      <div class="card p-6">
+        <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-fg-faint">
+          <GraduationCap class="h-4 w-4" aria-hidden="true" /> Education
+        </p>
+        <div class="mt-4 space-y-4">
+          {
+            EDUCATION.map((edu) => (
+              <div>
+                <p class="text-sm font-semibold text-fg">{edu.degree}</p>
+                <p class="text-sm text-fg-muted">{edu.institution}</p>
+                <p class="text-xs text-fg-faint">{edu.year} · {edu.detail}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="card p-6">
+        <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Skills</p>
+        <div class="mt-4 space-y-4">
+          {
+            SKILLS.map((group) => (
+              <div>
+                <p class="mb-2 text-xs font-medium text-fg-faint">{group.group}</p>
+                <div class="flex flex-wrap gap-1.5">
+                  {group.items.map((skill) => (
+                    <SkillBadge skill={skill} />
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </aside>
+  </div>
+</PageLayout>

@@ -1,0 +1,48 @@
+---
+title: FastAPI patterns for agentic services
+description: Dependency injection, background tasks, and streaming patterns for production FastAPI services.
+pubDate: 2025-10-02
+tags: [FastAPI, Python]
+---
+
+## Dependency injection for shared clients
+
+```python
+from fastapi import Depends
+
+def get_llm_client():
+    return LLMClient(api_key=settings.api_key)
+
+@app.post("/generate")
+async def generate(prompt: str, client: LLMClient = Depends(get_llm_client)):
+    return await client.complete(prompt)
+```
+
+## Streaming responses
+
+```python
+from fastapi.responses import StreamingResponse
+
+@app.post("/stream")
+async def stream(prompt: str):
+    async def event_generator():
+        async for chunk in llm.stream(prompt):
+            yield chunk
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+```
+
+## Background tasks for fire-and-forget work
+
+```python
+from fastapi import BackgroundTasks
+
+@app.post("/log-usage")
+async def log_usage(payload: UsagePayload, background_tasks: BackgroundTasks):
+    background_tasks.add_task(write_usage_log, payload)
+    return {"status": "accepted"}
+```
+
+<Callout type="tip">
+  For sub-second response times under load, keep request validation (Pydantic) cheap and push anything
+  expensive — logging, analytics, audit writes — into background tasks or a queue.
+</Callout>

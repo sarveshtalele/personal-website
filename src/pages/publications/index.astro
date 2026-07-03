@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import { FlaskConical, ExternalLink, FileDown } from '@lucide/astro';
+import { formatDate, byDateDesc } from '@utils/format';
+
+const publications = (await getCollection('publications')).sort(byDateDesc((p) => p.data.pubDate));
+---
+
+<PageLayout
+  title="Publications"
+  description="Peer-reviewed and internal research on AI systems, computer vision, and retrieval architectures."
+  eyebrow="Research"
+  crumbs={[{ label: 'Publications' }]}
+>
+  {
+    publications.length === 0 ? (
+      <p class="text-fg-muted">No publications listed yet.</p>
+    ) : (
+      <div class="space-y-4">
+        {publications.map((pub) => (
+          <div class="card p-6">
+            <div class="flex items-start gap-4">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
+                <FlaskConical class="h-5 w-5" aria-hidden="true" />
+              </span>
+              <div class="min-w-0">
+                <h2 class="text-base font-semibold text-fg">{pub.data.title}</h2>
+                <p class="mt-1 text-sm text-fg-muted">{pub.data.description}</p>
+                <p class="mt-2 text-sm text-fg-faint">
+                  {pub.data.venue} · {formatDate(pub.data.pubDate)}
+                  {pub.data.authors.length > 0 && ` · ${pub.data.authors.join(', ')}`}
+                </p>
+                <div class="mt-3 flex gap-4 text-sm">
+                  {pub.data.url && (
+                    <a href={pub.data.url} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 font-medium text-primary hover:text-primary-strong">
+                      <ExternalLink class="h-4 w-4" aria-hidden="true" /> View
+                    </a>
+                  )}
+                  {pub.data.pdf && (
+                    <a href={pub.data.pdf} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 font-medium text-primary hover:text-primary-strong">
+                      <FileDown class="h-4 w-4" aria-hidden="true" /> PDF
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+</PageLayout>

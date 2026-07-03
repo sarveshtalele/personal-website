@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import BlogCard from '@components/BlogCard.astro';
+import { slugifyTag, byDateDesc } from '@utils/format';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
+  return tags.map((tag) => ({
+    params: { tag: slugifyTag(tag) },
+    props: { tag, posts: posts.filter((p) => p.data.tags.includes(tag)) },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+const sorted = posts.sort(byDateDesc((p) => p.data.pubDate));
+---
+
+<PageLayout
+  title={`#${tag}`}
+  description={`Articles tagged "${tag}".`}
+  eyebrow="Tag"
+  crumbs={[{ label: 'Blog', href: '/blog' }, { label: `#${tag}` }]}
+>
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {sorted.map((post) => <BlogCard post={post} />)}
+  </div>
+</PageLayout>

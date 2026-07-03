@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import { byDateDesc } from '@utils/format';
+
+const projects = (await getCollection('projects')).sort(byDateDesc((p) => p.data.pubDate));
+---
+
+<PageLayout
+  title="Projects"
+  description="Agentic AI systems, LLM infrastructure, and tools I've designed and shipped."
+  eyebrow="Portfolio"
+  crumbs={[{ label: 'Projects' }]}
+>
+  {
+    projects.length === 0 ? (
+      <p class="text-fg-muted">Projects are coming soon.</p>
+    ) : (
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project) => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
+    )
+  }
+</PageLayout>

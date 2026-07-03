@@ -1,0 +1,23 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Button from '@components/Button.astro';
+import Container from '@components/Container.astro';
+import { Compass } from '@lucide/astro';
+---
+
+<BaseLayout title="Page Not Found" description="This page doesn't exist." noindex>
+  <Container class="flex min-h-[70vh] flex-col items-center justify-center py-20 text-center">
+    <span class="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+      <Compass class="h-8 w-8" aria-hidden="true" />
+    </span>
+    <p class="mt-6 text-sm font-semibold uppercase tracking-widest text-primary">404</p>
+    <h1 class="mt-2 text-3xl font-bold tracking-tight text-fg sm:text-4xl">Page not found</h1>
+    <p class="mt-4 max-w-md text-fg-muted">
+      The page you're looking for doesn't exist or may have moved. Try searching, or head back home.
+    </p>
+    <div class="mt-8 flex gap-3">
+      <Button href="/">Back home</Button>
+      <Button href="/search" variant="secondary">Search the site</Button>
+    </div>
+  </Container>
+</BaseLayout>

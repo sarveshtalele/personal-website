@@ -1,0 +1,44 @@
+---
+title: LangGraph basics
+description: Core concepts for building stateful, multi-agent workflows with LangGraph.
+pubDate: 2025-12-05
+tags: [LangGraph, Agentic AI]
+---
+
+## The mental model
+
+LangGraph models an agentic workflow as a graph: nodes are functions (often agent calls), edges define control
+flow, and a shared state object flows through the whole graph.
+
+```python
+from langgraph.graph import StateGraph, END
+
+graph = StateGraph(AgentState)
+graph.add_node("researcher", researcher_node)
+graph.add_node("writer", writer_node)
+graph.add_edge("researcher", "writer")
+graph.add_edge("writer", END)
+graph.set_entry_point("researcher")
+app = graph.compile()
+```
+
+## Conditional routing
+
+```python
+graph.add_conditional_edges(
+    "reviewer",
+    lambda state: "writer" if state["needs_revision"] else END,
+)
+```
+
+This is how you build a revise-and-review loop instead of a single-shot pipeline.
+
+## Why it beats a plain chain
+
+A plain chain can't easily express "go back and redo step 2 if step 4 fails." LangGraph's explicit state and
+conditional edges make that loop a first-class part of the graph instead of exception-handling glue code.
+
+<Callout type="info">
+  Keep the shared state object small and typed — a sprawling, untyped state dict is the fastest way to make a
+  multi-agent graph unmaintainable.
+</Callout>

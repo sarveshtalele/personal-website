@@ -1,0 +1,34 @@
+---
+title: Regex patterns I actually reuse
+description: A short reference of regular expressions that come up repeatedly in day-to-day scripting.
+pubDate: 2025-05-22
+tags: [Regex]
+---
+
+## Common patterns
+
+```regex
+^\d{3}-\d{3}-\d{4}$          # US phone number
+^[\w.+-]+@[\w-]+\.[a-zA-Z]{2,}$   # basic email
+^https?:\/\/[^\s]+$          # URL
+\b\d{4}-\d{2}-\d{2}\b        # ISO date (YYYY-MM-DD)
+```
+
+## Non-greedy matching
+
+```regex
+<.+?>                        # match the shortest tag content, not the longest
+```
+
+## Named groups (Python)
+
+```python
+import re
+match = re.search(r"(?P<year>\d{4})-(?P<month>\d{2})", "2026-07")
+match.group("year")  # "2026"
+```
+
+<Callout type="tip">
+  When a pattern gets hard to read, split it with `re.VERBOSE` and comment each piece — future you will thank
+  present you.
+</Callout>

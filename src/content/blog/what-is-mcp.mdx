@@ -1,0 +1,53 @@
+---
+title: "What is MCP, and why every AI engineer should care"
+description: The Model Context Protocol standardizes how LLMs connect to tools and data. Here's why that matters for anyone building agentic systems.
+pubDate: 2026-01-12
+category: Agentic AI
+tags: [MCP, Agentic AI, Tool Use]
+featured: true
+---
+
+The Model Context Protocol (MCP) is an open standard for connecting LLM applications to external tools, data
+sources, and systems — the same way LSP standardized how editors talk to language tooling.
+
+## The problem MCP solves
+
+Before MCP, every agent framework wired up tools its own way. A tool built for one framework couldn't be reused
+in another without a rewrite. That meant:
+
+- Duplicated integration work across every agent project
+- No shared ecosystem of reusable tools
+- Vendor lock-in disguised as "framework choice"
+
+<Callout type="info" title="Analogy">
+  Think of MCP the way you'd think of USB-C: one connector standard instead of a different cable for every
+  device.
+</Callout>
+
+## How it works
+
+An MCP server exposes **tools**, **resources**, and **prompts** over a standard protocol. Any MCP-compatible
+client — Claude Code, Claude Desktop, or a custom agent — can discover and call those tools without
+framework-specific glue code.
+
+```python
+from mcp.server import Server
+
+server = Server("my-tools")
+
+@server.tool()
+async def search_docs(query: str) -> str:
+    """Search internal documentation."""
+    return run_search(query)
+```
+
+## Where I use it in production
+
+At TCS, I've used MCP tool-calling as part of multi-agent workflows built on the Microsoft Foundry SDK —
+letting agents call into internal systems through a consistent interface rather than bespoke API wrappers for
+every integration.
+
+## Takeaway
+
+If you're building agentic systems today, treat MCP the way you'd treat any protocol decision: standardizing
+early saves you from re-plumbing every tool integration later.
