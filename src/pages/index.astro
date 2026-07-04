@@ -30,7 +30,6 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
 
 const tutorials = await getCollection('tutorials');
 const resources = await getCollection('resources');
-const talks = await getCollection('talks');
 
 const siteStats = [
   { value: String(allPosts.length), label: 'Blog posts' },
@@ -39,7 +38,6 @@ const siteStats = [
   { value: String(resources.length), label: 'Resources' },
   { value: String(certifications.length), label: 'Certifications' },
   { value: String(publications.length), label: 'Publications' },
-  { value: String(talks.length), label: 'Talks' },
 ];
 ---
 

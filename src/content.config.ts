@@ -83,19 +83,6 @@ const publications = defineCollection({
   }),
 });
 
-const talks = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/talks' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    event: z.string(),
-    date: z.coerce.date(),
-    location: z.string().optional(),
-    slides: z.string().optional(),
-    video: z.string().optional(),
-  }),
-});
-
 const certifications = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/certifications' }),
   schema: z.object({
@@ -128,7 +115,6 @@ export const collections = {
   tutorials,
   resources,
   publications,
-  talks,
   certifications,
   experience,
 };

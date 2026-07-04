@@ -53,7 +53,7 @@ const year = new Date().getFullYear();
 
       <nav aria-label="Footer navigation" class="grid grid-cols-2 gap-x-12 gap-y-2 text-sm sm:grid-cols-2">
         {
-          [...NAV_LINKS, { label: 'Publications', href: '/publications' }, { label: 'Talks', href: '/talks' }, { label: 'Contact', href: '/contact' }, { label: 'Privacy', href: '/privacy' }].map(
+          [...NAV_LINKS, { label: 'Publications', href: '/publications' }, { label: 'Contact', href: '/contact' }, { label: 'Privacy', href: '/privacy' }].map(
             (link) => (
               <a href={link.href} class="text-fg-muted transition-colors hover:text-primary">
                 {link.label}
