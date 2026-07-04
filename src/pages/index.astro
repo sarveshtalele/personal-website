@@ -7,14 +7,14 @@ import Section from '@components/Section.astro';
 import ProjectCard from '@components/ProjectCard.astro';
 import BlogCard from '@components/BlogCard.astro';
 import NoteCard from '@components/NoteCard.astro';
-import SkillBadge from '@components/SkillBadge.astro';
+import SkillsDashboard from '@components/SkillsDashboard.astro';
 import Timeline from '@components/Timeline.astro';
-import GitHubActivity from '@components/GitHubActivity.astro';
+import GitHubRepoExplorer from '@components/GitHubRepoExplorer.astro';
 import Newsletter from '@components/Newsletter.astro';
 import Button from '@components/Button.astro';
 import { Award, FlaskConical, Mail } from '@lucide/astro';
 import { byDateDesc, formatDate } from '@utils/format';
-import { SKILLS, SITE, SOCIALS } from '@lib/site';
+import { SITE, SOCIALS } from '@lib/site';
 
 const allProjects = await getCollection('projects', ({ data }) => data.featured);
 const featuredProjects = allProjects.sort(byDateDesc((p) => p.data.pubDate)).slice(0, 3);
@@ -72,29 +72,16 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
       )
     }
 
-    <Section eyebrow="Toolbox" title="Skills & technologies">
-      <div class="space-y-6">
-        {
-          SKILLS.map((group) => (
-            <div>
-              <p class="mb-3 text-sm font-semibold text-fg-muted">{group.group}</p>
-              <div class="flex flex-wrap gap-2">
-                {group.items.map((skill) => (
-                  <SkillBadge skill={skill} />
-                ))}
-              </div>
-            </div>
-          ))
-        }
-      </div>
+    <Section eyebrow="Toolbox" title="Skills & technologies" href="/about" linkLabel="Full skills dashboard">
+      <SkillsDashboard />
     </Section>
 
     <Section eyebrow="Career" title="Experience" href="/experience" linkLabel="Full history">
       <Timeline entries={experience.slice(0, 2)} maxHighlights={3} />
     </Section>
 
-    <Section eyebrow="Open Source" title="GitHub activity">
-      <GitHubActivity />
+    <Section eyebrow="Open Source" title="Most starred repos" href="/projects" linkLabel="All projects">
+      <GitHubRepoExplorer mode="starred" limit={6} />
     </Section>
 
     {

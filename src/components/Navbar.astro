@@ -1,7 +1,8 @@
 ---
-import { Search, Menu, X, Sparkles } from '@lucide/astro';
+import { Search, Menu, X } from '@lucide/astro';
 import GithubIcon from './icons/GithubIcon.astro';
 import LinkedinIcon from './icons/LinkedinIcon.astro';
+import MediumIcon from './icons/MediumIcon.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import { NAV_LINKS, SOCIALS, SITE } from '@lib/site';
 
@@ -12,9 +13,13 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
 <header class="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-lg">
   <nav class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6" aria-label="Main navigation">
     <a href="/" class="flex items-center gap-2 font-semibold tracking-tight text-fg transition-colors hover:text-primary">
-      <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-white">
-        <Sparkles class="h-4 w-4" aria-hidden="true" />
-      </span>
+      <img
+        src="/images/sarvesh-talele.jpg"
+        alt=""
+        width="32"
+        height="32"
+        class="h-8 w-8 shrink-0 rounded-full border border-line object-cover"
+      />
       <span class="hidden sm:inline">{SITE.name}</span>
     </a>
 
@@ -65,6 +70,15 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
         target="_blank"
       >
         <LinkedinIcon class="h-[18px] w-[18px]" />
+      </a>
+      <a
+        href={SOCIALS.medium}
+        class="hidden h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg sm:inline-flex"
+        aria-label="Medium blog"
+        rel="me noopener"
+        target="_blank"
+      >
+        <MediumIcon class="h-[18px] w-[18px]" />
       </a>
       <button
         id="mobile-menu-button"

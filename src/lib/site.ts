@@ -18,6 +18,7 @@ export const SITE = {
 export const SOCIALS = {
   github: 'https://github.com/sarveshtalele',
   linkedin: 'https://www.linkedin.com/in/sarveshtalele',
+  medium: 'https://medium.com/@sarveshtalele',
   email: `mailto:${SITE.email}`,
   rss: '/rss.xml',
 } as const;
@@ -71,19 +72,40 @@ export const EDUCATION = [
   {
     degree: 'Bachelor of Mechanical Engineering',
     institution: 'University of Mumbai',
-    year: '2022',
+    year: '2018 – 2022',
     detail: 'CGPA: 8.76/10',
   },
   {
-    degree: 'HSC',
-    institution: 'Maharashtra State Board',
-    year: '2018',
+    degree: 'HSC — Science',
+    institution: 'Royal Junior College',
+    year: '2016 – 2018',
     detail: '83.85%',
   },
 ];
 
+/** Headline impact metrics shown as KPI tiles on the About page. */
+export const STATS: { value: string; label: string }[] = [
+  { value: '4+ yrs', label: 'AI engineering experience' },
+  { value: '25%', label: 'TCV growth driven' },
+  { value: '50K+', label: 'Daily requests served' },
+  { value: '100+', label: 'Enterprise users supported' },
+  { value: '45%', label: 'Manual effort reduced' },
+  { value: '8x', label: 'TCS awards' },
+];
+
+/** Credibility badges shown as a strip on the About page. */
+export const CREDENTIALS = [
+  'Claude Certified Architect',
+  'HarvardX CSAI Certified',
+  'NASA ADS Published',
+  'Guinness World Record Holder',
+  'Google Data Analytics Certified',
+];
+
 export const ACHIEVEMENTS = [
   '8x Awards from Tata Consultancy Services Ltd.',
+  'On the Spot Award — Tata Consultancy Services',
   'Guinness World Record Participant — Most Users to Take an Online Computer Programming Lesson in 24 Hours (2021)',
+  'International Astronomical Search Collaboration — Asteroid Hunting Participant',
   'Top 15 internal research papers across a 10,000+ employee engineering division',
 ];

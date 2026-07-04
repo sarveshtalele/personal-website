@@ -2,6 +2,7 @@
 import { Mail, Rss } from '@lucide/astro';
 import GithubIcon from './icons/GithubIcon.astro';
 import LinkedinIcon from './icons/LinkedinIcon.astro';
+import MediumIcon from './icons/MediumIcon.astro';
 import { SITE, SOCIALS, NAV_LINKS } from '@lib/site';
 
 const year = new Date().getFullYear();
@@ -29,6 +30,13 @@ const year = new Date().getFullYear();
             aria-label="LinkedIn"
             rel="me noopener"
             target="_blank"><LinkedinIcon class="h-[18px] w-[18px]" /></a
+          >
+          <a
+            href={SOCIALS.medium}
+            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
+            aria-label="Medium blog"
+            rel="me noopener"
+            target="_blank"><MediumIcon class="h-[18px] w-[18px]" /></a
           >
           <a
             href={SOCIALS.email}

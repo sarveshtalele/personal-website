@@ -115,6 +115,30 @@ body {
   transform: translateY(-2px);
 }
 
+/*
+ * Frosted-glass utility — used sparingly (About page dashboards only), not
+ * site-wide. Needs a colorful backdrop behind it to read as "glass" rather
+ * than a plain translucent card.
+ */
+.glass-card {
+  background-color: color-mix(in srgb, var(--card) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--fg) 10%, transparent);
+  border-radius: var(--radius-2xl);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: var(--shadow-card);
+}
+.glass-surface {
+  position: relative;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  background:
+    radial-gradient(60% 80% at 15% 10%, color-mix(in srgb, var(--primary) 30%, transparent), transparent 60%),
+    radial-gradient(50% 70% at 85% 30%, color-mix(in srgb, var(--success) 18%, transparent), transparent 65%),
+    radial-gradient(70% 90% at 50% 100%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%),
+    var(--bg-alt);
+}
+
 /* ------------------------------------------------------------------ */
 /* Prose — long-form article styling (max width enforced by layouts)  */
 /* ------------------------------------------------------------------ */

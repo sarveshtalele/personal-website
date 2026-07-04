@@ -1,0 +1,148 @@
+---
+import { SKILLS, GITHUB_USERNAME } from '@lib/site';
+
+interface Props {
+  /** Apple-style frosted glass treatment — opt in per page, not a site-wide default. */
+  glass?: boolean;
+}
+const { glass = false } = Astro.props;
+
+const allSkills = SKILLS.flatMap((g) => g.items);
+const wrapperClass = glass ? 'glass-card' : 'card';
+---
+
+<div class:list={[wrapperClass, 'p-6 sm:p-8']} data-skills-dashboard>
+  <div class="flex flex-wrap items-center gap-2" role="tablist" aria-label="Filter skills by category">
+    <button
+      type="button"
+      class="skill-tab rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors"
+      data-group="all"
+      aria-selected="true"
+      role="tab"
+    >
+      All ({allSkills.length})
+    </button>
+    {
+      SKILLS.map((group) => (
+        <button
+          type="button"
+          class="skill-tab rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors"
+          data-group={group.group}
+          aria-selected="false"
+          role="tab"
+        >
+          {group.group} ({group.items.length})
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="mt-6 flex flex-wrap gap-2" data-skill-chips>
+    {
+      SKILLS.map((group) =>
+        group.items.map((skill) => (
+          <span
+            class="skill-chip rounded-lg border border-line bg-bg-alt px-3 py-1.5 text-sm font-medium text-fg-muted"
+            data-group={group.group}
+          >
+            {skill}
+          </span>
+        ))
+      )
+    }
+  </div>
+
+  <div class="mt-8 border-t border-line pt-6">
+    <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Live from GitHub</p>
+    <p class="mt-1 text-xs text-fg-faint">Language usage across public repositories, fetched in real time.</p>
+    <div class="mt-4 space-y-3" data-github-languages={GITHUB_USERNAME}>
+      {
+        Array.from({ length: 4 }).map(() => (
+          <div class="h-5 w-full animate-pulse rounded-full bg-bg-alt" />
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .skill-tab {
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+  }
+  .skill-tab[aria-selected='true'] {
+    color: var(--primary);
+    background-color: var(--primary-soft);
+    border-color: transparent;
+  }
+  .skill-chip {
+    transition: opacity 150ms ease, transform 150ms ease;
+  }
+  .skill-chip[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  const LANGUAGE_COLORS: Record<string, string> = {
+    Python: '#3572A5',
+    JavaScript: '#f1e05a',
+    TypeScript: '#3178c6',
+    Astro: '#ff5a03',
+    HTML: '#e34c26',
+    Shell: '#89e051',
+    'Jupyter Notebook': '#DA5B0B',
+  };
+
+  function bindDashboard(root: HTMLElement) {
+    const tabs = root.querySelectorAll<HTMLButtonElement>('.skill-tab');
+    const chips = root.querySelectorAll<HTMLElement>('.skill-chip');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+        const group = tab.dataset.group;
+        chips.forEach((chip) => {
+          chip.hidden = group !== 'all' && chip.dataset.group !== group;
+        });
+      });
+    });
+  }
+
+  async function loadLanguages(container: HTMLElement) {
+    const username = container.dataset.githubLanguages;
+    try {
+      const res = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&type=owner`);
+      if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+      const repos: { language: string | null; fork: boolean }[] = await res.json();
+
+      const counts = new Map<string, number>();
+      for (const repo of repos.filter((r) => !r.fork && r.language)) {
+        counts.set(repo.language as string, (counts.get(repo.language as string) ?? 0) + 1);
+      }
+      const total = [...counts.values()].reduce((a, b) => a + b, 0);
+      const sorted = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
+
+      container.innerHTML = '';
+      for (const [language, count] of sorted) {
+        const pct = Math.round((count / total) * 100);
+        const row = document.createElement('div');
+        row.innerHTML = `
+          <div class="flex items-center justify-between text-xs text-fg-muted mb-1">
+            <span>${language}</span>
+            <span>${pct}%</span>
+          </div>
+          <div class="h-2 w-full rounded-full bg-bg-alt overflow-hidden">
+            <div class="h-full rounded-full" style="width:${pct}%;background-color:${LANGUAGE_COLORS[language] ?? 'var(--primary)'}"></div>
+          </div>`;
+        container.appendChild(row);
+      }
+    } catch {
+      container.innerHTML = '<p class="text-sm text-fg-faint">GitHub language stats are unavailable right now.</p>';
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-skills-dashboard]').forEach(bindDashboard);
+  document.querySelectorAll<HTMLElement>('[data-github-languages]').forEach(loadLanguages);
+</script>

@@ -1,11 +1,17 @@
 ---
+import { getCollection } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
-import SkillBadge from '@components/SkillBadge.astro';
 import Button from '@components/Button.astro';
-import { SKILLS, SOCIALS, SITE, EDUCATION } from '@lib/site';
-import { GraduationCap, Mail } from '@lucide/astro';
+import StatsDashboard from '@components/StatsDashboard.astro';
+import SkillsDashboard from '@components/SkillsDashboard.astro';
+import { SOCIALS, SITE, EDUCATION, CREDENTIALS, ACHIEVEMENTS } from '@lib/site';
+import { Award, Mail, Sparkles } from '@lucide/astro';
 import GithubIcon from '@components/icons/GithubIcon.astro';
 import LinkedinIcon from '@components/icons/LinkedinIcon.astro';
+import MediumIcon from '@components/icons/MediumIcon.astro';
+import { formatDate, byDateDesc } from '@utils/format';
+
+const certifications = (await getCollection('certifications')).sort(byDateDesc((c) => c.data.date));
 ---
 
 <PageLayout
@@ -14,95 +20,155 @@ import LinkedinIcon from '@components/icons/LinkedinIcon.astro';
   eyebrow="Who I Am"
   crumbs={[{ label: 'About' }]}
 >
-  <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_18rem]">
-    <div class="prose max-w-none">
-      <p>
-        I'm Sarvesh Talele, an AI Engineer at <strong>Tata Consultancy Services</strong> in Thane, India, where I
-        partner directly with CXO leadership to architect agentic AI automations for enterprise-scale operations.
-      </p>
-      <p>
-        My work sits at the intersection of production engineering and applied AI: designing multi-agent
-        workflows with the Microsoft Foundry SDK and MCP tool-calling, building Graph-RAG and hybrid retrieval
-        architectures with LangChain, and running a secure LLM proxy on Azure that serves 100+ enterprise users
-        with sub-second response times.
-      </p>
-      <p>
-        Before AI engineering, I trained as a mechanical engineer at the University of Mumbai. That background
-        shows up in how I think about systems — as things with tolerances, failure modes, and maintenance
-        cycles, not just clever demos.
-      </p>
-      <p>
-        Outside of my day job, I write about the tools I use daily — LangGraph, MCP, prompt engineering, RAG
-        design — and keep a running set of notes as a personal reference and, hopefully, a useful one for
-        anyone else building in this space.
+  <div class="grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
+    <img
+      src="/images/sarvesh-talele.jpg"
+      alt={SITE.author}
+      width="320"
+      height="320"
+      class="aspect-square w-32 rounded-2xl border border-line object-cover shadow-sm lg:w-full"
+    />
+
+    <div>
+      <h1 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">{SITE.author}</h1>
+      <p class="mt-1 text-lg text-fg-muted">{SITE.role}</p>
+      <p class="mt-4 max-w-2xl text-fg-muted">
+        AI Engineer specialising in Agentic AI, Generative AI, and Enterprise Automation — building
+        production-grade multi-agent systems, RAG applications, and enterprise AI platforms with Claude Code,
+        Azure AI, Microsoft Foundry, LangChain, LangGraph, and FastAPI.
       </p>
 
-      <h2>Certifications</h2>
-      <ul>
-        <li>Claude Certified Architect — Anthropic</li>
-        <li>Professional Certificate for CSAI — Harvard Extension School</li>
-        <li>Google Data Analytics Professional Certificate — Google</li>
-      </ul>
+      <div class="mt-5 flex flex-wrap gap-2">
+        {
+          CREDENTIALS.map((credential) => (
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-fg-muted">
+              <Sparkles class="h-3 w-3 text-primary" aria-hidden="true" />
+              {credential}
+            </span>
+          ))
+        }
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center gap-2">
+        <Button href="/resume.pdf" variant="primary" download>Download résumé</Button>
+        <Button href="/contact" variant="secondary">
+          <Mail class="h-4 w-4" aria-hidden="true" /> Contact
+        </Button>
+        <div class="ml-1 flex items-center gap-1">
+          <a
+            href={SOCIALS.github}
+            target="_blank"
+            rel="me noopener"
+            aria-label="GitHub"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
+            ><GithubIcon class="h-[18px] w-[18px]" /></a
+          >
+          <a
+            href={SOCIALS.linkedin}
+            target="_blank"
+            rel="me noopener"
+            aria-label="LinkedIn"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
+            ><LinkedinIcon class="h-[18px] w-[18px]" /></a
+          >
+          <a
+            href={SOCIALS.medium}
+            target="_blank"
+            rel="me noopener"
+            aria-label="Medium"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
+            ><MediumIcon class="h-[18px] w-[18px]" /></a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-12">
+    <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-fg-faint">Impact at a glance</p>
+    <StatsDashboard />
+  </div>
+
+  <div class="mt-12">
+    <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-fg-faint">Skills dashboard</p>
+    <SkillsDashboard glass />
+  </div>
+
+  <div class="prose mt-14 max-w-none">
+    <h2>My story</h2>
+    <p>
+      I'm an AI Engineer at <strong>Tata Consultancy Services</strong> in Thane, India, where I partner directly
+      with the CXO's office to architect agentic AI automations — work that's contributed to 25% Total Contract
+      Value growth and a 40% reduction in executive workflow bottlenecks using Copilot Studio.
+    </p>
+    <p>
+      Day to day, that means designing multi-agent workflows with the Microsoft Foundry SDK and MCP tool-calling,
+      building Graph-RAG and hybrid retrieval architectures with LangChain, and running a secure LLM proxy on
+      Azure that serves 100+ enterprise users with sub-second response times. A Graph-RAG research effort I led
+      was recognised among the top 15 internal research papers across a 10,000+ employee engineering division.
+    </p>
+    <p>
+      Before AI engineering, I trained as a mechanical engineer at the University of Mumbai, with hands-on stints
+      in industrial robotics (KUKA robotic arms), CAD/PLM (NX11, Teamcenter), and precision manufacturing. That
+      background shows up in how I think about software systems — as things with tolerances, failure modes, and
+      maintenance cycles, not just clever demos.
+    </p>
+    <p>
+      Outside my day job, I write about the tools I use daily — LangGraph, MCP, prompt engineering, RAG design —
+      as a guest writer and on this site's <a href="/blog">blog</a> and <a href="/notes">notes</a>, and I keep a
+      research interest in astronomy, having taken part in the International Astronomical Search Collaboration's
+      asteroid-hunting program.
+    </p>
+  </div>
+
+  <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="card p-6">
+      <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Education</p>
+      <div class="mt-4 space-y-4">
+        {
+          EDUCATION.map((edu) => (
+            <div>
+              <p class="text-sm font-semibold text-fg">{edu.degree}</p>
+              <p class="text-sm text-fg-muted">{edu.institution}</p>
+              <p class="text-xs text-fg-faint">{edu.year} · {edu.detail}</p>
+            </div>
+          ))
+        }
+      </div>
     </div>
 
-    <aside class="space-y-8">
-      <img
-        src="/images/sarvesh-talele.jpg"
-        alt={SITE.author}
-        width="320"
-        height="320"
-        class="aspect-square w-full rounded-2xl border border-line object-cover shadow-sm"
-      />
-      <div class="card p-6">
-        <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Connect</p>
-        <div class="mt-4 space-y-2">
-          <a href={SOCIALS.github} target="_blank" rel="me noopener" class="flex items-center gap-2 text-sm font-medium text-fg-muted transition-colors hover:text-primary">
-            <GithubIcon class="h-4 w-4" /> GitHub
-          </a>
-          <a href={SOCIALS.linkedin} target="_blank" rel="me noopener" class="flex items-center gap-2 text-sm font-medium text-fg-muted transition-colors hover:text-primary">
-            <LinkedinIcon class="h-4 w-4" /> LinkedIn
-          </a>
-          <a href={SOCIALS.email} class="flex items-center gap-2 text-sm font-medium text-fg-muted transition-colors hover:text-primary">
-            <Mail class="h-4 w-4" aria-hidden="true" /> Email
-          </a>
-        </div>
-        <Button href="/resume.pdf" variant="primary" download class="mt-5 w-full">Download résumé</Button>
+    <div class="card p-6 sm:col-span-2 lg:col-span-1">
+      <div class="flex items-center justify-between">
+        <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Certifications</p>
+        <a href="/certifications" class="text-xs font-medium text-primary hover:text-primary-strong">View all →</a>
       </div>
-
-      <div class="card p-6">
-        <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-fg-faint">
-          <GraduationCap class="h-4 w-4" aria-hidden="true" /> Education
-        </p>
-        <div class="mt-4 space-y-4">
-          {
-            EDUCATION.map((edu) => (
-              <div>
-                <p class="text-sm font-semibold text-fg">{edu.degree}</p>
-                <p class="text-sm text-fg-muted">{edu.institution}</p>
-                <p class="text-xs text-fg-faint">{edu.year} · {edu.detail}</p>
+      <div class="mt-4 space-y-3">
+        {
+          certifications.slice(0, 4).map((cert) => (
+            <div class="flex items-start gap-3">
+              <Award class="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+              <div class="min-w-0">
+                <p class="text-sm font-medium text-fg">{cert.data.title}</p>
+                <p class="text-xs text-fg-faint">{cert.data.issuer} · {formatDate(cert.data.date)}</p>
               </div>
-            ))
-          }
-        </div>
+            </div>
+          ))
+        }
       </div>
+    </div>
 
-      <div class="card p-6">
-        <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Skills</p>
-        <div class="mt-4 space-y-4">
-          {
-            SKILLS.map((group) => (
-              <div>
-                <p class="mb-2 text-xs font-medium text-fg-faint">{group.group}</p>
-                <div class="flex flex-wrap gap-1.5">
-                  {group.items.map((skill) => (
-                    <SkillBadge skill={skill} />
-                  ))}
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </aside>
+    <div class="card p-6">
+      <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Achievements</p>
+      <ul class="mt-4 space-y-3">
+        {
+          ACHIEVEMENTS.map((item) => (
+            <li class="flex gap-2 text-sm text-fg-muted">
+              <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" aria-hidden="true" />
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
 </PageLayout>

@@ -1,0 +1,156 @@
+---
+import GithubIcon from './icons/GithubIcon.astro';
+import { GITHUB_USERNAME } from '@lib/site';
+
+interface Props {
+  /** 'starred' shows a flat grid of the top N repos by stars. 'categorized' groups all repos by primary language. */
+  mode?: 'starred' | 'categorized';
+  limit?: number;
+}
+const { mode = 'starred', limit = 6 } = Astro.props;
+const elementId = `github-repos-${mode}`;
+---
+
+<div data-mode={mode} data-limit={limit} data-username={GITHUB_USERNAME} id={elementId}>
+  <div class="repo-loading grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      Array.from({ length: mode === 'starred' ? limit : 3 }).map(() => (
+        <div class="card h-[152px] animate-pulse p-5">
+          <div class="h-4 w-2/3 rounded bg-bg-alt" />
+          <div class="mt-3 h-3 w-full rounded bg-bg-alt" />
+          <div class="mt-2 h-3 w-4/5 rounded bg-bg-alt" />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<a
+  href={`https://github.com/${GITHUB_USERNAME}`}
+  class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary-strong"
+  target="_blank"
+  rel="noopener"
+>
+  <GithubIcon class="h-4 w-4" /> View full profile on GitHub →
+</a>
+
+<template id="repo-card-template">
+  <a class="repo-link card card-hover flex h-full flex-col p-5" target="_blank" rel="noopener">
+    <h3 class="repo-name text-sm font-semibold text-fg transition-colors hover:text-primary"></h3>
+    <p class="repo-description mt-1.5 line-clamp-2 flex-1 text-sm text-fg-muted"></p>
+    <div class="mt-3 flex items-center gap-4 text-xs text-fg-faint">
+      <span class="repo-language inline-flex items-center gap-1.5">
+        <span class="repo-language-dot h-2 w-2 rounded-full" />
+        <span class="repo-language-name"></span>
+      </span>
+      <span class="repo-stars inline-flex items-center gap-1"></span>
+      <span class="repo-forks inline-flex items-center gap-1"></span>
+    </div>
+  </a>
+</template>
+
+<script>
+  interface Repo {
+    name: string;
+    html_url: string;
+    description: string | null;
+    language: string | null;
+    stargazers_count: number;
+    forks_count: number;
+    fork: boolean;
+  }
+
+  const LANGUAGE_COLORS: Record<string, string> = {
+    Python: '#3572A5',
+    JavaScript: '#f1e05a',
+    TypeScript: '#3178c6',
+    Astro: '#ff5a03',
+    HTML: '#e34c26',
+    Shell: '#89e051',
+    'Jupyter Notebook': '#DA5B0B',
+  };
+
+  function renderCard(template: HTMLTemplateElement, repo: Repo): DocumentFragment {
+    const node = template.content.cloneNode(true) as DocumentFragment;
+    const link = node.querySelector<HTMLAnchorElement>('.repo-link')!;
+    link.href = repo.html_url;
+    node.querySelector('.repo-name')!.textContent = repo.name;
+    node.querySelector('.repo-description')!.textContent = repo.description ?? 'No description yet.';
+    const languageEl = node.querySelector<HTMLElement>('.repo-language');
+    if (repo.language) {
+      node.querySelector('.repo-language-name')!.textContent = repo.language;
+      (node.querySelector('.repo-language-dot') as HTMLElement).style.backgroundColor =
+        LANGUAGE_COLORS[repo.language] ?? '#94a3b8';
+    } else {
+      languageEl?.remove();
+    }
+    node.querySelector('.repo-stars')!.textContent = `★ ${repo.stargazers_count}`;
+    node.querySelector('.repo-forks')!.textContent = `⑂ ${repo.forks_count}`;
+    return node;
+  }
+
+  async function init() {
+    const containers = document.querySelectorAll<HTMLElement>('[id^="github-repos-"]');
+    const template = document.getElementById('repo-card-template') as HTMLTemplateElement | null;
+    if (!template) return;
+
+    for (const container of containers) {
+      const username = container.dataset.username;
+      const mode = container.dataset.mode;
+      const limit = Number(container.dataset.limit ?? 6);
+
+      try {
+        const res = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&type=owner`);
+        if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+        const repos: Repo[] = await res.json();
+        const owned = repos.filter((r) => !r.fork);
+
+        if (mode === 'categorized') {
+          const byLanguage = new Map<string, Repo[]>();
+          for (const repo of owned) {
+            const key = repo.language ?? 'Other';
+            const list = byLanguage.get(key) ?? [];
+            list.push(repo);
+            byLanguage.set(key, list);
+          }
+          const sortedLanguages = [...byLanguage.entries()]
+            .filter(([, list]) => list.length > 0)
+            .sort((a, b) => b[1].length - a[1].length);
+
+          container.innerHTML = '';
+          for (const [language, list] of sortedLanguages) {
+            const section = document.createElement('div');
+            section.className = 'mb-10';
+            const heading = document.createElement('h3');
+            heading.className = 'mb-4 flex items-center gap-2 text-base font-semibold text-fg';
+            const dot = document.createElement('span');
+            dot.className = 'h-2.5 w-2.5 rounded-full';
+            dot.style.backgroundColor = LANGUAGE_COLORS[language] ?? '#94a3b8';
+            heading.appendChild(dot);
+            heading.appendChild(document.createTextNode(`${language} (${list.length})`));
+            section.appendChild(heading);
+
+            const grid = document.createElement('div');
+            grid.className = 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3';
+            list
+              .sort((a, b) => b.stargazers_count - a.stargazers_count)
+              .forEach((repo) => grid.appendChild(renderCard(template, repo)));
+            section.appendChild(grid);
+            container.appendChild(section);
+          }
+        } else {
+          const top = owned.sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, limit);
+          const grid = document.createElement('div');
+          grid.className = 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3';
+          top.forEach((repo) => grid.appendChild(renderCard(template, repo)));
+          container.innerHTML = '';
+          container.appendChild(grid);
+        }
+      } catch {
+        container.innerHTML =
+          '<p class="text-sm text-fg-faint">GitHub repositories are unavailable right now — see the GitHub profile instead.</p>';
+      }
+    }
+  }
+  init();
+</script>
