@@ -1,0 +1,32 @@
+name: Retry Pages Deploy on Failure
+
+# The Pages backend needs a brief cooldown after finishing a deployment
+# before it will accept the next one. Deploying multiple times in quick
+# succession (normal during active development) can trip a transient
+# "Deployment failed, try again later" error from actions/deploy-pages.
+# This watches the deploy workflow and automatically reruns just the
+# failed job with an increasing backoff, instead of requiring a manual
+# rerun each time.
+on:
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
+
+permissions:
+  actions: write
+
+jobs:
+  retry:
+    if: >
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.run_attempt < 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Back off before retrying
+        run: sleep $((30 * ${{ github.event.workflow_run.run_attempt }}))
+
+      - name: Re-run failed jobs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api "repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/rerun-failed-jobs" -X POST
