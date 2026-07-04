@@ -73,28 +73,4 @@ import { SITE, SOCIALS } from '@lib/site';
       </div>
     </a>
   </div>
-
-  <div class="card mt-10 p-8">
-    <h2 class="text-lg font-semibold text-fg">Send a message</h2>
-    <p class="mt-1 text-sm text-fg-muted">This opens your email client with the details pre-filled.</p>
-    <form action={`mailto:${SITE.email}`} method="get" class="mt-6 space-y-4">
-      <div class="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label for="name" class="mb-1.5 block text-sm font-medium text-fg">Name</label>
-          <input id="name" name="name" type="text" required class="w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm text-fg focus:border-primary" />
-        </div>
-        <div>
-          <label for="subject" class="mb-1.5 block text-sm font-medium text-fg">Subject</label>
-          <input id="subject" name="subject" type="text" required class="w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm text-fg focus:border-primary" />
-        </div>
-      </div>
-      <div>
-        <label for="body" class="mb-1.5 block text-sm font-medium text-fg">Message</label>
-        <textarea id="body" name="body" rows="5" required class="w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm text-fg focus:border-primary"></textarea>
-      </div>
-      <button type="submit" class="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-strong dark:font-semibold dark:text-slate-900">
-        Send message
-      </button>
-    </form>
-  </div>
 </PageLayout>
