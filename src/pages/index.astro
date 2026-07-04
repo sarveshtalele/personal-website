@@ -8,13 +8,13 @@ import Section from '@components/Section.astro';
 import BlogCard from '@components/BlogCard.astro';
 import NoteCard from '@components/NoteCard.astro';
 import SkillsDashboard from '@components/SkillsDashboard.astro';
+import StatsDashboard from '@components/StatsDashboard.astro';
 import Timeline from '@components/Timeline.astro';
 import GitHubRepoExplorer from '@components/GitHubRepoExplorer.astro';
-import Newsletter from '@components/Newsletter.astro';
-import Button from '@components/Button.astro';
-import { Award, FlaskConical, Mail } from '@lucide/astro';
+import TopmateCTA from '@components/TopmateCTA.astro';
+import { Award, FlaskConical } from '@lucide/astro';
 import { byDateDesc, formatDate } from '@utils/format';
-import { SITE, SOCIALS } from '@lib/site';
+import { SITE } from '@lib/site';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const latestPosts = allPosts.sort(byDateDesc((p) => p.data.pubDate)).slice(0, 3);
@@ -33,8 +33,11 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
   <Hero />
 
   <Container>
-    <Section eyebrow="Overview" title="The short version">
-      <ProfileHighlights />
+    <Section eyebrow="Overview" title="Dashboard">
+      <div class="space-y-6">
+        <StatsDashboard />
+        <ProfileHighlights />
+      </div>
     </Section>
 
     <Section eyebrow="Featured Work" title="Most starred repos" href="/projects" linkLabel="All projects">
@@ -114,24 +117,8 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
       )
     }
 
-    <Section eyebrow="Newsletter" class="pb-20">
-      <Newsletter />
-    </Section>
-
     <Section eyebrow="Get in Touch" title="Let's build something" class="pb-24">
-      <div class="card flex flex-col items-start gap-6 p-8 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p class="text-fg-muted">
-            Have a project, a role, or a question about agentic AI? I read every message.
-          </p>
-        </div>
-        <div class="flex shrink-0 gap-3">
-          <Button href="/contact" variant="primary">
-            <Mail class="h-4 w-4" aria-hidden="true" /> Contact me
-          </Button>
-          <Button href={SOCIALS.linkedin} variant="secondary" external>LinkedIn</Button>
-        </div>
-      </div>
+      <TopmateCTA />
     </Section>
   </Container>
 </BaseLayout>

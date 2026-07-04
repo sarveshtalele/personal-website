@@ -1,0 +1,46 @@
+---
+import { Coffee, ArrowRight, Sparkles, Calendar, MessageCircle } from '@lucide/astro';
+
+const PERKS = [
+  { icon: MessageCircle, label: '1:1 AI engineering & career advice' },
+  { icon: Sparkles, label: 'Agentic AI & architecture reviews' },
+  { icon: Calendar, label: 'Flexible, pick-your-own-slot scheduling' },
+];
+---
+
+<div class="glass-surface group relative overflow-hidden p-8 sm:p-10">
+  <div class="glass-card relative flex flex-col gap-8 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+    <div class="max-w-xl">
+      <span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-fg-muted">
+        <Coffee class="h-3.5 w-3.5 text-primary" aria-hidden="true" /> Book a session
+      </span>
+      <h3 class="mt-4 text-2xl font-bold tracking-tight text-fg">Let's talk, one on one.</h3>
+      <p class="mt-2 text-fg-muted">
+        Have a project, a role, or a question about agentic AI? Skip the back-and-forth — book time with me
+        directly.
+      </p>
+      <ul class="mt-5 space-y-2.5">
+        {
+          PERKS.map(({ icon: Icon, label }) => (
+            <li class="flex items-center gap-2.5 text-sm text-fg-muted">
+              <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                <Icon class="h-3.5 w-3.5" aria-hidden="true" />
+              </span>
+              {label}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <a
+      href="https://topmate.io/sarveshtalele"
+      target="_blank"
+      rel="noopener"
+      class="group/btn inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-primary px-7 py-4 text-base font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:bg-primary-strong hover:shadow-xl hover:shadow-primary/30 dark:text-slate-900"
+    >
+      Book on Topmate
+      <ArrowRight class="h-5 w-5 transition-transform group-hover/btn:translate-x-1" aria-hidden="true" />
+    </a>
+  </div>
+</div>

@@ -20,9 +20,10 @@ const index = sorted.findIndex((p) => p.id === post.id);
 const newer = index > 0 ? sorted[index - 1] : undefined;
 const older = index < sorted.length - 1 ? sorted[index + 1] : undefined;
 
-const related = sorted
-  .filter((p) => p.id !== post.id && p.data.tags.some((t) => post.data.tags.includes(t)))
-  .slice(0, 3);
+const others = sorted.filter((p) => p.id !== post.id);
+const tagMatches = others.filter((p) => p.data.tags.some((t) => post.data.tags.includes(t)));
+const fallback = others.filter((p) => !tagMatches.includes(p));
+const related = [...tagMatches, ...fallback].slice(0, 3);
 ---
 
 <ArticleLayout
@@ -41,21 +42,23 @@ const related = sorted
 >
   <Content components={mdxComponents} />
 
-  <PrevNext
-    prev={older && { href: `/blog/${older.id}`, title: older.data.title }}
-    next={newer && { href: `/blog/${newer.id}`, title: newer.data.title }}
-  />
+  <Fragment slot="after">
+    <PrevNext
+      prev={older && { href: `/blog/${older.id}`, title: older.data.title }}
+      next={newer && { href: `/blog/${newer.id}`, title: newer.data.title }}
+    />
 
-  {
-    related.length > 0 && (
-      <div class="mt-14 border-t border-line pt-8">
-        <p class="mb-5 text-sm font-semibold uppercase tracking-widest text-fg-faint">Related posts</p>
-        <div class="grid gap-6 sm:grid-cols-3">
-          {related.map((p) => (
-            <BlogCard post={p} />
-          ))}
+    {
+      related.length > 0 && (
+        <div class="mt-14 border-t border-line pt-8">
+          <p class="mb-5 text-sm font-semibold uppercase tracking-widest text-fg-faint">Related posts</p>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {related.map((p) => (
+              <BlogCard post={p} />
+            ))}
+          </div>
         </div>
-      </div>
-    )
-  }
+      )
+    }
+  </Fragment>
 </ArticleLayout>

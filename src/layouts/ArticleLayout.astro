@@ -98,6 +98,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
           <slot />
         </div>
 
+        <slot name="after" />
+
         {showComments && <Giscus />}
       </article>
 

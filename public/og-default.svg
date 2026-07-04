@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <rect width="1200" height="630" fill="#FFFDF8"/>
-  <rect x="0" y="0" width="1200" height="630" fill="none" stroke="#E8E4DA" stroke-width="2"/>
-  <rect x="80" y="80" width="64" height="64" rx="16" fill="#2563EB"/>
-  <path d="M112 96l7 15 15 7-15 7-7 15-7-15-15-7 15-7 7-15z" fill="#FFFDF8"/>
-  <text x="80" y="240" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="64" font-weight="700" fill="#0F172A">Sarvesh Talele</text>
-  <text x="80" y="300" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="32" font-weight="500" fill="#475569">AI Engineer · Claude Certified Architect</text>
-  <text x="80" y="540" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="24" fill="#2563EB">sarveshtalele.org</text>
-</svg>

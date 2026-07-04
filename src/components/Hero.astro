@@ -2,6 +2,8 @@
 import { ArrowRight } from '@lucide/astro';
 import GithubIcon from './icons/GithubIcon.astro';
 import LinkedinIcon from './icons/LinkedinIcon.astro';
+import MediumIcon from './icons/MediumIcon.astro';
+import OrcidIcon from './icons/OrcidIcon.astro';
 import { SITE, SOCIALS } from '@lib/site';
 import Button from './Button.astro';
 
@@ -57,6 +59,20 @@ const TAGLINE =
             aria-label="LinkedIn"
             target="_blank"
             rel="me noopener"><LinkedinIcon class="h-5 w-5" /></a
+          >
+          <a
+            href={SOCIALS.medium}
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
+            aria-label="Medium"
+            target="_blank"
+            rel="me noopener"><MediumIcon class="h-5 w-5" /></a
+          >
+          <a
+            href={SOCIALS.orcid}
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
+            aria-label="ORCID"
+            target="_blank"
+            rel="me noopener"><OrcidIcon class="h-5 w-5" /></a
           >
         </div>
       </div>

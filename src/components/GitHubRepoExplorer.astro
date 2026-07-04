@@ -3,7 +3,7 @@ import GithubIcon from './icons/GithubIcon.astro';
 import { GITHUB_USERNAME } from '@lib/site';
 
 interface Props {
-  /** 'starred' shows a flat grid of the top N repos by stars. 'categorized' adds language pill filters above the grid. */
+  /** 'starred' shows a flat grid of the top N repos by stars. 'categorized' adds concept-category pill filters above the grid. */
   mode?: 'starred' | 'categorized';
   limit?: number;
 }
@@ -15,7 +15,7 @@ const elementId = `github-repos-${mode}`;
   {
     mode === 'categorized' && (
       <div class="repo-filters mb-6 flex flex-wrap gap-2" hidden>
-        <button type="button" class="repo-filter-all rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors" data-language="all">
+        <button type="button" class="repo-filter-all rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors" data-category="all">
           All
         </button>
       </div>
@@ -47,7 +47,8 @@ const elementId = `github-repos-${mode}`;
   <a class="repo-link card card-hover flex h-full flex-col p-6" target="_blank" rel="noopener">
     <div class="repo-name text-lg font-semibold leading-snug tracking-tight text-fg transition-colors hover:text-primary"></div>
     <p class="repo-description mt-2 line-clamp-3 flex-1 text-sm text-fg-muted"></p>
-    <div class="mt-4 flex flex-wrap items-center gap-2">
+    <div class="repo-category-row mt-3 flex flex-wrap gap-1.5"></div>
+    <div class="mt-3 flex flex-wrap items-center gap-2">
       <span class="repo-language-badge hidden items-center gap-1.5 rounded-full border border-line bg-bg-alt px-2.5 py-1 text-xs font-medium text-fg-muted">
         <span class="repo-language-dot h-2 w-2 rounded-full"></span>
         <span class="repo-language-name"></span>
@@ -71,6 +72,14 @@ const elementId = `github-repos-${mode}`;
     background-color: var(--primary-soft);
     border-color: transparent;
   }
+  .repo-category-pill {
+    border-radius: 6px;
+    background-color: var(--primary-soft);
+    color: var(--primary);
+    padding: 0.125rem 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
 </style>
 
 <script>
@@ -79,6 +88,7 @@ const elementId = `github-repos-${mode}`;
     html_url: string;
     description: string | null;
     language: string | null;
+    topics: string[];
     stargazers_count: number;
     forks_count: number;
     fork: boolean;
@@ -94,13 +104,40 @@ const elementId = `github-repos-${mode}`;
     'Jupyter Notebook': '#DA5B0B',
   };
 
+  // Concept categories, in display priority order. Only these topics become
+  // filter pills — a repo can carry many other GitHub topics that aren't
+  // shown here (e.g. "nextjs", "python") to keep the filter list readable.
+  const CONCEPT_CATEGORIES: Record<string, string> = {
+    'agentic-ai': 'Agentic AI',
+    mcp: 'MCP',
+    rag: 'RAG',
+    'ai-projects': 'AI Projects',
+    'machine-learning': 'Machine Learning',
+    'claude-skills': 'Claude Skills',
+    'developer-tools': 'Developer Tools',
+  };
+
+  function conceptCategoriesFor(repo: Repo): string[] {
+    return repo.topics.filter((t) => t in CONCEPT_CATEGORIES);
+  }
+
   function renderCard(template: HTMLTemplateElement, repo: Repo): DocumentFragment {
     const node = template.content.cloneNode(true) as DocumentFragment;
     const link = node.querySelector<HTMLAnchorElement>('.repo-link')!;
     link.href = repo.html_url;
-    link.dataset.language = repo.language ?? 'Other';
+    const categories = conceptCategoriesFor(repo);
+    link.dataset.categories = categories.join(',');
     node.querySelector('.repo-name')!.textContent = repo.name;
     node.querySelector('.repo-description')!.textContent = repo.description ?? 'No description yet.';
+
+    const categoryRow = node.querySelector<HTMLElement>('.repo-category-row')!;
+    for (const category of categories) {
+      const pill = document.createElement('span');
+      pill.className = 'repo-category-pill';
+      pill.textContent = CONCEPT_CATEGORIES[category];
+      categoryRow.appendChild(pill);
+    }
+
     if (repo.language) {
       const badge = node.querySelector<HTMLElement>('.repo-language-badge')!;
       badge.classList.remove('hidden');
@@ -114,9 +151,10 @@ const elementId = `github-repos-${mode}`;
     return node;
   }
 
-  function applyFilter(container: HTMLElement, language: string) {
+  function applyFilter(container: HTMLElement, category: string) {
     container.querySelectorAll<HTMLAnchorElement>('.repo-link').forEach((card) => {
-      card.hidden = language !== 'all' && card.dataset.language !== language;
+      const categories = card.dataset.categories?.split(',') ?? [];
+      card.hidden = category !== 'all' && !categories.includes(category);
     });
   }
 
@@ -138,13 +176,18 @@ const elementId = `github-repos-${mode}`;
         const repos: Repo[] = await res.json();
         const owned = repos.filter((r) => !r.fork);
 
-        const list = mode === 'categorized' ? owned.sort((a, b) => b.stargazers_count - a.stargazers_count) : owned.sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, limit);
+        const list =
+          mode === 'categorized'
+            ? owned.sort((a, b) => b.stargazers_count - a.stargazers_count)
+            : owned.sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, limit);
 
         grid.innerHTML = '';
         list.forEach((repo) => grid.appendChild(renderCard(template, repo)));
 
         if (mode === 'categorized' && filters) {
-          const languages = [...new Set(owned.map((r) => r.language ?? 'Other'))].sort();
+          const present = new Set(owned.flatMap((r) => conceptCategoriesFor(r)));
+          const categories = Object.keys(CONCEPT_CATEGORIES).filter((c) => present.has(c));
+
           const allButton = filters.querySelector<HTMLButtonElement>('.repo-filter-all')!;
           allButton.setAttribute('aria-selected', 'true');
           allButton.addEventListener('click', () => {
@@ -152,16 +195,16 @@ const elementId = `github-repos-${mode}`;
             applyFilter(container, 'all');
           });
 
-          for (const language of languages) {
+          for (const category of categories) {
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'repo-filter rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors';
-            button.dataset.language = language;
+            button.dataset.category = category;
             button.setAttribute('aria-selected', 'false');
-            button.textContent = language;
+            button.textContent = CONCEPT_CATEGORIES[category];
             button.addEventListener('click', () => {
               filters.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', String(b === button)));
-              applyFilter(container, language);
+              applyFilter(container, category);
             });
             filters.appendChild(button);
           }
