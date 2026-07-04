@@ -16,7 +16,7 @@ interface Props {
 const {
   title,
   description = SITE.description,
-  image = '/og-default.svg',
+  image = '/og-home.png',
   type = 'website',
   pubDate,
   updatedDate,
@@ -40,7 +40,7 @@ const personJsonLd = {
   url: SITE.url,
   jobTitle: SITE.role,
   worksFor: { '@type': 'Organization', name: 'Tata Consultancy Services' },
-  sameAs: [SOCIALS.github, SOCIALS.linkedin],
+  sameAs: [SOCIALS.github, SOCIALS.linkedin, SOCIALS.medium, SOCIALS.scholar, SOCIALS.orcid],
 };
 
 const baseJsonLd = {
@@ -76,7 +76,9 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [per
 <meta name="author" content={SITE.author} />
 <meta name="generator" content={Astro.generator} />
 <link rel="canonical" href={canonicalURL} />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
 {noindex && <meta name="robots" content="noindex" />}

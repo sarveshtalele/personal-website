@@ -4,9 +4,10 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Container from '@components/Container.astro';
 import Timeline from '@components/Timeline.astro';
 import Button from '@components/Button.astro';
-import { Mail, MapPin, Download, Printer } from '@lucide/astro';
+import { GraduationCap, Mail, MapPin, Download, Printer } from '@lucide/astro';
 import GithubIcon from '@components/icons/GithubIcon.astro';
 import LinkedinIcon from '@components/icons/LinkedinIcon.astro';
+import OrcidIcon from '@components/icons/OrcidIcon.astro';
 import { SITE, SOCIALS, SKILLS, EDUCATION, ACHIEVEMENTS } from '@lib/site';
 import { byDateDesc } from '@utils/format';
 
@@ -16,7 +17,7 @@ const certifications = (await getCollection('certifications')).sort(byDateDesc((
 const publications = (await getCollection('publications')).sort(byDateDesc((p) => p.data.pubDate));
 ---
 
-<BaseLayout title="Resume" description={`Résumé of ${SITE.author} — ${SITE.role}.`}>
+<BaseLayout title="Resume" description={`Resume of ${SITE.author} — ${SITE.role}.`}>
   <Container size="narrow" class="print-page py-12">
     <div class="no-print mb-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-bg-alt px-5 py-4">
       <p class="text-sm text-fg-muted">This page is print- and PDF-friendly — use the buttons or your browser's print dialog.</p>
@@ -42,6 +43,8 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
         <span class="inline-flex items-center gap-1.5"><MapPin class="h-4 w-4" aria-hidden="true" /> {SITE.location}</span>
         <a href={SOCIALS.github} class="inline-flex items-center gap-1.5 hover:text-primary"><GithubIcon class="h-4 w-4" /> github.com/sarveshtalele</a>
         <a href={SOCIALS.linkedin} class="inline-flex items-center gap-1.5 hover:text-primary"><LinkedinIcon class="h-4 w-4" /> linkedin.com/in/sarveshtalele</a>
+        <a href={SOCIALS.scholar} class="inline-flex items-center gap-1.5 hover:text-primary"><GraduationCap class="h-4 w-4" aria-hidden="true" /> Google Scholar</a>
+        <a href={SOCIALS.orcid} class="inline-flex items-center gap-1.5 hover:text-primary"><OrcidIcon class="h-4 w-4" /> ORCID</a>
       </div>
     </header>
 

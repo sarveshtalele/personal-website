@@ -1,8 +1,10 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
-import { Mail } from '@lucide/astro';
+import { GraduationCap, Mail } from '@lucide/astro';
 import GithubIcon from '@components/icons/GithubIcon.astro';
 import LinkedinIcon from '@components/icons/LinkedinIcon.astro';
+import MediumIcon from '@components/icons/MediumIcon.astro';
+import OrcidIcon from '@components/icons/OrcidIcon.astro';
 import { SITE, SOCIALS } from '@lib/site';
 ---
 
@@ -38,6 +40,33 @@ import { SITE, SOCIALS } from '@lib/site';
       <div>
         <p class="font-semibold text-fg">GitHub</p>
         <p class="mt-1 text-sm text-fg-muted">See what I'm building</p>
+      </div>
+    </a>
+    <a href={SOCIALS.medium} target="_blank" rel="me noopener" class="card card-hover flex flex-col items-start gap-3 p-6">
+      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
+        <MediumIcon class="h-5 w-5" />
+      </span>
+      <div>
+        <p class="font-semibold text-fg">Medium</p>
+        <p class="mt-1 text-sm text-fg-muted">Read my articles</p>
+      </div>
+    </a>
+    <a href={SOCIALS.scholar} target="_blank" rel="me noopener" class="card card-hover flex flex-col items-start gap-3 p-6">
+      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
+        <GraduationCap class="h-5 w-5" aria-hidden="true" />
+      </span>
+      <div>
+        <p class="font-semibold text-fg">Google Scholar</p>
+        <p class="mt-1 text-sm text-fg-muted">Research publications</p>
+      </div>
+    </a>
+    <a href={SOCIALS.orcid} target="_blank" rel="me noopener" class="card card-hover flex flex-col items-start gap-3 p-6">
+      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
+        <OrcidIcon class="h-5 w-5" />
+      </span>
+      <div>
+        <p class="font-semibold text-fg">ORCID</p>
+        <p class="mt-1 text-sm text-fg-muted">Researcher identifier</p>
       </div>
     </a>
   </div>

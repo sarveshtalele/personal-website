@@ -1,7 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
-import { FlaskConical, ExternalLink, FileDown } from '@lucide/astro';
+import { FlaskConical, ExternalLink, FileDown, GraduationCap } from '@lucide/astro';
+import OrcidIcon from '@components/icons/OrcidIcon.astro';
+import { SOCIALS } from '@lib/site';
 import { formatDate, byDateDesc } from '@utils/format';
 
 const publications = (await getCollection('publications')).sort(byDateDesc((p) => p.data.pubDate));
@@ -13,6 +15,25 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
   eyebrow="Research"
   crumbs={[{ label: 'Publications' }]}
 >
+  <div class="mb-8 flex flex-wrap gap-3">
+    <a
+      href={SOCIALS.scholar}
+      target="_blank"
+      rel="noopener"
+      class="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-2 text-sm font-medium text-fg-muted transition-colors hover:border-primary hover:text-primary"
+    >
+      <GraduationCap class="h-4 w-4" aria-hidden="true" /> Google Scholar profile
+    </a>
+    <a
+      href={SOCIALS.orcid}
+      target="_blank"
+      rel="noopener"
+      class="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-2 text-sm font-medium text-fg-muted transition-colors hover:border-primary hover:text-primary"
+    >
+      <OrcidIcon class="h-4 w-4" /> ORCID profile
+    </a>
+  </div>
+
   {
     publications.length === 0 ? (
       <p class="text-fg-muted">No publications listed yet.</p>

@@ -2,9 +2,9 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
+import ProfileHighlights from '@components/ProfileHighlights.astro';
 import Container from '@components/Container.astro';
 import Section from '@components/Section.astro';
-import ProjectCard from '@components/ProjectCard.astro';
 import BlogCard from '@components/BlogCard.astro';
 import NoteCard from '@components/NoteCard.astro';
 import SkillsDashboard from '@components/SkillsDashboard.astro';
@@ -15,9 +15,6 @@ import Button from '@components/Button.astro';
 import { Award, FlaskConical, Mail } from '@lucide/astro';
 import { byDateDesc, formatDate } from '@utils/format';
 import { SITE, SOCIALS } from '@lib/site';
-
-const allProjects = await getCollection('projects', ({ data }) => data.featured);
-const featuredProjects = allProjects.sort(byDateDesc((p) => p.data.pubDate)).slice(0, 3);
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const latestPosts = allPosts.sort(byDateDesc((p) => p.data.pubDate)).slice(0, 3);
@@ -36,17 +33,13 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
   <Hero />
 
   <Container>
-    {
-      featuredProjects.length > 0 && (
-        <Section eyebrow="Featured Work" title="Selected projects" href="/projects" linkLabel="All projects">
-          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project) => (
-              <ProjectCard project={project} />
-            ))}
-          </div>
-        </Section>
-      )
-    }
+    <Section eyebrow="Overview" title="The short version">
+      <ProfileHighlights />
+    </Section>
+
+    <Section eyebrow="Featured Work" title="Most starred repos" href="/projects" linkLabel="All projects">
+      <GitHubRepoExplorer mode="starred" limit={6} />
+    </Section>
 
     {
       latestPosts.length > 0 && (
@@ -78,10 +71,6 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
 
     <Section eyebrow="Career" title="Experience" href="/experience" linkLabel="Full history">
       <Timeline entries={experience.slice(0, 2)} maxHighlights={3} />
-    </Section>
-
-    <Section eyebrow="Open Source" title="Most starred repos" href="/projects" linkLabel="All projects">
-      <GitHubRepoExplorer mode="starred" limit={6} />
     </Section>
 
     {

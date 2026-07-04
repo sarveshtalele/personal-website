@@ -5,10 +5,11 @@ import Button from '@components/Button.astro';
 import StatsDashboard from '@components/StatsDashboard.astro';
 import SkillsDashboard from '@components/SkillsDashboard.astro';
 import { SOCIALS, SITE, EDUCATION, CREDENTIALS, ACHIEVEMENTS } from '@lib/site';
-import { Award, Mail, Sparkles } from '@lucide/astro';
+import { Award, GraduationCap, Mail, Sparkles } from '@lucide/astro';
 import GithubIcon from '@components/icons/GithubIcon.astro';
 import LinkedinIcon from '@components/icons/LinkedinIcon.astro';
 import MediumIcon from '@components/icons/MediumIcon.astro';
+import OrcidIcon from '@components/icons/OrcidIcon.astro';
 import { formatDate, byDateDesc } from '@utils/format';
 
 const certifications = (await getCollection('certifications')).sort(byDateDesc((c) => c.data.date));
@@ -50,7 +51,7 @@ const certifications = (await getCollection('certifications')).sort(byDateDesc((
       </div>
 
       <div class="mt-6 flex flex-wrap items-center gap-2">
-        <Button href="/resume.pdf" variant="primary" download>Download résumé</Button>
+        <Button href="/resume.pdf" variant="primary" download>Download Resume</Button>
         <Button href="/contact" variant="secondary">
           <Mail class="h-4 w-4" aria-hidden="true" /> Contact
         </Button>
@@ -78,6 +79,22 @@ const certifications = (await getCollection('certifications')).sort(byDateDesc((
             aria-label="Medium"
             class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
             ><MediumIcon class="h-[18px] w-[18px]" /></a
+          >
+          <a
+            href={SOCIALS.scholar}
+            target="_blank"
+            rel="me noopener"
+            aria-label="Google Scholar"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
+            ><GraduationCap class="h-[18px] w-[18px]" aria-hidden="true" /></a
+          >
+          <a
+            href={SOCIALS.orcid}
+            target="_blank"
+            rel="me noopener"
+            aria-label="ORCID"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
+            ><OrcidIcon class="h-[18px] w-[18px]" /></a
           >
         </div>
       </div>

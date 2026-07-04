@@ -19,6 +19,8 @@ export const SOCIALS = {
   github: 'https://github.com/sarveshtalele',
   linkedin: 'https://www.linkedin.com/in/sarveshtalele',
   medium: 'https://medium.com/@sarveshtalele',
+  scholar: 'https://scholar.google.com/citations?user=Ls5WYe8AAAAJ&hl=en',
+  orcid: 'https://orcid.org/0009-0002-0818-461X',
   email: `mailto:${SITE.email}`,
   rss: '/rss.xml',
 } as const;
