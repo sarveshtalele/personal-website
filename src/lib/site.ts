@@ -88,7 +88,7 @@ export const EDUCATION = [
 /** Headline impact metrics shown as KPI tiles on the About page. */
 export const STATS: { value: string; label: string }[] = [
   { value: '4+ yrs', label: 'AI engineering experience' },
-  { value: '25%', label: 'TCV growth driven' },
+  { value: '3', label: 'RAG solutions developed' },
   { value: '50K+', label: 'Daily requests served' },
   { value: '100+', label: 'Enterprise users supported' },
   { value: '45%', label: 'Manual effort reduced' },
