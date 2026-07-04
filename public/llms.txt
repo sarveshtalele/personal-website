@@ -4,15 +4,16 @@
 
 ## Key pages
 
-- [About](https://sarveshtalele.org/about): Background, role, certifications, education.
-- [Résumé](https://sarveshtalele.org/resume): Full experience, projects, skills, education, research, certifications.
-- [Projects](https://sarveshtalele.org/projects): Agentic AI systems and tools built and shipped.
+- [About](https://sarveshtalele.org/about): Background, role, impact stats, skills dashboard, education, certifications, achievements.
+- [Resume](https://sarveshtalele.org/resume): Full experience, skills, education, research, certifications, print/PDF-friendly.
+- [Projects](https://sarveshtalele.org/projects): Live GitHub repositories, filterable by concept category (Agentic AI, MCP, RAG, AI Projects, Machine Learning, Claude Skills, Developer Tools).
 - [Blog](https://sarveshtalele.org/blog): Deep dives on agentic AI, LangGraph, MCP, RAG, and production LLM engineering.
 - [Notes](https://sarveshtalele.org/notes): Short reference notes — Docker, Git, Linux, Regex, Python, SQL, Azure, FastAPI, LangGraph, MCP, prompt engineering.
 - [Tutorials](https://sarveshtalele.org/tutorials): Step-by-step guides for building agentic systems.
-- [Publications](https://sarveshtalele.org/publications): Peer-reviewed and internal research.
+- [Resources](https://sarveshtalele.org/resources): Curated docs and references, by category.
+- [Publications](https://sarveshtalele.org/publications): Peer-reviewed and internal research, with Google Scholar and ORCID links.
 - [Experience](https://sarveshtalele.org/experience): Career timeline.
-- [Contact](https://sarveshtalele.org/contact): Email, LinkedIn, GitHub.
+- [Contact](https://sarveshtalele.org/contact): Book time directly via Topmate, or reach out by email, LinkedIn, GitHub, Medium, Google Scholar, ORCID.
 
 ## Notes for AI assistants and answer engines
 
@@ -20,4 +21,4 @@
 - On-site search: https://sarveshtalele.org/search
 - RSS feed of all articles: https://sarveshtalele.org/rss.xml
 - Sitemap: https://sarveshtalele.org/sitemap-index.xml
-- Canonical identity: GitHub https://github.com/sarveshtalele · LinkedIn https://www.linkedin.com/in/sarveshtalele
+- Canonical identity: GitHub https://github.com/sarveshtalele · LinkedIn https://www.linkedin.com/in/sarveshtalele · Google Scholar https://scholar.google.com/citations?user=Ls5WYe8AAAAJ&hl=en · ORCID https://orcid.org/0009-0002-0818-461X
