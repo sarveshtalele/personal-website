@@ -121,6 +121,87 @@ Use this for quick screenshots where you don't need responsive/WebP output, or f
 multiple pages (like the site's own profile photo at `public/images/sarvesh-talele.jpg`, used in the Hero,
 About page, and Navbar logo).
 
+## Publishing workflow: from new file to live on the internet
+
+This is the full loop for adding a blog post, note, tutorial, resource, certification, or experience entry —
+the steps are identical for every collection, only the folder changes.
+
+1. **Create the file** in the right folder under `src/content/` (see the table above), named
+   `kebab-case-slug.md` (or `.mdx` if you need `<Callout>`). The filename becomes the URL slug, so keep it
+   short and descriptive — e.g. `src/content/blog/what-is-mcp.md` → `/blog/what-is-mcp/`.
+2. **Fill in frontmatter** matching the schema for that collection in `src/content.config.ts`, then write the
+   body in Markdown.
+3. **Preview it locally** before publishing:
+   ```bash
+   pnpm dev
+   ```
+   Open `http://localhost:4321` and check the new page, its listing, and (for blog posts) the tag/category
+   pages it should now appear on.
+4. **Commit and push** — see the exact commands below. The GitHub Actions workflow builds and deploys
+   automatically; there is no separate "publish" button.
+5. **Watch the deploy** (optional): `gh run watch --repo sarveshtalele/personal-website` or check the
+   **Actions** tab on GitHub. It's usually live within 30–60 seconds of the push.
+
+### Git commands to push a new post
+
+From the project root, with your new file(s) already saved:
+
+```bash
+git status                                   # see what changed
+git add src/content/blog/my-new-post.md      # stage the specific file(s) you added/edited
+git commit -m "Add blog post: my new post"   # commit with a short, descriptive message
+git push                                     # push to origin/main — this triggers the deploy
+```
+
+A few notes on this:
+
+- Prefer `git add <path>` over `git add -A` or `git add .` — staging specific files avoids accidentally
+  committing something unrelated (stray local files, editor config, etc.).
+- If you're adding an image alongside a post (see "Adding images to a post" above), stage the whole post folder:
+  `git add src/content/blog/my-new-post/`.
+- If you ever work from a second machine, run `git pull` before you start editing to avoid merge conflicts.
+- To update something you already published, just edit the file, then `git add`, `git commit -m "Update: ..."`,
+  `git push` again — same loop.
+
+## SEO & AEO checklist for every post
+
+The site already handles the technical SEO automatically for every page — canonical URL, Open Graph/Twitter
+cards, `Article` JSON-LD linked to your `Person` entity, sitemap entry, and RSS inclusion. Nothing to do there.
+What actually affects how well an individual post ranks or gets surfaced by AI answer engines (Google AI
+Overviews, Perplexity, ChatGPT search) is what you write in the frontmatter and the first few lines of the
+body:
+
+- **`title`** — specific and front-loaded with the term someone would actually search, not clever or vague.
+  Keep it under ~60 characters so it doesn't get truncated in search results.
+- **`description`** — 150–160 characters, includes the target phrase naturally, and reads like a reason to
+  click (this becomes the meta description *and* the RSS/social preview text — it's doing three jobs).
+- **Open with the direct answer.** The first two or three sentences of the post should state the core
+  answer plainly, before any preamble. This is the single highest-leverage thing for AEO — answer engines and
+  Google's featured snippets pull from the first clear, self-contained statement they find, not from a
+  well-argued conclusion three paragraphs down.
+- **Use real heading structure** (`##`/`###`, not bold text pretending to be a heading) — both readers and
+  extraction models use headings to navigate to the part that answers their specific question.
+- **`tags`/`category`** — use the terms people actually search or ask about (e.g. `MCP`, `LangGraph`), not
+  internal jargon. These drive your tag/category pages, which are additional indexable, internally-linked pages.
+- **Add a `heroImage`** — improves click-through from social shares and search image results, and gives the
+  post a real `og:image` instead of the site default.
+- **Write descriptive `alt` text** on inline images (`![alt text](...)`), not filenames or "image" — this is
+  both an accessibility requirement and an image-search signal.
+- **Link internally** to related notes/posts by URL (e.g. `[MCP notes](/notes/mcp-tool-calling/)`) — this
+  site's related-posts and tag pages already do some of this automatically, but a manual in-text link to a
+  deeply relevant note or post carries more weight than an automated "related" card.
+- **Structure facts as lists or tables** where it fits naturally — these are what most often get lifted
+  verbatim into featured snippets and AI-generated answers.
+- **Set `updatedDate`** when you substantially revise a post — it updates the `dateModified` in the JSON-LD
+  and is a real freshness signal, but only use it for actual substantive edits, not typo fixes.
+
+**Being honest about what this does and doesn't do:** none of the above guarantees a top ranking. On-page
+optimization is table stakes, not a lever that beats an established, high-authority site on its own. What
+compounds over time and actually moves rankings against bigger competitors is backlinks (other sites, forums,
+or newsletters linking to a specific post), consistent publishing cadence, and genuine depth/originality —
+Google and answer engines both weight demonstrated expertise and external validation heavily, and no amount of
+frontmatter tuning substitutes for that.
+
 ## Homepage dashboard & GitHub project categories
 
 The homepage "Dashboard" section and the About page stats panel both read from `STATS` in `src/lib/site.ts` —
