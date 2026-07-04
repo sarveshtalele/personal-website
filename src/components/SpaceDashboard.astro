@@ -1,0 +1,263 @@
+---
+import { FlaskConical, Trophy, ShieldCheck, ArrowRight } from '@lucide/astro';
+import { STATS, GITHUB_USERNAME } from '@lib/site';
+
+interface Props {
+  siteStats: { value: string; label: string }[];
+}
+const { siteStats } = Astro.props;
+
+const HIGHLIGHTS = [
+  {
+    icon: FlaskConical,
+    title: 'NASA ADS Publication',
+    description: 'Co-authored zero-shot accident detection research, indexed in the NASA Astrophysics Data System.',
+    href: '/publications',
+    linkLabel: 'Read the paper',
+  },
+  {
+    icon: Trophy,
+    title: 'Guinness World Record Holder',
+    description: 'Participant in the record for Most Users to Take an Online Computer Programming Lesson in 24 Hours.',
+    href: '/about',
+    linkLabel: 'See achievements',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Claude Certified Architect',
+    description: "Anthropic-certified on architecting production Claude systems — one of this site's core credentials.",
+    href: '/certifications',
+    linkLabel: 'View certifications',
+  },
+];
+
+const EXPLORE = [
+  { label: 'Full profile', href: '/about' },
+  { label: 'Read the blog', href: '/blog' },
+  { label: 'Browse projects', href: '/projects' },
+];
+
+function parseStat(value: string) {
+  const match = value.match(/^(\d+)(.*)$/);
+  if (!match) return { target: 0, prefix: value, suffix: '' };
+  return { target: Number(match[1]), prefix: '', suffix: match[2] };
+}
+---
+
+<div class="space-dashboard relative overflow-hidden rounded-2xl p-6 sm:p-10">
+  <div class="stars pointer-events-none absolute inset-0" data-stars></div>
+  <div class="nebula nebula-1 pointer-events-none absolute" aria-hidden="true"></div>
+  <div class="nebula nebula-2 pointer-events-none absolute" aria-hidden="true"></div>
+  <div class="nebula nebula-3 pointer-events-none absolute" aria-hidden="true"></div>
+
+  <div class="relative">
+    <p class="text-sm font-semibold uppercase tracking-widest text-indigo-300">Impact at a glance</p>
+    <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      {
+        STATS.map((stat) => {
+          const { target, prefix, suffix } = parseStat(stat.value);
+          return (
+            <div class="space-tile rounded-2xl p-4">
+              <p class="flex items-baseline text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                {prefix}
+                <span data-countup data-target={target} data-suffix={suffix}>
+                  0
+                </span>
+                {suffix}
+              </p>
+              <p class="mt-1.5 text-xs leading-snug text-indigo-200/70">{stat.label}</p>
+            </div>
+          );
+        })
+      }
+    </div>
+
+    <p class="mt-8 text-sm font-semibold uppercase tracking-widest text-indigo-300">Everything on this site</p>
+    <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      {
+        siteStats.map((stat) => {
+          const { target, prefix, suffix } = parseStat(stat.value);
+          return (
+            <div class="space-tile rounded-2xl p-4">
+              <p class="flex items-baseline text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                {prefix}
+                <span data-countup data-target={target} data-suffix={suffix}>
+                  0
+                </span>
+                {suffix}
+              </p>
+              <p class="mt-1.5 text-xs leading-snug text-indigo-200/70">{stat.label}</p>
+            </div>
+          );
+        })
+      }
+      <div class="space-tile rounded-2xl p-4" data-github-repo-count={GITHUB_USERNAME}>
+        <p class="flex items-baseline text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          <span class="repo-count-value">–</span>
+        </p>
+        <p class="mt-1.5 text-xs leading-snug text-indigo-200/70">GitHub repos (live)</p>
+      </div>
+    </div>
+
+    <div class="mt-8 grid gap-4 border-t border-white/10 pt-8 sm:grid-cols-3">
+      {
+        HIGHLIGHTS.map(({ icon: Icon, title, description, href, linkLabel }) => (
+          <a href={href} class="group flex flex-col gap-3">
+            <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-indigo-300 ring-1 ring-inset ring-white/10">
+              <Icon class="h-5 w-5" aria-hidden="true" />
+            </span>
+            <div>
+              <p class="font-semibold text-white">{title}</p>
+              <p class="mt-1 text-sm text-indigo-200/70">{description}</p>
+            </div>
+            <span class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-cyan-300 transition-colors group-hover:text-cyan-200">
+              {linkLabel} <ArrowRight class="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-6 text-sm">
+      <span class="font-semibold text-indigo-200/70">Explore</span>
+      {
+        EXPLORE.map((item) => (
+          <a href={item.href} class="font-medium text-indigo-100 transition-colors hover:text-cyan-300">
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .space-dashboard {
+    background: radial-gradient(ellipse 120% 100% at 50% -10%, #2e1065 0%, #1e1b4b 35%, #0a0a1f 75%);
+  }
+  .space-tile {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease;
+  }
+  .space-tile:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.22);
+    transform: translateY(-2px);
+  }
+  .nebula {
+    border-radius: 9999px;
+    filter: blur(64px);
+    opacity: 0.55;
+    mix-blend-mode: screen;
+  }
+  .nebula-1 {
+    top: -6rem;
+    left: -4rem;
+    width: 22rem;
+    height: 22rem;
+    background: radial-gradient(circle, #7c3aed, transparent 70%);
+  }
+  .nebula-2 {
+    top: 2rem;
+    right: -6rem;
+    width: 20rem;
+    height: 20rem;
+    background: radial-gradient(circle, #0ea5e9, transparent 70%);
+  }
+  .nebula-3 {
+    bottom: -8rem;
+    left: 30%;
+    width: 24rem;
+    height: 24rem;
+    background: radial-gradient(circle, #db2777, transparent 70%);
+  }
+  .star {
+    position: absolute;
+    border-radius: 9999px;
+    background: white;
+    animation: twinkle 3.5s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.15;
+    }
+    50% {
+      opacity: 0.9;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .star {
+      animation: none;
+      opacity: 0.5;
+    }
+  }
+</style>
+
+<script>
+  function paintStars(container: HTMLElement) {
+    const count = 70;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < count; i++) {
+      const star = document.createElement('span');
+      star.className = 'star';
+      const size = Math.random() * 2 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.animationDelay = `${Math.random() * 3.5}s`;
+      frag.appendChild(star);
+    }
+    container.appendChild(frag);
+  }
+
+  function animateCount(el: HTMLElement) {
+    const target = Number(el.dataset.target ?? 0);
+    if (el.dataset.animated === 'true') return;
+    el.dataset.animated = 'true';
+    const duration = 1200;
+    const start = performance.now();
+    function tick(now: number) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = String(Math.round(target * eased));
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function init() {
+    document.querySelectorAll<HTMLElement>('[data-stars]').forEach(paintStars);
+
+    const countEls = document.querySelectorAll<HTMLElement>('[data-countup]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCount(entry.target as HTMLElement);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    countEls.forEach((el) => observer.observe(el));
+
+    document.querySelectorAll<HTMLElement>('[data-github-repo-count]').forEach(async (el) => {
+      const username = el.dataset.githubRepoCount;
+      const valueEl = el.querySelector('.repo-count-value');
+      try {
+        const res = await fetch(`https://api.github.com/users/${username}`);
+        if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+        const data = await res.json();
+        if (valueEl) valueEl.textContent = String(data.public_repos ?? '–');
+      } catch {
+        if (valueEl) valueEl.textContent = '–';
+      }
+    });
+  }
+  init();
+</script>

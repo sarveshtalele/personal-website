@@ -2,17 +2,17 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
-import ProfileHighlights from '@components/ProfileHighlights.astro';
 import Container from '@components/Container.astro';
 import Section from '@components/Section.astro';
 import BlogCard from '@components/BlogCard.astro';
+import PublicationCard from '@components/PublicationCard.astro';
 import NoteCard from '@components/NoteCard.astro';
 import SkillsDashboard from '@components/SkillsDashboard.astro';
-import StatsDashboard from '@components/StatsDashboard.astro';
+import SpaceDashboard from '@components/SpaceDashboard.astro';
 import Timeline from '@components/Timeline.astro';
 import GitHubRepoExplorer from '@components/GitHubRepoExplorer.astro';
 import TopmateCTA from '@components/TopmateCTA.astro';
-import { Award, FlaskConical } from '@lucide/astro';
+import { Award } from '@lucide/astro';
 import { byDateDesc, formatDate } from '@utils/format';
 import { SITE } from '@lib/site';
 
@@ -27,6 +27,20 @@ const experience = (await getCollection('experience')).sort(byDateDesc((e) => e.
 const certifications = (await getCollection('certifications')).sort(byDateDesc((c) => c.data.date));
 
 const publications = (await getCollection('publications')).sort(byDateDesc((p) => p.data.pubDate));
+
+const tutorials = await getCollection('tutorials');
+const resources = await getCollection('resources');
+const talks = await getCollection('talks');
+
+const siteStats = [
+  { value: String(allPosts.length), label: 'Blog posts' },
+  { value: String(allNotes.length), label: 'Notes' },
+  { value: String(tutorials.length), label: 'Tutorials' },
+  { value: String(resources.length), label: 'Resources' },
+  { value: String(certifications.length), label: 'Certifications' },
+  { value: String(publications.length), label: 'Publications' },
+  { value: String(talks.length), label: 'Talks' },
+];
 ---
 
 <BaseLayout title={SITE.name} description={SITE.description}>
@@ -34,10 +48,7 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
 
   <Container>
     <Section eyebrow="Overview" title="Dashboard">
-      <div class="space-y-6">
-        <StatsDashboard />
-        <ProfileHighlights />
-      </div>
+      <SpaceDashboard siteStats={siteStats} />
     </Section>
 
     <Section eyebrow="Featured Work" title="Most starred repos" href="/projects" linkLabel="All projects">
@@ -100,17 +111,9 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
     {
       publications.length > 0 && (
         <Section eyebrow="Research" title="Publications" href="/publications" linkLabel="All publications">
-          <div class="space-y-4">
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {publications.map((pub) => (
-              <div class="card flex items-start gap-4 p-5">
-                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
-                  <FlaskConical class="h-5 w-5" aria-hidden="true" />
-                </span>
-                <div class="min-w-0">
-                  <p class="text-sm font-semibold text-fg">{pub.data.title}</p>
-                  <p class="mt-0.5 text-sm text-fg-muted">{pub.data.venue} · {formatDate(pub.data.pubDate)}</p>
-                </div>
-              </div>
+              <PublicationCard publication={pub} />
             ))}
           </div>
         </Section>

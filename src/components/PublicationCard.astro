@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { FlaskConical, ExternalLink } from '@lucide/astro';
+import { formatDate } from '@utils/format';
+
+interface Props {
+  publication: CollectionEntry<'publications'>;
+}
+const { publication } = Astro.props;
+const { title, description, venue, pubDate, url, pdf } = publication.data;
+const href = url ?? pdf;
+---
+
+<article class="card card-hover group relative flex h-full flex-col p-6">
+  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
+    <FlaskConical class="h-5 w-5" aria-hidden="true" />
+  </span>
+  <div class="mt-3 flex items-center gap-3 text-xs text-fg-faint">
+    <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+    <span aria-hidden="true">·</span>
+    <span class="truncate">{venue}</span>
+  </div>
+  <h3 class="mt-3 text-lg font-semibold leading-snug tracking-tight text-fg">
+    {
+      href ? (
+        <a href={href} target="_blank" rel="noopener" class="transition-colors after:absolute after:inset-0 group-hover:text-primary">
+          {title}
+        </a>
+      ) : (
+        title
+      )
+    }
+  </h3>
+  <p class="mt-2 line-clamp-3 flex-1 text-sm text-fg-muted">{description}</p>
+  {
+    href && (
+      <span class="relative z-10 mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
+        <ExternalLink class="h-3.5 w-3.5" aria-hidden="true" /> Read paper
+      </span>
+    )
+  }
+</article>
