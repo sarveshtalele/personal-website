@@ -42,6 +42,24 @@ function parseStat(value: string) {
   if (!match) return { target: 0, prefix: value, suffix: '' };
   return { target: Number(match[1]), prefix: '', suffix: match[2] };
 }
+
+// Every stat tile links somewhere real — the personal KPIs go to the page
+// that actually backs the number (mostly Experience, since that's where
+// those figures come from), and the content counts go to their own listing.
+const STAT_LINKS: Record<string, string> = {
+  'AI engineering experience': '/experience',
+  'RAG solutions developed': '/projects',
+  'Daily requests served': '/experience',
+  'Enterprise users supported': '/experience',
+  'Manual effort reduced': '/experience',
+  'TCS awards': '/about',
+  'Blog posts': '/blog',
+  Notes: '/notes',
+  Tutorials: '/tutorials',
+  Resources: '/resources',
+  Certifications: '/certifications',
+  Publications: '/publications',
+};
 ---
 
 <div class="space-dashboard relative overflow-hidden rounded-2xl p-6 sm:p-10">
@@ -57,7 +75,7 @@ function parseStat(value: string) {
         STATS.map((stat) => {
           const { target, prefix, suffix } = parseStat(stat.value);
           return (
-            <div class="space-tile rounded-2xl p-4">
+            <a href={STAT_LINKS[stat.label] ?? '/about'} class="space-tile block rounded-2xl p-4">
               <p class="flex items-baseline text-2xl font-bold tracking-tight text-white sm:text-3xl">
                 {prefix}
                 <span data-countup data-target={target} data-suffix={suffix}>
@@ -66,7 +84,7 @@ function parseStat(value: string) {
                 {suffix}
               </p>
               <p class="mt-1.5 text-xs leading-snug text-indigo-200/70">{stat.label}</p>
-            </div>
+            </a>
           );
         })
       }
@@ -78,7 +96,7 @@ function parseStat(value: string) {
         siteStats.map((stat) => {
           const { target, prefix, suffix } = parseStat(stat.value);
           return (
-            <div class="space-tile rounded-2xl p-4">
+            <a href={STAT_LINKS[stat.label] ?? '/'} class="space-tile block rounded-2xl p-4">
               <p class="flex items-baseline text-2xl font-bold tracking-tight text-white sm:text-3xl">
                 {prefix}
                 <span data-countup data-target={target} data-suffix={suffix}>
@@ -87,16 +105,16 @@ function parseStat(value: string) {
                 {suffix}
               </p>
               <p class="mt-1.5 text-xs leading-snug text-indigo-200/70">{stat.label}</p>
-            </div>
+            </a>
           );
         })
       }
-      <div class="space-tile rounded-2xl p-4" data-github-repo-count={GITHUB_USERNAME}>
+      <a href="/projects" class="space-tile block rounded-2xl p-4" data-github-repo-count={GITHUB_USERNAME}>
         <p class="flex items-baseline text-2xl font-bold tracking-tight text-white sm:text-3xl">
           <span class="repo-count-value">–</span>
         </p>
         <p class="mt-1.5 text-xs leading-snug text-indigo-200/70">GitHub repos (live)</p>
-      </div>
+      </a>
     </div>
 
     <div class="mt-8 grid gap-4 border-t border-white/10 pt-8 sm:grid-cols-3">
