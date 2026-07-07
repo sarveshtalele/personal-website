@@ -15,20 +15,21 @@ const TAGLINE =
   <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
     <div class="flex flex-col-reverse items-start gap-10 lg:flex-row lg:items-center lg:justify-between">
       <div class="max-w-3xl">
-        <p class="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-sm font-medium text-fg-muted">
+        <p class="text-sm font-bold text-fg-muted">
           {SITE.role}
         </p>
         <h1 class="mt-6 text-4xl font-bold tracking-tight text-fg sm:text-5xl lg:text-6xl">
-          I build agentic AI systems that hold up in production.
+          Simple Problems → Complex Methods → Simple Explanations
         </h1>
-        <p class="mt-4 max-w-2xl text-sm font-medium leading-relaxed text-fg-faint sm:text-base">
+        <p class="mt-5 max-w-2xl text-base font-bold leading-relaxed text-fg-muted sm:text-lg">
           {TAGLINE}
         </p>
-        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-fg-muted">
-          Hi, I'm Sarvesh — an AI Engineer at Tata Consultancy Services architecting multi-agent workflows, Graph-RAG
-          pipelines, and secure LLM infrastructure for enterprise scale. This site is my running notebook: projects,
-          deep dives, and notes on the tools I use every day.
-        </p>
+        <blockquote class="mt-6 max-w-2xl border-l-2 border-line pl-5">
+          <p class="text-lg italic leading-relaxed text-fg-muted">
+            "The mystery of human existence lies not in just staying alive, but in finding something to live for."
+          </p>
+          <footer class="mt-2 text-sm text-fg-faint">— Fyodor Dostoevsky, <cite class="not-italic">The Brothers Karamazov</cite></footer>
+        </blockquote>
         <div class="mt-8 flex flex-wrap items-center gap-3">
           <Button href="/blog" variant="primary">
             Read Blog <ArrowRight class="h-4 w-4" aria-hidden="true" />
