@@ -5,47 +5,51 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Semantic theme tokens. Light mode uses a warm cream palette with blue
- * accents; dark mode is redesigned (not inverted) around slate surfaces.
+ * Semantic theme tokens. Light mode: Dusty Blue / Light Oak / Cream, an
+ * elegant, muted material palette. Dark mode: Sage Green / Walnut / Ivory —
+ * not an inversion of light mode, a deliberately separate warm-earthy dark
+ * palette. (Note: the homepage "Dashboard" space panel intentionally uses
+ * its own hardcoded cosmic palette in SpaceDashboard.astro and is untouched
+ * by these tokens.)
  */
 :root {
-  --bg: #fffdf8;
-  --bg-alt: #f8f6f1;
-  --surface: #ffffff;
-  --card: #ffffff;
-  --border: #e8e4da;
-  --border-strong: #d9d4c8;
-  --fg: #0f172a;
-  --fg-muted: #475569;
-  --fg-faint: #64748b;
-  --primary: #2563eb;
-  --primary-strong: #1e40af;
-  --primary-soft: #eff4fe;
-  --accent: #3b82f6;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --code-bg: #f4f4f5;
-  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 16px rgb(15 23 42 / 0.05);
-  --shadow-card-hover: 0 2px 4px rgb(15 23 42 / 0.05), 0 12px 32px rgb(15 23 42 / 0.09);
+  --bg: #f7f1e6;
+  --bg-alt: #efe4ce;
+  --surface: #fbf7ef;
+  --card: #fbf7ef;
+  --border: #e1d3b0;
+  --border-strong: #cdb98a;
+  --fg: #2b2823;
+  --fg-muted: #5c5545;
+  --fg-faint: #7d7561;
+  --primary: #46627a;
+  --primary-strong: #33485c;
+  --primary-soft: #e1e9ef;
+  --accent: #b8925a;
+  --success: #5c8a5f;
+  --warning: #be8a3d;
+  --code-bg: #efe4ce;
+  --shadow-card: 0 1px 2px rgb(43 40 35 / 0.05), 0 4px 16px rgb(43 40 35 / 0.06);
+  --shadow-card-hover: 0 2px 4px rgb(43 40 35 / 0.06), 0 12px 32px rgb(43 40 35 / 0.1);
 }
 
 .dark {
-  --bg: #0f172a;
-  --bg-alt: #111827;
-  --surface: #111827;
-  --card: #1e293b;
-  --border: #27334a;
-  --border-strong: #364461;
-  --fg: #f8fafc;
-  --fg-muted: #cbd5e1;
-  --fg-faint: #94a3b8;
-  --primary: #3b82f6;
-  --primary-strong: #60a5fa;
-  --primary-soft: #1c2a4a;
-  --accent: #60a5fa;
-  --success: #4ade80;
-  --warning: #fbbf24;
-  --code-bg: #1e293b;
+  --bg: #1a1611;
+  --bg-alt: #211b14;
+  --surface: #29221a;
+  --card: #29221a;
+  --border: #3c3122;
+  --border-strong: #4e402c;
+  --fg: #ece4d2;
+  --fg-muted: #c0b69e;
+  --fg-faint: #978d77;
+  --primary: #93a67c;
+  --primary-strong: #adc091;
+  --primary-soft: #34402a;
+  --accent: #b08d63;
+  --success: #83ae72;
+  --warning: #d2a24c;
+  --code-bg: #29221a;
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
   --shadow-card-hover: 0 2px 4px rgb(0 0 0 / 0.35), 0 12px 32px rgb(0 0 0 / 0.4);
 }
@@ -80,6 +84,8 @@ html {
 }
 
 body {
+  position: relative;
+  isolation: isolate;
   background-color: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
@@ -88,6 +94,36 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   transition: background-color 200ms ease, color 200ms ease;
+}
+
+/*
+ * Soft, slowly-drifting color wash behind the whole site — gives the
+ * glassmorphic cards below something to actually blur against (Apple's
+ * Control Center / macOS panels work the same way: frosted surfaces read
+ * as "glass" only when there's colour and depth moving behind them).
+ * Fixed + isolated stacking context keeps this cheap and behind all content.
+ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(38% 42% at 10% 6%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 70%),
+    radial-gradient(34% 38% at 92% 12%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
+    radial-gradient(46% 50% at 50% 100%, color-mix(in srgb, var(--primary) 14%, transparent), transparent 70%);
+  animation: theme-drift 50s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes theme-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-1.5%, 1.5%, 0) scale(1.05);
+  }
 }
 
 ::selection {
@@ -101,17 +137,26 @@ body {
   border-radius: 4px;
 }
 
-/* Card utility shared across the site */
+/*
+ * Card utility shared across the site — glassmorphic by default (frosted,
+ * translucent, blurred) rather than a flat opaque surface. Opacity is kept
+ * high (not billboard-transparent) so body text inside cards stays crisp;
+ * the blur + subtle color bleed from the backdrop above is what reads as
+ * "glass" without hurting legibility.
+ */
 .card {
-  background-color: var(--card);
-  border: 1px solid var(--border);
+  background-color: color-mix(in srgb, var(--card) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--fg) 6%, var(--border));
   border-radius: var(--radius-2xl);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
   box-shadow: var(--shadow-card);
-  transition: box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease;
+  transition: box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease, background-color 200ms ease;
 }
 .card-hover:hover {
   box-shadow: var(--shadow-card-hover);
   border-color: var(--border-strong);
+  background-color: color-mix(in srgb, var(--card) 94%, transparent);
   transform: translateY(-2px);
 }
 
