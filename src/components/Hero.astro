@@ -15,21 +15,20 @@ const TAGLINE =
   <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
     <div class="flex flex-col-reverse items-start gap-10 lg:flex-row lg:items-center lg:justify-between">
       <div class="max-w-3xl">
-        <p class="text-sm font-bold text-fg-muted">
+        <div class="loader" aria-hidden="true"></div>
+        <p class="mt-3 text-sm font-bold text-fg-muted">
           {SITE.role}
         </p>
         <h1 class="mt-6 text-4xl font-bold tracking-tight text-fg sm:text-5xl lg:text-6xl">
-          Simple Problems → Complex Methods → Simple Explanations
+          Simple Problems. Complex Methods. Simple Explanations.
         </h1>
         <p class="mt-5 max-w-2xl text-base font-bold leading-relaxed text-fg-muted sm:text-lg">
           {TAGLINE}
         </p>
-        <blockquote class="mt-6 max-w-2xl border-l-2 border-line pl-5">
-          <p class="text-lg italic leading-relaxed text-fg-muted">
-            "The mystery of human existence lies not in just staying alive, but in finding something to live for."
-          </p>
-          <footer class="mt-2 text-sm text-fg-faint">— Fyodor Dostoevsky, <cite class="not-italic">The Brothers Karamazov</cite></footer>
-        </blockquote>
+        <p class="mx-auto mt-8 max-w-xl text-center text-xl font-medium italic leading-relaxed tracking-wide text-fg-muted sm:text-2xl">
+          The mystery of human existence lies not in just staying alive, but in finding something to live for.
+          <span class="mt-3 block text-sm font-medium not-italic tracking-widest text-fg-faint uppercase">Fyodor Dostoevsky · The Brothers Karamazov</span>
+        </p>
         <div class="mt-8 flex flex-wrap items-center gap-3">
           <Button href="/blog" variant="primary">
             Read Blog <ArrowRight class="h-4 w-4" aria-hidden="true" />
@@ -81,3 +80,19 @@ const TAGLINE =
     </div>
   </div>
 </section>
+
+<style>
+  .loader {
+    width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+    border: 2.5px solid color-mix(in srgb, var(--primary) 20%, transparent);
+    border-top-color: var(--primary);
+    animation: hero-spin 0.9s linear infinite;
+  }
+  @keyframes hero-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
