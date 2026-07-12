@@ -10,7 +10,7 @@ interface Props {
 const { post } = Astro.props;
 ---
 
-<article class="card card-hover group relative flex h-full flex-col overflow-hidden p-6">
+<article class="card card-hover group relative flex h-full min-w-0 flex-col overflow-hidden p-6">
   {
     post.data.heroImage && (
       <Image
@@ -27,12 +27,12 @@ const { post } = Astro.props;
     <span aria-hidden="true">·</span>
     <span>{post.data.category}</span>
   </div>
-  <h3 class="mt-3 text-lg font-semibold leading-snug tracking-tight text-fg">
+  <h3 class="mt-3 break-words text-lg font-semibold leading-snug tracking-tight text-fg">
     <a href={`/blog/${post.id}`} class="transition-colors after:absolute after:inset-0 group-hover:text-primary">
       {post.data.title}
     </a>
   </h3>
-  <p class="mt-2 line-clamp-3 flex-1 text-sm text-fg-muted">{post.data.description}</p>
+  <p class="mt-2 line-clamp-3 min-w-0 flex-1 break-words text-sm text-fg-muted">{post.data.description}</p>
   {
     post.data.tags.length > 0 && (
       <div class="mt-4 flex flex-wrap gap-2">

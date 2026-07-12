@@ -59,17 +59,6 @@ const tutorials = defineCollection({
   }),
 });
 
-const resources = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/resources' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    url: z.string(),
-    category: z.string().default('General'),
-    tags: z.array(z.string()).default([]),
-  }),
-});
-
 const publications = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/publications' }),
   schema: z.object({
@@ -113,7 +102,6 @@ export const collections = {
   projects,
   notes,
   tutorials,
-  resources,
   publications,
   certifications,
   experience,

@@ -1,6 +1,6 @@
 # sarveshtalele.org
 
-Personal AI engineering platform — portfolio, resume, technical blog, knowledge base, and project showcase.
+Personal AI engineering platform — portfolio, technical blog, knowledge base, and project showcase.
 Built with Astro, Tailwind CSS, and Markdown/MDX content collections. Deploys to GitHub Pages automatically on
 every push to `main`.
 
@@ -38,19 +38,18 @@ pnpm audit     # check dependencies for known vulnerabilities
 
 ## Updating content — the only thing you'll normally touch
 
-Every page except a handful of static ones (About, Contact, Resume, Privacy) is generated from Markdown/MDX
+Every page except a handful of static ones (About, Contact, Claude, Privacy) is generated from Markdown/MDX
 files in `src/content/`. **Adding a new file automatically makes it appear in its listing page, the RSS feed,
 the sitemap, tag pages, and the search index — no code changes required.**
 
 | Collection | Folder | Shows up on |
 |---|---|---|
-| Blog posts | `src/content/blog/` | `/blog`, tags, categories, RSS, homepage |
+| Blog posts | `src/content/blog/` | `/blog`, tags, categories, RSS, homepage, `/claude` (if tagged `Claude`) |
 | Notes | `src/content/notes/` | `/notes`, tags, homepage |
 | Tutorials | `src/content/tutorials/` | `/tutorials`, level pages |
-| Resources | `src/content/resources/` | `/resources`, category pages |
 | Publications | `src/content/publications/` | `/publications`, homepage |
-| Certifications | `src/content/certifications/` | `/certifications`, homepage, About, resume |
-| Experience | `src/content/experience/` | `/experience`, homepage, resume |
+| Certifications | `src/content/certifications/` | `/certifications`, homepage, About, `/claude` (Claude Certified Architect entries) |
+| Experience | `src/content/experience/` | `/experience`, homepage |
 
 **Projects are the one exception.** The `/projects` page and the homepage "Featured Work" section pull live
 from your public GitHub repositories via the GitHub API — not from a content-collection folder. There's nothing
@@ -207,7 +206,7 @@ frontmatter tuning substitutes for that.
 The homepage "Dashboard" section and the About page stats panel both read from `STATS` in `src/lib/site.ts` —
 edit that array to change the personal KPI tiles (years of experience, RAG solutions built, etc.). The
 "Everything on this site" row underneath is computed automatically from your content collection counts (blog
-posts, notes, tutorials, resources, certifications, publications) — nothing to maintain there. The GitHub repo
+posts, notes, tutorials, certifications, publications) — nothing to maintain there. The GitHub repo
 count tile and the "Most starred repos" section are fetched live from the GitHub API at page load.
 
 **Project category pills** (Agentic AI, MCP, RAG, AI Projects, Machine Learning, Claude Skills, Developer
@@ -272,10 +271,8 @@ URLs, the sitemap, and RSS all read from that value.
 
 ## Updating your resume
 
-Replace `public/resume.pdf` with your latest PDF export — the download buttons on the homepage, About, and
-Resume pages all link to `/resume.pdf` directly. The on-site `/resume` page is generated dynamically from the
-`experience`, `certifications`, `publications`, and site config data, so keep those content files in sync with
-the PDF.
+There's no dedicated `/resume` page — replace `public/resume.pdf` with your latest PDF export, and the
+"Download Resume" button on the About page will pick it up automatically.
 
 ## Updating your photo / favicon / social preview image
 

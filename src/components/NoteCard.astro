@@ -9,17 +9,17 @@ interface Props {
 const { note } = Astro.props;
 ---
 
-<article class="card card-hover group relative flex h-full flex-col p-5">
+<article class="card card-hover group relative flex h-full min-w-0 flex-col p-5">
   <div class="flex items-center gap-2 text-xs text-fg-faint">
     <StickyNote class="h-3.5 w-3.5" aria-hidden="true" />
     <time datetime={note.data.pubDate.toISOString()}>{formatDate(note.data.updatedDate ?? note.data.pubDate)}</time>
   </div>
-  <h3 class="mt-2 text-base font-semibold leading-snug tracking-tight text-fg">
+  <h3 class="mt-2 break-words text-base font-semibold leading-snug tracking-tight text-fg">
     <a href={`/notes/${note.id}`} class="transition-colors after:absolute after:inset-0 group-hover:text-primary">
       {note.data.title}
     </a>
   </h3>
-  <p class="mt-1.5 line-clamp-2 text-sm text-fg-muted">{note.data.description}</p>
+  <p class="mt-1.5 line-clamp-2 min-w-0 break-words text-sm text-fg-muted">{note.data.description}</p>
   {
     note.data.tags.length > 0 && (
       <div class="mt-3 flex flex-wrap gap-1.5">

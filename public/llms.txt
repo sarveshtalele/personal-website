@@ -4,13 +4,12 @@
 
 ## Key pages
 
-- [About](https://sarveshtalele.org/about): Background, role, impact stats, skills dashboard, education, certifications, achievements.
-- [Resume](https://sarveshtalele.org/resume): Full experience, skills, education, research, certifications, print/PDF-friendly.
+- [About](https://sarveshtalele.org/about): Background, personal story, impact stats, skills dashboard, education, certifications, achievements.
+- [Claude](https://sarveshtalele.org/claude): Claude Certified Architect badges (Foundations + Professional), Claude-focused writing, and products.
 - [Projects](https://sarveshtalele.org/projects): Live GitHub repositories, filterable by concept category (Agentic AI, MCP, RAG, AI Projects, Machine Learning, Claude Skills, Developer Tools).
 - [Blog](https://sarveshtalele.org/blog): Deep dives on agentic AI, LangGraph, MCP, RAG, and production LLM engineering.
 - [Notes](https://sarveshtalele.org/notes): Short reference notes — Docker, Git, Linux, Regex, Python, SQL, Azure, FastAPI, LangGraph, MCP, prompt engineering.
 - [Tutorials](https://sarveshtalele.org/tutorials): Step-by-step guides for building agentic systems.
-- [Resources](https://sarveshtalele.org/resources): Curated docs and references, by category.
 - [Publications](https://sarveshtalele.org/publications): Peer-reviewed and internal research, with Google Scholar and ORCID links.
 - [Experience](https://sarveshtalele.org/experience): Career timeline.
 - [Contact](https://sarveshtalele.org/contact): Book time directly via Topmate, or reach out by email, LinkedIn, GitHub, Medium, Google Scholar, ORCID.

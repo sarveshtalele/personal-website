@@ -2,17 +2,23 @@
 interface Props {
   href: string;
   variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'md' | 'lg';
   external?: boolean;
   download?: boolean;
   class?: string;
 }
-const { href, variant = 'primary', external = false, download = false, class: className } = Astro.props;
+const { href, variant = 'primary', size = 'md', external = false, download = false, class: className } = Astro.props;
 
 const variants = {
   primary:
     'bg-primary text-white hover:bg-primary-strong shadow-sm dark:text-slate-900 dark:font-semibold dark:hover:bg-primary-strong',
   secondary: 'border border-line bg-surface text-fg hover:border-line-strong hover:bg-bg-alt',
   ghost: 'text-fg-muted hover:bg-bg-alt hover:text-fg',
+};
+
+const sizes = {
+  md: 'px-5 py-2.5 text-sm',
+  lg: 'px-7 py-3.5 text-base',
 };
 ---
 
@@ -21,7 +27,8 @@ const variants = {
   download={download || undefined}
   {...external ? { target: '_blank', rel: 'noopener' } : {}}
   class:list={[
-    'inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium transition-all duration-200',
+    'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200',
+    sizes[size],
     variants[variant],
     className,
   ]}
