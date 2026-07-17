@@ -221,7 +221,6 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   const root = document.getElementById('quiz-app')!;
   const mount = document.getElementById('quiz-mount')!;
-  const TOPMATE = root.dataset.topmate || 'https://topmate.io/sarveshtalele';
   const SRC = root.dataset.src || '/claude/quiz/questions.json';
 
   let ALL: Question[] = [];
@@ -372,9 +371,10 @@ import PageLayout from '@layouts/PageLayout.astro';
         </div>
       </div>
       <div class="quiz-cta">
-        <p><strong>Want the full 360-question bank?</strong> This free mock is a ${ALL.length}-question sample.
-          The complete set — 72 questions per domain with detailed explanations — is available through my Topmate.</p>
-        <a class="quiz-btn quiz-btn-primary" href="${TOPMATE}" target="_blank" rel="noopener">Get the full bank →</a>
+        <p><strong>Want more practice?</strong> This mock uses a ${ALL.length}-question set. Study the full bank of
+          360 questions — grouped by domain, each with a full explanation and the documentation page to read — in the
+          free Learn &amp; Review library.</p>
+        <a class="quiz-btn quiz-btn-primary" href="/claude/review">Open Learn &amp; Review →</a>
       </div>`;
     document.getElementById('start-exam')?.addEventListener('click', startExam);
     mount.querySelectorAll<HTMLElement>('[data-practice]').forEach((b) =>
@@ -613,9 +613,9 @@ import PageLayout from '@layouts/PageLayout.astro';
         <button class="quiz-btn quiz-btn-primary" id="review-btn">Review all answers ↓</button>
       </div>
       <div class="quiz-cta">
-        <p><strong>Ready for the full 360?</strong> Keep practicing with the complete bank — 72 questions per
-          domain, every one with a full explanation and distractor breakdown.</p>
-        <a class="quiz-btn quiz-btn-primary" href="${TOPMATE}" target="_blank" rel="noopener">Get it on Topmate →</a>
+        <p><strong>Review the concepts you missed.</strong> The Learn &amp; Review library has all 360 questions with
+          explanations and a direct link to the Claude documentation page for every topic.</p>
+        <a class="quiz-btn quiz-btn-primary" href="/claude/review">Open Learn &amp; Review →</a>
       </div>
       <div id="review-area"></div>`;
 

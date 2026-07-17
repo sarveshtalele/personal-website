@@ -47,8 +47,9 @@ const certifications = (await getCollection('certifications'))
             </h2>
             <p class="mt-2 text-(--claude-ink-muted)">
               A timed, 60-question mock exam that mirrors the real CCAR-F format — scored by domain — plus an
-              untimed practice mode with full explanations for every question. Drawn from a bank of 360 scenario-based
-              practice questions.
+              untimed practice mode with full explanations. Or study the complete bank of
+              <strong class="text-(--claude-ink)">360 questions</strong> in the Learn &amp; Review library, each with
+              the exact documentation page to read.
             </p>
             <p class="claude-warning mt-4 text-sm">
               <strong>Heads up:</strong> these are <strong>not official exam questions</strong> and are not affiliated
@@ -64,12 +65,10 @@ const certifications = (await getCollection('certifications'))
               Start the mock exam <ArrowRight class="h-4 w-4" aria-hidden="true" />
             </a>
             <a
-              href={TOPMATE}
-              target="_blank"
-              rel="noopener"
+              href="/claude/review"
               class="inline-flex items-center justify-center gap-2 rounded-xl border border-(--claude-line) bg-(--claude-chip) px-5 py-3 text-sm font-semibold text-(--claude-ink) transition-transform hover:-translate-y-0.5"
             >
-              Get all 360 questions <ExternalLink class="h-3.5 w-3.5" aria-hidden="true" />
+              Learn &amp; review all 360 <ArrowRight class="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
         </div>
