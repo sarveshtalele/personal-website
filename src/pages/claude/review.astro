@@ -9,6 +9,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   crumbs={[{ label: 'Claude', href: '/claude' }, { label: 'Learn & Review' }]}
 >
   <div class="review" id="review-app" data-q="/claude/review/questions.json" data-c="/claude/review/concepts.json">
+    <a href="/claude" class="review-back">&larr; Back to Claude dashboard</a>
     <div class="review-warning" role="note">
       <strong>Unofficial study material.</strong> Original practice questions, not real exam questions and not
       affiliated with or endorsed by Anthropic. Every item links to the Claude documentation page that covers the
@@ -20,9 +21,13 @@ import PageLayout from '@layouts/PageLayout.astro';
       <span class="review-count" id="review-count"></span>
     </div>
     <div class="review-layout">
-      <nav class="review-toc" id="review-toc" aria-label="Contents"><p class="review-muted">Loading…</p></nav>
+      <nav class="review-toc" id="review-toc" aria-label="Contents">
+        <p class="review-toc-title">On this page</p>
+        <div id="review-toc-list"><p class="review-muted">Loading…</p></div>
+      </nav>
       <div class="review-content" id="review-content"><p class="review-muted">Loading 360 questions…</p></div>
     </div>
+    <button id="review-top" class="review-top" type="button" aria-label="Back to top" hidden>&uarr; Top</button>
   </div>
 </PageLayout>
 
@@ -50,26 +55,41 @@ import PageLayout from '@layouts/PageLayout.astro';
   .review-toggle { display:inline-flex; align-items:center; gap:.4rem; font-size:.85rem; color:var(--r-muted); cursor:pointer; }
   .review-count { font-size:.8rem; color:var(--r-muted); font-weight:600; }
 
-  .review-layout { display:grid; grid-template-columns:1fr; gap:1.5rem; }
-  @media (min-width:1024px) { .review-layout { grid-template-columns:250px minmax(0,1fr); } }
+  .review-back { display:inline-flex; align-items:center; gap:.4rem; margin-bottom:1rem; border:1px solid var(--r-line); background:var(--r-chip); color:var(--r-ink); border-radius:999px; padding:.35rem .9rem; font-size:.85rem; font-weight:600; text-decoration:none; }
+  .review-back:hover { border-color:var(--r-accent); color:var(--r-accent); }
 
+  .review-layout { display:grid; grid-template-columns:1fr; gap:1.5rem; }
+  @media (min-width:1024px) { .review-layout { grid-template-columns:260px minmax(0,1fr); align-items:start; } }
+
+  /* Docs-style sidebar: its own independent scroll, sticky under the navbar. */
   .review-toc { align-self:start; }
-  @media (min-width:1024px) { .review-toc { position:sticky; top:1rem; max-height:calc(100vh - 2rem); overflow:auto; } }
+  @media (min-width:1024px) {
+    .review-toc { position:sticky; top:5rem; height:calc(100vh - 6rem); overflow-y:auto; padding-right:.4rem; }
+  }
+  .review-toc-title { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--r-muted); padding:0 .25rem .5rem; }
   .review-toc details { border-bottom:1px solid var(--r-line); }
   .review-toc summary {
-    cursor:pointer; padding:.5rem .25rem; font-weight:700; font-size:.9rem; list-style:none; display:flex;
+    cursor:pointer; padding:.5rem .25rem; font-weight:700; font-size:.88rem; list-style:none; display:flex;
     justify-content:space-between; gap:.5rem; align-items:center;
   }
   .review-toc summary::-webkit-details-marker { display:none; }
-  .review-toc summary .toc-dom::before { content:'▸'; display:inline-block; margin-right:.45rem; font-size:.72em; color:var(--r-muted); transition:transform .15s ease; }
-  .review-toc details[open] summary .toc-dom::before { transform:rotate(90deg); }
-  .review-toc details[open] > summary .toc-dom { color:var(--r-accent); }
+  .review-toc .toc-right { display:inline-flex; align-items:center; gap:.5rem; flex:none; }
   .review-toc .toc-w { font-size:.7rem; font-weight:600; color:var(--r-accent); }
-  .review-toc a { display:block; padding:.28rem .25rem .28rem .75rem; font-size:.82rem; color:var(--r-muted); text-decoration:none; border-left:2px solid transparent; }
-  .review-toc a:hover { color:var(--r-ink); }
-  .review-toc a.active { color:var(--r-accent); border-left-color:var(--r-accent); font-weight:600; }
+  .review-toc .toc-chev { font-size:.7rem; color:var(--r-muted); transition:transform .15s ease; }
+  .review-toc details[open] .toc-chev { transform:rotate(90deg); }
+  .review-toc details[open] > summary .toc-dom, .review-toc summary:hover .toc-dom { color:var(--r-accent); }
+  .review-toc a { display:block; padding:.28rem .25rem .28rem .85rem; font-size:.82rem; color:var(--r-muted); text-decoration:none; border-left:2px solid var(--r-line); }
+  .review-toc a:hover { color:var(--r-ink); border-left-color:var(--r-accent); }
+  .review-toc a.active { color:var(--r-accent); border-left-color:var(--r-accent); font-weight:600; background:var(--r-chip); }
 
-  .r-domain { margin-top:2.5rem; scroll-margin-top:1rem; }
+  .review-top {
+    position:fixed; right:1.25rem; bottom:1.25rem; z-index:40; border:1px solid var(--r-line);
+    background:var(--r-accent); color:#fff; border-radius:999px; padding:.5rem .9rem; font-size:.82rem;
+    font-weight:700; cursor:pointer; box-shadow:var(--shadow-card-hover);
+  }
+  .review-top[hidden] { display:none; }
+
+  .r-domain { margin-top:2.5rem; scroll-margin-top:5rem; }
   .r-domain:first-child { margin-top:0; }
   .r-domain-head { border-bottom:2px solid var(--r-line); padding-bottom:.4rem; }
   .r-domain-head h2 { font-size:1.4rem; font-weight:800; letter-spacing:-.01em; }
@@ -82,7 +102,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   .r-concept a { color:var(--r-accent); font-weight:600; text-decoration:none; white-space:nowrap; }
   .r-concept a:hover { text-decoration:underline; }
 
-  .r-task { margin-top:1.6rem; scroll-margin-top:1rem; }
+  .r-task { margin-top:1.6rem; scroll-margin-top:5rem; }
   .r-task h3 { font-size:1.05rem; font-weight:700; color:var(--r-accent-strong); }
 
   /* content-visibility lets the browser skip layout/paint for off-screen
@@ -107,14 +127,14 @@ import PageLayout from '@layouts/PageLayout.astro';
   .r-doc a:hover { text-decoration:underline; }
   code { background:var(--r-chip); border:1px solid var(--r-line); border-radius:4px; padding:0 .25rem; font-size:.85em; }
 
-  /* test mode: hide answers until revealed per card */
-  .review.testmode .r-ans, .review.testmode .r-doc { display:none; }
-  .review.testmode .r-q.revealed .r-ans, .review.testmode .r-q.revealed .r-doc { display:block; }
-  .review.testmode .r-answered .r-opt.correct { border-color:var(--r-line); background:var(--r-card); }
-  .review.testmode .r-q.revealed .r-opt.correct { border-color:var(--r-good); background:var(--r-good-soft); }
-  .review.testmode .r-q.revealed .r-opt.correct .l { background:var(--r-good); color:#fff; border-color:var(--r-good); }
+  /* Test mode: for cards not yet revealed, hide the answer/doc AND neutralize
+     every trace of the correct option (border, background, and letter badge). */
   .r-reveal { display:none; margin-top:.7rem; }
-  .review.testmode .r-q:not(.revealed) .r-reveal { display:inline-flex; }
+  .review.testmode .r-q:not(.revealed) .r-ans,
+  .review.testmode .r-q:not(.revealed) .r-doc { display:none; }
+  .review.testmode .r-q:not(.revealed) .r-reveal { display:block; }
+  .review.testmode .r-q:not(.revealed) .r-opt.correct { border-color:var(--r-line); background:var(--r-card); }
+  .review.testmode .r-q:not(.revealed) .r-opt.correct .l { background:var(--r-chip); color:var(--r-ink); border-color:var(--r-line); }
   .r-reveal button { border:1px solid var(--r-line); background:var(--r-chip); color:var(--r-ink); border-radius:.5rem; padding:.35rem .8rem; font-size:.82rem; font-weight:600; cursor:pointer; }
 </style>
 
@@ -126,9 +146,10 @@ import PageLayout from '@layouts/PageLayout.astro';
   const LETTERS = ['A','B','C','D'] as const;
 
   const root = document.getElementById('review-app')!;
-  const tocEl = document.getElementById('review-toc')!;
+  const tocListEl = document.getElementById('review-toc-list')!;
   const contentEl = document.getElementById('review-content')!;
   const countEl = document.getElementById('review-count')!;
+  const topBtn = document.getElementById('review-top') as HTMLButtonElement;
 
   function esc(s:string){ return s.replace(/[&<>"']/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!)); }
   function md(s:string){ let o=esc(s); o=o.replace(/`([^`]+)`/g,(_,t)=>`<code>${t}</code>`);
@@ -176,7 +197,7 @@ import PageLayout from '@layouts/PageLayout.astro';
       // group by task
       const tasks = [...new Set(dq.map((q)=>q.ptask))].sort();
       // TOC (collapsible dropdown per domain)
-      toc += `<details data-domain="${d}"><summary><span class="toc-dom">D${d} · ${esc(dname)}</span><span class="toc-w">${weight}</span></summary>`;
+      toc += `<details data-domain="${d}"><summary><span class="toc-dom">D${d} · ${esc(dname)}</span><span class="toc-right"><span class="toc-w">${weight}</span><span class="toc-chev">▸</span></span></summary>`;
       for (const t of tasks) {
         const tc = conceptsByDom[d]?.find((c)=>c.task===t);
         const tid = 't' + t.replace('.', '-');
@@ -203,7 +224,7 @@ import PageLayout from '@layouts/PageLayout.astro';
       }
       content += `</section>`;
     }
-    tocEl.innerHTML = toc;
+    tocListEl.innerHTML = toc;
     contentEl.innerHTML = content;
     countEl.textContent = `${questions.length} questions`;
 
@@ -239,37 +260,54 @@ import PageLayout from '@layouts/PageLayout.astro';
       });
       countEl.textContent = term ? `${shown} match${shown===1?'':'es'}` : `${questions.length} questions`;
     });
-    // scrollspy: as the page scrolls, highlight the current task and open its
-    // domain dropdown (accordion follows scroll). Uses scroll position rather
-    // than IntersectionObserver so it stays accurate for tall sections.
+    // ---- sidebar navigation + scrollspy ----
     const taskLinks = new Map<string,HTMLElement>();
-    tocEl.querySelectorAll<HTMLElement>('a[data-toc]').forEach((a)=>taskLinks.set(a.dataset.toc!, a));
-    const detailsEls = [...tocEl.querySelectorAll<HTMLDetailsElement>('details[data-domain]')];
+    tocListEl.querySelectorAll<HTMLElement>('a[data-toc]').forEach((a)=>taskLinks.set(a.dataset.toc!, a));
+    const detailsEls = [...tocListEl.querySelectorAll<HTMLDetailsElement>('details[data-domain]')];
+    const domainEls = [...contentEl.querySelectorAll<HTMLElement>('.r-domain')];
     const taskEls = [...contentEl.querySelectorAll<HTMLElement>('.r-task')];
-    let activeTask = '', activeDom = '', ticking = false, userToggled = false;
-    // if the visitor manually opens/closes a dropdown, stop auto-managing them
-    detailsEls.forEach((d)=>d.querySelector('summary')?.addEventListener('click', ()=>{ userToggled = true; }));
+
+    // Clicking a domain scrolls to that domain section (its concept / knowledge
+    // cards), in addition to the native open/close toggle.
+    detailsEls.forEach((det)=>{
+      const dom = det.dataset.domain!;
+      det.querySelector('summary')?.addEventListener('click', ()=>{
+        requestAnimationFrame(()=>document.getElementById('d' + dom)?.scrollIntoView({ behavior:'smooth', block:'start' }));
+      });
+    });
+
+    let activeTask = '', activeDom = '', ticking = false;
+    const LINE = 96; // px below the sticky navbar treated as the "current" line
     function spy(){
       ticking = false;
-      const line = 150;
-      let cur: HTMLElement | null = taskEls[0] ?? null;
-      for (const el of taskEls){ if (el.getBoundingClientRect().top <= line) cur = el; else break; }
-      if (!cur) return;
-      const tid = cur.id, dom = cur.dataset.domain ?? '';
+      // active domain = last .r-domain whose top has crossed the line
+      let curDom: HTMLElement | null = domainEls[0] ?? null;
+      for (const el of domainEls){ if (el.getBoundingClientRect().top <= LINE) curDom = el; else break; }
+      const dom = curDom ? curDom.id.slice(1) : '';
+      // active task = last crossed .r-task that belongs to the active domain
+      let curTask: HTMLElement | null = null;
+      for (const el of taskEls){
+        if (el.getBoundingClientRect().top <= LINE){ if (el.dataset.domain === dom) curTask = el; }
+        else break;
+      }
+      // when reading a domain's concept area (before its first task), point at its first task
+      if (!curTask && dom) curTask = taskEls.find((el)=>el.dataset.domain === dom) ?? null;
+
+      if (dom && dom !== activeDom){
+        activeDom = dom;
+        detailsEls.forEach((det)=>{ det.open = (det.dataset.domain === dom); });
+      }
+      const tid = curTask ? curTask.id : '';
       if (tid !== activeTask){
         activeTask = tid;
         taskLinks.forEach((a)=>a.classList.remove('active'));
-        const link = taskLinks.get(tid);
+        const link = tid ? taskLinks.get(tid) : null;
         if (link){ link.classList.add('active'); link.scrollIntoView({ block:'nearest' }); }
       }
-      if (dom !== activeDom){
-        activeDom = dom;
-        if (!userToggled) detailsEls.forEach((d)=>{ d.open = (d.dataset.domain === dom); });
-      }
+      topBtn.hidden = window.scrollY < 600;
     }
     window.addEventListener('scroll', ()=>{ if(!ticking){ ticking = true; requestAnimationFrame(spy); } }, { passive:true });
-    // clicking a TOC link jumps and re-enables auto-accordion
-    tocEl.addEventListener('click', (e)=>{ if ((e.target as HTMLElement).closest('a[data-toc]')) userToggled = false; });
+    topBtn.addEventListener('click', ()=>window.scrollTo({ top:0, behavior:'smooth' }));
     spy();
   }
   boot();
