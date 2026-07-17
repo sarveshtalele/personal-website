@@ -1,22 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const blog = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
-  schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      description: z.string(),
-      pubDate: z.coerce.date(),
-      updatedDate: z.coerce.date().optional(),
-      category: z.string().default('General'),
-      tags: z.array(z.string()).default([]),
-      heroImage: image().optional(),
-      featured: z.boolean().default(false),
-      draft: z.boolean().default(false),
-    }),
-});
-
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
   schema: ({ image }) =>
@@ -33,30 +17,6 @@ const projects = defineCollection({
       featured: z.boolean().default(false),
       status: z.enum(['active', 'completed', 'archived']).default('completed'),
     }),
-});
-
-const notes = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/notes' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    tags: z.array(z.string()).default([]),
-  }),
-});
-
-const tutorials = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/tutorials' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    level: z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
-    tags: z.array(z.string()).default([]),
-    series: z.string().optional(),
-  }),
 });
 
 const publications = defineCollection({
@@ -98,10 +58,7 @@ const experience = defineCollection({
 });
 
 export const collections = {
-  blog,
   projects,
-  notes,
-  tutorials,
   publications,
   certifications,
   experience,

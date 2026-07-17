@@ -1,0 +1,690 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="CCAR-F Mock Exam"
+  description="A free 60-question practice exam for the Claude Certified Architect – Foundations (CCAR-F) exam. Timed mock-exam mode or untimed practice with full explanations."
+  eyebrow="Claude · Practice"
+  crumbs={[{ label: 'Claude', href: '/claude' }, { label: 'Mock Exam' }]}
+>
+  <div class="quiz" id="quiz-app" data-src="/claude/quiz/questions.json" data-topmate="https://topmate.io/sarveshtalele">
+    <div class="quiz-warning" role="note">
+      <strong>Unofficial practice material.</strong> These questions are not real exam questions and are not
+      affiliated with or endorsed by Anthropic. They are written to build your understanding and to reflect the
+      <em>style</em> of scenario-based reasoning the exam rewards.
+    </div>
+    <div id="quiz-mount" aria-live="polite">
+      <p class="quiz-muted">Loading questions…</p>
+    </div>
+  </div>
+</PageLayout>
+
+<!--
+  is:global because every screen below the warning is rendered by the client
+  script via innerHTML — those nodes never receive Astro's scoped-style
+  attribute, so scoped `.quiz-*` rules would not apply to them. All selectors
+  are namespaced under `.quiz` / `.quiz-*`, so global scope is safe here.
+-->
+<style is:global>
+  /* Self-contained Claude palette, scoped under .quiz (matches /claude). */
+  .quiz {
+    --q-bg: #f0eee6;
+    --q-card: #fffdf9;
+    --q-ink: #262624;
+    --q-muted: #6b6a63;
+    --q-line: #e3ddd0;
+    --q-chip: #f5efe4;
+    --q-accent: #cc785c;
+    --q-accent-strong: #b35f45;
+    --q-good: #2f7d59;
+    --q-good-soft: #e6f2ea;
+    --q-bad: #b3402f;
+    --q-bad-soft: #f6e5e1;
+    color: var(--q-ink);
+  }
+  .dark .quiz {
+    --q-bg: #262624;
+    --q-card: #2f2e2b;
+    --q-ink: #f0eee6;
+    --q-muted: #b5b2a6;
+    --q-line: #46443e;
+    --q-chip: #3a3833;
+    --q-accent: #e0956f;
+    --q-accent-strong: #eeb290;
+    --q-good: #7fc7a1;
+    --q-good-soft: #2b3a33;
+    --q-bad: #e8a08f;
+    --q-bad-soft: #3d2c2a;
+  }
+
+  .quiz-warning {
+    border: 1px solid var(--q-line);
+    background: var(--q-chip);
+    color: var(--q-ink);
+    border-radius: 0.9rem;
+    padding: 0.9rem 1.1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+  .quiz-warning strong { color: var(--q-accent-strong); }
+
+  .quiz-muted { color: var(--q-muted); }
+
+  .quiz-grid { display: grid; gap: 1.25rem; }
+  @media (min-width: 640px) { .quiz-grid.cols-2 { grid-template-columns: 1fr 1fr; } }
+
+  .quiz-card {
+    background: var(--q-card);
+    border: 1px solid var(--q-line);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+  }
+  .quiz-card h2 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
+  .quiz-card p.desc { color: var(--q-muted); font-size: 0.92rem; margin-top: 0.4rem; line-height: 1.55; }
+
+  .quiz-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    border-radius: 0.7rem; padding: 0.6rem 1.1rem; font-weight: 600; font-size: 0.92rem;
+    cursor: pointer; border: 1px solid transparent; transition: transform 150ms ease, background 150ms ease;
+  }
+  .quiz-btn:hover { transform: translateY(-1px); }
+  .quiz-btn-primary { background: var(--q-accent); color: #fff; }
+  .quiz-btn-ghost { background: transparent; border-color: var(--q-line); color: var(--q-ink); }
+  .quiz-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+  .quiz-chip {
+    display: inline-flex; align-items: center; gap: 0.35rem; border: 1px solid var(--q-line);
+    background: var(--q-chip); color: var(--q-muted); border-radius: 999px;
+    padding: 0.2rem 0.6rem; font-size: 0.72rem; font-weight: 600;
+  }
+
+  .quiz-progress { color: var(--q-muted); font-size: 0.85rem; font-weight: 600; }
+  .quiz-timer {
+    font-variant-numeric: tabular-nums; font-weight: 700; font-size: 0.95rem;
+    border: 1px solid var(--q-line); background: var(--q-chip); border-radius: 0.6rem; padding: 0.3rem 0.7rem;
+  }
+  .quiz-timer.low { color: var(--q-bad); border-color: var(--q-bad); }
+
+  .quiz-stem { font-size: 1.05rem; font-weight: 600; line-height: 1.55; margin-top: 0.75rem; }
+  .quiz-stem code, .quiz-opt code, .quiz-exp code {
+    background: var(--q-chip); border: 1px solid var(--q-line); border-radius: 4px;
+    padding: 0.05rem 0.3rem; font-size: 0.85em;
+  }
+
+  .quiz-options { display: grid; gap: 0.6rem; margin-top: 1.1rem; }
+  .quiz-opt {
+    display: flex; gap: 0.75rem; align-items: flex-start; width: 100%; text-align: left;
+    border: 1px solid var(--q-line); background: var(--q-card); color: var(--q-ink);
+    border-radius: 0.7rem; padding: 0.8rem 0.95rem; cursor: pointer; font-size: 0.95rem; line-height: 1.5;
+    transition: border-color 120ms ease, background 120ms ease;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--q-accent); }
+  .quiz-opt[aria-checked='true'] { border-color: var(--q-accent); background: var(--q-chip); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-opt .letter {
+    flex: none; width: 1.6rem; height: 1.6rem; border-radius: 0.45rem; display: grid; place-items: center;
+    border: 1px solid var(--q-line); font-weight: 700; font-size: 0.8rem; background: var(--q-chip);
+  }
+  .quiz-opt.correct { border-color: var(--q-good); background: var(--q-good-soft); }
+  .quiz-opt.correct .letter { background: var(--q-good); color: #fff; border-color: var(--q-good); }
+  .quiz-opt.wrong { border-color: var(--q-bad); background: var(--q-bad-soft); }
+  .quiz-opt.wrong .letter { background: var(--q-bad); color: #fff; border-color: var(--q-bad); }
+
+  .quiz-exp {
+    margin-top: 1rem; border: 1px solid var(--q-line); border-radius: 0.7rem; overflow: hidden;
+  }
+  .quiz-exp .row { padding: 0.75rem 0.95rem; font-size: 0.9rem; line-height: 1.55; border-top: 1px solid var(--q-line); }
+  .quiz-exp .row:first-child { border-top: none; }
+  .quiz-exp .row.good { background: var(--q-good-soft); }
+  .quiz-exp .row .lab { font-weight: 700; }
+  .quiz-exp .row.good .lab { color: var(--q-good); }
+  .quiz-exp .row.why .lab { color: var(--q-muted); }
+
+  .quiz-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 1.4rem; }
+  .quiz-nav .spacer { flex: 1; }
+
+  .quiz-topbar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; justify-content: space-between; }
+
+  .quiz-navigator { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem; }
+  .quiz-navigator button {
+    width: 2rem; height: 2rem; border-radius: 0.4rem; border: 1px solid var(--q-line);
+    background: var(--q-card); color: var(--q-muted); font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  }
+  .quiz-navigator button.answered { background: var(--q-chip); color: var(--q-ink); border-color: var(--q-accent); }
+  .quiz-navigator button.flagged { border-color: var(--q-bad); color: var(--q-bad); }
+  .quiz-navigator button.current { outline: 2px solid var(--q-accent); outline-offset: 1px; }
+
+  .quiz-score { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.02em; }
+  .quiz-verdict { font-weight: 700; font-size: 1.05rem; }
+  .quiz-verdict.pass { color: var(--q-good); }
+  .quiz-verdict.fail { color: var(--q-bad); }
+  .quiz-bar { height: 0.5rem; border-radius: 999px; background: var(--q-chip); overflow: hidden; }
+  .quiz-bar > span { display: block; height: 100%; background: var(--q-accent); }
+  .quiz-dommetric { display: grid; gap: 0.4rem; }
+  .quiz-dommetric .lbl { display: flex; justify-content: space-between; font-size: 0.85rem; }
+
+  .quiz-cta {
+    margin-top: 1.5rem; border: 1px solid var(--q-line); background: var(--q-chip); border-radius: 1rem;
+    padding: 1.1rem 1.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between;
+  }
+  .quiz-cta p { font-size: 0.9rem; color: var(--q-ink); max-width: 34rem; }
+  .quiz-cta p strong { color: var(--q-accent-strong); }
+</style>
+
+<script>
+  type Question = {
+    id: string;
+    domain: number;
+    task: string;
+    scenario: number;
+    stem: string;
+    options: Record<'A' | 'B' | 'C' | 'D', string>;
+    answer: string;
+    explanation: string;
+    distractors: Record<string, string>;
+    official: boolean;
+  };
+  type Item = { id: string; order: string[] };
+  type Session = {
+    mode: 'exam' | 'practice';
+    label: string;
+    items: Item[];
+    idx: number;
+    answers: Record<string, string>;
+    flags: Record<string, boolean>;
+    endsAt: number | null;
+    submitted: boolean;
+  };
+
+  const DOMAINS: Record<number, string> = {
+    1: 'Agentic Architecture & Orchestration',
+    2: 'Tool Design & MCP Integration',
+    3: 'Claude Code Configuration & Workflows',
+    4: 'Prompt Engineering & Structured Output',
+    5: 'Context Management & Reliability',
+  };
+  const SCENARIOS: Record<number, string> = {
+    1: 'Customer Support Resolution Agent',
+    2: 'Code Generation with Claude Code',
+    3: 'Multi-Agent Research System',
+    4: 'Developer Productivity with Claude',
+    5: 'Claude Code for Continuous Integration',
+    6: 'Structured Data Extraction',
+  };
+  const EXAM_MINUTES = 120;
+  const PASS_PCT = 72; // 720 / 1000 scaled-score analogue
+  const STORAGE_KEY = 'ccarf_mock_session_v1';
+  const LETTERS = ['A', 'B', 'C', 'D'] as const;
+
+  const root = document.getElementById('quiz-app')!;
+  const mount = document.getElementById('quiz-mount')!;
+  const TOPMATE = root.dataset.topmate || 'https://topmate.io/sarveshtalele';
+  const SRC = root.dataset.src || '/claude/quiz/questions.json';
+
+  let ALL: Question[] = [];
+  let BY_ID: Record<string, Question> = {};
+  let session: Session | null = null;
+
+  // ---------- utilities ----------
+  function shuffle<T>(arr: T[]): T[] {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function escapeHtml(s: string): string {
+    return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+  }
+  // Minimal inline markdown: `code`, **bold**, *italic* — everything else escaped.
+  function md(s: string): string {
+    let out = escapeHtml(s);
+    out = out.replace(/`([^`]+)`/g, (_, t) => `<code>${t}</code>`);
+    out = out.replace(/\*\*([^*]+)\*\*/g, (_, t) => `<strong>${t}</strong>`);
+    out = out.replace(/\*([^*]+)\*/g, (_, t) => `<em>${t}</em>`);
+    return out;
+  }
+  // Options are displayed in a shuffled order, so the source letters in the
+  // explanation must be mapped to the letter the user actually sees.
+  function dispLetter(item: Item, sourceLetter: string): string {
+    return LETTERS[item.order.indexOf(sourceLetter)];
+  }
+  function feedbackHtml(item: Item, q: Question): string {
+    const others = LETTERS.map((l) => l as string)
+      .filter((l) => l !== q.answer)
+      .map((l) => ({ disp: dispLetter(item, l), text: q.distractors[l] }))
+      .filter((o) => o.text)
+      .sort((a, b) => a.disp.localeCompare(b.disp))
+      .map((o) => `<div class="row why"><span class="lab">Why not ${o.disp}:</span> ${md(o.text)}</div>`)
+      .join('');
+    return `<div class="quiz-exp">
+        <div class="row good"><span class="lab">Correct answer: ${dispLetter(item, q.answer)}.</span> ${md(q.explanation)}</div>
+        ${others}
+      </div>`;
+  }
+  function fmtTime(ms: number): string {
+    const s = Math.max(0, Math.floor(ms / 1000));
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+    const mm = String(m).padStart(2, '0');
+    const ss = String(sec).padStart(2, '0');
+    return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
+  }
+
+  // ---------- persistence (exam sessions only) ----------
+  function persist() {
+    if (!session || session.mode !== 'exam' || session.submitted) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+    } catch {
+      /* storage may be unavailable */
+    }
+  }
+  function clearPersisted() {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+  }
+  function loadPersisted(): Session | null {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      const s = JSON.parse(raw) as Session;
+      if (!s.items?.length || s.submitted) return null;
+      if (s.endsAt && s.endsAt < Date.now()) return null; // expired
+      if (!s.items.every((it) => BY_ID[it.id])) return null; // stale question set
+      return s;
+    } catch {
+      return null;
+    }
+  }
+
+  // ---------- session builders ----------
+  function makeItems(qs: Question[]): Item[] {
+    return qs.map((q) => ({ id: q.id, order: shuffle([...LETTERS]) }));
+  }
+  function startExam() {
+    session = {
+      mode: 'exam',
+      label: 'Mock Exam',
+      items: makeItems(shuffle(ALL)),
+      idx: 0,
+      answers: {},
+      flags: {},
+      endsAt: Date.now() + EXAM_MINUTES * 60 * 1000,
+      submitted: false,
+    };
+    persist();
+    renderQuestion();
+  }
+  function startPractice(domain: number | 'all') {
+    const pool = domain === 'all' ? ALL : ALL.filter((q) => q.domain === domain);
+    session = {
+      mode: 'practice',
+      label: domain === 'all' ? 'Practice · All domains' : `Practice · ${DOMAINS[domain as number]}`,
+      items: makeItems(shuffle(pool)),
+      idx: 0,
+      answers: {},
+      flags: {},
+      endsAt: null,
+      submitted: false,
+    };
+    renderQuestion();
+  }
+
+  // ---------- rendering ----------
+  function renderMenu() {
+    clearPersisted();
+    session = null;
+    const domainButtons = Object.entries(DOMAINS)
+      .map(
+        ([d, name]) =>
+          `<button class="quiz-btn quiz-btn-ghost" data-practice="${d}">Domain ${d} · ${escapeHtml(name)}</button>`
+      )
+      .join('');
+    mount.innerHTML = `
+      <div class="quiz-grid cols-2">
+        <div class="quiz-card">
+          <span class="quiz-chip">Exam conditions</span>
+          <h2 class="mt-3">Mock Exam</h2>
+          <p class="desc">${ALL.length} questions · ${EXAM_MINUTES} minutes · scored by domain, just like the real
+            CCAR-F. No feedback until you submit. Your progress is saved if you refresh.</p>
+          <div class="quiz-nav">
+            <button class="quiz-btn quiz-btn-primary" id="start-exam">Start mock exam →</button>
+          </div>
+        </div>
+        <div class="quiz-card">
+          <span class="quiz-chip">Study mode</span>
+          <h2 class="mt-3">Practice</h2>
+          <p class="desc">Untimed. Pick a domain and get instant feedback after every question — the correct answer,
+            why it's right, and why each other option is wrong.</p>
+          <div class="quiz-grid" style="margin-top:1rem;gap:0.5rem;">
+            <button class="quiz-btn quiz-btn-primary" data-practice="all">Practice all domains</button>
+            ${domainButtons}
+          </div>
+        </div>
+      </div>
+      <div class="quiz-cta">
+        <p><strong>Want the full 360-question bank?</strong> This free mock is a ${ALL.length}-question sample.
+          The complete set — 72 questions per domain with detailed explanations — is available through my Topmate.</p>
+        <a class="quiz-btn quiz-btn-primary" href="${TOPMATE}" target="_blank" rel="noopener">Get the full bank →</a>
+      </div>`;
+    document.getElementById('start-exam')?.addEventListener('click', startExam);
+    mount.querySelectorAll<HTMLElement>('[data-practice]').forEach((b) =>
+      b.addEventListener('click', () => {
+        const v = b.dataset.practice!;
+        startPractice(v === 'all' ? 'all' : Number(v));
+      })
+    );
+  }
+
+  function renderQuestion() {
+    if (!session) return;
+    const item = session.items[session.idx];
+    const q = BY_ID[item.id];
+    const chosen = session.answers[q.id];
+    const isPractice = session.mode === 'practice';
+    const revealed = isPractice && chosen != null;
+    const total = session.items.length;
+
+    const optsHtml = item.order
+      .map((letter, i) => {
+        const displayLetter = LETTERS[i];
+        let cls = 'quiz-opt';
+        if (revealed) {
+          if (letter === q.answer) cls += ' correct';
+          else if (letter === chosen) cls += ' wrong';
+        }
+        const checked = chosen === letter ? 'true' : 'false';
+        const dis = revealed ? 'disabled' : '';
+        return `<button class="${cls}" role="radio" aria-checked="${checked}" data-letter="${letter}" ${dis}>
+            <span class="letter">${displayLetter}</span>
+            <span>${md(q.options[letter as 'A'])}</span>
+          </button>`;
+      })
+      .join('');
+
+    const feedback = revealed ? feedbackHtml(item, q) : '';
+
+    const topRight =
+      session.mode === 'exam'
+        ? `<span class="quiz-timer" id="quiz-timer">--:--</span>`
+        : `<span class="quiz-chip">${escapeHtml(session.label)}</span>`;
+
+    const flagBtn =
+      session.mode === 'exam'
+        ? `<button class="quiz-btn quiz-btn-ghost" id="flag-btn">${
+            session.flags[q.id] ? '★ Flagged' : '☆ Flag'
+          }</button>`
+        : '';
+
+    const nextLabel = session.idx === total - 1 ? (session.mode === 'exam' ? 'Review & submit' : 'Finish') : 'Next →';
+    const nextDisabled = isPractice && !revealed ? 'disabled' : '';
+
+    mount.innerHTML = `
+      <div class="quiz-topbar">
+        <span class="quiz-progress">Question ${session.idx + 1} of ${total}</span>
+        ${topRight}
+      </div>
+      <div class="quiz-card" style="margin-top:1rem;">
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+          <span class="quiz-chip">Domain ${q.domain} · ${escapeHtml(DOMAINS[q.domain])}</span>
+          <span class="quiz-chip">Scenario: ${escapeHtml(SCENARIOS[q.scenario] || '—')}</span>
+          ${q.official ? '<span class="quiz-chip">Exam-style ★</span>' : ''}
+        </div>
+        <p class="quiz-stem">${md(q.stem)}</p>
+        <div class="quiz-options" role="radiogroup">${optsHtml}</div>
+        ${feedback}
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn quiz-btn-ghost" id="prev-btn" ${session.idx === 0 ? 'disabled' : ''}>← Prev</button>
+        ${flagBtn}
+        <span class="spacer"></span>
+        <button class="quiz-btn quiz-btn-ghost" id="exit-btn">Exit</button>
+        <button class="quiz-btn quiz-btn-primary" id="next-btn" ${nextDisabled}>${nextLabel}</button>
+      </div>
+      ${session.mode === 'exam' ? renderNavigator() : ''}`;
+
+    // option selection
+    mount.querySelectorAll<HTMLButtonElement>('.quiz-opt').forEach((btn) =>
+      btn.addEventListener('click', () => selectAnswer(btn.dataset.letter!))
+    );
+    document.getElementById('prev-btn')?.addEventListener('click', () => go(session!.idx - 1));
+    document.getElementById('next-btn')?.addEventListener('click', onNext);
+    document.getElementById('exit-btn')?.addEventListener('click', confirmExit);
+    document.getElementById('flag-btn')?.addEventListener('click', toggleFlag);
+    mount.querySelectorAll<HTMLElement>('[data-jump]').forEach((b) =>
+      b.addEventListener('click', () => go(Number(b.dataset.jump)))
+    );
+    if (session.mode === 'exam') startTimer();
+  }
+
+  function renderNavigator(): string {
+    if (!session) return '';
+    const cells = session.items
+      .map((it, i) => {
+        const answered = session!.answers[it.id] != null ? 'answered' : '';
+        const flagged = session!.flags[it.id] ? 'flagged' : '';
+        const current = i === session!.idx ? 'current' : '';
+        return `<button data-jump="${i}" class="${answered} ${flagged} ${current}" title="Question ${i + 1}">${i + 1}</button>`;
+      })
+      .join('');
+    return `<div class="quiz-navigator">${cells}</div>`;
+  }
+
+  function selectAnswer(letter: string) {
+    if (!session) return;
+    const item = session.items[session.idx];
+    if (session.mode === 'practice' && session.answers[item.id] != null) return; // locked after reveal
+    session.answers[item.id] = letter;
+    persist();
+    renderQuestion();
+  }
+  function toggleFlag() {
+    if (!session) return;
+    const id = session.items[session.idx].id;
+    session.flags[id] = !session.flags[id];
+    persist();
+    renderQuestion();
+  }
+  function go(i: number) {
+    if (!session) return;
+    session.idx = Math.max(0, Math.min(session.items.length - 1, i));
+    renderQuestion();
+  }
+  function onNext() {
+    if (!session) return;
+    if (session.idx === session.items.length - 1) {
+      if (session.mode === 'exam') confirmSubmit();
+      else renderResults();
+    } else {
+      go(session.idx + 1);
+    }
+  }
+  function confirmExit() {
+    if (confirm('Exit and return to the menu? Your current attempt will be discarded.')) {
+      stopTimer();
+      renderMenu();
+    }
+  }
+  function confirmSubmit() {
+    if (!session) return;
+    const unanswered = session.items.filter((it) => session!.answers[it.id] == null).length;
+    const msg = unanswered
+      ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+      : 'Submit your exam for scoring?';
+    if (confirm(msg)) renderResults();
+  }
+
+  // ---------- timer ----------
+  let timerId: number | null = null;
+  function startTimer() {
+    stopTimer();
+    tickTimer();
+    timerId = window.setInterval(tickTimer, 1000);
+  }
+  function stopTimer() {
+    if (timerId != null) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+  }
+  function tickTimer() {
+    if (!session || session.mode !== 'exam' || session.endsAt == null) return;
+    const el = document.getElementById('quiz-timer');
+    const remaining = session.endsAt - Date.now();
+    if (remaining <= 0) {
+      stopTimer();
+      renderResults();
+      return;
+    }
+    if (el) {
+      el.textContent = fmtTime(remaining);
+      el.classList.toggle('low', remaining < 5 * 60 * 1000);
+    }
+  }
+
+  // ---------- results ----------
+  function renderResults() {
+    if (!session) return;
+    stopTimer();
+    session.submitted = true;
+    clearPersisted();
+
+    let correct = 0;
+    const perDomain: Record<number, { c: number; t: number }> = {};
+    for (const it of session.items) {
+      const q = BY_ID[it.id];
+      perDomain[q.domain] ??= { c: 0, t: 0 };
+      perDomain[q.domain].t++;
+      if (session.answers[it.id] === q.answer) {
+        correct++;
+        perDomain[q.domain].c++;
+      }
+    }
+    const total = session.items.length;
+    const pct = Math.round((correct / total) * 100);
+    const passed = pct >= PASS_PCT;
+
+    const domRows = Object.keys(perDomain)
+      .map(Number)
+      .sort((a, b) => a - b)
+      .map((d) => {
+        const { c, t } = perDomain[d];
+        const p = Math.round((c / t) * 100);
+        return `<div class="quiz-dommetric">
+            <div class="lbl"><span>D${d} · ${escapeHtml(DOMAINS[d])}</span><span>${c}/${t} · ${p}%</span></div>
+            <div class="quiz-bar"><span style="width:${p}%"></span></div>
+          </div>`;
+      })
+      .join('');
+
+    const isExam = session.mode === 'exam';
+    mount.innerHTML = `
+      <div class="quiz-card" style="text-align:center;">
+        <span class="quiz-chip">${escapeHtml(session.label)} · results</span>
+        <div class="quiz-score" style="margin-top:0.6rem;">${pct}%</div>
+        <p class="quiz-muted">${correct} of ${total} correct</p>
+        ${
+          isExam
+            ? `<p class="quiz-verdict ${passed ? 'pass' : 'fail'}" style="margin-top:0.5rem;">
+                 ${passed ? '✓ Above the ~72% passing analogue' : '✗ Below the ~72% passing analogue'}
+               </p>
+               <p class="quiz-muted" style="margin-top:0.35rem;font-size:0.8rem;">
+                 Indicative only. The real CCAR-F reports a scaled score (100–1000, cut score 720) — this is an
+                 unofficial percentage estimate.</p>`
+            : ''
+        }
+      </div>
+      <div class="quiz-card" style="margin-top:1.25rem;">
+        <h2>Score by domain</h2>
+        <div class="quiz-grid" style="margin-top:1rem;gap:0.9rem;">${domRows}</div>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn quiz-btn-ghost" id="menu-btn">← Back to menu</button>
+        <span class="spacer"></span>
+        <button class="quiz-btn quiz-btn-primary" id="review-btn">Review all answers ↓</button>
+      </div>
+      <div class="quiz-cta">
+        <p><strong>Ready for the full 360?</strong> Keep practicing with the complete bank — 72 questions per
+          domain, every one with a full explanation and distractor breakdown.</p>
+        <a class="quiz-btn quiz-btn-primary" href="${TOPMATE}" target="_blank" rel="noopener">Get it on Topmate →</a>
+      </div>
+      <div id="review-area"></div>`;
+
+    document.getElementById('menu-btn')?.addEventListener('click', renderMenu);
+    document.getElementById('review-btn')?.addEventListener('click', renderReview);
+  }
+
+  function renderReview() {
+    if (!session) return;
+    const area = document.getElementById('review-area')!;
+    const blocks = session.items
+      .map((it, i) => {
+        const q = BY_ID[it.id];
+        const chosen = session!.answers[it.id];
+        const optsHtml = it.order
+          .map((letter, j) => {
+            let cls = 'quiz-opt';
+            if (letter === q.answer) cls += ' correct';
+            else if (letter === chosen) cls += ' wrong';
+            return `<div class="${cls}"><span class="letter">${LETTERS[j]}</span><span>${md(q.options[letter as 'A'])}</span></div>`;
+          })
+          .join('');
+        const verdict = chosen == null ? '— unanswered' : chosen === q.answer ? '✓ correct' : '✗ incorrect';
+        return `<div class="quiz-card" style="margin-top:1rem;">
+            <div style="display:flex;justify-content:space-between;gap:0.5rem;flex-wrap:wrap;">
+              <span class="quiz-progress">Q${i + 1} · D${q.domain}</span>
+              <span class="quiz-chip">${verdict}</span>
+            </div>
+            <p class="quiz-stem">${md(q.stem)}</p>
+            <div class="quiz-options">${optsHtml}</div>
+            ${feedbackHtml(it, q)}
+          </div>`;
+      })
+      .join('');
+    area.innerHTML = `<h2 style="margin-top:1.75rem;font-size:1.15rem;font-weight:700;">Full review</h2>${blocks}`;
+    area.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ---------- boot ----------
+  async function boot() {
+    try {
+      const res = await fetch(SRC);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      ALL = (await res.json()) as Question[];
+      BY_ID = Object.fromEntries(ALL.map((q) => [q.id, q]));
+    } catch {
+      mount.innerHTML = `<p class="quiz-muted">Couldn't load the question bank right now. Please refresh to try again.</p>`;
+      return;
+    }
+    const resume = loadPersisted();
+    if (resume) {
+      session = resume;
+      mount.innerHTML = `
+        <div class="quiz-card">
+          <h2>Resume your mock exam?</h2>
+          <p class="desc">You have an exam in progress${
+            resume.endsAt ? ` with ${fmtTime(resume.endsAt - Date.now())} left` : ''
+          }.</p>
+          <div class="quiz-nav">
+            <button class="quiz-btn quiz-btn-primary" id="resume-yes">Resume</button>
+            <button class="quiz-btn quiz-btn-ghost" id="resume-no">Start over</button>
+          </div>
+        </div>`;
+      document.getElementById('resume-yes')?.addEventListener('click', () => renderQuestion());
+      document.getElementById('resume-no')?.addEventListener('click', renderMenu);
+      return;
+    }
+    renderMenu();
+  }
+
+  boot();
+</script>

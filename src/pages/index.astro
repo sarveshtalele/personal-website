@@ -4,9 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import Container from '@components/Container.astro';
 import Section from '@components/Section.astro';
-import BlogCard from '@components/BlogCard.astro';
 import PublicationCard from '@components/PublicationCard.astro';
-import NoteCard from '@components/NoteCard.astro';
 import SkillsDashboard from '@components/SkillsDashboard.astro';
 import SpaceDashboard from '@components/SpaceDashboard.astro';
 import Timeline from '@components/Timeline.astro';
@@ -16,24 +14,13 @@ import { Award } from '@lucide/astro';
 import { byDateDesc, formatDate } from '@utils/format';
 import { SITE } from '@lib/site';
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const latestPosts = allPosts.sort(byDateDesc((p) => p.data.pubDate)).slice(0, 3);
-
-const allNotes = await getCollection('notes');
-const latestNotes = allNotes.sort(byDateDesc((n) => n.data.pubDate)).slice(0, 4);
-
 const experience = (await getCollection('experience')).sort(byDateDesc((e) => e.data.startDate));
 
 const certifications = (await getCollection('certifications')).sort(byDateDesc((c) => c.data.date));
 
 const publications = (await getCollection('publications')).sort(byDateDesc((p) => p.data.pubDate));
 
-const tutorials = await getCollection('tutorials');
-
 const siteStats = [
-  { value: String(allPosts.length), label: 'Blog posts' },
-  { value: String(allNotes.length), label: 'Notes' },
-  { value: String(tutorials.length), label: 'Tutorials' },
   { value: String(certifications.length), label: 'Certifications' },
   { value: String(publications.length), label: 'Publications' },
 ];
@@ -51,29 +38,23 @@ const siteStats = [
       <GitHubRepoExplorer mode="starred" limit={6} />
     </Section>
 
-    {
-      latestPosts.length > 0 && (
-        <Section eyebrow="Writing" title="Latest articles" href="/blog" linkLabel="All articles">
-          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {latestPosts.map((post) => (
-              <BlogCard post={post} />
-            ))}
-          </div>
-        </Section>
-      )
-    }
-
-    {
-      latestNotes.length > 0 && (
-        <Section eyebrow="Knowledge Base" title="Latest notes" href="/notes" linkLabel="Browse notes">
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {latestNotes.map((note) => (
-              <NoteCard note={note} />
-            ))}
-          </div>
-        </Section>
-      )
-    }
+    <Section eyebrow="Claude" title="Claude Certified Architect" href="/claude" linkLabel="Explore Claude">
+      <div class="card flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p class="text-lg font-semibold text-fg">Free CCAR-F mock exam &amp; exam-prep guides</p>
+          <p class="mt-1 text-sm text-fg-muted">
+            Sit a 60-question practice exam for the Claude Certified Architect – Foundations exam, or read the
+            Foundations study guide.
+          </p>
+        </div>
+        <a
+          href="/claude/quiz"
+          class="inline-flex shrink-0 items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-strong"
+        >
+          Start the mock exam →
+        </a>
+      </div>
+    </Section>
 
     <Section eyebrow="Toolbox" title="Skills & technologies" href="/about" linkLabel="Full skills dashboard">
       <SkillsDashboard />

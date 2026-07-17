@@ -1,0 +1,225 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import { ArrowRight, ExternalLink, GraduationCap } from '@lucide/astro';
+
+const REPO = 'https://github.com/sarveshtalele/claude-architect-exam-guide';
+const F = `${REPO}/tree/main/foundations`;
+const OFFICIAL = 'https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-certification';
+
+const glance = [
+  ['Credential', 'Claude Certified Architect – Foundations'],
+  ['Exam code', 'CCAR-F'],
+  ['Items', '60 (multiple-choice and multiple-response)'],
+  ['Structure', '4 scenarios drawn at random from a bank of 6'],
+  ['Time', '120 minutes'],
+  ['Passing score', '720 on a 100–1,000 scale'],
+  ['Delivery', 'Proctored (online or test center)'],
+  ['Fee', '$125 USD'],
+  ['Validity', '12 months'],
+];
+
+const domains = [
+  ['1', 'Agentic Architecture & Orchestration', '27%', 'Agentic loops (stop_reason), coordinator/subagent patterns, the Task tool, hooks, task decomposition, session resume/fork'],
+  ['2', 'Tool Design & MCP Integration', '18%', 'Tool descriptions, structured errors (isError), tool distribution, tool_choice, .mcp.json scoping, built-in tools'],
+  ['3', 'Claude Code Configuration & Workflows', '20%', 'CLAUDE.md hierarchy & @import, slash commands, .claude/rules/ globs, plan vs. direct execution, CI (-p, JSON output)'],
+  ['4', 'Prompt Engineering & Structured Output', '20%', 'Explicit criteria, few-shot, tool_use + JSON schemas, nullable fields, retry-with-feedback, Batches API, multi-pass review'],
+  ['5', 'Context Management & Reliability', '15%', 'Summarization risk, case-facts blocks, escalation triggers, error propagation, provenance, confidence calibration'],
+];
+
+const scenarios = [
+  'Customer Support Resolution Agent — Agent SDK + MCP tools; 80%+ first-contact resolution.',
+  'Code Generation with Claude Code — slash commands, CLAUDE.md, plan vs. direct execution.',
+  'Multi-Agent Research System — coordinator + search/analyze/synthesize/report subagents.',
+  'Developer Productivity with Claude — Agent SDK, built-in tools, MCP servers.',
+  'Claude Code for Continuous Integration — CI/CD reviews, test generation, PR feedback.',
+  'Structured Data Extraction — tool_use + JSON schemas, validation, edge cases.',
+];
+
+const resources = [
+  ['Claude Code docs', 'Domains 1–3 & 5 — sub-agents, MCP, CLAUDE.md, hooks, plan mode, CLI (-p)', 'https://code.claude.com/docs/en/overview'],
+  ['Claude API & Agent SDK docs', 'Domains 1, 2, 4 — Messages API, tool use, JSON schemas, Batches API', 'https://docs.claude.com'],
+  ['Anthropic courses', 'anthropic-api-fundamentals, tool-use, prompt-engineering', 'https://github.com/anthropics/courses'],
+  ['Exam guide & prompt packs (my repo)', 'Blueprint PDF, a study skill, and copy-paste Learning / Practice / Mock prompts', F],
+];
+---
+
+<PageLayout
+  title="Preparing for the Claude Foundation exam (CCAR-F)"
+  description="A study guide for the Claude Certified Architect – Foundations exam: the blueprint, the five domains, the six scenarios, the mental model that passes it, and a free 60-question mock exam."
+  eyebrow="Claude · Exam Prep"
+  crumbs={[{ label: 'Claude', href: '/claude' }, { label: 'Foundations (CCAR-F)' }]}
+>
+  <div class="claude-page">
+    {/* Primary CTA into the mock exam */}
+    <div class="claude-card claude-card-accent rounded-2xl p-6 sm:p-8">
+      <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div class="max-w-2xl">
+          <span class="inline-flex items-center gap-1.5 rounded-full border border-(--claude-line) bg-(--claude-chip) px-3 py-1 text-xs font-medium text-(--claude-ink)">
+            <GraduationCap class="h-3.5 w-3.5" aria-hidden="true" /> Start here
+          </span>
+          <h2 class="mt-3 text-2xl font-bold tracking-tight text-(--claude-ink)">Take the free CCAR-F mock exam</h2>
+          <p class="mt-2 text-(--claude-ink-muted)">
+            60 questions, timed and scored by domain — or practice untimed with full explanations. The fastest way to
+            find your weak domains before you study.
+          </p>
+          <p class="claude-warning mt-3 text-sm">
+            <strong>Unofficial.</strong> Not real exam questions and not affiliated with Anthropic — built to sharpen
+            your understanding and the style of reasoning the exam rewards.
+          </p>
+        </div>
+        <a
+          href="/claude/quiz"
+          class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-(--claude-accent) px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+        >
+          Start the mock exam <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+
+    <p class="mt-8 max-w-3xl text-(--claude-ink-muted)">
+      CCAR-F is the hands-on, scenario-based entry credential in the Claude Certification Program. It validates that
+      you can make sound <strong class="text-(--claude-ink)">tradeoff decisions</strong> when building production
+      systems with Claude Code, the Claude Agent SDK, the Claude API, and MCP. This page mirrors the
+      <a href={F} target="_blank" rel="noopener" class="claude-link">Foundations study guide</a> in my open-source
+      exam repo.
+    </p>
+
+    {/* Exam at a glance */}
+    <h2 class="claude-h2">Exam at a glance</h2>
+    <div class="claude-tablewrap">
+      <table class="claude-table">
+        <tbody>
+          {glance.map(([k, v]) => (
+            <tr><th scope="row">{k}</th><td>{v}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-2 text-xs text-(--claude-ink-muted)">
+      Facts from the official Exam Guide (v1.0, effective July 2026). Always confirm against the current
+      <a href={OFFICIAL} target="_blank" rel="noopener" class="claude-link"> official CCAR-F page</a> — the guide is
+      subject to change.
+    </p>
+
+    {/* Domains */}
+    <h2 class="claude-h2">The 5 content domains</h2>
+    <div class="claude-tablewrap">
+      <table class="claude-table">
+        <thead><tr><th>#</th><th>Domain</th><th>Weight</th><th>What it tests</th></tr></thead>
+        <tbody>
+          {domains.map(([n, name, w, desc]) => (
+            <tr><td>{n}</td><td class="font-semibold text-(--claude-ink)">{name}</td><td>{w}</td><td>{desc}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* Scenarios */}
+    <h2 class="claude-h2">The 6 scenarios <span class="font-normal text-(--claude-ink-muted)">(4 appear on exam day, at random)</span></h2>
+    <ol class="claude-list">
+      {scenarios.map((s) => <li>{s}</li>)}
+    </ol>
+
+    {/* Mental model */}
+    <h2 class="claude-h2">The mental model that passes this exam</h2>
+    <p class="max-w-3xl text-(--claude-ink-muted)">
+      CCAR-F rewards practical architectural judgment, not memorization. Almost every correct answer follows one of
+      three rules, and almost every wrong answer is a recognizable trap.
+    </p>
+    <div class="mt-4 grid gap-4 sm:grid-cols-3">
+      <div class="claude-card rounded-xl p-5">
+        <p class="font-semibold text-(--claude-ink)">R1 · Root cause, not symptom</p>
+        <p class="mt-1 text-sm text-(--claude-ink-muted)">Fix what is actually broken, not the surface symptom.</p>
+      </div>
+      <div class="claude-card rounded-xl p-5">
+        <p class="font-semibold text-(--claude-ink)">R2 · Deterministic beats probabilistic</p>
+        <p class="mt-1 text-sm text-(--claude-ink-muted)">When compliance matters, prefer hooks, prerequisite gates, tool_choice, and JSON schemas over prose instructions.</p>
+      </div>
+      <div class="claude-card rounded-xl p-5">
+        <p class="font-semibold text-(--claude-ink)">R3 · Proportionate wins</p>
+        <p class="mt-1 text-sm text-(--claude-ink-muted)">The lowest-effort, highest-leverage fix is usually correct; ML classifiers and heavy infra "first steps" are traps.</p>
+      </div>
+    </div>
+    <p class="mt-4 max-w-3xl text-sm text-(--claude-ink-muted)">
+      <strong class="text-(--claude-ink)">8 recurring distractor classes:</strong> system-prompt enforcement · few-shot
+      overload · over-engineering · sentiment-based escalation · tool bloat · Batch API for blocking work · self-review
+      · text-signal loops.
+    </p>
+
+    {/* How to prepare */}
+    <h2 class="claude-h2">How to prepare — a 3-step path</h2>
+    <ol class="claude-list">
+      <li><strong class="text-(--claude-ink)">Diagnose.</strong> Take the <a href="/claude/quiz" class="claude-link">mock exam</a> to find your weakest domains, then read the blueprint and self-assess against each domain's task statements.</li>
+      <li><strong class="text-(--claude-ink)">Study interactively.</strong> Create a Claude Project, upload the exam guide PDF, and use the <a href={`${F}/prepare-with-prompts/prompt-based-learning.md`} target="_blank" rel="noopener" class="claude-link">prompt packs</a> or the <a href={`${F}/claude-skills/examprep-guide-skill.md`} target="_blank" rel="noopener" class="claude-link">ccar-f-examprep-coach skill</a>.</li>
+      <li><strong class="text-(--claude-ink)">Build three projects.</strong> An agentic loop with escalation logic; a Claude Code team setup (CLAUDE.md hierarchy, .claude/rules/, a context: fork skill, an MCP server); and a structured-extraction pipeline (tool_use + JSON schema + validation-retry).</li>
+    </ol>
+
+    {/* Resources */}
+    <h2 class="claude-h2">Official &amp; open resources</h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {resources.map(([name, use, url]) => (
+        <a href={url} target="_blank" rel="noopener" class="claude-card flex flex-col gap-1 rounded-xl p-5">
+          <span class="inline-flex items-center gap-1 font-semibold text-(--claude-ink)">
+            {name} <ExternalLink class="h-3.5 w-3.5 text-(--claude-accent)" aria-hidden="true" />
+          </span>
+          <span class="text-sm text-(--claude-ink-muted)">{use}</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a href="/claude/quiz" class="inline-flex items-center gap-2 rounded-xl bg-(--claude-accent) px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5">
+        Start the mock exam <ArrowRight class="h-4 w-4" aria-hidden="true" />
+      </a>
+      <a href="/claude" class="inline-flex items-center gap-2 rounded-xl border border-(--claude-line) bg-(--claude-chip) px-5 py-3 text-sm font-semibold text-(--claude-ink) transition-transform hover:-translate-y-0.5">
+        ← Back to Claude
+      </a>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .claude-page {
+    --claude-bg: #f0eee6;
+    --claude-card: #fffdf9;
+    --claude-ink: #262624;
+    --claude-ink-muted: #6b6a63;
+    --claude-line: #e3ddd0;
+    --claude-chip: #f5efe4;
+    --claude-accent: #cc785c;
+    --claude-accent-strong: #b35f45;
+  }
+  :global(.dark) .claude-page {
+    --claude-bg: #262624;
+    --claude-card: #2f2e2b;
+    --claude-ink: #f0eee6;
+    --claude-ink-muted: #b5b2a6;
+    --claude-line: #46443e;
+    --claude-chip: #3a3833;
+    --claude-accent: #e0956f;
+    --claude-accent-strong: #eeb290;
+  }
+  .claude-card {
+    background-color: var(--claude-card);
+    border: 1px solid var(--claude-line);
+    box-shadow: var(--shadow-card);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  a.claude-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-card-hover); }
+  .claude-card-accent { background: linear-gradient(160deg, var(--claude-card) 0%, var(--claude-chip) 100%); }
+  .claude-warning {
+    border: 1px solid var(--claude-line); background: var(--claude-chip); color: var(--claude-ink);
+    border-radius: 0.75rem; padding: 0.7rem 0.9rem; line-height: 1.5;
+  }
+  .claude-warning strong { color: var(--claude-accent-strong); }
+  .claude-link { color: var(--claude-accent); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+  .claude-h2 { margin-top: 2.5rem; margin-bottom: 1rem; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; color: var(--claude-ink); }
+  .claude-tablewrap { overflow-x: auto; border: 1px solid var(--claude-line); border-radius: 0.9rem; }
+  .claude-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .claude-table th, .claude-table td { text-align: left; padding: 0.7rem 0.9rem; border-top: 1px solid var(--claude-line); vertical-align: top; color: var(--claude-ink-muted); }
+  .claude-table thead th { border-top: none; color: var(--claude-ink); font-weight: 700; background: var(--claude-chip); }
+  .claude-table tbody th { color: var(--claude-ink); font-weight: 600; white-space: nowrap; width: 12rem; }
+  .claude-table tbody tr:first-child th, .claude-table tbody tr:first-child td { border-top: none; }
+  .claude-list { margin-top: 0.5rem; display: grid; gap: 0.6rem; padding-left: 1.2rem; list-style: decimal; color: var(--claude-ink-muted); line-height: 1.55; max-width: 52rem; }
+  .claude-list li { padding-left: 0.25rem; }
+</style>

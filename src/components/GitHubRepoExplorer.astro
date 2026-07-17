@@ -59,7 +59,13 @@ const elementId = `github-repos-${mode}`;
   </a>
 </template>
 
-<style>
+<!--
+  These rules are `is:global` on purpose: the filter buttons and category
+  pills are created at runtime in the client script below, so they never
+  receive Astro's scoped-style attribute. Scoping them would leave the
+  selected-state highlight (and pill styling) unstyled.
+-->
+<style is:global>
   .repo-filter-all,
   .repo-filter {
     color: var(--fg-muted);
@@ -79,6 +85,13 @@ const elementId = `github-repos-${mode}`;
     padding: 0.125rem 0.5rem;
     font-size: 0.6875rem;
     font-weight: 600;
+  }
+  .repo-category-pill[data-category] {
+    cursor: pointer;
+  }
+  .repo-category-pill[data-category]:hover {
+    background-color: var(--primary);
+    color: var(--surface);
   }
 </style>
 
@@ -134,6 +147,10 @@ const elementId = `github-repos-${mode}`;
     for (const category of categories) {
       const pill = document.createElement('span');
       pill.className = 'repo-category-pill';
+      // data-category lets the grid-level click handler (categorized mode)
+      // treat a pill as a filter shortcut instead of letting the click fall
+      // through to the card's parent link and navigate to GitHub.
+      pill.dataset.category = category;
       pill.textContent = CONCEPT_CATEGORIES[category];
       categoryRow.appendChild(pill);
     }
@@ -209,6 +226,23 @@ const elementId = `github-repos-${mode}`;
             filters.appendChild(button);
           }
           filters.hidden = false;
+
+          // Clicking a category pill on a card should activate the matching
+          // filter — not navigate to the repo. The pills sit inside the card's
+          // <a>, so we intercept at the grid level and cancel the default
+          // navigation before it happens.
+          grid.addEventListener('click', (event) => {
+            const pill = (event.target as HTMLElement).closest<HTMLElement>('.repo-category-pill[data-category]');
+            if (!pill || !grid.contains(pill)) return;
+            event.preventDefault();
+            event.stopPropagation();
+            const category = pill.dataset.category;
+            const targetButton =
+              filters.querySelector<HTMLButtonElement>(`.repo-filter[data-category="${category}"]`) ??
+              filters.querySelector<HTMLButtonElement>('.repo-filter-all');
+            targetButton?.click();
+            filters.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          });
         }
       } catch {
         grid.innerHTML =

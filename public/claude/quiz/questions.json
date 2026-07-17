@@ -1,0 +1,1262 @@
+[
+ {
+  "id": "D1-Q01",
+  "domain": 1,
+  "task": "1.1",
+  "scenario": 1,
+  "stem": "Your Agent SDK support agent runs an agentic loop. After each API response you must decide whether to execute tools or return the final answer to the customer. Which signal is the correct, reliable basis for that decision?",
+  "options": {
+   "A": "The `stop_reason` field: continue executing tools while it is `tool_use`, and terminate when it is `end_turn`.",
+   "B": "Whether the assistant's text response contains a phrase like \"I'm done\" or \"Let me finish.\"",
+   "C": "Whether the response length is below a fixed token threshold.",
+   "D": "Whether a fixed maximum of 5 iterations has been reached."
+  },
+  "answer": "A",
+  "explanation": "The agentic loop lifecycle keys on `stop_reason`. `tool_use` means Claude is requesting tools (execute them, append results, iterate); `end_turn` means Claude has finished reasoning and produced its final answer.",
+  "distractors": {
+   "B": "Parsing natural-language completion signals is an explicit anti-pattern; phrasing is unreliable and model-dependent.",
+   "C": "Response length has no defined relationship to loop completion.",
+   "D": "Arbitrary iteration caps are an anti-pattern as the *primary* stopping mechanism; they are at best a safety backstop."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q05",
+  "domain": 1,
+  "task": "1.1",
+  "scenario": 1,
+  "stem": "Your loop occasionally terminates early on multi-step refunds. Investigation shows the code stops when the assistant text contains \"processed.\" What is the root cause and fix?",
+  "options": {
+   "A": "Root cause: termination is based on assistant text content, an anti-pattern; fix by terminating on `stop_reason == \"end_turn\"` instead.",
+   "B": "Root cause: the model is broken; fix by switching models.",
+   "C": "Root cause: too many tools; fix by removing tools.",
+   "D": "Root cause: missing iteration cap; fix by adding `max_iterations = 1`."
+  },
+  "answer": "A",
+  "explanation": "Checking assistant text as a completion indicator is a named anti-pattern. The reliable fix is to drive termination from `stop_reason`.",
+  "distractors": {
+   "B": "Nothing indicates a model defect; the control logic is wrong.",
+   "C": "Tool count is unrelated to this bug.",
+   "D": "A cap of 1 would break multi-step refunds entirely."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q10",
+  "domain": 1,
+  "task": "1.1",
+  "scenario": 1,
+  "stem": "In an agentic loop, what is the correct interpretation when the API returns `stop_reason: \"end_turn\"` *and* no tool calls after the agent has gathered all needed data?",
+  "options": {
+   "A": "The model has finished; present its final response and exit the loop.",
+   "B": "The model failed and the request should be retried.",
+   "C": "The model is waiting for another tool result before finishing.",
+   "D": "The loop should append an empty tool result and continue."
+  },
+  "answer": "A",
+  "explanation": "`end_turn` with no tool requests is the terminal state — surface the answer and stop.",
+  "distractors": {
+   "B": "`end_turn` is a normal completion, not an error.",
+   "C": "`end_turn` specifically means it is *not* waiting on tools.",
+   "D": "Appending an empty result and continuing creates an infinite/no-op loop."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q14",
+  "domain": 1,
+  "task": "1.2",
+  "scenario": 3,
+  "stem": "A research coordinator always routes every query through the full pipeline (search → analyze → synthesize → report), even trivial factual lookups. What improvement does the guide recommend?",
+  "options": {
+   "A": "Remove the synthesis agent permanently.",
+   "B": "Run all subagents in parallel regardless of need.",
+   "C": "Merge all subagents into one giant agent.",
+   "D": "Design the coordinator to analyze query requirements and dynamically select which subagents to invoke rather than always routing through the full pipeline."
+  },
+  "answer": "D",
+  "explanation": "Coordinators should dynamically select subagents based on query needs, avoiding unnecessary pipeline stages.",
+  "distractors": {
+   "A": "Removing synthesis breaks complex queries that need it.",
+   "C": "Merging eliminates the specialization benefit and overloads tool selection.",
+   "B": "Blind parallelism wastes work and doesn't address unnecessary routing."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q19",
+  "domain": 1,
+  "task": "1.2",
+  "scenario": 3,
+  "stem": "Which risk is specifically associated with *overly narrow* task decomposition by the coordinator?",
+  "options": {
+   "A": "Excessive token usage from redundant subagents.",
+   "B": "Tool selection becoming more reliable.",
+   "C": "Subagents inheriting too much context.",
+   "D": "Incomplete coverage of broad research topics."
+  },
+  "answer": "D",
+  "explanation": "Narrow decomposition risks incomplete coverage of broad topics — subtopics get missed.",
+  "distractors": {
+   "A": "That's a risk of redundant, not narrow, decomposition.",
+   "C": "Subagents have isolated context; narrow scope doesn't cause over-inheritance.",
+   "B": "Reliability isn't the risk being described."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q23",
+  "domain": 1,
+  "task": "1.3",
+  "scenario": 3,
+  "stem": "Your coordinator cannot spawn subagents. Which configuration requirement is most likely missing?",
+  "options": {
+   "A": "`allowedTools` must include `Task`, the mechanism for spawning subagents.",
+   "B": "`tool_choice` must be set to `any`.",
+   "C": "The subagents must be listed in `.mcp.json`.",
+   "D": "`max_tokens` must be increased."
+  },
+  "answer": "A",
+  "explanation": "Subagents are spawned via the `Task` tool; the coordinator's `allowedTools` must include `Task`.",
+  "distractors": {
+   "B": "`tool_choice: any` forces *some* tool call but doesn't enable spawning.",
+   "C": "Subagents aren't MCP servers configured in `.mcp.json`.",
+   "D": "Token limits don't gate spawning capability."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q28",
+  "domain": 1,
+  "task": "1.3",
+  "scenario": 3,
+  "stem": "A subagent produced a wrong answer because it \"didn't know\" a fact the coordinator had. What is the most likely design error?",
+  "options": {
+   "A": "The coordinator relied on automatic context inheritance instead of explicitly passing the fact in the subagent's prompt.",
+   "B": "The subagent's `max_tokens` was too high.",
+   "C": "The coordinator used the `Task` tool.",
+   "D": "The subagent shared memory with the coordinator."
+  },
+  "answer": "A",
+  "explanation": "Subagents don't inherit parent context; needed facts must be included explicitly in the prompt. Assuming inheritance is the classic error.",
+  "distractors": {
+   "B": "High token limits don't cause missing knowledge.",
+   "C": "Using `Task` is correct, not the error.",
+   "D": "Subagents do *not* share memory; that's the point."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q32",
+  "domain": 1,
+  "task": "1.3 (+5.6)",
+  "scenario": 3,
+  "stem": "A synthesis subagent must retain source URLs and publication dates from upstream agents. What should upstream subagents output to make that possible?",
+  "options": {
+   "A": "Free-form prose with citations woven into sentences only.",
+   "B": "A confidence score with no source data.",
+   "C": "Only a final summary paragraph.",
+   "D": "Structured outputs with claim, evidence excerpt, source URL/document name, and publication date fields."
+  },
+  "answer": "D",
+  "explanation": "Structured outputs separating content from metadata (source, date) let downstream synthesis preserve attribution and temporal context.",
+  "distractors": {
+   "A": "Prose-only citations are easily lost during summarization.",
+   "C": "A summary drops the per-claim source mapping.",
+   "B": "Confidence without sources can't support attribution."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q37",
+  "domain": 1,
+  "task": "1.4/1.5",
+  "scenario": 1,
+  "stem": "A hook blocks `process_refund` until a verified customer ID exists. This is an example of which pattern?",
+  "options": {
+   "A": "Prompt-based probabilistic guidance.",
+   "B": "Progressive summarization.",
+   "C": "Sentiment-based escalation.",
+   "D": "A programmatic prerequisite gate that blocks downstream tool calls until a prerequisite step has completed."
+  },
+  "answer": "D",
+  "explanation": "Blocking a downstream tool until a prerequisite returns is a programmatic prerequisite gate — deterministic enforcement.",
+  "distractors": {
+   "A": "A hook is deterministic, not probabilistic prompting.",
+   "C": "Unrelated to sentiment.",
+   "B": "Unrelated to summarization."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q41",
+  "domain": 1,
+  "task": "1.4",
+  "scenario": 1,
+  "stem": "A workflow requires steps in order: A (gather), B (investigate each concern), C (synthesize). Which statement about enforcement vs guidance is most accurate?",
+  "options": {
+   "A": "Every step must be a hard programmatic gate.",
+   "B": "Enforcement and guidance are interchangeable with no tradeoffs.",
+   "C": "None of the steps should ever be enforced.",
+   "D": "Use programmatic gates only where a downstream action is unsafe without a prerequisite (e.g., refund after verification); use guidance for ordering that is merely preferred."
+  },
+  "answer": "D",
+  "explanation": "Reserve deterministic gates for safety/critical prerequisites; guidance suffices for preferred-but-not-critical ordering — matching the enforcement-vs-guidance distinction.",
+  "distractors": {
+   "A": "Over-gating adds rigidity and maintenance cost where it isn't needed.",
+   "C": "Some steps (financial prerequisites) genuinely need enforcement.",
+   "B": "They have different reliability guarantees; not interchangeable."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q46",
+  "domain": 1,
+  "task": "1.5",
+  "scenario": 1,
+  "stem": "A `PostToolUse` hook is best described as intercepting which part of the tool lifecycle?",
+  "options": {
+   "A": "The tool result after execution, before the model processes it.",
+   "B": "The user's prompt before submission.",
+   "C": "The model's final answer before display only.",
+   "D": "The API authentication handshake."
+  },
+  "answer": "A",
+  "explanation": "`PostToolUse` fires after a tool executes and can transform the result before the model consumes it.",
+  "distractors": {
+   "B": "That's `UserPromptSubmit`.",
+   "C": "Rewriting final display text is a different event.",
+   "D": "Hooks don't manage auth handshakes."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q50",
+  "domain": 1,
+  "task": "1.5",
+  "scenario": 1,
+  "stem": "Which statement about combining hooks and prompts is most accurate for a production support agent?",
+  "options": {
+   "A": "Use hooks for guaranteed compliance (blocking, normalization) and prompts for adaptable judgment (tone, ambiguity handling).",
+   "B": "Use prompts for everything; hooks are deprecated.",
+   "C": "Use hooks for everything; prompts are deprecated.",
+   "D": "Never combine them; pick one per agent."
+  },
+  "answer": "A",
+  "explanation": "The layered approach uses deterministic hooks where guarantees matter and prompts where flexible judgment is preferable.",
+  "distractors": {
+   "B": "Neither mechanism is deprecated; each has a distinct role.",
+   "C": "Neither mechanism is deprecated; each has a distinct role.",
+   "D": "Combining them is exactly the recommended production pattern."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q55",
+  "domain": 1,
+  "task": "1.6 (+4.6)",
+  "scenario": 5,
+  "stem": "A 40-file review produces inconsistent depth and contradictory findings when done in one pass. Which decomposition fixes attention dilution?",
+  "options": {
+   "A": "Analyze each file individually for local issues, then run a separate cross-file integration pass.",
+   "B": "Add more files to the single pass.",
+   "C": "Switch to a larger context window and keep the single pass.",
+   "D": "Require developers to submit fewer files."
+  },
+  "answer": "A",
+  "explanation": "Splitting into per-file local passes plus a cross-file integration pass avoids attention dilution and contradictory findings.",
+  "distractors": {
+   "B": "More files worsen dilution.",
+   "C": "Larger context doesn't solve attention-quality dilution across many files.",
+   "D": "Shifts burden to developers without fixing the review method."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q59",
+  "domain": 1,
+  "task": "1.6",
+  "scenario": 5,
+  "stem": "Which task is the *clearest* fit for prompt chaining (fixed sequential decomposition)?",
+  "options": {
+   "A": "\"For each file, run the standard lint→type→security checklist, then produce a summary.\"",
+   "B": "\"Explore this unfamiliar system and figure out what to refactor.\"",
+   "C": "\"Discover the root cause of an intermittent production incident.\"",
+   "D": "\"Design a new microservice architecture.\""
+  },
+  "answer": "A",
+  "explanation": "A repeatable per-file checklist is predictable and multi-aspect — ideal for prompt chaining.",
+  "distractors": {
+   "B": "Each is open-ended/architectural, favoring dynamic or plan-mode approaches.",
+   "C": "Each is open-ended/architectural, favoring dynamic or plan-mode approaches.",
+   "D": "Each is open-ended/architectural, favoring dynamic or plan-mode approaches."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q64",
+  "domain": 1,
+  "task": "1.7",
+  "scenario": 4,
+  "stem": "You resume a session after editing several files Claude previously analyzed. What should you do to avoid stale reasoning?",
+  "options": {
+   "A": "Inform the agent which specific files changed so it can re-analyze those targeted areas.",
+   "B": "Say nothing; Claude will detect all changes automatically.",
+   "C": "Delete the session and lose all context.",
+   "D": "Increase `max_tokens`."
+  },
+  "answer": "A",
+  "explanation": "When resuming after modifications, inform the agent about changed files so it can re-analyze the affected areas rather than trusting stale results.",
+  "distractors": {
+   "B": "The agent won't automatically know what changed on disk between sessions.",
+   "C": "Deleting throws away useful context needlessly.",
+   "D": "Token budget doesn't refresh stale file knowledge."
+  },
+  "official": false
+ },
+ {
+  "id": "D1-Q68",
+  "domain": 1,
+  "task": "1.7",
+  "scenario": 4,
+  "stem": "A resumed session gives a targeted fix. Rather than re-exploring everything, what's the efficient move after small code changes?",
+  "options": {
+   "A": "Re-run the full exploration from scratch.",
+   "B": "Discard the session.",
+   "C": "Fork the session five times.",
+   "D": "Inform the resumed session about the specific file changes so it re-analyzes only those, avoiding full re-exploration."
+  },
+  "answer": "D",
+  "explanation": "Informing a resumed session about specific changes enables targeted re-analysis instead of full re-exploration.",
+  "distractors": {
+   "A": "Full re-exploration wastes time and context.",
+   "C": "Forking doesn't target the changed files.",
+   "B": "Discarding loses valid context."
+  },
+  "official": false
+ },
+ {
+  "id": "D2-Q01",
+  "domain": 2,
+  "task": "2.1",
+  "scenario": 1,
+  "stem": "Logs show the agent frequently calls `get_customer` when users ask about orders (e.g., \"check my order #12345\") instead of `lookup_order`. Both tools have minimal descriptions (\"Retrieves customer information\" / \"Retrieves order details\") and accept similar identifiers. What is the most effective *first step* to improve tool-selection reliability?",
+  "options": {
+   "A": "Expand each tool's description to include input formats it handles, example queries, edge cases, and boundaries explaining when to use it versus similar tools.",
+   "B": "Add few-shot examples to the system prompt showing 5–8 order queries routing to `lookup_order`.",
+   "C": "Implement a routing layer that parses user input and pre-selects the tool by keyword before each turn.",
+   "D": "Consolidate both tools into a single `lookup_entity` tool that inspects the identifier and picks the backend."
+  },
+  "answer": "A",
+  "explanation": "Tool descriptions are the primary mechanism LLMs use for selection. Minimal descriptions leave the model without enough signal to differentiate similar tools; expanding them is the low-effort, high-leverage first fix. (Mirrors official Sample Question 2.)",
+  "distractors": {
+   "B": "Few-shot examples add token overhead without fixing the underlying weak descriptions.",
+   "C": "A routing layer is over-engineered and bypasses the model's natural language understanding.",
+   "D": "Consolidation is a valid architecture choice but is more effort than a \"first step\" warrants when the real problem is inadequate descriptions."
+  },
+  "official": true
+ },
+ {
+  "id": "D2-Q07",
+  "domain": 2,
+  "task": "2.1",
+  "scenario": 6,
+  "stem": "What is the primary mechanism an LLM uses to choose among available tools?",
+  "options": {
+   "A": "Alphabetical order of tool names.",
+   "B": "Random selection weighted by token count.",
+   "C": "The order tools were registered.",
+   "D": "The tool descriptions."
+  },
+  "answer": "D",
+  "explanation": "Tool descriptions are the primary selection signal; their quality directly determines routing reliability.",
+  "distractors": {
+   "A": "None reflects how the model actually reasons about tool choice.",
+   "B": "None reflects how the model actually reasons about tool choice.",
+   "C": "None reflects how the model actually reasons about tool choice."
+  },
+  "official": false
+ },
+ {
+  "id": "D2-Q14",
+  "domain": 2,
+  "task": "2.1",
+  "scenario": 1,
+  "stem": "Which is the *strongest* signal that your tool descriptions—not the model—are the cause of misrouting?",
+  "options": {
+   "A": "The model routes correctly once descriptions are expanded with formats, examples, and boundaries.",
+   "B": "The model always refuses to call any tool.",
+   "C": "The API returns 500 errors.",
+   "D": "The tools are written in different languages."
+  },
+  "answer": "A",
+  "explanation": "If expanding descriptions (formats, examples, boundaries) resolves the misrouting, the descriptions were the root cause.",
+  "distractors": {
+   "B": "Total refusal points to a different issue.",
+   "C": "Server errors are infrastructure, not description quality.",
+   "D": "Implementation language doesn't drive selection."
+  },
+  "official": false
+ },
+ {
+  "id": "D2-Q20",
+  "domain": 2,
+  "task": "2.2/5.3",
+  "scenario": 3,
+  "stem": "A subagent hits a transient timeout on a non-critical lookup. What does the guide recommend before escalating to the coordinator?",
+  "options": {
+   "A": "Immediately terminate the whole workflow.",
+   "B": "Retry forever with no cap.",
+   "C": "Return an empty result marked as success.",
+   "D": "Implement local error recovery within the subagent for transient failures, propagating to the coordinator only errors it cannot resolve locally, along with partial results and what was attempted."
+  },
+  "answer": "D",
+  "explanation": "Subagents should recover locally from transient failures and only propagate unrecoverable errors (with partial results and attempt context) to the coordinator.",
+  "distractors": {
+   "A": "Terminating everything on one transient failure is an anti-pattern.",
+   "C": "Marking failure as success hides the error and corrupts results.",
+   "B": "Unbounded retries risk hangs."
+  },
+  "official": false
+ },
+ {
+  "id": "D2-Q27",
+  "domain": 2,
+  "task": "2.2/5.3",
+  "scenario": 1,
+  "stem": "Which pairing of error type → correct agent behavior is right?",
+  "options": {
+   "A": "Transient timeout → retry (possibly after backoff); business violation → do not retry, explain to the user.",
+   "B": "Transient timeout → do not retry; business violation → retry.",
+   "C": "Both → silently return empty.",
+   "D": "Both → terminate the whole workflow."
+  },
+  "answer": "A",
+  "explanation": "Transient errors are retryable; business violations are non-retryable and should be explained. Matching behavior to category is the goal.",
+  "distractors": {
+   "B": "Reverses the correct behaviors.",
+   "C": "Silent empties hide both.",
+   "D": "Terminating everything is an anti-pattern."
+  },
+  "official": false
+ },
+ {
+  "id": "D2-Q33",
+  "domain": 2,
+  "task": "2.3/4.3",
+  "scenario": 6,
+  "stem": "You must guarantee that the model calls *some* tool on this turn (never returns plain conversational text). Which `tool_choice` setting achieves that?",
+  "options": {
+   "A": "`tool_choice: \"auto\"`.",
+   "B": "`tool_choice: \"any\"`.",
+   "C": "`tool_choice: {\"type\": \"tool\", \"name\": \"...\"}`.",
+   "D": "No `tool_choice` at all."
+  },
+  "answer": "B",
+  "explanation": "`tool_choice: \"any\"` forces the model to call a tool (of its choosing) rather than returning conversational text.",
+  "distractors": {
+   "A": "`auto` allows the model to return text instead of calling a tool.",
+   "C": "Forces a *specific* tool, which is stronger than \"any tool\" and may be inappropriate.",
+   "D": "Defaults to `auto` behavior."
+  },
+  "official": false
+ },
+ {
+  "id": "D2-Q40",
+  "domain": 2,
+  "task": "2.3/2.1",
+  "scenario": 3,
+  "stem": "Which is the best example of replacing a generic tool with a constrained alternative to reduce misuse?",
+  "options": {
+   "A": "Renaming `fetch_url` to `fetch_url_v2`.",
+   "B": "Replacing `fetch_url` with `load_document`, which validates that the URL points to a document.",
+   "C": "Adding five more generic fetch tools.",
+   "D": "Deleting all fetch tools."
+  },
+  "answer": "B",
+  "explanation": "A constrained `load_document` that validates document URLs reduces misuse compared to a generic `fetch_url`.",
+  "distractors": {
+   "A": "A version bump doesn't add constraints.",
+   "C": "More generic tools increase confusion.",
+   "D": "Deleting removes needed capability."
+  },
+  "official": false
+ },
+ {
+  "id": "D2-Q46",
+  "domain": 2,
+  "task": "2.4",
+  "scenario": 4,
+  "stem": "A personal, experimental MCP server that you don't want to impose on teammates should live where?",
+  "options": {
+   "A": "Project-scoped `.mcp.json`.",
+   "B": "User-scoped `~/.claude.json`.",
+   "C": "The repo's root CLAUDE.md.",
+   "D": "A shared wiki page."
+  },
+  "answer": "B",
+  "explanation": "User-scoped `~/.claude.json` holds personal/experimental servers that aren't shared with the team.",
+  "distractors": {
+   "A": "Project scope shares it with everyone via version control.",
+   "C": "CLAUDE.md isn't for server config.",
+   "D": "A wiki page doesn't configure anything."
+  },
+  "official": false
+ },
+ {
+  "id": "D2-Q53",
+  "domain": 2,
+  "task": "2.4",
+  "scenario": 4,
+  "stem": "Why expose a database schema or documentation hierarchy as an MCP *resource* rather than forcing the agent to discover it via tools?",
+  "options": {
+   "A": "Resources are faster to type.",
+   "B": "Resources give the agent visibility into available data up front, reducing exploratory tool calls and token usage.",
+   "C": "Resources are required for authentication.",
+   "D": "Tools cannot read schemas at all."
+  },
+  "answer": "B",
+  "explanation": "Content-catalog resources reduce exploratory tool calls by giving the agent visibility into available data.",
+  "distractors": {
+   "A": "Not about typing speed.",
+   "C": "Resources aren't an auth mechanism.",
+   "D": "Tools can read schemas; resources just reduce the need to explore."
+  },
+  "official": false
+ },
+ {
+  "id": "D2-Q59",
+  "domain": 2,
+  "task": "2.5",
+  "scenario": 4,
+  "stem": "You need to find every caller of a function `processRefund` across an unfamiliar codebase. Which built-in tool is the right choice?",
+  "options": {
+   "A": "Glob.",
+   "B": "Grep, to search file *contents* for the function name.",
+   "C": "Read every file one by one.",
+   "D": "Bash `rm`."
+  },
+  "answer": "B",
+  "explanation": "Grep searches file contents for patterns (function names, error messages, imports) — the right tool to find callers.",
+  "distractors": {
+   "A": "Glob matches file *paths/names*, not contents.",
+   "C": "Reading every file is inefficient for a content search.",
+   "D": "`rm` deletes files; wholly inappropriate."
+  },
+  "official": false
+ },
+ {
+  "id": "D2-Q66",
+  "domain": 2,
+  "task": "2.5",
+  "scenario": 4,
+  "stem": "You need to make a small change but the anchor string appears many times. Choosing Edit fails repeatedly. Best next step?",
+  "options": {
+   "A": "Read the file to get full context, then Write the corrected file.",
+   "B": "Keep retrying Edit with the same non-unique anchor.",
+   "C": "Use Glob to change the text.",
+   "D": "Use Bash to `sed` blindly without reading."
+  },
+  "answer": "A",
+  "explanation": "Read + Write is the reliable fallback when Edit can't find a unique anchor.",
+  "distractors": {
+   "B": "Same non-unique anchor will keep failing.",
+   "C": "Glob doesn't edit contents.",
+   "D": "Blind `sed` risks unintended replacements."
+  },
+  "official": false
+ },
+ {
+  "id": "D3-Q01",
+  "domain": 3,
+  "task": "3.1",
+  "scenario": 2,
+  "stem": "A new team member isn't receiving the team's coding standards from Claude Code, while everyone else is. You find the standards were placed in `~/.claude/CLAUDE.md`. What is the diagnosis and fix?",
+  "options": {
+   "A": "The teammate needs a larger context window.",
+   "B": "The standards are in user-level config (not shared via version control); move them to project-level `.claude/CLAUDE.md` (or root `CLAUDE.md`) so all teammates receive them.",
+   "C": "The standards belong in `.mcp.json`.",
+   "D": "The teammate should run `/compact`."
+  },
+  "answer": "B",
+  "explanation": "User-level `~/.claude/CLAUDE.md` applies only to that user and isn't shared via version control. Team-wide standards belong at the project level so they reach everyone.",
+  "distractors": {
+   "A": "Context size is unrelated to which config is loaded.",
+   "C": "`.mcp.json` configures servers, not instructions.",
+   "D": "`/compact` reduces context, not a config-scoping fix."
+  },
+  "official": false
+ },
+ {
+  "id": "D3-Q07",
+  "domain": 3,
+  "task": "3.1",
+  "scenario": 2,
+  "stem": "A maintainer wants each package's CLAUDE.md to include only the standards relevant to that package. Which mechanism is intended?",
+  "options": {
+   "A": "`.mcp.json` per package.",
+   "B": "One giant root CLAUDE.md for all packages.",
+   "C": "`@import` to selectively include relevant standards files per package.",
+   "D": "A shell alias."
+  },
+  "answer": "C",
+  "explanation": "`@import` lets each package's CLAUDE.md pull in just the relevant standards, based on maintainer domain knowledge.",
+  "distractors": {
+   "B": "A monolith includes irrelevant standards everywhere.",
+   "A": "Not an instructions mechanism.",
+   "D": "Aliases don't scope CLAUDE.md content."
+  },
+  "official": false
+ },
+ {
+  "id": "D3-Q13",
+  "domain": 3,
+  "task": "3.2",
+  "scenario": 2,
+  "stem": "You want a `/review` slash command that runs your team's standard code-review checklist and is available to every developer when they clone the repo. Where should the command file live?",
+  "options": {
+   "A": "`~/.claude/commands/` in each developer's home directory.",
+   "B": "`.claude/commands/` in the project repository.",
+   "C": "In the root `CLAUDE.md`.",
+   "D": "In a `.claude/config.json` with a `commands` array."
+  },
+  "answer": "B",
+  "explanation": "Project-scoped commands live in `.claude/commands/`, are version-controlled, and reach all developers on clone/pull. (Mirrors official Sample Question 4.)",
+  "distractors": {
+   "A": "`~/.claude/commands/` is personal and not shared.",
+   "C": "CLAUDE.md is for instructions/context, not command definitions.",
+   "D": "No such `.claude/config.json` commands-array mechanism exists."
+  },
+  "official": true
+ },
+ {
+  "id": "D3-Q19",
+  "domain": 3,
+  "task": "3.2",
+  "scenario": 2,
+  "stem": "Which pair correctly distinguishes project vs user command scope?",
+  "options": {
+   "A": "Neither is version-controllable.",
+   "B": "`.claude/commands/` = personal; `~/.claude/commands/` = shared.",
+   "C": "Both are shared identically.",
+   "D": "`.claude/commands/` = project (shared via version control); `~/.claude/commands/` = user (personal)."
+  },
+  "answer": "D",
+  "explanation": "Project commands (`.claude/commands/`) are shared; user commands (`~/.claude/commands/`) are personal.",
+  "distractors": {
+   "B": "Reverses the scopes.",
+   "C": "They differ in sharing.",
+   "A": "Project commands are version-controllable."
+  },
+  "official": false
+ },
+ {
+  "id": "D3-Q25",
+  "domain": 3,
+  "task": "3.3",
+  "scenario": 2,
+  "stem": "Your codebase has React components, API handlers, and DB models with different conventions, and test files are scattered throughout next to the code they test. You want Claude to auto-apply the right conventions by file path. What is the most maintainable approach?",
+  "options": {
+   "A": "Create skills in `.claude/skills/` for each code type and invoke them manually.",
+   "B": "Consolidate all conventions in the root CLAUDE.md under headers and rely on Claude to infer which applies.",
+   "C": "Create rule files in `.claude/rules/` with YAML frontmatter specifying glob patterns to conditionally apply conventions based on file paths.",
+   "D": "Place a separate CLAUDE.md in each subdirectory."
+  },
+  "answer": "C",
+  "explanation": "`.claude/rules/` with glob patterns (e.g., `**/*.test.tsx`) auto-applies conventions by path regardless of directory — ideal for test files spread throughout. (Mirrors official Sample Question 6.)",
+  "distractors": {
+   "B": "Relies on inference rather than explicit matching, making it unreliable.",
+   "A": "Requires manual invocation, contradicting \"automatic\" application by path.",
+   "D": "Directory-bound CLAUDE.md files can't easily cover files spread across many directories."
+  },
+  "official": true
+ },
+ {
+  "id": "D3-Q31",
+  "domain": 3,
+  "task": "3.3",
+  "scenario": 2,
+  "stem": "When are path-specific rules preferred over subdirectory CLAUDE.md files?",
+  "options": {
+   "A": "When you need MCP servers.",
+   "B": "When conventions apply to exactly one directory.",
+   "C": "When you want rules to never load.",
+   "D": "When conventions must apply to files spread across the codebase by type, not by directory."
+  },
+  "answer": "D",
+  "explanation": "Path-specific glob rules suit conventions that must apply across the codebase by file type.",
+  "distractors": {
+   "B": "A single directory is the subdirectory-CLAUDE.md case.",
+   "C": "Rules are meant to load conditionally, not never.",
+   "A": "Unrelated to MCP."
+  },
+  "official": false
+ },
+ {
+  "id": "D3-Q37",
+  "domain": 3,
+  "task": "3.4",
+  "scenario": 2,
+  "stem": "You've been assigned to restructure a monolithic application into microservices — changes across dozens of files, plus decisions about service boundaries and module dependencies. Which approach should you take?",
+  "options": {
+   "A": "Start with direct execution and let the implementation reveal the natural service boundaries.",
+   "B": "Enter plan mode to explore the codebase, understand dependencies, and design an implementation approach before making changes.",
+   "C": "Use direct execution with comprehensive upfront instructions detailing exactly how each service should be structured.",
+   "D": "Begin in direct execution and only switch to plan mode if you encounter unexpected complexity."
+  },
+  "answer": "B",
+  "explanation": "Plan mode is designed for complex, large-scale, multi-approach, architectural, multi-file changes — exactly monolith-to-microservices. It enables safe exploration and design before committing, preventing costly rework. (Mirrors official Sample Question 5.)",
+  "distractors": {
+   "A": "Risks costly rework when dependencies surface late.",
+   "C": "Assumes you already know the right structure without exploring the code.",
+   "D": "Ignores that the complexity is already stated in the requirements, not something that merely *might* emerge."
+  },
+  "official": true
+ },
+ {
+  "id": "D3-Q43",
+  "domain": 3,
+  "task": "3.4",
+  "scenario": 2,
+  "stem": "Why is \"start direct, switch to plan mode only if complexity emerges\" a weak strategy for a task whose complexity is already known?",
+  "options": {
+   "A": "Plan mode can't be entered mid-task.",
+   "B": "The complexity is stated upfront, so beginning direct risks committing changes and incurring rework before the switch — plan mode should be chosen from the start.",
+   "C": "Direct execution is always forbidden.",
+   "D": "Switching modes corrupts the repo."
+  },
+  "answer": "B",
+  "explanation": "When complexity is known in advance, starting direct risks premature changes and rework; choose plan mode from the outset.",
+  "distractors": {
+   "A": "You can switch, but that's not the point; the issue is early rework risk.",
+   "C": "Direct execution is fine for simple tasks.",
+   "D": "Switching doesn't corrupt anything."
+  },
+  "official": false
+ },
+ {
+  "id": "D3-Q49",
+  "domain": 3,
+  "task": "3.5",
+  "scenario": 2,
+  "stem": "Prose descriptions of a data transformation are being interpreted inconsistently by Claude. What is the most effective refinement?",
+  "options": {
+   "A": "Increase `max_tokens`.",
+   "B": "Repeat the prose description more emphatically.",
+   "C": "Add \"be careful\" to the prompt.",
+   "D": "Provide 2–3 concrete input/output examples to clarify the transformation."
+  },
+  "answer": "D",
+  "explanation": "Concrete input/output examples are the most effective way to communicate expected transformations when prose is interpreted inconsistently.",
+  "distractors": {
+   "B": "Emphatic prose doesn't resolve ambiguity.",
+   "C": "Vague instructions don't clarify the transformation.",
+   "A": "Token budget isn't the issue."
+  },
+  "official": false
+ },
+ {
+  "id": "D3-Q55",
+  "domain": 3,
+  "task": "3.5",
+  "scenario": 2,
+  "stem": "To fix an edge-case handling bug (e.g., null values in migration scripts), the guide suggests:",
+  "options": {
+   "A": "Increasing iteration caps.",
+   "B": "Telling Claude to \"handle edge cases.\"",
+   "C": "Removing the edge case from scope.",
+   "D": "Providing specific test cases with example input and expected output for the edge case."
+  },
+  "answer": "D",
+  "explanation": "Concrete test cases (example input + expected output) precisely fix edge-case handling.",
+  "distractors": {
+   "B": "Vague instruction doesn't specify behavior.",
+   "C": "Dropping the edge case avoids, not fixes, the bug.",
+   "A": "Iteration count doesn't clarify the requirement."
+  },
+  "official": false
+ },
+ {
+  "id": "D3-Q61",
+  "domain": 3,
+  "task": "3.6",
+  "scenario": 5,
+  "stem": "Your pipeline runs `claude \"Analyze this pull request for security issues\"` but the job hangs waiting for interactive input. What's the correct fix?",
+  "options": {
+   "A": "Add a `--batch` flag.",
+   "B": "Set `CLAUDE_HEADLESS=true` before running.",
+   "C": "Redirect stdin from `/dev/null`.",
+   "D": "Add the `-p` (or `--print`) flag to run in non-interactive mode: `claude -p \"Analyze this pull request for security issues\"`."
+  },
+  "answer": "D",
+  "explanation": "`-p`/`--print` runs Claude Code non-interactively: it processes the prompt, prints the result, and exits — exactly what CI needs. (Mirrors official Sample Question 10.)",
+  "distractors": {
+   "B": "`CLAUDE_HEADLESS` is not a real environment variable.",
+   "C": "A stdin workaround doesn't properly address Claude Code's command syntax.",
+   "A": "There is no `--batch` flag for this."
+  },
+  "official": true
+ },
+ {
+  "id": "D3-Q67",
+  "domain": 3,
+  "task": "3.6/4.3",
+  "scenario": 5,
+  "stem": "What is the role of `--json-schema` in a CI context?",
+  "options": {
+   "A": "To set the model.",
+   "B": "To resume a session.",
+   "C": "To fork a session.",
+   "D": "To validate that Claude's structured output matches a specified JSON Schema for reliable downstream posting."
+  },
+  "answer": "D",
+  "explanation": "`--json-schema` enforces schema-validated structured output suitable for automated CI consumption.",
+  "distractors": {
+   "A": "Those are session/model flags, not output-schema enforcement.",
+   "B": "Those are session/model flags, not output-schema enforcement.",
+   "C": "Those are session/model flags, not output-schema enforcement."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q01",
+  "domain": 4,
+  "task": "4.1",
+  "scenario": 5,
+  "stem": "Your CI code reviewer flags too many false positives on documentation comments, and developers are losing trust. Which instruction change most improves precision?",
+  "options": {
+   "A": "Lower the temperature and keep the vague instruction.",
+   "B": "Add \"be conservative\" to the prompt.",
+   "C": "Add \"only report high-confidence findings.\"",
+   "D": "Replace \"check that comments are accurate\" with \"flag comments only when the claimed behavior contradicts the actual code behavior.\""
+  },
+  "answer": "D",
+  "explanation": "Explicit categorical criteria (\"flag only when claimed behavior contradicts actual behavior\") outperform vague instructions; they define exactly what to report.",
+  "distractors": {
+   "B": "\"Be conservative\" / \"only high-confidence\" are general instructions that don't improve precision compared to specific categorical criteria.",
+   "C": "\"Be conservative\" / \"only high-confidence\" are general instructions that don't improve precision compared to specific categorical criteria.",
+   "A": "Temperature doesn't fix an under-specified criterion."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q07",
+  "domain": 4,
+  "task": "4.1",
+  "scenario": 5,
+  "stem": "A prompt says \"flag comments that are inaccurate.\" Reviews flag stylistic comment preferences too. Best fix?",
+  "options": {
+   "A": "Add \"please be accurate.\"",
+   "B": "Narrow the criterion: \"flag a comment only when its claim contradicts the actual code behavior.\"",
+   "C": "Increase temperature.",
+   "D": "Remove the comment-review entirely."
+  },
+  "answer": "B",
+  "explanation": "A precise contradiction-based criterion removes stylistic false positives.",
+  "distractors": {
+   "A": "Vague reinforcement doesn't narrow scope.",
+   "C": "Temperature won't sharpen the criterion.",
+   "D": "Removing the check loses a valuable category unnecessarily."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q13",
+  "domain": 4,
+  "task": "4.2",
+  "scenario": 6,
+  "stem": "Detailed instructions alone still yield inconsistently formatted, hard-to-act-on output. Which technique is *most* effective for consistent, actionable output?",
+  "options": {
+   "A": "Repeating the instructions twice.",
+   "B": "Few-shot examples demonstrating the exact desired output.",
+   "C": "Lowering temperature to 0 only.",
+   "D": "Adding \"be consistent.\""
+  },
+  "answer": "B",
+  "explanation": "Few-shot examples are the most effective technique for consistently formatted, actionable output when instructions alone fall short.",
+  "distractors": {
+   "A": "Repetition doesn't demonstrate the target format.",
+   "C": "Temperature 0 doesn't teach the format.",
+   "D": "A vague plea doesn't standardize output."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q19",
+  "domain": 4,
+  "task": "4.2",
+  "scenario": 6,
+  "stem": "For documents with varied citation styles (inline vs bibliographies) and structures (methodology sections vs embedded details), few-shot examples should:",
+  "options": {
+   "A": "Show only one structure.",
+   "B": "Demonstrate correct handling of each varied structure so extraction stays accurate.",
+   "C": "Avoid showing structure at all.",
+   "D": "Replace the extraction tool."
+  },
+  "answer": "B",
+  "explanation": "Examples covering varied structures teach correct handling across document formats.",
+  "distractors": {
+   "A": "One structure won't cover the variety.",
+   "C": "Structure is exactly what needs demonstrating.",
+   "D": "Examples support, not replace, the tool."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q25",
+  "domain": 4,
+  "task": "4.3",
+  "scenario": 6,
+  "stem": "You need guaranteed schema-compliant structured output with no JSON syntax errors. Which approach is most reliable?",
+  "options": {
+   "A": "Asking the model to \"output valid JSON\" in prose.",
+   "B": "Tool use (`tool_use`) with a JSON schema as the tool's input parameters.",
+   "C": "Post-processing free-text with regex.",
+   "D": "Lowering temperature and hoping."
+  },
+  "answer": "B",
+  "explanation": "`tool_use` with a JSON schema is the most reliable approach for guaranteed schema-compliant output, eliminating JSON syntax errors.",
+  "distractors": {
+   "A": "Prose requests don't guarantee valid JSON.",
+   "C": "Regex on free text is brittle.",
+   "D": "Temperature doesn't guarantee structure."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q31",
+  "domain": 4,
+  "task": "4.3/5.5",
+  "scenario": 6,
+  "stem": "For ambiguous cases in a classification schema, the guide suggests adding:",
+  "options": {
+   "A": "Nothing; force a definite class.",
+   "B": "An enum value like `\"unclear\"` so the model can mark ambiguity instead of guessing.",
+   "C": "A random class.",
+   "D": "A numeric confidence only."
+  },
+  "answer": "B",
+  "explanation": "An `\"unclear\"` enum value lets the model represent ambiguity rather than forcing a wrong definite answer.",
+  "distractors": {
+   "A": "Forcing a definite class invites errors.",
+   "C": "Random assignment is wrong.",
+   "D": "Confidence alone doesn't capture \"unclear\" as a category."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q37",
+  "domain": 4,
+  "task": "4.4",
+  "scenario": 6,
+  "stem": "A JSON-schema validation fails on an extraction. What is the recommended retry design?",
+  "options": {
+   "A": "Retry with the identical prompt and no error details.",
+   "B": "Retry-with-error-feedback: send a follow-up including the original document, the failed extraction, and the specific validation errors to guide correction.",
+   "C": "Give up after the first failure.",
+   "D": "Switch to a different document."
+  },
+  "answer": "B",
+  "explanation": "Appending the original document, failed output, and specific validation errors guides the model toward self-correction.",
+  "distractors": {
+   "A": "Identical retries lack the signal to correct.",
+   "C": "One failure isn't a reason to abandon recoverable cases.",
+   "D": "Changing documents doesn't fix the extraction."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q43",
+  "domain": 4,
+  "task": "4.4",
+  "scenario": 6,
+  "stem": "A retry keeps failing because the requested value doesn't exist in the provided document (it's in an external doc you didn't include). What should you conclude?",
+  "options": {
+   "A": "Retry more times with the same input.",
+   "B": "Retries won't help; the information is absent from the source — provide the correct source or mark the field null.",
+   "C": "The schema is wrong.",
+   "D": "The model is broken."
+  },
+  "answer": "B",
+  "explanation": "When info is absent from the provided source, retries are futile; supply the right document or return null.",
+  "distractors": {
+   "A": "More identical retries won't conjure missing data.",
+   "C": "The schema isn't the problem.",
+   "D": "The model behaves correctly by not fabricating."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q49",
+  "domain": 4,
+  "task": "4.5",
+  "scenario": 6,
+  "stem": "Your team wants to cut API costs. Two workflows exist: (1) a blocking pre-merge check developers wait on, and (2) an overnight technical-debt report. Your manager proposes moving both to the Message Batches API for 50% savings. How should you evaluate this?",
+  "options": {
+   "A": "Switch both to batch with status polling for completion.",
+   "B": "Use batch processing for the technical-debt reports only; keep real-time calls for the pre-merge check.",
+   "C": "Keep real-time for both to avoid batch ordering issues.",
+   "D": "Switch both to batch with a timeout fallback to real-time."
+  },
+  "answer": "B",
+  "explanation": "The Batches API offers 50% savings but processes in up to 24 hours with no latency SLA — unsuitable for blocking pre-merge checks, ideal for overnight jobs. Match each API to its workload. (Mirrors official Sample Question 11.)",
+  "distractors": {
+   "A": "\"Often faster\" completion isn't acceptable for a blocking workflow.",
+   "C": "A misconception; batch results correlate via `custom_id`, so ordering isn't the blocker — latency is.",
+   "D": "Adds unnecessary complexity when the simpler solution is matching each API to its use case."
+  },
+  "official": true
+ },
+ {
+  "id": "D4-Q55",
+  "domain": 4,
+  "task": "4.5",
+  "scenario": 6,
+  "stem": "You must guarantee a 30-hour SLA using 24-hour batch processing. How do you calculate submission frequency?",
+  "options": {
+   "A": "Submit once per week.",
+   "B": "Submit in windows (e.g., every 4 hours) so worst-case 24-hour processing still meets the 30-hour SLA.",
+   "C": "Submit only when convenient.",
+   "D": "Batch can never meet any SLA."
+  },
+  "answer": "B",
+  "explanation": "Calculating batch submission frequency against SLA constraints (e.g., 4-hour windows) ensures the 24-hour processing stays within a 30-hour SLA.",
+  "distractors": {
+   "A": "Weekly submission can't guarantee a 30-hour SLA.",
+   "C": "Ad hoc timing doesn't guarantee SLAs.",
+   "D": "Batch *can* meet latency-tolerant SLAs with planning."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q61",
+  "domain": 4,
+  "task": "4.6",
+  "scenario": 5,
+  "stem": "Multi-pass review splits large reviews into which two kinds of passes?",
+  "options": {
+   "A": "Two identical full passes.",
+   "B": "Per-file local analysis passes plus cross-file integration passes.",
+   "C": "A syntax pass and a spelling pass only.",
+   "D": "A random pass and a final pass."
+  },
+  "answer": "B",
+  "explanation": "The pattern is per-file local passes + cross-file integration passes, avoiding attention dilution and contradictions.",
+  "distractors": {
+   "A": "Identical passes don't address dilution.",
+   "C": "Too narrow.",
+   "D": "Random isn't a defined pass type."
+  },
+  "official": false
+ },
+ {
+  "id": "D4-Q67",
+  "domain": 4,
+  "task": "4.6",
+  "scenario": 5,
+  "stem": "Contradictory findings (flagging a pattern in one file, approving it in another within one PR) are a symptom of:",
+  "options": {
+   "A": "A network outage.",
+   "B": "Attention dilution in a single combined pass, fixed by focused per-file passes.",
+   "C": "Too small a model only.",
+   "D": "Correct, expected behavior."
+  },
+  "answer": "B",
+  "explanation": "Contradictions across identical code signal attention dilution; focused passes fix it.",
+  "distractors": {
+   "A": "Not a network issue.",
+   "C": "Model size isn't the described cause.",
+   "D": "Contradictions are a defect, not expected."
+  },
+  "official": false
+ },
+ {
+  "id": "D5-Q01",
+  "domain": 5,
+  "task": "5.1",
+  "scenario": 1,
+  "stem": "In a long support conversation, progressive summarization is condensing exact figures (\"$47.50 refund,\" \"ordered March 3\") into vague phrases (\"a refund,\" \"recently\"). What is the risk, and the recommended mitigation?",
+  "options": {
+   "A": "Risk: too many tokens; mitigation: summarize more aggressively.",
+   "B": "Risk: loss of precise transactional facts; mitigation: extract facts (amounts, dates, order numbers, statuses) into a persistent \"case facts\" block included in each prompt, outside the summarized history.",
+   "C": "Risk: the model is too slow; mitigation: switch models.",
+   "D": "There is no risk; summaries are always safe."
+  },
+  "answer": "B",
+  "explanation": "Progressive summarization risks condensing numbers, dates, and expectations into vague summaries; extracting them into a persistent case-facts block preserves precision.",
+  "distractors": {
+   "A": "More aggressive summarization worsens the loss.",
+   "C": "Speed isn't the issue.",
+   "D": "The loss of precise facts is a real, documented risk."
+  },
+  "official": false
+ },
+ {
+  "id": "D5-Q09",
+  "domain": 5,
+  "task": "5.1",
+  "scenario": 1,
+  "stem": "Why do tool results consume tokens \"disproportionately to their relevance\"?",
+  "options": {
+   "A": "Tool results are free of tokens.",
+   "B": "Tools return encrypted blobs.",
+   "C": "Tools always return one field.",
+   "D": "Tools often return many fields (e.g., 40+) when only a few matter, so raw results bloat context relative to their usefulness."
+  },
+  "answer": "D",
+  "explanation": "Verbose tool payloads carry many irrelevant fields, consuming tokens out of proportion to relevance.",
+  "distractors": {
+   "B": "Mischaracterize tool output.",
+   "C": "Mischaracterize tool output.",
+   "A": "Tool results do consume tokens."
+  },
+  "official": false
+ },
+ {
+  "id": "D5-Q17",
+  "domain": 5,
+  "task": "5.2",
+  "scenario": 1,
+  "stem": "Policy addresses own-site price adjustments but is silent on competitor price matching, which the customer requests. Correct handling?",
+  "options": {
+   "A": "Deny without explanation.",
+   "B": "Invent a competitor-matching policy and apply it.",
+   "C": "Escalate, because policy is ambiguous/silent on the customer's specific request.",
+   "D": "Ignore the request."
+  },
+  "answer": "C",
+  "explanation": "Escalate when policy is ambiguous or silent on the specific request (e.g., competitor matching not covered).",
+  "distractors": {
+   "B": "Fabricating policy is unsafe and unauthorized.",
+   "A": "Denying/ignoring without basis fails the customer and the policy-gap escalation rule.",
+   "D": "Denying/ignoring without basis fails the customer and the policy-gap escalation rule."
+  },
+  "official": false
+ },
+ {
+  "id": "D5-Q25",
+  "domain": 5,
+  "task": "5.3",
+  "scenario": 3,
+  "stem": "A web-search subagent times out on a complex topic. Which error-propagation approach best enables intelligent coordinator recovery?",
+  "options": {
+   "A": "Implement retry with exponential backoff inside the subagent, returning a generic \"search unavailable\" only after retries are exhausted.",
+   "B": "Return structured error context to the coordinator: failure type, the attempted query, any partial results, and potential alternative approaches.",
+   "C": "Catch the timeout and return an empty result set marked as successful.",
+   "D": "Propagate the timeout exception to a top-level handler that terminates the entire research workflow."
+  },
+  "answer": "B",
+  "explanation": "Structured error context gives the coordinator what it needs to retry with a modified query, try an alternative, or proceed with partial results. (Mirrors official Sample Question 8.)",
+  "distractors": {
+   "A": "A generic status hides valuable context, preventing informed recovery decisions.",
+   "C": "Marking failure as success suppresses the error and risks incomplete outputs.",
+   "D": "Terminating the whole workflow is unnecessary when recovery could succeed."
+  },
+  "official": true
+ },
+ {
+  "id": "D5-Q33",
+  "domain": 5,
+  "task": "5.3",
+  "scenario": 3,
+  "stem": "A subagent returns partial results plus an unrecoverable error. The coordinator should:",
+  "options": {
+   "A": "Ignore the error metadata.",
+   "B": "Discard the partial results and terminate.",
+   "C": "Treat the partial results as complete.",
+   "D": "Use the structured context (attempt, partial results, alternatives) to decide whether to retry, try an alternative, or proceed with partial results and annotate gaps."
+  },
+  "answer": "D",
+  "explanation": "The coordinator leverages structured context to choose the best recovery, possibly proceeding with annotated partial results.",
+  "distractors": {
+   "B": "Discarding partial results wastes usable work.",
+   "C": "Treating partial as complete misleads.",
+   "A": "Ignoring metadata forfeits recovery guidance."
+  },
+  "official": false
+ },
+ {
+  "id": "D5-Q41",
+  "domain": 5,
+  "task": "5.4",
+  "scenario": 4,
+  "stem": "When context fills with verbose discovery output during an extended session, which command reduces context usage?",
+  "options": {
+   "A": "`--json-schema`.",
+   "B": "`/memory`.",
+   "C": "`/compact`.",
+   "D": "`fork_session`."
+  },
+  "answer": "C",
+  "explanation": "`/compact` reduces context usage during extended exploration sessions.",
+  "distractors": {
+   "B": "`/memory` inspects loaded files; it doesn't compact.",
+   "A": "A CI output flag.",
+   "D": "Forking branches sessions; it doesn't compact context."
+  },
+  "official": false
+ },
+ {
+  "id": "D5-Q49",
+  "domain": 5,
+  "task": "5.5",
+  "scenario": 6,
+  "stem": "An extraction system reports 97% aggregate accuracy, but a downstream team reports frequent errors on a specific document type. What risk does this illustrate, and what should you do?",
+  "options": {
+   "A": "97% is fine; ignore the complaints.",
+   "B": "Aggregate accuracy can mask poor performance on specific document types or fields; analyze accuracy by document type and field before automating high-confidence extractions.",
+   "C": "Switch models immediately.",
+   "D": "Increase the aggregate to 99% by relabeling."
+  },
+  "answer": "B",
+  "explanation": "Aggregate metrics can hide weak segments; validate accuracy by document type and field before automating.",
+  "distractors": {
+   "A": "Ignoring a known weak segment is unsafe.",
+   "C": "Model-swapping is premature without segment analysis.",
+   "D": "Relabeling to inflate metrics is dishonest and unsafe."
+  },
+  "official": false
+ },
+ {
+  "id": "D5-Q57",
+  "domain": 5,
+  "task": "5.5",
+  "scenario": 6,
+  "stem": "A reviewer team is small. The best routing strategy prioritizes:",
+  "options": {
+   "A": "Whatever arrives last.",
+   "B": "High-confidence extractions first.",
+   "C": "Alphabetical document order.",
+   "D": "Low-confidence and ambiguous/contradictory-source extractions, so scarce human attention targets the riskiest items."
+  },
+  "answer": "D",
+  "explanation": "Prioritize the riskiest (low-confidence/ambiguous) items for limited reviewer capacity.",
+  "distractors": {
+   "B": "High-confidence items are lowest priority (aside from sampling).",
+   "A": "Arbitrary ordering ignores risk.",
+   "C": "Arbitrary ordering ignores risk."
+  },
+  "official": false
+ },
+ {
+  "id": "D5-Q65",
+  "domain": 5,
+  "task": "5.6",
+  "scenario": 3,
+  "stem": "When a document-analysis subagent finds conflicting values within its scope, it should:",
+  "options": {
+   "A": "Drop the document.",
+   "B": "Pick one and hide the other.",
+   "C": "Include both conflicting values, explicitly annotated, and let the coordinator decide how to reconcile before synthesis.",
+   "D": "Fabricate a compromise value."
+  },
+  "answer": "C",
+  "explanation": "Surface both annotated values and defer reconciliation to the coordinator before synthesis.",
+  "distractors": {
+   "B": "Hiding a value loses information.",
+   "A": "Dropping the document discards evidence.",
+   "D": "Fabrication is a correctness violation."
+  },
+  "official": false
+ }
+]

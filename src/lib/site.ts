@@ -22,7 +22,6 @@ export const SOCIALS = {
   scholar: 'https://scholar.google.com/citations?user=Ls5WYe8AAAAJ&hl=en',
   orcid: 'https://orcid.org/0009-0002-0818-461X',
   email: `mailto:${SITE.email}`,
-  rss: '/rss.xml',
 } as const;
 
 export const GITHUB_USERNAME = 'sarveshtalele';
@@ -43,9 +42,6 @@ export const GISCUS = {
 
 export const NAV_LINKS = [
   { label: 'Projects', href: '/projects' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Notes', href: '/notes' },
-  { label: 'Tutorials', href: '/tutorials' },
   { label: 'Claude', href: '/claude' },
   { label: 'About', href: '/about' },
 ] as const;

@@ -1,5 +1,5 @@
 ---
-import { Mail, Rss } from '@lucide/astro';
+import { Mail } from '@lucide/astro';
 import GithubIcon from './icons/GithubIcon.astro';
 import LinkedinIcon from './icons/LinkedinIcon.astro';
 import MediumIcon from './icons/MediumIcon.astro';
@@ -42,11 +42,6 @@ const year = new Date().getFullYear();
             href={SOCIALS.email}
             class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
             aria-label="Email"><Mail class="h-[18px] w-[18px]" aria-hidden="true" /></a
-          >
-          <a
-            href={SOCIALS.rss}
-            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg hover:text-fg"
-            aria-label="RSS feed"><Rss class="h-[18px] w-[18px]" aria-hidden="true" /></a
           >
         </div>
       </div>
