@@ -15,11 +15,17 @@ const certifications = (await getCollection('certifications'))
 
 <PageLayout
   title="Claude"
-  description="Claude Certified Architect badges, guides, and products — everything on this site specific to the Claude ecosystem."
+  description="Claude Certified Architect badges, guides, and products, everything on this site specific to the Claude ecosystem."
   eyebrow="Anthropic · Claude"
   crumbs={[{ label: 'Claude' }]}
 >
   <div class="claude-page">
+    <a
+      href="/"
+      class="mb-6 inline-flex items-center gap-1.5 rounded-full border border-(--claude-line) bg-(--claude-chip) px-3.5 py-1.5 text-sm font-medium text-(--claude-ink) transition-transform hover:-translate-y-0.5"
+    >
+      &larr; Back to home
+    </a>
     <div class="claude-hero relative overflow-hidden rounded-2xl p-8 sm:p-12">
       <span class="inline-flex items-center gap-1.5 rounded-full border border-(--claude-line) bg-(--claude-chip) px-3 py-1 text-xs font-medium text-(--claude-ink)">
         <Sparkles class="h-3.5 w-3.5" aria-hidden="true" /> Claude Certified Architect
@@ -29,11 +35,11 @@ const certifications = (await getCollection('certifications'))
       </h1>
       <p class="mt-3 max-w-xl text-(--claude-ink-muted)">
         Both Claude architecture tracks, exam guides, and the sessions I run for people navigating the Claude
-        ecosystem — whether you're technical or not.
+        ecosystem, whether you're technical or not.
       </p>
     </div>
 
-    {/* Mock exam — the free practice product */}
+    {/* Mock exam, the free practice product */}
     <section class="mt-14">
       <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-(--claude-accent)">Practice</p>
       <div class="claude-card claude-card-accent overflow-hidden rounded-2xl p-6 sm:p-8">
@@ -43,11 +49,11 @@ const certifications = (await getCollection('certifications'))
               <GraduationCap class="h-3.5 w-3.5" aria-hidden="true" /> Free CCAR-F Mock Exam
             </span>
             <h2 class="mt-3 text-2xl font-bold tracking-tight text-(--claude-ink)">
-              Sit a full mock exam for the Claude Certified Architect – Foundations exam
+              Sit a full mock exam for the Claude Certified Architect, Foundations exam
             </h2>
             <p class="mt-2 text-(--claude-ink-muted)">
-              A timed, 60-question mock exam that mirrors the real CCAR-F format — scored by domain — plus an
-              untimed practice mode with full explanations. Or study the complete bank of
+              A timed, 60-question mock exam that mirrors the real CCAR-F format, scored by domain, plus an
+              untimed practice mode with full explanations. Or study the complete bank of{' '}
               <strong class="text-(--claude-ink)">360 questions</strong> in the Learn &amp; Review library, each with
               the exact documentation page to read.
             </p>
@@ -75,7 +81,7 @@ const certifications = (await getCollection('certifications'))
       </div>
     </section>
 
-    {/* Dashboard — certifications + products (unchanged three cards) */}
+    {/* Dashboard, certifications + products (unchanged three cards) */}
     <section class="mt-14">
       <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-(--claude-accent)">Dashboard</p>
       <div class="grid gap-6 lg:grid-cols-3">
@@ -102,8 +108,8 @@ const certifications = (await getCollection('certifications'))
                 <a
                   href={cert.data.credentialUrl}
                   target="_blank"
-                  rel="noopener"
-                  class="inline-flex items-center gap-1 text-xs font-medium text-(--claude-accent) hover:underline"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 rounded-full border border-(--claude-accent) bg-(--claude-accent) px-4 py-1.5 text-xs font-semibold text-white transition-transform hover:-translate-y-0.5"
                 >
                   Verify <ExternalLink class="h-3 w-3" aria-hidden="true" />
                 </a>
@@ -118,7 +124,7 @@ const certifications = (await getCollection('certifications'))
               <Coffee class="h-3.5 w-3.5" aria-hidden="true" /> My Claude Products
             </span>
             <p class="mt-3 text-sm text-(--claude-ink-muted)">
-              1:1 Claude architecture reviews, exam prep sessions, and build sessions — book directly, no
+              1:1 Claude architecture reviews, exam prep sessions, and build sessions, book directly, no
               back-and-forth.
             </p>
           </div>
@@ -134,7 +140,7 @@ const certifications = (await getCollection('certifications'))
       </div>
     </section>
 
-    {/* Exam prep — replaces the old blog section */}
+    {/* Exam prep, replaces the old blog section */}
     <section class="mt-14">
       <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-(--claude-accent)">Exam Prep</p>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -146,7 +152,7 @@ const certifications = (await getCollection('certifications'))
             Preparing for the Claude Foundation exam
           </h3>
           <p class="flex-1 text-sm text-(--claude-ink-muted)">
-            The blueprint, domains, task statements, and a study plan for the Foundations (CCAR-F) tier — plus a link
+            The blueprint, domains, task statements, and a study plan for the Foundations (CCAR-F) tier, plus a link
             straight into the mock exam.
           </p>
           <span class="inline-flex items-center gap-1 text-sm font-medium text-(--claude-accent)">
@@ -178,7 +184,7 @@ const certifications = (await getCollection('certifications'))
             Preparing for the Professional exam
           </h3>
           <p class="flex-1 text-sm text-(--claude-ink-muted)">
-            The Professional-track write-up and practice set are on the way — once I've sat the exam, the full study
+            The Professional-track write-up and practice set are on the way, once I've sat the exam, the full study
             path lands here.
           </p>
           <a href={EXAM_REPO} target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-sm font-medium text-(--claude-accent) hover:underline">
@@ -193,7 +199,7 @@ const certifications = (await getCollection('certifications'))
 <style>
   /*
    * Self-contained Claude brand palette (Anthropic's warm clay/cream
-   * language), scoped to this page only — same isolation pattern as
+   * language), scoped to this page only, same isolation pattern as
    * SpaceDashboard's cosmic theme. Doesn't touch the site's global tokens.
    */
   .claude-page {

@@ -25,7 +25,7 @@ const HIGHLIGHTS = [
   {
     icon: ShieldCheck,
     title: 'Claude Certified Architect',
-    description: "Anthropic-certified on architecting production Claude systems — one of this site's core credentials.",
+    description: "Anthropic-certified on architecting production Claude systems, one of this site's core credentials.",
     href: '/certifications',
     linkLabel: 'View certifications',
   },
@@ -43,7 +43,7 @@ function parseStat(value: string) {
   return { target: Number(match[1]), prefix: '', suffix: match[2] };
 }
 
-// Every stat tile links somewhere real — the personal KPIs go to the page
+// Every stat tile links somewhere real, the personal KPIs go to the page
 // that actually backs the number (mostly Experience, since that's where
 // those figures come from), and the content counts go to their own listing.
 const STAT_LINKS: Record<string, string> = {
@@ -107,7 +107,7 @@ const STAT_LINKS: Record<string, string> = {
       }
       <a href="/projects" class="space-tile block rounded-2xl p-4" data-github-repo-count={GITHUB_USERNAME}>
         <p class="flex items-baseline text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          <span class="repo-count-value">–</span>
+          <span class="repo-count-value">…</span>
         </p>
         <p class="mt-1.5 text-xs leading-snug text-indigo-200/70">GitHub repos (live)</p>
       </a>
@@ -267,9 +267,9 @@ const STAT_LINKS: Record<string, string> = {
         const res = await fetch(`https://api.github.com/users/${username}`);
         if (!res.ok) throw new Error(`GitHub API ${res.status}`);
         const data = await res.json();
-        if (valueEl) valueEl.textContent = String(data.public_repos ?? '–');
+        if (valueEl) valueEl.textContent = String(data.public_repos ?? '…');
       } catch {
-        if (valueEl) valueEl.textContent = '–';
+        if (valueEl) valueEl.textContent = '…';
       }
     });
   }

@@ -3,14 +3,14 @@ import PageLayout from '@layouts/PageLayout.astro';
 ---
 
 <PageLayout
-  title="CCAR-F Question Bank — Learn & Review"
+  title="CCAR-F Question Bank: Learn & Review"
   description="All 360 CCAR-F practice questions in one scrollable place, grouped by domain and task statement, with full explanations, concept summaries, and a link to the exact Claude documentation page to read for each topic."
   eyebrow="Claude · Learn & Review"
   crumbs={[{ label: 'Claude', href: '/claude' }, { label: 'Learn & Review' }]}
 >
   <div class="review" id="review-app" data-q="/claude/review/questions.json" data-c="/claude/review/concepts.json">
     <div class="review-warning" role="note">
-      <strong>Unofficial study material.</strong> Original practice questions — not real exam questions and not
+      <strong>Unofficial study material.</strong> Original practice questions, not real exam questions and not
       affiliated with or endorsed by Anthropic. Every item links to the Claude documentation page that covers the
       concept, so you can learn it end to end.
     </div>
@@ -61,6 +61,9 @@ import PageLayout from '@layouts/PageLayout.astro';
     justify-content:space-between; gap:.5rem; align-items:center;
   }
   .review-toc summary::-webkit-details-marker { display:none; }
+  .review-toc summary .toc-dom::before { content:'▸'; display:inline-block; margin-right:.45rem; font-size:.72em; color:var(--r-muted); transition:transform .15s ease; }
+  .review-toc details[open] summary .toc-dom::before { transform:rotate(90deg); }
+  .review-toc details[open] > summary .toc-dom { color:var(--r-accent); }
   .review-toc .toc-w { font-size:.7rem; font-weight:600; color:var(--r-accent); }
   .review-toc a { display:block; padding:.28rem .25rem .28rem .75rem; font-size:.82rem; color:var(--r-muted); text-decoration:none; border-left:2px solid transparent; }
   .review-toc a:hover { color:var(--r-ink); }
@@ -82,7 +85,9 @@ import PageLayout from '@layouts/PageLayout.astro';
   .r-task { margin-top:1.6rem; scroll-margin-top:1rem; }
   .r-task h3 { font-size:1.05rem; font-weight:700; color:var(--r-accent-strong); }
 
-  .r-q { border:1px solid var(--r-line); background:var(--r-card); border-radius:.8rem; padding:1.1rem 1.2rem; margin-top:.9rem; box-shadow:var(--shadow-card); }
+  /* content-visibility lets the browser skip layout/paint for off-screen
+     cards — critical with 360 questions on one page. */
+  .r-q { border:1px solid var(--r-line); background:var(--r-card); border-radius:.8rem; padding:1.1rem 1.2rem; margin-top:.9rem; box-shadow:var(--shadow-card); content-visibility:auto; contain-intrinsic-size:0 260px; }
   .r-q .qid { font-size:.72rem; font-weight:700; color:var(--r-muted); letter-spacing:.03em; }
   .r-q .stem { font-weight:600; line-height:1.55; margin-top:.3rem; }
   .r-opts { display:grid; gap:.45rem; margin-top:.8rem; }
@@ -170,11 +175,14 @@ import PageLayout from '@layouts/PageLayout.astro';
       const weight = conceptsByDom[d]?.[0]?.weight ?? '';
       // group by task
       const tasks = [...new Set(dq.map((q)=>q.ptask))].sort();
-      // TOC
-      toc += `<details open><summary><a href="#d${d}" style="border:none;padding:0;color:inherit">D${d} · ${esc(dname)}</a><span class="toc-w">${weight}</span></summary>`;
+      // TOC (collapsible dropdown per domain)
+      toc += `<details data-domain="${d}"><summary><span class="toc-dom">D${d} · ${esc(dname)}</span><span class="toc-w">${weight}</span></summary>`;
       for (const t of tasks) {
         const tc = conceptsByDom[d]?.find((c)=>c.task===t);
-        toc += `<a href="#t${t.replace('.','-')}" data-toc="t${t.replace('.','-')}">${t} · ${esc((tc?.title??'').slice(0,40))}${(tc?.title?.length??0)>40?'…':''} <span style="opacity:.6">(${dq.filter((q)=>q.ptask===t).length})</span></a>`;
+        const tid = 't' + t.replace('.', '-');
+        const title = tc?.title ?? '';
+        const short = title.length > 38 ? title.slice(0, 38) + '…' : title;
+        toc += `<a href="#${tid}" data-toc="${tid}">${t} · ${esc(short)} <span style="opacity:.6">(${dq.filter((q)=>q.ptask===t).length})</span></a>`;
       }
       toc += `</details>`;
       // content: domain head + concepts + questions
@@ -189,7 +197,7 @@ import PageLayout from '@layouts/PageLayout.astro';
       content += `</div>`;
       for (const t of tasks) {
         const tc = conceptsByDom[d]?.find((c)=>c.task===t);
-        content += `<div class="r-task" id="t${t.replace('.','-')}"><h3>Task ${t}${tc?` — ${esc(tc.title)}`:''}</h3>`;
+        content += `<div class="r-task" id="t${t.replace('.','-')}" data-domain="${d}"><h3>Task ${t}${tc?`: ${esc(tc.title)}`:''}</h3>`;
         for (const q of dq.filter((x)=>x.ptask===t)) content += questionHtml(q);
         content += `</div>`;
       }
@@ -231,13 +239,38 @@ import PageLayout from '@layouts/PageLayout.astro';
       });
       countEl.textContent = term ? `${shown} match${shown===1?'':'es'}` : `${questions.length} questions`;
     });
-    // scrollspy: highlight active domain/task in TOC
-    const links = new Map<string,HTMLAnchorElement>();
-    tocEl.querySelectorAll<HTMLAnchorElement>('a[data-toc]').forEach((a)=>links.set(a.dataset.toc!, a));
-    const obs = new IntersectionObserver((entries)=>{
-      entries.forEach((en)=>{ if(en.isIntersecting){ const a=links.get(en.target.id); if(a){ links.forEach((x)=>x.classList.remove('active')); a.classList.add('active'); } } });
-    }, { rootMargin:'-10% 0px -80% 0px' });
-    contentEl.querySelectorAll('.r-task').forEach((t)=>obs.observe(t));
+    // scrollspy: as the page scrolls, highlight the current task and open its
+    // domain dropdown (accordion follows scroll). Uses scroll position rather
+    // than IntersectionObserver so it stays accurate for tall sections.
+    const taskLinks = new Map<string,HTMLElement>();
+    tocEl.querySelectorAll<HTMLElement>('a[data-toc]').forEach((a)=>taskLinks.set(a.dataset.toc!, a));
+    const detailsEls = [...tocEl.querySelectorAll<HTMLDetailsElement>('details[data-domain]')];
+    const taskEls = [...contentEl.querySelectorAll<HTMLElement>('.r-task')];
+    let activeTask = '', activeDom = '', ticking = false, userToggled = false;
+    // if the visitor manually opens/closes a dropdown, stop auto-managing them
+    detailsEls.forEach((d)=>d.querySelector('summary')?.addEventListener('click', ()=>{ userToggled = true; }));
+    function spy(){
+      ticking = false;
+      const line = 150;
+      let cur: HTMLElement | null = taskEls[0] ?? null;
+      for (const el of taskEls){ if (el.getBoundingClientRect().top <= line) cur = el; else break; }
+      if (!cur) return;
+      const tid = cur.id, dom = cur.dataset.domain ?? '';
+      if (tid !== activeTask){
+        activeTask = tid;
+        taskLinks.forEach((a)=>a.classList.remove('active'));
+        const link = taskLinks.get(tid);
+        if (link){ link.classList.add('active'); link.scrollIntoView({ block:'nearest' }); }
+      }
+      if (dom !== activeDom){
+        activeDom = dom;
+        if (!userToggled) detailsEls.forEach((d)=>{ d.open = (d.dataset.domain === dom); });
+      }
+    }
+    window.addEventListener('scroll', ()=>{ if(!ticking){ ticking = true; requestAnimationFrame(spy); } }, { passive:true });
+    // clicking a TOC link jumps and re-enables auto-accordion
+    tocEl.addEventListener('click', (e)=>{ if ((e.target as HTMLElement).closest('a[data-toc]')) userToggled = false; });
+    spy();
   }
   boot();
 </script>

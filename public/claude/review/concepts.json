@@ -13,7 +13,7 @@
   "domainName": "Agentic Architecture & Orchestration",
   "weight": "27%",
   "task": "1.2",
-  "title": "Orchestrate multi-agent systems with coordinator–subagent patterns",
+  "title": "Orchestrate multi-agent systems with coordinator, subagent patterns",
   "summary": "Hub-and-spoke; subagents run with isolated context (no automatic inheritance of coordinator history); coordinator handles decomposition, delegation, aggregation, and dynamic subagent selection; iterative refinement loops; routing all communication through the coordinator for observability.",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
@@ -86,7 +86,7 @@
   "weight": "18%",
   "task": "2.3",
   "title": "Distribute tools appropriately across agents and configure tool choice",
-  "summary": "Too many tools (e.g., 18 vs 4–5) degrades selection reliability; agents misuse out-of-specialization tools; scoped access with limited cross-role tools; `tool_choice` `auto` / `any` / forced (`{\"type\":\"tool\",\"name\":\"…\"}`).",
+  "summary": "Too many tools (e.g., 18 vs 4-5) degrades selection reliability; agents misuse out-of-specialization tools; scoped access with limited cross-role tools; `tool_choice` `auto` / `any` / forced (`{\"type\":\"tool\",\"name\":\"…\"}`).",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -176,7 +176,7 @@
   "weight": "20%",
   "task": "4.2",
   "title": "Apply few-shot prompting to improve output consistency and quality",
-  "summary": "Few-shot examples are the most effective technique when detailed instructions alone give inconsistent output; demonstrate ambiguous-case handling; enable generalization to novel patterns; reduce hallucination in extraction; 2–4 targeted examples showing reasoning.",
+  "summary": "Few-shot examples are the most effective technique when detailed instructions alone give inconsistent output; demonstrate ambiguous-case handling; enable generalization to novel patterns; reduce hallucination in extraction; 2-4 targeted examples showing reasoning.",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {

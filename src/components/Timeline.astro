@@ -28,7 +28,7 @@ const { entries, maxHighlights = 0 } = Astro.props;
           </p>
           <p class="mt-0.5 text-xs text-fg-faint">
             <time datetime={startDate.toISOString()}>{formatMonthYear(startDate)}</time>
-            {' — '}
+            {', '}
             {current || !endDate ? 'Present' : <time datetime={endDate.toISOString()}>{formatMonthYear(endDate)}</time>}
           </p>
           {shown.length > 0 && (

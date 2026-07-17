@@ -54,7 +54,7 @@
    "D": "The loop should append an empty tool result and continue."
   },
   "answer": "A",
-  "explanation": "`end_turn` with no tool requests is the terminal state — surface the answer and stop.",
+  "explanation": "`end_turn` with no tool requests is the terminal state, surface the answer and stop.",
   "distractors": {
    "B": "`end_turn` is a normal completion, not an error.",
    "C": "`end_turn` specifically means it is *not* waiting on tools.",
@@ -96,7 +96,7 @@
    "D": "Incomplete coverage of broad research topics."
   },
   "answer": "D",
-  "explanation": "Narrow decomposition risks incomplete coverage of broad topics — subtopics get missed.",
+  "explanation": "Narrow decomposition risks incomplete coverage of broad topics, subtopics get missed.",
   "distractors": {
    "A": "That's a risk of redundant, not narrow, decomposition.",
    "C": "Subagents have isolated context; narrow scope doesn't cause over-inheritance.",
@@ -180,7 +180,7 @@
    "D": "A programmatic prerequisite gate that blocks downstream tool calls until a prerequisite step has completed."
   },
   "answer": "D",
-  "explanation": "Blocking a downstream tool until a prerequisite returns is a programmatic prerequisite gate — deterministic enforcement.",
+  "explanation": "Blocking a downstream tool until a prerequisite returns is a programmatic prerequisite gate, deterministic enforcement.",
   "distractors": {
    "A": "A hook is deterministic, not probabilistic prompting.",
    "C": "Unrelated to sentiment.",
@@ -201,7 +201,7 @@
    "D": "Use programmatic gates only where a downstream action is unsafe without a prerequisite (e.g., refund after verification); use guidance for ordering that is merely preferred."
   },
   "answer": "D",
-  "explanation": "Reserve deterministic gates for safety/critical prerequisites; guidance suffices for preferred-but-not-critical ordering — matching the enforcement-vs-guidance distinction.",
+  "explanation": "Reserve deterministic gates for safety/critical prerequisites; guidance suffices for preferred-but-not-critical ordering, matching the enforcement-vs-guidance distinction.",
   "distractors": {
    "A": "Over-gating adds rigidity and maintenance cost where it isn't needed.",
    "C": "Some steps (financial prerequisites) genuinely need enforcement.",
@@ -285,7 +285,7 @@
    "D": "\"Design a new microservice architecture.\""
   },
   "answer": "A",
-  "explanation": "A repeatable per-file checklist is predictable and multi-aspect — ideal for prompt chaining.",
+  "explanation": "A repeatable per-file checklist is predictable and multi-aspect, ideal for prompt chaining.",
   "distractors": {
    "B": "Each is open-ended/architectural, favoring dynamic or plan-mode approaches.",
    "C": "Each is open-ended/architectural, favoring dynamic or plan-mode approaches.",
@@ -343,7 +343,7 @@
   "stem": "Logs show the agent frequently calls `get_customer` when users ask about orders (e.g., \"check my order #12345\") instead of `lookup_order`. Both tools have minimal descriptions (\"Retrieves customer information\" / \"Retrieves order details\") and accept similar identifiers. What is the most effective *first step* to improve tool-selection reliability?",
   "options": {
    "A": "Expand each tool's description to include input formats it handles, example queries, edge cases, and boundaries explaining when to use it versus similar tools.",
-   "B": "Add few-shot examples to the system prompt showing 5–8 order queries routing to `lookup_order`.",
+   "B": "Add few-shot examples to the system prompt showing 5-8 order queries routing to `lookup_order`.",
    "C": "Implement a routing layer that parses user input and pre-selects the tool by keyword before each turn.",
    "D": "Consolidate both tools into a single `lookup_entity` tool that inspects the identifier and picks the backend."
   },
@@ -382,7 +382,7 @@
   "domain": 2,
   "task": "2.1",
   "scenario": 1,
-  "stem": "Which is the *strongest* signal that your tool descriptions—not the model—are the cause of misrouting?",
+  "stem": "Which is the *strongest* signal that your tool descriptions, not the model, are the cause of misrouting?",
   "options": {
    "A": "The model routes correctly once descriptions are expanded with formats, examples, and boundaries.",
    "B": "The model always refuses to call any tool.",
@@ -537,7 +537,7 @@
    "D": "Bash `rm`."
   },
   "answer": "B",
-  "explanation": "Grep searches file contents for patterns (function names, error messages, imports) — the right tool to find callers.",
+  "explanation": "Grep searches file contents for patterns (function names, error messages, imports), the right tool to find callers.",
   "distractors": {
    "A": "Glob matches file *paths/names*, not contents.",
    "C": "Reading every file is inefficient for a content search.",
@@ -663,7 +663,7 @@
    "D": "Place a separate CLAUDE.md in each subdirectory."
   },
   "answer": "C",
-  "explanation": "`.claude/rules/` with glob patterns (e.g., `**/*.test.tsx`) auto-applies conventions by path regardless of directory — ideal for test files spread throughout. (Mirrors official Sample Question 6.)",
+  "explanation": "`.claude/rules/` with glob patterns (e.g., `**/*.test.tsx`) auto-applies conventions by path regardless of directory, ideal for test files spread throughout. (Mirrors official Sample Question 6.)",
   "distractors": {
    "B": "Relies on inference rather than explicit matching, making it unreliable.",
    "A": "Requires manual invocation, contradicting \"automatic\" application by path.",
@@ -697,7 +697,7 @@
   "domain": 3,
   "task": "3.4",
   "scenario": 2,
-  "stem": "You've been assigned to restructure a monolithic application into microservices — changes across dozens of files, plus decisions about service boundaries and module dependencies. Which approach should you take?",
+  "stem": "You've been assigned to restructure a monolithic application into microservices, changes across dozens of files, plus decisions about service boundaries and module dependencies. Which approach should you take?",
   "options": {
    "A": "Start with direct execution and let the implementation reveal the natural service boundaries.",
    "B": "Enter plan mode to explore the codebase, understand dependencies, and design an implementation approach before making changes.",
@@ -705,7 +705,7 @@
    "D": "Begin in direct execution and only switch to plan mode if you encounter unexpected complexity."
   },
   "answer": "B",
-  "explanation": "Plan mode is designed for complex, large-scale, multi-approach, architectural, multi-file changes — exactly monolith-to-microservices. It enables safe exploration and design before committing, preventing costly rework. (Mirrors official Sample Question 5.)",
+  "explanation": "Plan mode is designed for complex, large-scale, multi-approach, architectural, multi-file changes, exactly monolith-to-microservices. It enables safe exploration and design before committing, preventing costly rework. (Mirrors official Sample Question 5.)",
   "distractors": {
    "A": "Risks costly rework when dependencies surface late.",
    "C": "Assumes you already know the right structure without exploring the code.",
@@ -721,7 +721,7 @@
   "stem": "Why is \"start direct, switch to plan mode only if complexity emerges\" a weak strategy for a task whose complexity is already known?",
   "options": {
    "A": "Plan mode can't be entered mid-task.",
-   "B": "The complexity is stated upfront, so beginning direct risks committing changes and incurring rework before the switch — plan mode should be chosen from the start.",
+   "B": "The complexity is stated upfront, so beginning direct risks committing changes and incurring rework before the switch, plan mode should be chosen from the start.",
    "C": "Direct execution is always forbidden.",
    "D": "Switching modes corrupts the repo."
   },
@@ -744,7 +744,7 @@
    "A": "Increase `max_tokens`.",
    "B": "Repeat the prose description more emphatically.",
    "C": "Add \"be careful\" to the prompt.",
-   "D": "Provide 2–3 concrete input/output examples to clarify the transformation."
+   "D": "Provide 2-3 concrete input/output examples to clarify the transformation."
   },
   "answer": "D",
   "explanation": "Concrete input/output examples are the most effective way to communicate expected transformations when prose is interpreted inconsistently.",
@@ -789,7 +789,7 @@
    "D": "Add the `-p` (or `--print`) flag to run in non-interactive mode: `claude -p \"Analyze this pull request for security issues\"`."
   },
   "answer": "D",
-  "explanation": "`-p`/`--print` runs Claude Code non-interactively: it processes the prompt, prints the result, and exits — exactly what CI needs. (Mirrors official Sample Question 10.)",
+  "explanation": "`-p`/`--print` runs Claude Code non-interactively: it processes the prompt, prints the result, and exits, exactly what CI needs. (Mirrors official Sample Question 10.)",
   "distractors": {
    "B": "`CLAUDE_HEADLESS` is not a real environment variable.",
    "C": "A stdin workaround doesn't properly address Claude Code's command syntax.",
@@ -973,7 +973,7 @@
   "stem": "A retry keeps failing because the requested value doesn't exist in the provided document (it's in an external doc you didn't include). What should you conclude?",
   "options": {
    "A": "Retry more times with the same input.",
-   "B": "Retries won't help; the information is absent from the source — provide the correct source or mark the field null.",
+   "B": "Retries won't help; the information is absent from the source, provide the correct source or mark the field null.",
    "C": "The schema is wrong.",
    "D": "The model is broken."
   },
@@ -999,10 +999,10 @@
    "D": "Switch both to batch with a timeout fallback to real-time."
   },
   "answer": "B",
-  "explanation": "The Batches API offers 50% savings but processes in up to 24 hours with no latency SLA — unsuitable for blocking pre-merge checks, ideal for overnight jobs. Match each API to its workload. (Mirrors official Sample Question 11.)",
+  "explanation": "The Batches API offers 50% savings but processes in up to 24 hours with no latency SLA, unsuitable for blocking pre-merge checks, ideal for overnight jobs. Match each API to its workload. (Mirrors official Sample Question 11.)",
   "distractors": {
    "A": "\"Often faster\" completion isn't acceptable for a blocking workflow.",
-   "C": "A misconception; batch results correlate via `custom_id`, so ordering isn't the blocker — latency is.",
+   "C": "A misconception; batch results correlate via `custom_id`, so ordering isn't the blocker, latency is.",
    "D": "Adds unnecessary complexity when the simpler solution is matching each API to its use case."
   },
   "official": true

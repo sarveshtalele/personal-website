@@ -157,7 +157,7 @@
    "D": "The customer stops typing."
   },
   "answer": "A",
-  "explanation": "`end_turn` with no pending tool requests is the model signaling it has completed its reasoning for the turn — the defined completion condition.",
+  "explanation": "`end_turn` with no pending tool requests is the model signaling it has completed its reasoning for the turn, the defined completion condition.",
   "distractors": {
    "B": "Punctuation is not a control signal.",
    "C": "Exceeding context is a failure mode, not a graceful completion.",
@@ -229,7 +229,7 @@
    "D": "The loop should append an empty tool result and continue."
   },
   "answer": "A",
-  "explanation": "`end_turn` with no tool requests is the terminal state — surface the answer and stop.",
+  "explanation": "`end_turn` with no tool requests is the terminal state, surface the answer and stop.",
   "distractors": {
    "B": "`end_turn` is a normal completion, not an error.",
    "C": "`end_turn` specifically means it is *not* waiting on tools.",
@@ -284,7 +284,7 @@
    "D": "There is no ambient coordinator-memory tool; context is passed in the prompt."
   },
   "official": false,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -293,7 +293,7 @@
   "task": "1.2",
   "ptask": "1.2",
   "scenario": 3,
-  "stem": "What is the coordinator agent's primary set of responsibilities in a coordinator–subagent architecture?",
+  "stem": "What is the coordinator agent's primary set of responsibilities in a coordinator, subagent architecture?",
   "options": {
    "A": "Task decomposition, delegation, result aggregation, and deciding which subagents to invoke based on query complexity.",
    "B": "Executing all tool calls itself and never delegating.",
@@ -301,14 +301,14 @@
    "D": "Storing API keys for the subagents."
   },
   "answer": "A",
-  "explanation": "The coordinator decomposes the task, delegates, aggregates results, and selects subagents based on complexity — the hub in hub-and-spoke.",
+  "explanation": "The coordinator decomposes the task, delegates, aggregates results, and selects subagents based on complexity, the hub in hub-and-spoke.",
   "distractors": {
    "B": "Doing everything itself defeats the multi-agent design.",
    "C": "Subagents don't self-organize; the coordinator routes and aggregates.",
    "D": "Credential storage is not the coordinator's architectural role here."
   },
   "official": false,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -332,7 +332,7 @@
    "B": "Blind parallelism wastes work and doesn't address unnecessary routing."
   },
   "official": false,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -356,7 +356,7 @@
    "D": "Wastes the parallel capacity and doesn't partition anything."
   },
   "official": false,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -380,7 +380,7 @@
    "B": "Full restarts are wasteful; targeted re-delegation is the pattern."
   },
   "official": false,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -397,14 +397,14 @@
    "D": "To reduce the number of tools each subagent has."
   },
   "answer": "A",
-  "explanation": "Routing through the coordinator gives observability, uniform error handling, and controlled information flow — the point of hub-and-spoke.",
+  "explanation": "Routing through the coordinator gives observability, uniform error handling, and controlled information flow, the point of hub-and-spoke.",
   "distractors": {
    "B": "It's an architectural choice, not a protocol mandate.",
    "C": "Subagents produce output regardless; the issue is routing.",
    "D": "Tool count is a separate concern (2.3), not why routing is centralized."
   },
   "official": false,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -428,7 +428,7 @@
    "D": "Each blames a downstream agent that is working correctly within its assigned scope; the assignments themselves are the defect."
   },
   "official": true,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -445,14 +445,14 @@
    "D": "Incomplete coverage of broad research topics."
   },
   "answer": "D",
-  "explanation": "Narrow decomposition risks incomplete coverage of broad topics — subtopics get missed.",
+  "explanation": "Narrow decomposition risks incomplete coverage of broad topics, subtopics get missed.",
   "distractors": {
    "A": "That's a risk of redundant, not narrow, decomposition.",
    "C": "Subagents have isolated context; narrow scope doesn't cause over-inheritance.",
    "B": "Reliability isn't the risk being described."
   },
   "official": false,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -476,7 +476,7 @@
    "D": "A label is insufficient context and invites hallucination."
   },
   "official": false,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -493,14 +493,14 @@
    "D": "Specify research goals and quality criteria rather than rigid procedures, enabling the subagent to adapt."
   },
   "answer": "D",
-  "explanation": "Goal-and-criteria prompts (vs procedural micro-instructions) let subagents adapt their approach — a stated skill.",
+  "explanation": "Goal-and-criteria prompts (vs procedural micro-instructions) let subagents adapt their approach, a stated skill.",
   "distractors": {
    "A": "Rigid procedures reduce adaptability.",
    "B": "Missing objectives lead to unfocused or misdirected work.",
    "C": "Missing objectives lead to unfocused or misdirected work."
   },
   "official": false,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -524,7 +524,7 @@
    "D": "None reflects the query's actual needs; they're arbitrary heuristics."
   },
   "official": false,
-  "docLabel": "Subagents — coordinator/subagent orchestration",
+  "docLabel": "Subagents, coordinator/subagent orchestration",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -548,7 +548,7 @@
    "D": "Token limits don't gate spawning capability."
   },
   "official": false,
-  "docLabel": "Subagents — invocation, context & spawning",
+  "docLabel": "Subagents, invocation, context & spawning",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -572,7 +572,7 @@
    "D": "Iteration count doesn't create parallelism."
   },
   "official": false,
-  "docLabel": "Subagents — invocation, context & spawning",
+  "docLabel": "Subagents, invocation, context & spawning",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -596,7 +596,7 @@
    "B": "URLs alone strip the actual findings."
   },
   "official": false,
-  "docLabel": "Subagents — invocation, context & spawning",
+  "docLabel": "Subagents, invocation, context & spawning",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -620,7 +620,7 @@
    "D": "Sessions and MCP servers are unrelated concepts."
   },
   "official": false,
-  "docLabel": "Subagents — invocation, context & spawning",
+  "docLabel": "Subagents, invocation, context & spawning",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -644,7 +644,7 @@
    "C": "Hosting and billing are out of scope for agent definitions."
   },
   "official": false,
-  "docLabel": "Subagents — invocation, context & spawning",
+  "docLabel": "Subagents, invocation, context & spawning",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -668,7 +668,7 @@
    "D": "Subagents do *not* share memory; that's the point."
   },
   "official": false,
-  "docLabel": "Subagents — invocation, context & spawning",
+  "docLabel": "Subagents, invocation, context & spawning",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -685,14 +685,14 @@
    "D": "Increase the iteration cap on one session."
   },
   "answer": "A",
-  "explanation": "`fork_session` creates parallel branches from a shared baseline — exactly comparing two strategies from one analysis.",
+  "explanation": "`fork_session` creates parallel branches from a shared baseline, exactly comparing two strategies from one analysis.",
   "distractors": {
    "B": "Resuming the same named session doesn't create independent divergent branches.",
    "C": "Fresh sessions discard the shared analysis you want to reuse.",
    "D": "Iteration caps are unrelated to branching."
   },
   "official": false,
-  "docLabel": "Subagents — invocation, context & spawning",
+  "docLabel": "Subagents, invocation, context & spawning",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -716,7 +716,7 @@
    "B": "Raw logs aren't a synthesis."
   },
   "official": false,
-  "docLabel": "Subagents — invocation, context & spawning",
+  "docLabel": "Subagents, invocation, context & spawning",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -740,7 +740,7 @@
    "D": "Multiple `Task` calls per response are expressly how parallelism is achieved."
   },
   "official": false,
-  "docLabel": "Subagents — invocation, context & spawning",
+  "docLabel": "Subagents, invocation, context & spawning",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -764,7 +764,7 @@
    "B": "Confidence without sources can't support attribution."
   },
   "official": false,
-  "docLabel": "Subagents — invocation, context & spawning",
+  "docLabel": "Subagents, invocation, context & spawning",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -783,12 +783,12 @@
   "answer": "A",
   "explanation": "When a specific tool sequence is required for critical business logic (verify identity before financial ops), programmatic enforcement gives deterministic guarantees that prompt-based approaches cannot. (Mirrors official Sample Question 1.)",
   "distractors": {
-   "B": "Rely on probabilistic LLM compliance, which has a non-zero failure rate — unacceptable when errors have financial consequences.",
-   "C": "Rely on probabilistic LLM compliance, which has a non-zero failure rate — unacceptable when errors have financial consequences.",
+   "B": "Rely on probabilistic LLM compliance, which has a non-zero failure rate, unacceptable when errors have financial consequences.",
+   "C": "Rely on probabilistic LLM compliance, which has a non-zero failure rate, unacceptable when errors have financial consequences.",
    "D": "Addresses tool *availability*, not tool *ordering*, which is the actual problem."
   },
   "official": true,
-  "docLabel": "Hooks — workflow enforcement & gates",
+  "docLabel": "Hooks, workflow enforcement & gates",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -799,7 +799,7 @@
   "scenario": 1,
   "stem": "When is *programmatic* enforcement (hooks/prerequisite gates) preferred over *prompt-based* guidance for workflow ordering?",
   "options": {
-   "A": "When deterministic compliance is required — e.g., identity verification before financial operations — because prompt instructions have a non-zero failure rate.",
+   "A": "When deterministic compliance is required, e.g., identity verification before financial operations, because prompt instructions have a non-zero failure rate.",
    "B": "Whenever any ordering preference exists, even cosmetic ones.",
    "C": "Only when the model is small.",
    "D": "Never; prompts are always sufficient."
@@ -812,7 +812,7 @@
    "D": "Prompts are insufficient where guaranteed compliance matters."
   },
   "official": false,
-  "docLabel": "Hooks — workflow enforcement & gates",
+  "docLabel": "Hooks, workflow enforcement & gates",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -836,7 +836,7 @@
    "B": "Re-interviewing wastes the customer's time and the work already done."
   },
   "official": false,
-  "docLabel": "Hooks — workflow enforcement & gates",
+  "docLabel": "Hooks, workflow enforcement & gates",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -860,7 +860,7 @@
    "D": "Fragmenting the request degrades experience and duplicates effort."
   },
   "official": false,
-  "docLabel": "Hooks — workflow enforcement & gates",
+  "docLabel": "Hooks, workflow enforcement & gates",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -877,14 +877,14 @@
    "D": "A programmatic prerequisite gate that blocks downstream tool calls until a prerequisite step has completed."
   },
   "answer": "D",
-  "explanation": "Blocking a downstream tool until a prerequisite returns is a programmatic prerequisite gate — deterministic enforcement.",
+  "explanation": "Blocking a downstream tool until a prerequisite returns is a programmatic prerequisite gate, deterministic enforcement.",
   "distractors": {
    "A": "A hook is deterministic, not probabilistic prompting.",
    "C": "Unrelated to sentiment.",
    "B": "Unrelated to summarization."
   },
   "official": false,
-  "docLabel": "Hooks — workflow enforcement & gates",
+  "docLabel": "Hooks, workflow enforcement & gates",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -908,7 +908,7 @@
    "D": "Enforcement is precisely what's needed here."
   },
   "official": false,
-  "docLabel": "Hooks — workflow enforcement & gates",
+  "docLabel": "Hooks, workflow enforcement & gates",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -932,7 +932,7 @@
    "C": "All are high-stakes guarantees that require deterministic programmatic enforcement, not prompts."
   },
   "official": false,
-  "docLabel": "Hooks — workflow enforcement & gates",
+  "docLabel": "Hooks, workflow enforcement & gates",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -956,7 +956,7 @@
    "D": "Deferred details break continuity at the moment of handoff."
   },
   "official": false,
-  "docLabel": "Hooks — workflow enforcement & gates",
+  "docLabel": "Hooks, workflow enforcement & gates",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -973,14 +973,14 @@
    "D": "Use programmatic gates only where a downstream action is unsafe without a prerequisite (e.g., refund after verification); use guidance for ordering that is merely preferred."
   },
   "answer": "D",
-  "explanation": "Reserve deterministic gates for safety/critical prerequisites; guidance suffices for preferred-but-not-critical ordering — matching the enforcement-vs-guidance distinction.",
+  "explanation": "Reserve deterministic gates for safety/critical prerequisites; guidance suffices for preferred-but-not-critical ordering, matching the enforcement-vs-guidance distinction.",
   "distractors": {
    "A": "Over-gating adds rigidity and maintenance cost where it isn't needed.",
    "C": "Some steps (financial prerequisites) genuinely need enforcement.",
    "B": "They have different reliability guarantees; not interchangeable."
   },
   "official": false,
-  "docLabel": "Hooks — workflow enforcement & gates",
+  "docLabel": "Hooks, workflow enforcement & gates",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1004,7 +1004,7 @@
    "D": "Guessing on a policy gap risks incorrect commitments."
   },
   "official": false,
-  "docLabel": "Hooks — workflow enforcement & gates",
+  "docLabel": "Hooks, workflow enforcement & gates",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1021,14 +1021,14 @@
    "D": "Increasing `max_tokens` so the model has room to normalize."
   },
   "answer": "A",
-  "explanation": "`PostToolUse` hooks intercept tool results and can transform/normalize them (e.g., unify timestamp formats) before the model reasons over them — a deterministic normalization point.",
+  "explanation": "`PostToolUse` hooks intercept tool results and can transform/normalize them (e.g., unify timestamp formats) before the model reasons over them, a deterministic normalization point.",
   "distractors": {
    "B": "`PreToolUse` fires before execution and targets the call, not the heterogeneous results.",
    "C": "Prompt-based normalization is probabilistic and inconsistent across formats.",
    "D": "Token budget doesn't normalize data."
   },
   "official": false,
-  "docLabel": "Hooks — PreToolUse / PostToolUse interception",
+  "docLabel": "Hooks, PreToolUse / PostToolUse interception",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1052,7 +1052,7 @@
    "D": "Temperature doesn't enforce business rules."
   },
   "official": false,
-  "docLabel": "Hooks — PreToolUse / PostToolUse interception",
+  "docLabel": "Hooks, PreToolUse / PostToolUse interception",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1069,14 +1069,14 @@
    "D": "Hooks provide deterministic guarantees; prompt instructions provide only probabilistic compliance."
   },
   "answer": "D",
-  "explanation": "Hooks give deterministic enforcement; prompts yield probabilistic compliance — choose hooks when business rules require guarantees.",
+  "explanation": "Hooks give deterministic enforcement; prompts yield probabilistic compliance, choose hooks when business rules require guarantees.",
   "distractors": {
    "A": "The guarantees differ; that's the whole point.",
    "C": "Reverses the truth.",
    "B": "Hooks can and do enforce."
   },
   "official": false,
-  "docLabel": "Hooks — PreToolUse / PostToolUse interception",
+  "docLabel": "Hooks, PreToolUse / PostToolUse interception",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1100,7 +1100,7 @@
    "D": "Hooks don't manage auth handshakes."
   },
   "official": false,
-  "docLabel": "Hooks — PreToolUse / PostToolUse interception",
+  "docLabel": "Hooks, PreToolUse / PostToolUse interception",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1124,7 +1124,7 @@
    "B": "`Stop` concerns turn completion, not tool interception."
   },
   "official": false,
-  "docLabel": "Hooks — PreToolUse / PostToolUse interception",
+  "docLabel": "Hooks, PreToolUse / PostToolUse interception",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1148,7 +1148,7 @@
    "D": "Stylistic preferences are fine to handle via prompt; they don't need guaranteed enforcement."
   },
   "official": false,
-  "docLabel": "Hooks — PreToolUse / PostToolUse interception",
+  "docLabel": "Hooks, PreToolUse / PostToolUse interception",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1165,14 +1165,14 @@
    "D": "`PostToolUse` runs before the tool executes."
   },
   "answer": "A",
-  "explanation": "If a hook's matcher doesn't include a given tool, that tool's output isn't normalized — the gap is in matcher coverage.",
+  "explanation": "If a hook's matcher doesn't include a given tool, that tool's output isn't normalized, the gap is in matcher coverage.",
   "distractors": {
    "B": "Hooks can normalize output; that's their purpose here.",
    "C": "The model does use tool results.",
    "D": "`PostToolUse` runs *after* execution."
   },
   "official": false,
-  "docLabel": "Hooks — PreToolUse / PostToolUse interception",
+  "docLabel": "Hooks, PreToolUse / PostToolUse interception",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1196,7 +1196,7 @@
    "D": "Combining them is exactly the recommended production pattern."
   },
   "official": false,
-  "docLabel": "Hooks — PreToolUse / PostToolUse interception",
+  "docLabel": "Hooks, PreToolUse / PostToolUse interception",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1220,7 +1220,7 @@
    "B": "No logout occurs."
   },
   "official": false,
-  "docLabel": "Hooks — PreToolUse / PostToolUse interception",
+  "docLabel": "Hooks, PreToolUse / PostToolUse interception",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1237,14 +1237,14 @@
    "D": "Store the mapping in `.mcp.json`."
   },
   "answer": "A",
-  "explanation": "`PostToolUse` normalization deterministically maps numeric codes to readable statuses before the model reasons — consistent and reliable.",
+  "explanation": "`PostToolUse` normalization deterministically maps numeric codes to readable statuses before the model reasons, consistent and reliable.",
   "distractors": {
    "B": "Prompt memorization is probabilistic and clutters context.",
    "C": "Guessing is unreliable.",
    "D": "`.mcp.json` configures servers, not result transformations."
   },
   "official": false,
-  "docLabel": "Hooks — PreToolUse / PostToolUse interception",
+  "docLabel": "Hooks, PreToolUse / PostToolUse interception",
   "docUrl": "https://code.claude.com/docs/en/hooks"
  },
  {
@@ -1268,7 +1268,7 @@
    "B": "Random ordering adds no value and hurts reproducibility."
   },
   "official": false,
-  "docLabel": "Common workflows — task decomposition",
+  "docLabel": "Common workflows, task decomposition",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -1292,7 +1292,7 @@
    "D": "Random selection ignores impact and dependencies."
   },
   "official": false,
-  "docLabel": "Common workflows — task decomposition",
+  "docLabel": "Common workflows, task decomposition",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -1316,7 +1316,7 @@
    "D": "Shifts burden to developers without fixing the review method."
   },
   "official": false,
-  "docLabel": "Common workflows — task decomposition",
+  "docLabel": "Common workflows, task decomposition",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -1340,7 +1340,7 @@
    "C": "Neither \"legacy\" nor \"subagents\" alone dictates the pattern; predictability does."
   },
   "official": false,
-  "docLabel": "Common workflows — task decomposition",
+  "docLabel": "Common workflows, task decomposition",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -1364,7 +1364,7 @@
    "D": "It optimizes for coverage/correctness, not minimal step count."
   },
   "official": false,
-  "docLabel": "Common workflows — task decomposition",
+  "docLabel": "Common workflows, task decomposition",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -1378,7 +1378,7 @@
    "A": "It uses more tokens, which improves quality.",
    "B": "Single passes are impossible in Claude Code.",
    "C": "It lets you skip the integration concerns entirely.",
-   "D": "Per-file passes keep local analysis consistent, while a dedicated integration pass catches cross-file data-flow issues — avoiding dilution and contradictions."
+   "D": "Per-file passes keep local analysis consistent, while a dedicated integration pass catches cross-file data-flow issues, avoiding dilution and contradictions."
   },
   "answer": "D",
   "explanation": "The two-tier split preserves local depth and separately handles cross-file concerns, preventing attention dilution and contradictory findings.",
@@ -1388,7 +1388,7 @@
    "B": "Single passes are possible but worse for many files."
   },
   "official": false,
-  "docLabel": "Common workflows — task decomposition",
+  "docLabel": "Common workflows, task decomposition",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -1405,14 +1405,14 @@
    "D": "\"Design a new microservice architecture.\""
   },
   "answer": "A",
-  "explanation": "A repeatable per-file checklist is predictable and multi-aspect — ideal for prompt chaining.",
+  "explanation": "A repeatable per-file checklist is predictable and multi-aspect, ideal for prompt chaining.",
   "distractors": {
    "B": "Each is open-ended/architectural, favoring dynamic or plan-mode approaches.",
    "C": "Each is open-ended/architectural, favoring dynamic or plan-mode approaches.",
    "D": "Each is open-ended/architectural, favoring dynamic or plan-mode approaches."
   },
   "official": false,
-  "docLabel": "Common workflows — task decomposition",
+  "docLabel": "Common workflows, task decomposition",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -1436,7 +1436,7 @@
    "D": "Tools are essential to exploration."
   },
   "official": false,
-  "docLabel": "Common workflows — task decomposition",
+  "docLabel": "Common workflows, task decomposition",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -1453,14 +1453,14 @@
    "D": "The review references a CLAUDE.md file."
   },
   "answer": "A",
-  "explanation": "Contradictory findings on identical code are a hallmark of attention dilution in a single combined pass — fixed by splitting into focused passes.",
+  "explanation": "Contradictory findings on identical code are a hallmark of attention dilution in a single combined pass, fixed by splitting into focused passes.",
   "distractors": {
    "B": "Speed alone isn't a dilution symptom.",
    "C": "Using Grep or reading CLAUDE.md are normal, not symptoms.",
    "D": "Using Grep or reading CLAUDE.md are normal, not symptoms."
   },
   "official": false,
-  "docLabel": "Common workflows — task decomposition",
+  "docLabel": "Common workflows, task decomposition",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -1484,7 +1484,7 @@
    "B": "Randomization is not a strategy."
   },
   "official": false,
-  "docLabel": "Common workflows — task decomposition",
+  "docLabel": "Common workflows, task decomposition",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -1508,7 +1508,7 @@
    "D": "`/compact` reduces context but isn't a resumption mechanism."
   },
   "official": false,
-  "docLabel": "Managing sessions — resume & fork",
+  "docLabel": "Managing sessions, resume & fork",
   "docUrl": "https://code.claude.com/docs/en/sessions"
  },
  {
@@ -1532,7 +1532,7 @@
    "D": "Token budget doesn't refresh stale file knowledge."
   },
   "official": false,
-  "docLabel": "Managing sessions — resume & fork",
+  "docLabel": "Managing sessions, resume & fork",
   "docUrl": "https://code.claude.com/docs/en/sessions"
  },
  {
@@ -1541,7 +1541,7 @@
   "task": "1.7",
   "ptask": "1.7",
   "scenario": 4,
-  "stem": "Prior tool results in an old session are now badly out of date. Which is more reliable — resuming or starting fresh with a structured summary?",
+  "stem": "Prior tool results in an old session are now badly out of date. Which is more reliable, resuming or starting fresh with a structured summary?",
   "options": {
    "A": "Always resume; stale results are fine.",
    "B": "Never start fresh; it loses too much.",
@@ -1556,7 +1556,7 @@
    "B": "Fresh-with-summary is exactly the recommended path here."
   },
   "official": false,
-  "docLabel": "Managing sessions — resume & fork",
+  "docLabel": "Managing sessions, resume & fork",
   "docUrl": "https://code.claude.com/docs/en/sessions"
  },
  {
@@ -1580,7 +1580,7 @@
    "D": "Resumption isn't about deletion."
   },
   "official": false,
-  "docLabel": "Managing sessions — resume & fork",
+  "docLabel": "Managing sessions, resume & fork",
   "docUrl": "https://code.claude.com/docs/en/sessions"
  },
  {
@@ -1597,14 +1597,14 @@
    "D": "A single session that tries both approaches interleaved."
   },
   "answer": "A",
-  "explanation": "`fork_session` branches independent explorations from a shared baseline — ideal for comparing approaches.",
+  "explanation": "`fork_session` branches independent explorations from a shared baseline, ideal for comparing approaches.",
   "distractors": {
    "B": "Sequential resumes don't yield independent parallel branches.",
    "C": "Fresh sessions discard the shared analysis.",
    "D": "Interleaving two approaches in one session muddles the comparison."
   },
   "official": false,
-  "docLabel": "Managing sessions — resume & fork",
+  "docLabel": "Managing sessions, resume & fork",
   "docUrl": "https://code.claude.com/docs/en/sessions"
  },
  {
@@ -1628,7 +1628,7 @@
    "B": "Discarding loses valid context."
   },
   "official": false,
-  "docLabel": "Managing sessions — resume & fork",
+  "docLabel": "Managing sessions, resume & fork",
   "docUrl": "https://code.claude.com/docs/en/sessions"
  },
  {
@@ -1652,7 +1652,7 @@
    "D": "Neither requires MCP."
   },
   "official": false,
-  "docLabel": "Managing sessions — resume & fork",
+  "docLabel": "Managing sessions, resume & fork",
   "docUrl": "https://code.claude.com/docs/en/sessions"
  },
  {
@@ -1676,7 +1676,7 @@
    "D": "Sessions don't share memory automatically."
   },
   "official": false,
-  "docLabel": "Managing sessions — resume & fork",
+  "docLabel": "Managing sessions, resume & fork",
   "docUrl": "https://code.claude.com/docs/en/sessions"
  },
  {
@@ -1693,14 +1693,14 @@
    "D": "The prior session's tool results (file contents, query outputs) are now stale and could mislead reasoning."
   },
   "answer": "D",
-  "explanation": "Stale tool results are the key trigger for a fresh, summary-seeded session — they can actively mislead if resumed.",
+  "explanation": "Stale tool results are the key trigger for a fresh, summary-seeded session, they can actively mislead if resumed.",
   "distractors": {
    "A": "Cosmetic or trivial changes don't justify abandoning valid context.",
    "B": "Cosmetic or trivial changes don't justify abandoning valid context.",
    "C": "Cosmetic or trivial changes don't justify abandoning valid context."
   },
   "official": false,
-  "docLabel": "Managing sessions — resume & fork",
+  "docLabel": "Managing sessions, resume & fork",
   "docUrl": "https://code.claude.com/docs/en/sessions"
  },
  {
@@ -1717,14 +1717,14 @@
    "D": "Start a brand-new session and re-analyze everything."
   },
   "answer": "A",
-  "explanation": "Targeted notification of the specific changes lets the resumed session re-analyze only what changed — minimal and reliable.",
+  "explanation": "Targeted notification of the specific changes lets the resumed session re-analyze only what changed, minimal and reliable.",
   "distractors": {
    "B": "Full re-exploration is wasteful when only two classes changed.",
    "D": "Full re-exploration is wasteful when only two classes changed.",
    "C": "Using stale names produces incorrect references."
   },
   "official": false,
-  "docLabel": "Managing sessions — resume & fork",
+  "docLabel": "Managing sessions, resume & fork",
   "docUrl": "https://code.claude.com/docs/en/sessions"
  },
  {
@@ -1736,7 +1736,7 @@
   "stem": "Logs show the agent frequently calls `get_customer` when users ask about orders (e.g., \"check my order #12345\") instead of `lookup_order`. Both tools have minimal descriptions (\"Retrieves customer information\" / \"Retrieves order details\") and accept similar identifiers. What is the most effective *first step* to improve tool-selection reliability?",
   "options": {
    "A": "Expand each tool's description to include input formats it handles, example queries, edge cases, and boundaries explaining when to use it versus similar tools.",
-   "B": "Add few-shot examples to the system prompt showing 5–8 order queries routing to `lookup_order`.",
+   "B": "Add few-shot examples to the system prompt showing 5-8 order queries routing to `lookup_order`.",
    "C": "Implement a routing layer that parses user input and pre-selects the tool by keyword before each turn.",
    "D": "Consolidate both tools into a single `lookup_entity` tool that inspects the identifier and picks the backend."
   },
@@ -1748,7 +1748,7 @@
    "D": "Consolidation is a valid architecture choice but is more effort than a \"first step\" warrants when the real problem is inadequate descriptions."
   },
   "official": true,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -1765,14 +1765,14 @@
    "D": "Ambiguous or overlapping descriptions cause misrouting because the model can't tell which tool to select."
   },
   "answer": "D",
-  "explanation": "Overlapping descriptions produce unreliable selection among similar tools — the model has no basis to disambiguate.",
+  "explanation": "Overlapping descriptions produce unreliable selection among similar tools, the model has no basis to disambiguate.",
   "distractors": {
    "A": "Cost isn't the described failure.",
    "C": "There's no size-limit issue implied.",
    "B": "The tools load; they're just misrouted."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -1796,7 +1796,7 @@
    "D": "Hidden tools can't be selected at all."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -1820,7 +1820,7 @@
    "B": "Token budget doesn't fix overloaded tool semantics."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -1844,7 +1844,7 @@
    "D": "A missing `.mcp.json` would prevent loading, not cause misassociation."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -1868,7 +1868,7 @@
    "D": "Infrastructure/contact details don't aid selection."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -1892,7 +1892,7 @@
    "C": "None reflects how the model actually reasons about tool choice."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -1916,7 +1916,7 @@
    "D": "Encoding validation in the tool is exactly the recommended constraint."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -1940,7 +1940,7 @@
    "B": "Examples and boundaries are what disambiguate."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -1964,7 +1964,7 @@
    "D": "Removing descriptions removes the selection signal."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -1988,7 +1988,7 @@
    "D": "Descriptions are the primary selection signal, not ignored."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2012,7 +2012,7 @@
    "B": "Examples supplement, not replace, the description."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2036,7 +2036,7 @@
    "D": "The model can still call it, just unreliably."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2045,7 +2045,7 @@
   "task": "2.1",
   "ptask": "2.1",
   "scenario": 1,
-  "stem": "Which is the *strongest* signal that your tool descriptions—not the model—are the cause of misrouting?",
+  "stem": "Which is the *strongest* signal that your tool descriptions, not the model, are the cause of misrouting?",
   "options": {
    "A": "The model routes correctly once descriptions are expanded with formats, examples, and boundaries.",
    "B": "The model always refuses to call any tool.",
@@ -2060,7 +2060,7 @@
    "D": "Implementation language doesn't drive selection."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2084,7 +2084,7 @@
    "D": "None relates to tool-selection or output contracts."
   },
   "official": false,
-  "docLabel": "Tool use — defining tools & descriptions",
+  "docLabel": "Tool use, defining tools & descriptions",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2101,14 +2101,14 @@
    "D": "It doubles latency."
   },
   "answer": "A",
-  "explanation": "Generic errors strip the metadata the agent needs to decide whether to retry, escalate, or explain — blocking appropriate recovery.",
+  "explanation": "Generic errors strip the metadata the agent needs to decide whether to retry, escalate, or explain, blocking appropriate recovery.",
   "distractors": {
    "B": "Generic strings are short, not token-heavy.",
    "C": "It doesn't inherently break schemas.",
    "D": "It doesn't inherently affect latency."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2125,14 +2125,14 @@
    "D": "The full stack trace and nothing else."
   },
   "answer": "A",
-  "explanation": "Structured error metadata — category, retryability, and a readable description — lets the agent choose the right recovery.",
+  "explanation": "Structured error metadata, category, retryability, and a readable description, lets the agent choose the right recovery.",
   "distractors": {
    "B": "A bare status code lacks category/retryability guidance.",
    "C": "A meaningless ID gives no decision signal.",
    "D": "A stack trace alone isn't an actionable, categorized error."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2156,7 +2156,7 @@
    "B": "It's a policy issue, not a credentials issue."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2180,7 +2180,7 @@
    "D": "It materially changes recovery behavior."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2204,7 +2204,7 @@
    "B": "Unbounded retries risk hangs."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2228,7 +2228,7 @@
    "D": "Fabricating records is a serious correctness/hallucination bug."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2252,7 +2252,7 @@
    "D": "None reflects the `isError` flag's defined role."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2269,14 +2269,14 @@
    "D": "Transient, validation, business, and permission errors."
   },
   "answer": "D",
-  "explanation": "The guide distinguishes transient, validation, business, and permission errors — each implying different recovery.",
+  "explanation": "The guide distinguishes transient, validation, business, and permission errors, each implying different recovery.",
   "distractors": {
    "A": "Not a real taxonomy here.",
    "B": "Too coarse; they miss the actionable categories.",
    "C": "Too coarse; they miss the actionable categories."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2300,7 +2300,7 @@
    "D": "A message without retryability still invites blind retries."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2324,7 +2324,7 @@
    "D": "Unstructured logs are hard to act on."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2348,7 +2348,7 @@
    "B": "Infinite retries waste resources and never succeed."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2372,7 +2372,7 @@
    "D": "Terminating everything is an anti-pattern."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2396,7 +2396,7 @@
    "B": "Retrying a correct empty result is wasteful."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2420,7 +2420,7 @@
    "D": "It doesn't force retries; `isRetryable` governs that."
   },
   "official": false,
-  "docLabel": "MCP — tools & structured errors",
+  "docLabel": "MCP, tools & structured errors",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2432,19 +2432,19 @@
   "stem": "An agent has 18 tools and its selection reliability has degraded. What principle explains this?",
   "options": {
    "A": "More tools always improve reliability.",
-   "B": "Giving an agent too many tools increases decision complexity and degrades selection reliability; scope tools to the agent's role (e.g., 4–5 relevant tools).",
+   "B": "Giving an agent too many tools increases decision complexity and degrades selection reliability; scope tools to the agent's role (e.g., 4-5 relevant tools).",
    "C": "Tool count has no effect on selection.",
    "D": "18 is the required minimum."
   },
   "answer": "B",
-  "explanation": "Excess tools (e.g., 18 vs 4–5) increase decision complexity and reduce selection reliability; scope tools to the role.",
+  "explanation": "Excess tools (e.g., 18 vs 4-5) increase decision complexity and reduce selection reliability; scope tools to the role.",
   "distractors": {
    "A": "More tools can hurt, not help.",
    "C": "Count demonstrably affects reliability.",
    "D": "There's no such minimum."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2468,7 +2468,7 @@
    "D": "Merging overloads a single agent's selection."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2492,7 +2492,7 @@
    "D": "Speculative caching can't reliably predict what will be needed."
   },
   "official": true,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2516,7 +2516,7 @@
    "D": "Defaults to `auto` behavior."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2540,7 +2540,7 @@
    "D": "Removing the tool prevents it from running at all."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2564,7 +2564,7 @@
    "D": "`auto` doesn't disable tools."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2588,7 +2588,7 @@
    "D": "Random assignment is not a design principle."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2612,7 +2612,7 @@
    "D": "Irrelevant to exam scoring."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2629,14 +2629,14 @@
    "D": "Batch everything into one tool call."
   },
   "answer": "A",
-  "explanation": "Forced selection guarantees the required first tool, with later steps handled on subsequent turns — the described pattern.",
+  "explanation": "Forced selection guarantees the required first tool, with later steps handled on subsequent turns, the described pattern.",
   "distractors": {
    "B": "Removing enrichment tools breaks the pipeline.",
    "C": "`auto` doesn't guarantee ordering.",
    "D": "A single call can't guarantee the staged order."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2660,7 +2660,7 @@
    "D": "None is affected by tool count in the way described."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2684,7 +2684,7 @@
    "D": "Deleting removes needed capability."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2701,14 +2701,14 @@
    "D": "When you want to disable tools."
   },
   "answer": "B",
-  "explanation": "Forced named selection guarantees a specific required tool runs — e.g., a mandatory extraction step.",
+  "explanation": "Forced named selection guarantees a specific required tool runs, e.g., a mandatory extraction step.",
   "distractors": {
    "A": "That's `auto`.",
    "C": "Forcing a tool prevents plain text.",
    "D": "It enables, not disables, a tool."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2732,7 +2732,7 @@
    "D": "Removing verification harms reliability."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2749,14 +2749,14 @@
    "D": "It disables all but one tool."
   },
   "answer": "B",
-  "explanation": "`any` guarantees a tool call (structured output) without forcing a specific one — useful when several extraction schemas exist and the doc type is unknown.",
+  "explanation": "`any` guarantees a tool call (structured output) without forcing a specific one, useful when several extraction schemas exist and the doc type is unknown.",
   "distractors": {
    "A": "That's forced named selection, not `any`.",
    "C": "`any` prevents plain text.",
    "D": "It doesn't disable tools."
   },
   "official": false,
-  "docLabel": "Tool use — tool_choice (auto/any/tool)",
+  "docLabel": "Tool use, tool_choice (auto/any/tool)",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -2780,7 +2780,7 @@
    "D": "Shell profiles don't configure Claude's MCP servers."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2804,7 +2804,7 @@
    "D": "All commit or expose the secret, a serious security problem."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2828,7 +2828,7 @@
    "D": "A wiki page doesn't configure anything."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2852,7 +2852,7 @@
    "D": "No OS restart is required."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2876,7 +2876,7 @@
    "D": "Token budget doesn't change tool preference."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2900,7 +2900,7 @@
    "D": "CLAUDE.md isn't a data store for Jira."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2924,7 +2924,7 @@
    "D": "Scope choice doesn't expose catalogs."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2948,7 +2948,7 @@
    "D": "Both hold MCP configuration."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2972,7 +2972,7 @@
    "D": "Both leak the secret."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -2996,7 +2996,7 @@
    "D": "Tools can read schemas; resources just reduce the need to explore."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -3020,7 +3020,7 @@
    "D": "None explains missing *shared* server config."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -3044,7 +3044,7 @@
    "D": "All are standard integrations well-served by existing community servers."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -3055,7 +3055,7 @@
   "scenario": 4,
   "stem": "After adding a highly capable MCP search server, the agent still uses `Grep`. Beyond description quality, what does the guide emphasize about tool discovery?",
   "options": {
-   "A": "Tools from all configured servers are discovered at connect time, so the description quality — not availability — usually determines preference.",
+   "A": "Tools from all configured servers are discovered at connect time, so the description quality, not availability, usually determines preference.",
    "B": "Only one server can be active at a time.",
    "C": "MCP tools are never discovered automatically.",
    "D": "`Grep` cannot coexist with MCP tools."
@@ -3068,7 +3068,7 @@
    "D": "Built-ins and MCP tools coexist."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -3092,7 +3092,7 @@
    "D": "Manual per-session pasting is error-prone and unshared."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -3116,7 +3116,7 @@
    "D": "Unrelated to weights or logging."
   },
   "official": false,
-  "docLabel": "MCP — servers & .mcp.json scoping",
+  "docLabel": "MCP, servers & .mcp.json scoping",
   "docUrl": "https://code.claude.com/docs/en/mcp"
  },
  {
@@ -3133,7 +3133,7 @@
    "D": "Bash `rm`."
   },
   "answer": "B",
-  "explanation": "Grep searches file contents for patterns (function names, error messages, imports) — the right tool to find callers.",
+  "explanation": "Grep searches file contents for patterns (function names, error messages, imports), the right tool to find callers.",
   "distractors": {
    "A": "Glob matches file *paths/names*, not contents.",
    "C": "Reading every file is inefficient for a content search.",
@@ -3205,7 +3205,7 @@
    "D": "Immediately Edit files to see what breaks."
   },
   "answer": "B",
-  "explanation": "Build understanding incrementally: Grep for entry points, then Read to follow imports and trace flows — avoiding reading everything upfront.",
+  "explanation": "Build understanding incrementally: Grep for entry points, then Read to follow imports and trace flows, avoiding reading everything upfront.",
   "distractors": {
    "A": "Reading all files upfront wastes context.",
    "C": "Glob doesn't delete, and deleting is inappropriate for exploration.",
@@ -3476,7 +3476,7 @@
    "D": "`/compact` reduces context, not a config-scoping fix."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3500,7 +3500,7 @@
    "D": "Nonsense mapping."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3524,7 +3524,7 @@
    "A": "`.mcp.json` isn't for instructions."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3548,7 +3548,7 @@
    "D": "It's unrelated to plan mode."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3572,7 +3572,7 @@
    "D": "Session forking, unrelated."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3596,7 +3596,7 @@
    "D": "It doesn't permanently override project config for the whole team."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3620,7 +3620,7 @@
    "D": "Aliases don't scope CLAUDE.md content."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3644,7 +3644,7 @@
    "C": "None is the rules-organization mechanism."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3668,7 +3668,7 @@
    "D": "None explains the specific instruction divergence."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3692,7 +3692,7 @@
    "D": "Not a Claude Code config path."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3716,7 +3716,7 @@
    "D": "Path-scoped rules load *conditionally*, the opposite of \"always.\""
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -3740,7 +3740,7 @@
    "C": "None inspects loaded configuration."
   },
   "official": false,
-  "docLabel": "Memory — CLAUDE.md hierarchy & @import",
+  "docLabel": "Memory, CLAUDE.md hierarchy & @import",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4045,14 +4045,14 @@
    "D": "Place a separate CLAUDE.md in each subdirectory."
   },
   "answer": "C",
-  "explanation": "`.claude/rules/` with glob patterns (e.g., `**/*.test.tsx`) auto-applies conventions by path regardless of directory — ideal for test files spread throughout. (Mirrors official Sample Question 6.)",
+  "explanation": "`.claude/rules/` with glob patterns (e.g., `**/*.test.tsx`) auto-applies conventions by path regardless of directory, ideal for test files spread throughout. (Mirrors official Sample Question 6.)",
   "distractors": {
    "B": "Relies on inference rather than explicit matching, making it unreliable.",
    "A": "Requires manual invocation, contradicting \"automatic\" application by path.",
    "D": "Directory-bound CLAUDE.md files can't easily cover files spread across many directories."
   },
   "official": true,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4076,7 +4076,7 @@
    "C": "None governs path-based activation."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4100,7 +4100,7 @@
    "D": "Neither is what path-scoping does."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4124,7 +4124,7 @@
    "D": "There's a meaningful difference for cross-directory conventions."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4148,7 +4148,7 @@
    "D": "Without `paths`, the rule isn't path-scoped."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4172,7 +4172,7 @@
    "D": "Requires manual invocation and isn't path-triggered."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4196,7 +4196,7 @@
    "A": "Unrelated to MCP."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4220,7 +4220,7 @@
    "D": "Rules don't delete files."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4244,7 +4244,7 @@
    "D": "No MCP dependency."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4268,7 +4268,7 @@
    "D": "Manual reminders don't scale."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4292,7 +4292,7 @@
    "D": "Path-scoping enables splitting across files."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4316,7 +4316,7 @@
    "A": "Unrelated to plan mode."
   },
   "official": false,
-  "docLabel": "Memory — path-scoped rules (.claude/rules)",
+  "docLabel": "Memory, path-scoped rules (.claude/rules)",
   "docUrl": "https://code.claude.com/docs/en/memory"
  },
  {
@@ -4325,7 +4325,7 @@
   "task": "3.4",
   "ptask": "3.4",
   "scenario": 2,
-  "stem": "You've been assigned to restructure a monolithic application into microservices — changes across dozens of files, plus decisions about service boundaries and module dependencies. Which approach should you take?",
+  "stem": "You've been assigned to restructure a monolithic application into microservices, changes across dozens of files, plus decisions about service boundaries and module dependencies. Which approach should you take?",
   "options": {
    "A": "Start with direct execution and let the implementation reveal the natural service boundaries.",
    "B": "Enter plan mode to explore the codebase, understand dependencies, and design an implementation approach before making changes.",
@@ -4333,14 +4333,14 @@
    "D": "Begin in direct execution and only switch to plan mode if you encounter unexpected complexity."
   },
   "answer": "B",
-  "explanation": "Plan mode is designed for complex, large-scale, multi-approach, architectural, multi-file changes — exactly monolith-to-microservices. It enables safe exploration and design before committing, preventing costly rework. (Mirrors official Sample Question 5.)",
+  "explanation": "Plan mode is designed for complex, large-scale, multi-approach, architectural, multi-file changes, exactly monolith-to-microservices. It enables safe exploration and design before committing, preventing costly rework. (Mirrors official Sample Question 5.)",
   "distractors": {
    "A": "Risks costly rework when dependencies surface late.",
    "C": "Assumes you already know the right structure without exploring the code.",
    "D": "Ignores that the complexity is already stated in the requirements, not something that merely *might* emerge."
   },
   "official": true,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4359,12 +4359,12 @@
   "answer": "C",
   "explanation": "Direct execution suits simple, well-scoped changes with clear scope, like a single-file fix.",
   "distractors": {
-   "A": "All are complex, architectural, or multi-file — plan-mode territory.",
-   "B": "All are complex, architectural, or multi-file — plan-mode territory.",
-   "D": "All are complex, architectural, or multi-file — plan-mode territory."
+   "A": "All are complex, architectural, or multi-file, plan-mode territory.",
+   "B": "All are complex, architectural, or multi-file, plan-mode territory.",
+   "D": "All are complex, architectural, or multi-file, plan-mode territory."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4388,7 +4388,7 @@
    "D": "It doesn't merge PRs."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4412,7 +4412,7 @@
    "A": "Deleting config doesn't manage discovery output."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4436,7 +4436,7 @@
    "D": "Random switching is not a strategy."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4460,7 +4460,7 @@
    "D": "All are small, well-scoped changes suited to direct execution."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4472,7 +4472,7 @@
   "stem": "Why is \"start direct, switch to plan mode only if complexity emerges\" a weak strategy for a task whose complexity is already known?",
   "options": {
    "A": "Plan mode can't be entered mid-task.",
-   "B": "The complexity is stated upfront, so beginning direct risks committing changes and incurring rework before the switch — plan mode should be chosen from the start.",
+   "B": "The complexity is stated upfront, so beginning direct risks committing changes and incurring rework before the switch, plan mode should be chosen from the start.",
    "C": "Direct execution is always forbidden.",
    "D": "Switching modes corrupts the repo."
   },
@@ -4484,7 +4484,7 @@
    "D": "Switching doesn't corrupt anything."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4508,7 +4508,7 @@
    "D": "It doesn't run CI."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4532,7 +4532,7 @@
    "D": "Architectural/multi-file/multi-approach work needs plan mode."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4556,7 +4556,7 @@
    "D": "Forcing early termination abandons the task."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4580,7 +4580,7 @@
    "D": "They're explicitly combinable (plan then execute)."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4604,7 +4604,7 @@
    "D": "Not responsible engineering choices."
   },
   "official": false,
-  "docLabel": "Common workflows — plan mode vs direct execution",
+  "docLabel": "Common workflows, plan mode vs direct execution",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4618,7 +4618,7 @@
    "A": "Increase `max_tokens`.",
    "B": "Repeat the prose description more emphatically.",
    "C": "Add \"be careful\" to the prompt.",
-   "D": "Provide 2–3 concrete input/output examples to clarify the transformation."
+   "D": "Provide 2-3 concrete input/output examples to clarify the transformation."
   },
   "answer": "D",
   "explanation": "Concrete input/output examples are the most effective way to communicate expected transformations when prose is interpreted inconsistently.",
@@ -4628,7 +4628,7 @@
    "A": "Token budget isn't the issue."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4652,7 +4652,7 @@
    "D": "Deleting failing tests hides problems."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4676,7 +4676,7 @@
    "D": "Removing context undermines good questions."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4700,7 +4700,7 @@
    "C": "Ignoring issues doesn't solve them."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4724,7 +4724,7 @@
    "D": "Leaves problems unresolved."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4737,7 +4737,7 @@
   "options": {
    "A": "Lowering temperature only.",
    "B": "Saying \"please be accurate.\"",
-   "C": "Providing 2–3 concrete input/output examples of the desired transformation.",
+   "C": "Providing 2-3 concrete input/output examples of the desired transformation.",
    "D": "Adding more prose adjectives."
   },
   "answer": "C",
@@ -4748,7 +4748,7 @@
    "A": "Temperature alone won't fix specification ambiguity."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4772,7 +4772,7 @@
    "A": "Iteration count doesn't clarify the requirement."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4796,7 +4796,7 @@
    "D": "Unrelated to tool count."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4809,7 +4809,7 @@
   "options": {
    "A": "\"Only tell me the first bug.\"",
    "B": "\"Fix the typo in the README.\" then later \"Rename an unrelated variable.\"",
-   "C": "\"Fix the race condition and the related lock ordering together — they interact — here are both symptoms and constraints.\"",
+   "C": "\"Fix the race condition and the related lock ordering together, they interact, here are both symptoms and constraints.\"",
    "D": "\"Ignore the interaction between the two.\""
   },
   "answer": "C",
@@ -4820,7 +4820,7 @@
    "D": "Ignoring or truncating the interaction risks incomplete fixes."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4844,7 +4844,7 @@
    "A": "Token usage isn't the mechanism."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4856,7 +4856,7 @@
   "stem": "You get inconsistent formatting from Claude despite detailed prose instructions. Best next refinement?",
   "options": {
    "A": "Add \"format nicely\" to the prompt.",
-   "B": "Add 2–4 concrete examples demonstrating the exact desired output format.",
+   "B": "Add 2-4 concrete examples demonstrating the exact desired output format.",
    "C": "Switch to plan mode.",
    "D": "Increase `max_tokens`."
   },
@@ -4868,7 +4868,7 @@
    "D": "Token budget isn't the cause."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4881,7 +4881,7 @@
   "options": {
    "A": "`tool_choice: any`.",
    "B": "Batch processing.",
-   "C": "The interview pattern — have Claude ask clarifying questions first.",
+   "C": "The interview pattern, have Claude ask clarifying questions first.",
    "D": "Deleting CLAUDE.md."
   },
   "answer": "C",
@@ -4892,7 +4892,7 @@
    "D": "None surfaces design considerations."
   },
   "official": false,
-  "docLabel": "Common workflows — iterative refinement",
+  "docLabel": "Common workflows, iterative refinement",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -4909,14 +4909,14 @@
    "D": "Add the `-p` (or `--print`) flag to run in non-interactive mode: `claude -p \"Analyze this pull request for security issues\"`."
   },
   "answer": "D",
-  "explanation": "`-p`/`--print` runs Claude Code non-interactively: it processes the prompt, prints the result, and exits — exactly what CI needs. (Mirrors official Sample Question 10.)",
+  "explanation": "`-p`/`--print` runs Claude Code non-interactively: it processes the prompt, prints the result, and exits, exactly what CI needs. (Mirrors official Sample Question 10.)",
   "distractors": {
    "B": "`CLAUDE_HEADLESS` is not a real environment variable.",
    "C": "A stdin workaround doesn't properly address Claude Code's command syntax.",
    "A": "There is no `--batch` flag for this."
   },
   "official": true,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -4940,7 +4940,7 @@
    "D": "Session flags don't produce structured output."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -4964,7 +4964,7 @@
    "D": "Temperature isn't a context mechanism."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -4988,7 +4988,7 @@
    "A": "There is a meaningful effectiveness difference."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -5012,7 +5012,7 @@
    "D": "Random dropping is unreliable and may hide real issues."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -5036,7 +5036,7 @@
    "D": "Temperature doesn't address coverage overlap."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -5060,7 +5060,7 @@
    "C": "Those are session/model flags, not output-schema enforcement."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -5084,7 +5084,7 @@
    "D": "CLAUDE.md doesn't force interactivity."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -5108,7 +5108,7 @@
    "D": "Resume doesn't address interactivity or output format."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -5132,7 +5132,7 @@
    "A": "It affects effectiveness, not just billing."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -5156,7 +5156,7 @@
    "D": "Disabling schemas loses the structure that enables filtering."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -5180,7 +5180,7 @@
    "D": "Removing CLAUDE.md loses project context and doesn't dedupe."
   },
   "official": false,
-  "docLabel": "CLI reference — running Claude Code in CI (-p, JSON)",
+  "docLabel": "CLI reference, running Claude Code in CI (-p, JSON)",
   "docUrl": "https://code.claude.com/docs/en/cli-reference"
  },
  {
@@ -5204,7 +5204,7 @@
    "A": "Temperature doesn't fix an under-specified criterion."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5228,7 +5228,7 @@
    "D": "Cost isn't the mechanism."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5252,7 +5252,7 @@
    "D": "Higher sensitivity worsens false positives."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5276,7 +5276,7 @@
    "D": "It's a trust issue, not latency."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5300,7 +5300,7 @@
    "D": "Randomization is not a design."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5324,7 +5324,7 @@
    "A": "Reporting nothing defeats review."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5348,7 +5348,7 @@
    "D": "Removing the check loses a valuable category unnecessarily."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5372,7 +5372,7 @@
    "D": "Token count isn't the benefit."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5396,7 +5396,7 @@
    "D": "The gate is quality, not requests."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5420,7 +5420,7 @@
    "D": "All are hallmarks of explicit criteria, the desired state."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5444,7 +5444,7 @@
    "A": "Random assignment is inconsistent by definition."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5461,14 +5461,14 @@
    "D": "The category will auto-disable."
   },
   "answer": "B",
-  "explanation": "Sustained false positives erode trust that generalizes to accurate categories — hence the temporary-disable recommendation.",
+  "explanation": "Sustained false positives erode trust that generalizes to accurate categories, hence the temporary-disable recommendation.",
   "distractors": {
    "A": "Tokens aren't the primary risk.",
    "C": "No crash results.",
    "D": "Categories don't auto-disable."
   },
   "official": false,
-  "docLabel": "Prompt engineering — explicit criteria",
+  "docLabel": "Prompt engineering, explicit criteria",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5492,7 +5492,7 @@
    "D": "A vague plea doesn't standardize output."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5505,18 +5505,18 @@
   "options": {
    "A": "One example only, always.",
    "B": "50 examples with no reasoning.",
-   "C": "2–4 targeted examples that show the reasoning for why one action was chosen over plausible alternatives.",
+   "C": "2-4 targeted examples that show the reasoning for why one action was chosen over plausible alternatives.",
    "D": "Zero; rely on instructions."
   },
   "answer": "C",
-  "explanation": "2–4 targeted examples that show *reasoning* for the chosen action over alternatives are recommended for ambiguous cases.",
+  "explanation": "2-4 targeted examples that show *reasoning* for the chosen action over alternatives are recommended for ambiguous cases.",
   "distractors": {
    "B": "Excessive, reasoning-free examples are inefficient and less instructive.",
    "A": "A single example may not cover the ambiguity.",
    "D": "Instructions alone were insufficient here."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5540,7 +5540,7 @@
    "A": "Generalization is the point; you needn't enumerate every input."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5564,7 +5564,7 @@
    "D": "They complement, not replace, schemas (see 4.3)."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5588,7 +5588,7 @@
    "D": "`auto` is unrelated to output formatting."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5612,7 +5612,7 @@
    "A": "They don't disable severity."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5636,7 +5636,7 @@
    "D": "Examples support, not replace, the tool."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5660,7 +5660,7 @@
    "D": "Examples do help here."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5684,7 +5684,7 @@
    "A": "They're specifically valuable for extraction."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5708,7 +5708,7 @@
    "D": "It doesn't disable tools."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5721,7 +5721,7 @@
   "options": {
    "A": "Remove all examples.",
    "B": "Add \"handle ambiguity well.\"",
-   "C": "Add 2–4 few-shot examples showing correct handling of ambiguous requests with the reasoning for each choice.",
+   "C": "Add 2-4 few-shot examples showing correct handling of ambiguous requests with the reasoning for each choice.",
    "D": "Increase `max_tokens`."
   },
   "answer": "C",
@@ -5732,7 +5732,7 @@
    "D": "Token budget isn't the issue."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5756,7 +5756,7 @@
    "A": "Fabrication is never the goal."
   },
   "official": false,
-  "docLabel": "Prompt engineering — few-shot / multishot",
+  "docLabel": "Prompt engineering, few-shot / multishot",
   "docUrl": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
  },
  {
@@ -5780,7 +5780,7 @@
    "D": "Temperature doesn't guarantee structure."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -5804,7 +5804,7 @@
    "D": "Syntax errors are eliminated."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -5828,7 +5828,7 @@
    "A": "Forcing one schema is wrong when the type is unknown."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -5852,7 +5852,7 @@
    "D": "Removing tools breaks the pipeline."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -5876,7 +5876,7 @@
    "D": "A fake default is fabrication."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -5900,7 +5900,7 @@
    "A": "A required integer code is neither extensible nor descriptive here."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -5924,7 +5924,7 @@
    "D": "Confidence alone doesn't capture \"unclear\" as a category."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -5948,7 +5948,7 @@
    "D": "`any` enables, not disables, tools."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -5965,14 +5965,14 @@
    "D": "To handle inconsistent source formatting while the schema guarantees output structure."
   },
   "answer": "D",
-  "explanation": "Normalization rules in the prompt handle messy source formatting; the schema enforces output structure — complementary.",
+  "explanation": "Normalization rules in the prompt handle messy source formatting; the schema enforces output structure, complementary.",
   "distractors": {
    "B": "Schemas do produce structured JSON.",
    "C": "They work together, not against.",
    "A": "The schema reduces syntax errors."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -5996,7 +5996,7 @@
    "D": "Format isn't the issue."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6020,7 +6020,7 @@
    "D": "Removing the schema loses structure guarantees."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6044,7 +6044,7 @@
    "A": "Free text loses structure guarantees."
   },
   "official": false,
-  "docLabel": "Tool use — structured output via JSON schema",
+  "docLabel": "Tool use, structured output via JSON schema",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6068,7 +6068,7 @@
    "D": "Changing documents doesn't fix the extraction."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6092,7 +6092,7 @@
    "D": "Specific errors make retries *more* effective."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6116,7 +6116,7 @@
    "A": "Reviewer name isn't the pattern signal."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6140,7 +6140,7 @@
    "D": "Both are detectable with the right approach."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6157,14 +6157,14 @@
    "D": "Deletes the total field."
   },
   "answer": "C",
-  "explanation": "Extracting both `calculated_total` and `stated_total` lets you flag discrepancies — a semantic self-correction check.",
+  "explanation": "Extracting both `calculated_total` and `stated_total` lets you flag discrepancies, a semantic self-correction check.",
   "distractors": {
    "A": "Ignoring or blindly trusting misses the discrepancy.",
    "B": "Ignoring or blindly trusting misses the discrepancy.",
    "D": "Deleting the field removes the check."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6188,7 +6188,7 @@
    "A": "Random selection is arbitrary and untraceable."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6200,7 +6200,7 @@
   "stem": "A retry keeps failing because the requested value doesn't exist in the provided document (it's in an external doc you didn't include). What should you conclude?",
   "options": {
    "A": "Retry more times with the same input.",
-   "B": "Retries won't help; the information is absent from the source — provide the correct source or mark the field null.",
+   "B": "Retries won't help; the information is absent from the source, provide the correct source or mark the field null.",
    "C": "The schema is wrong.",
    "D": "The model is broken."
   },
@@ -6212,7 +6212,7 @@
    "D": "The model behaves correctly by not fabricating."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6236,7 +6236,7 @@
    "D": "Wrong input can't fix the extraction."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6260,7 +6260,7 @@
    "C": "It complements, not replaces, severity."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6284,7 +6284,7 @@
    "D": "They differ in recoverability."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6296,7 +6296,7 @@
   "stem": "A validation-retry loop should stop retrying when:",
   "options": {
    "A": "Never; retry infinitely.",
-   "B": "The first retry succeeds — then keep retrying anyway.",
+   "B": "The first retry succeeds, then keep retrying anyway.",
    "C": "The failure is due to missing source information (retries can't succeed), rather than a fixable format/structure error.",
    "D": "Only when tokens run out."
   },
@@ -6308,7 +6308,7 @@
    "D": "Token exhaustion is a crude, not principled, stop."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6332,7 +6332,7 @@
    "C": "Unrelated error classes."
   },
   "official": false,
-  "docLabel": "Tool use — results, validation & retries",
+  "docLabel": "Tool use, results, validation & retries",
   "docUrl": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
  },
  {
@@ -6349,10 +6349,10 @@
    "D": "Switch both to batch with a timeout fallback to real-time."
   },
   "answer": "B",
-  "explanation": "The Batches API offers 50% savings but processes in up to 24 hours with no latency SLA — unsuitable for blocking pre-merge checks, ideal for overnight jobs. Match each API to its workload. (Mirrors official Sample Question 11.)",
+  "explanation": "The Batches API offers 50% savings but processes in up to 24 hours with no latency SLA, unsuitable for blocking pre-merge checks, ideal for overnight jobs. Match each API to its workload. (Mirrors official Sample Question 11.)",
   "distractors": {
    "A": "\"Often faster\" completion isn't acceptable for a blocking workflow.",
-   "C": "A misconception; batch results correlate via `custom_id`, so ordering isn't the blocker — latency is.",
+   "C": "A misconception; batch results correlate via `custom_id`, so ordering isn't the blocker, latency is.",
    "D": "Adds unnecessary complexity when the simpler solution is matching each API to its use case."
   },
   "official": true,
@@ -6469,7 +6469,7 @@
    "D": "Resubmit only the failed documents (identified by `custom_id`) with appropriate modifications, e.g., chunking oversized ones."
   },
   "answer": "D",
-  "explanation": "Resubmit only failed docs (via `custom_id`) with fixes like chunking — efficient failure handling.",
+  "explanation": "Resubmit only failed docs (via `custom_id`) with fixes like chunking, efficient failure handling.",
   "distractors": {
    "B": "Resubmitting everything wastes cost and repeats successes.",
    "C": "Discarding loses completed work.",
@@ -6538,7 +6538,7 @@
    "A": "Batch can't read code.",
    "B": "Pre-merge checks can't be expressed as prompts.",
    "C": "Batch is more expensive.",
-   "D": "Pre-merge checks are blocking — developers wait — and batch has no latency SLA (up to 24 hours)."
+   "D": "Pre-merge checks are blocking, developers wait, and batch has no latency SLA (up to 24 hours)."
   },
   "answer": "D",
   "explanation": "Blocking workflows can't tolerate batch's up-to-24-hour, no-SLA latency.",
@@ -6584,19 +6584,19 @@
   "stem": "A PR modifies 14 files. A single-pass review analyzing all files together gives inconsistent depth, misses obvious bugs, and produces contradictory feedback (flagging a pattern in one file, approving identical code elsewhere). How should you restructure the review?",
   "options": {
    "A": "Switch to a higher-tier model with a larger context window to fit all 14 files in one pass.",
-   "B": "Require developers to split large PRs into 3–4 file submissions.",
+   "B": "Require developers to split large PRs into 3-4 file submissions.",
    "C": "Split into focused passes: analyze each file individually for local issues, then run a separate integration-focused pass examining cross-file data flow.",
    "D": "Run three independent passes on the full PR and only flag issues appearing in at least two runs."
   },
   "answer": "C",
-  "explanation": "Splitting into focused passes addresses the root cause — attention dilution across many files. Per-file passes ensure consistent depth; a separate integration pass catches cross-file issues. (Mirrors official Sample Question 12.)",
+  "explanation": "Splitting into focused passes addresses the root cause, attention dilution across many files. Per-file passes ensure consistent depth; a separate integration pass catches cross-file issues. (Mirrors official Sample Question 12.)",
   "distractors": {
    "B": "Shifts burden to developers without improving the review system.",
    "A": "Larger context windows don't solve attention-quality dilution.",
    "D": "Consensus voting would suppress real bugs that are only caught intermittently."
   },
   "official": true,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6620,7 +6620,7 @@
    "A": "There is a meaningful effectiveness difference."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6644,7 +6644,7 @@
    "D": "Random isn't a defined pass type."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6668,7 +6668,7 @@
    "D": "It doesn't disable review."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6692,7 +6692,7 @@
    "A": "It's not the per-file/integration split."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6716,7 +6716,7 @@
    "D": "Unrelated to parsing."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6740,7 +6740,7 @@
    "D": "It isn't a default-disabled feature."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6764,7 +6764,7 @@
    "A": "It's essential, not redundant."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6788,7 +6788,7 @@
    "D": "Contradictions are a defect, not expected."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6812,7 +6812,7 @@
    "D": "Consensus voting suppresses intermittently-caught bugs."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6826,7 +6826,7 @@
    "A": "Make review non-deterministic.",
    "B": "Increase total token cost as a goal.",
    "C": "Skip cross-file analysis.",
-   "D": "Keep local analysis consistent and deep, while a dedicated pass handles cross-file concerns — avoiding dilution and contradictions."
+   "D": "Keep local analysis consistent and deep, while a dedicated pass handles cross-file concerns, avoiding dilution and contradictions."
   },
   "answer": "D",
   "explanation": "The split preserves per-file depth and separately handles cross-file logic.",
@@ -6836,7 +6836,7 @@
    "A": "The goal is consistency, not randomness."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6853,14 +6853,14 @@
    "D": "Only the file names."
   },
   "answer": "B",
-  "explanation": "Independence means lacking the *generator's reasoning*, not lacking project context — CLAUDE.md standards still help.",
+  "explanation": "Independence means lacking the *generator's reasoning*, not lacking project context, CLAUDE.md standards still help.",
   "distractors": {
    "A": "Injecting generation reasoning reintroduces the bias.",
    "C": "No context makes review less grounded.",
    "D": "File names alone are insufficient."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6884,7 +6884,7 @@
    "D": "Skipping review is unacceptable."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6898,7 +6898,7 @@
    "A": "Faster batch processing.",
    "B": "Automatic deletion of low-confidence findings.",
    "C": "Guaranteeing zero false positives.",
-   "D": "Calibrated routing — sending low-confidence or ambiguous findings for additional (possibly human) scrutiny."
+   "D": "Calibrated routing, sending low-confidence or ambiguous findings for additional (possibly human) scrutiny."
   },
   "answer": "D",
   "explanation": "Confidence annotations enable calibrated routing of review attention, not blind deletion or guarantees.",
@@ -6908,7 +6908,7 @@
    "A": "Unrelated to batch speed."
   },
   "official": false,
-  "docLabel": "Common workflows — multi-pass / independent review",
+  "docLabel": "Common workflows, multi-pass / independent review",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -6949,7 +6949,7 @@
    "D": "Models can't read long inputs at all."
   },
   "answer": "C",
-  "explanation": "Models reliably handle the start and end of long inputs but may miss the middle — the lost-in-the-middle effect.",
+  "explanation": "Models reliably handle the start and end of long inputs but may miss the middle, the lost-in-the-middle effect.",
   "distractors": {
    "A": "Mischaracterize the effect.",
    "B": "Mischaracterize the effect.",
@@ -7207,7 +7207,7 @@
   "scenario": 1,
   "stem": "Your support agent achieves 55% first-contact resolution vs an 80% target. Logs show it escalates straightforward cases (standard damage replacements with photo evidence) while trying to autonomously handle complex policy-exception cases. What most improves escalation calibration?",
   "options": {
-   "A": "Have the agent self-report a confidence score (1–10) and auto-route below a threshold.",
+   "A": "Have the agent self-report a confidence score (1-10) and auto-route below a threshold.",
    "B": "Add explicit escalation criteria to the system prompt with few-shot examples demonstrating when to escalate versus resolve autonomously.",
    "C": "Deploy a separate classifier model trained on historical tickets to predict escalation.",
    "D": "Implement sentiment analysis to escalate when negative sentiment exceeds a threshold."
@@ -7215,12 +7215,12 @@
   "answer": "B",
   "explanation": "The root cause is unclear decision boundaries; explicit escalation criteria with few-shot examples is the proportionate first response. (Mirrors official Sample Question 3.)",
   "distractors": {
-   "A": "LLM self-reported confidence is poorly calibrated — the agent is already wrongly confident on hard cases.",
+   "A": "LLM self-reported confidence is poorly calibrated, the agent is already wrongly confident on hard cases.",
    "C": "Over-engineered; requires labeled data and ML infrastructure before prompt optimization is even tried.",
    "D": "Sentiment doesn't correlate with case complexity, the actual issue."
   },
   "official": true,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7244,7 +7244,7 @@
    "D": "None reflects genuine escalation triggers."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7268,7 +7268,7 @@
    "A": "Stalling with questions disregards the explicit demand."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7292,7 +7292,7 @@
    "C": "Ignoring frustration harms the interaction."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7316,7 +7316,7 @@
    "D": "Denying/ignoring without basis fails the customer and the policy-gap escalation rule."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7340,7 +7340,7 @@
    "C": "Not the point; reliability is."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7364,7 +7364,7 @@
    "D": "Immediate escalation isn't required if clarification can resolve it."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7388,7 +7388,7 @@
    "D": "None is the actual criterion."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7412,7 +7412,7 @@
    "A": "Guessing yields miscalibration."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7436,7 +7436,7 @@
    "D": "Arbitrary thresholds don't fix the boundary."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7460,7 +7460,7 @@
    "D": "Ending or ignoring fails the customer."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7484,7 +7484,7 @@
    "A": "Merging accounts is dangerous."
   },
   "official": false,
-  "docLabel": "Subagents — escalation & reliability",
+  "docLabel": "Subagents, escalation & reliability",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7508,7 +7508,7 @@
    "D": "Terminating the whole workflow is unnecessary when recovery could succeed."
   },
   "official": true,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7532,7 +7532,7 @@
    "D": "It doesn't crash the coordinator; it starves it of context."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7556,7 +7556,7 @@
    "A": "Latency isn't the core issue."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7580,7 +7580,7 @@
    "D": "Ignoring loses information either way."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7604,7 +7604,7 @@
    "D": "Marking as success corrupts results."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7628,7 +7628,7 @@
    "C": "None provides enough for recovery decisions."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7652,7 +7652,7 @@
    "D": "Terminating discards valid partial results."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7676,7 +7676,7 @@
    "D": "MCP doesn't require it."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7700,7 +7700,7 @@
    "A": "Ignoring metadata forfeits recovery guidance."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7712,7 +7712,7 @@
   "stem": "Which is the correct reporting for \"the query ran successfully and legitimately found no matching records\"?",
   "options": {
    "A": "A transient access failure requiring retry.",
-   "B": "A valid empty result (success, no matches) — not an error.",
+   "B": "A valid empty result (success, no matches), not an error.",
    "C": "A generic \"unavailable.\"",
    "D": "A permission error."
   },
@@ -7724,7 +7724,7 @@
    "D": "All misclassify a successful empty query as a failure."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7748,7 +7748,7 @@
    "D": "First-error termination is an anti-pattern."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7762,7 +7762,7 @@
    "A": "Always use a single generic error string.",
    "B": "Always terminate the whole workflow on any error.",
    "C": "Always return empty success to keep things moving.",
-   "D": "Return structured, distinguishable errors (type, attempt, partial results, alternatives), recover locally when possible, and let the coordinator decide — never suppress or blanket-terminate."
+   "D": "Return structured, distinguishable errors (type, attempt, partial results, alternatives), recover locally when possible, and let the coordinator decide, never suppress or blanket-terminate."
   },
   "answer": "D",
   "explanation": "This captures the full recommended pattern: structured, distinguishable, locally-recovered, coordinator-decided.",
@@ -7772,7 +7772,7 @@
    "C": "Each is a named anti-pattern (termination, suppression, generic status)."
   },
   "official": false,
-  "docLabel": "Subagents — error propagation",
+  "docLabel": "Subagents, error propagation",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -7796,7 +7796,7 @@
    "D": "Descriptions aren't the cause here."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -7820,7 +7820,7 @@
    "D": "None matches the scratchpad's purpose."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -7844,7 +7844,7 @@
    "A": "The coordinator is needed for high-level understanding."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -7868,7 +7868,7 @@
    "D": "Models don't persist state across crashes."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -7892,7 +7892,7 @@
    "D": "Forking branches sessions; it doesn't compact context."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -7916,7 +7916,7 @@
    "C": "Passing nothing or deleting findings loses continuity."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -7940,7 +7940,7 @@
    "D": "Normal tool/config usage, not symptoms."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -7964,7 +7964,7 @@
    "D": "Forcing termination abandons the task."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -7988,7 +7988,7 @@
    "A": "Restarting from scratch wastes prior work."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8012,7 +8012,7 @@
    "D": "Temperature is irrelevant to degradation."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8036,7 +8036,7 @@
    "D": "It preserves work and coordination."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8060,7 +8060,7 @@
    "A": "Models don't persist across crashes."
   },
   "official": false,
-  "docLabel": "Common workflows — large codebase exploration",
+  "docLabel": "Common workflows, large codebase exploration",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8084,7 +8084,7 @@
    "D": "Relabeling to inflate metrics is dishonest and unsafe."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8108,7 +8108,7 @@
    "D": "Never sampling / blind trust hides emerging errors."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8132,7 +8132,7 @@
    "C": "A zero threshold routes everything or nothing meaningfully."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8156,7 +8156,7 @@
    "D": "Full automation ignores risky cases."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8180,7 +8180,7 @@
    "A": "Removing validation is unsafe."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8199,12 +8199,12 @@
   "answer": "D",
   "explanation": "Sampling high-confidence outputs detects novel errors and measures the real error rate you're about to trust.",
   "distractors": {
-   "B": "They're usually right, but not guaranteed — hence sampling.",
+   "B": "They're usually right, but not guaranteed, hence sampling.",
    "C": "The goal is quality, not busywork.",
    "A": "There's a clear reliability reason."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8228,7 +8228,7 @@
    "D": "It does not guarantee per-segment quality."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8252,7 +8252,7 @@
    "D": "Random scores carry no signal."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8276,7 +8276,7 @@
    "C": "Arbitrary ordering ignores risk."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8300,7 +8300,7 @@
    "D": "Aggregates hide weak segments."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8324,7 +8324,7 @@
    "D": "No method guarantees perfect accuracy."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8348,7 +8348,7 @@
    "A": "Relabeling hides the problem."
   },
   "official": false,
-  "docLabel": "Common workflows — review & validation",
+  "docLabel": "Common workflows, review & validation",
   "docUrl": "https://code.claude.com/docs/en/common-workflows"
  },
  {
@@ -8372,7 +8372,7 @@
    "D": "Unlabeled summaries lose source mappings."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8396,7 +8396,7 @@
    "D": "Discarding loses valid information."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8420,7 +8420,7 @@
    "C": "None disambiguates temporal differences."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8444,7 +8444,7 @@
    "D": "Hiding either side misrepresents the evidence."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8468,7 +8468,7 @@
    "D": "Fabrication is a correctness violation."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8482,7 +8482,7 @@
    "A": "All as bullet points regardless of type.",
    "B": "All as one uniform paragraph.",
    "C": "All as raw JSON.",
-   "D": "Appropriately per type — financial data as tables, news as prose, technical findings as structured lists — rather than forcing a uniform format."
+   "D": "Appropriately per type, financial data as tables, news as prose, technical findings as structured lists, rather than forcing a uniform format."
   },
   "answer": "D",
   "explanation": "Render each content type appropriately (financial→tables, news→prose, technical→lists) instead of a uniform format.",
@@ -8492,7 +8492,7 @@
    "C": "Forcing one format loses the strengths of each content type."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8516,7 +8516,7 @@
    "D": "They reveal, not hide, the source."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8540,7 +8540,7 @@
    "D": "Not the described failure."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8564,7 +8564,7 @@
    "A": "Omitting both loses information."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8588,7 +8588,7 @@
    "D": "None relates to temporal interpretation."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8612,7 +8612,7 @@
    "D": "Ignoring sources loses evidence and attribution."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  },
  {
@@ -8636,7 +8636,7 @@
    "A": "Merging without sources destroys provenance."
   },
   "official": false,
-  "docLabel": "Subagents — multi-source synthesis & provenance",
+  "docLabel": "Subagents, multi-source synthesis & provenance",
   "docUrl": "https://code.claude.com/docs/en/sub-agents"
  }
 ]

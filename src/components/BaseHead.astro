@@ -28,7 +28,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 const fullTitle = title === SITE.name ? SITE.title : `${title} · ${SITE.name}`;
 
-// A single, reused Person entity — the `sameAs` links let Google/Bing and AI
+// A single, reused Person entity, the `sameAs` links let Google/Bing and AI
 // answer engines (Perplexity, ChatGPT search, etc.) confirm "Sarvesh Talele" is
 // one real, verifiable person across the site, GitHub, and LinkedIn.
 const personId = `${SITE.url}/#person`;
@@ -106,7 +106,8 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [per
 <script is:inline>
   (function () {
     const stored = localStorage.getItem('theme');
-    const dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Default to dark mode unless the visitor has explicitly chosen light.
+    const dark = stored ? stored === 'dark' : true;
     document.documentElement.classList.toggle('dark', dark);
   })();
 </script>
