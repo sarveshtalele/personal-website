@@ -45,3 +45,4 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 - LinkedIn is login-walled; dashboard numbers come from the experience MD. Edit src/content/dashboard/metrics.md to add LinkedIn-only facts (each with a proof link).
 - Travel notes: copy src/content/travel/_example.md to add real places; the landing "Traveller's notebook" appears automatically.
 - Repo About/topics on GitHub (description, website, topics) must be set in the GitHub UI.
+[2026-10-23 15:59 UTC] DONE — Committed as Sarvesh Talele (no co-author trailer) and pushed to claude/blissful-clarke-6s5lv2.
