@@ -1,0 +1,194 @@
+---
+/**
+ * ⌘K / Ctrl+K quick menu: jump to any page, pinned project, or blog post.
+ * Items are rendered at build time; the script only filters and navigates.
+ */
+import { Search, FileText, FolderGit2, Compass, ArrowUpRight } from '@lucide/astro';
+import { NAV_LINKS, FOOTER_LINKS } from '@lib/site';
+import { getPosts } from '@lib/content';
+import { getGithubStats } from '@lib/github';
+
+const posts = await getPosts();
+const gh = await getGithubStats();
+const groups = [
+  {
+    label: 'Pages',
+    icon: Compass,
+    items: [...NAV_LINKS, ...FOOTER_LINKS].map((l) => ({ label: l.label, href: l.href, external: false })),
+  },
+  {
+    label: 'Writing',
+    icon: FileText,
+    items: posts.map((p) => ({ label: p.data.title, href: `/blog/${p.id}`, external: false })),
+  },
+  {
+    label: 'Projects',
+    icon: FolderGit2,
+    items: gh.pinned.map((r) => ({ label: r.name.replace(/[-_]/g, ' '), href: r.url, external: true })),
+  },
+].filter((g) => g.items.length > 0);
+---
+
+<dialog id="cmdk" class="cmdk" aria-label="Quick menu">
+  <div class="cmdk-panel">
+    <label class="flex items-center gap-3 border-b border-line px-4 py-3">
+      <Search class="h-4 w-4 shrink-0 text-fg-faint" aria-hidden="true" />
+      <span class="sr-only">Jump to</span>
+      <input
+        type="text"
+        class="w-full bg-transparent text-base text-fg outline-none placeholder:text-fg-faint"
+        placeholder="Jump to a page, post, or project…"
+        autocomplete="off"
+        spellcheck="false"
+        data-cmdk-input
+      />
+      <kbd class="rounded-md border border-line px-1.5 py-0.5 text-[0.65rem] text-fg-faint">esc</kbd>
+    </label>
+    <div class="max-h-[60vh] overflow-y-auto p-2" data-cmdk-list>
+      {
+        groups.map(({ label, icon: Icon, items }) => (
+          <div class="cmdk-group">
+            <p class="px-3 pb-1 pt-3 text-xs font-semibold text-fg-faint">{label}</p>
+            {items.map((it) => (
+              <a
+                href={it.href}
+                class="cmdk-item"
+                data-cmdk-item
+                {...(it.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                <Icon class="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                <span class="min-w-0 flex-1 truncate">{it.label}</span>
+                {it.external && <ArrowUpRight class="h-3.5 w-3.5 text-fg-faint" aria-hidden="true" />}
+              </a>
+            ))}
+          </div>
+        ))
+      }
+      <a href="/search" class="cmdk-item" data-cmdk-item data-cmdk-search>
+        <Search class="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+        <span class="flex-1">Search everything on the site</span>
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .cmdk {
+    margin: 12vh auto auto;
+    width: min(36rem, calc(100vw - 2rem));
+    max-height: none;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--fg);
+  }
+  .cmdk::backdrop {
+    background: rgb(0 0 0 / 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .cmdk[open] .cmdk-panel {
+    animation: cmdk-in 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  @keyframes cmdk-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+    }
+  }
+  .cmdk-panel {
+    overflow: hidden;
+    border-radius: 1.1rem;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--card) 94%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.45);
+  }
+  .cmdk input:focus-visible {
+    outline: none;
+  }
+    .cmdk-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 0.7rem;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.92rem;
+    color: var(--fg);
+  }
+  .cmdk-item[aria-selected='true'] {
+    background: var(--primary-soft);
+    color: var(--primary);
+  }
+</style>
+
+<script>
+  const dlg = document.getElementById('cmdk') as HTMLDialogElement | null;
+  if (dlg) {
+    const input = dlg.querySelector<HTMLInputElement>('[data-cmdk-input]')!;
+    const items = [...dlg.querySelectorAll<HTMLAnchorElement>('[data-cmdk-item]')];
+    const searchItem = dlg.querySelector<HTMLAnchorElement>('[data-cmdk-search]')!;
+    let active = 0;
+    const visible = () => items.filter((i) => !i.hidden);
+    const paint = () => {
+      const v = visible();
+      active = Math.max(0, Math.min(active, v.length - 1));
+      items.forEach((i) => i.setAttribute('aria-selected', 'false'));
+      v[active]?.setAttribute('aria-selected', 'true');
+      v[active]?.scrollIntoView({ block: 'nearest' });
+    };
+    const filter = () => {
+      const q = input.value.trim().toLowerCase();
+      for (const i of items) if (i !== searchItem) i.hidden = !!q && !i.textContent!.toLowerCase().includes(q);
+      dlg.querySelectorAll<HTMLElement>('.cmdk-group').forEach((g) => {
+        g.hidden = !g.querySelector('[data-cmdk-item]:not([hidden])');
+      });
+      searchItem.href = q ? `/search?q=${encodeURIComponent(q)}` : '/search';
+      active = 0;
+      paint();
+    };
+    const open = () => {
+      if (dlg.open) return;
+      input.value = '';
+      filter();
+      dlg.showModal();
+      input.focus();
+    };
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (dlg.open) dlg.close();
+        else open();
+      }
+    });
+    document.querySelectorAll('[data-cmdk-open]').forEach((b) =>
+      b.addEventListener('click', (e) => {
+        e.preventDefault();
+        open();
+      }),
+    );
+    input.addEventListener('input', filter);
+    input.addEventListener('keydown', (e) => {
+      const v = visible();
+      if (e.key === 'ArrowDown') active = (active + 1) % v.length;
+      else if (e.key === 'ArrowUp') active = (active - 1 + v.length) % v.length;
+      else if (e.key === 'Enter') {
+        e.preventDefault();
+        v[active]?.click();
+        return;
+      } else return;
+      e.preventDefault();
+      paint();
+    });
+    items.forEach((it) =>
+      it.addEventListener('pointermove', () => {
+        active = visible().indexOf(it);
+        paint();
+      }),
+    );
+    dlg.addEventListener('click', (e) => {
+      if (e.target === dlg) dlg.close();
+    });
+  }
+</script>

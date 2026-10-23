@@ -80,3 +80,10 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 18:04 UTC] ACTION — Removed CardFanHero; IntroHero is now the hero (h1 headline, Blog button, rotating conic gradient border). Added SkillsMarquee (two counter-scrolling rows), pointer spotlight + 3D tilt on all .card-hover cards, section-title wipe-in. Docs updated.
 [2026-10-23 18:04 UTC] DONE — build ✔, astro check 0/0, eslint clean, browser QA: no errors, no overflow at 390/1440.
 [2026-10-23 18:05 UTC] DONE — Deploy 40000262502 succeeded; live site verified: rectangle hero first, Read the blog button present, card deck gone.
+
+## Session 6 — More interactivity, same hero
+
+[2026-10-23 18:24 UTC] DECISION — 'keep layout same as it was at start' read as: keep the current hero layout/colours/styling unchanged; send owner a dark-mode hero screenshot.
+[2026-10-23 18:24 UTC] PLAN — Add: hero pointer parallax (photo tilt, chips drift), sticky scroll-story 'How I work' (steps from profile MD `approach:`), ⌘K quick menu (pages, projects, posts), circular view-transition theme toggle, magnetic primary buttons, back-to-top progress ring. All reduced-motion safe.
+[2026-10-23 18:31 UTC] ACTION — Hero layout/colours unchanged; added pointer parallax (photo tilt, chips drift via independent translate). New: ScrollStory (approach: in profile MD), CommandMenu (⌘K/Ctrl+K, dialog, keyboard nav, search hand-off with ?q=), BackToTop progress ring, magnetic .btn-primary, circular View Transition theme toggle. Fixed: cmdk input double focus ring; back-to-top icon rotated by ring CSS.
+[2026-10-23 18:31 UTC] DONE — build ✔, astro check 0/0, eslint clean; Playwright: palette opens + filters, all 4 story steps activate, back-to-top scrolls to 0, theme toggles, no errors, no overflow. Sent owner dark-mode hero screenshots (desktop + mobile).

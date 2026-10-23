@@ -40,7 +40,17 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     </ul>
 
     <div class="flex items-center gap-1">
-      <a href="/search" class="icon-btn inline-flex" aria-label="Search the site">
+      <a
+        href="/search"
+        class="cmdk-btn hidden items-center gap-2 sm:inline-flex"
+        data-cmdk-open
+        aria-label="Open quick menu"
+      >
+        <Search class="h-4 w-4" aria-hidden="true" />
+        <span class="text-xs">Search</span>
+        <kbd class="rounded border border-line px-1 text-[0.65rem]">⌘K</kbd>
+      </a>
+      <a href="/search" class="icon-btn inline-flex sm:hidden" data-cmdk-open aria-label="Open quick menu">
         <Search class="h-[18px] w-[18px]" aria-hidden="true" />
       </a>
       <ThemeToggle />
@@ -136,6 +146,20 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   }
   .nav-link[aria-current='page'] {
     color: var(--primary);
+  }
+  .cmdk-btn {
+    height: 2.25rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    padding: 0 0.75rem;
+    color: var(--fg-faint);
+    transition:
+      border-color 200ms ease,
+      color 200ms ease;
+  }
+  .cmdk-btn:hover {
+    border-color: var(--border-strong);
+    color: var(--fg);
   }
   .icon-btn {
     height: 2.25rem;

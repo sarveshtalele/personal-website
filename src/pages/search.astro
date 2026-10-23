@@ -28,7 +28,9 @@ import Container from '@components/Container.astro';
     script.src = '/pagefind/pagefind-ui.js';
     script.onload = () => {
       // @ts-expect-error, global registered by the script above
-      new PagefindUI({ element: '#search', showSubResults: true, showImages: false });
+      const ui = new PagefindUI({ element: '#search', showSubResults: true, showImages: false });
+      const q = new URLSearchParams(location.search).get('q');
+      if (q) ui.triggerSearch(q);
     };
     script.onerror = () => fallback?.classList.remove('hidden');
     document.head.appendChild(script);

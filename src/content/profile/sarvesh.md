@@ -22,6 +22,17 @@ quotes:
     author: Fyodor Dostoevsky
     source: The Brothers Karamazov
 
+# "How I work" scroll story on the landing page. Steps light up as you scroll.
+approach:
+  - title: Understand the story first.
+    text: Every system starts with people. I map intent, constraints, and the cost of being wrong before touching a model.
+  - title: Let deterministic tools do the math.
+    text: Language models reason and explain. MCP tools, JSON schemas, and hooks guarantee the numbers and the rules.
+  - title: Orchestrate, don't overload.
+    text: A coordinator with focused subagents, explicit context passing, and clear escalation paths beats one giant prompt.
+  - title: Ship it, trace it, harden it.
+    text: Audited LLM proxies, tracing, and tests in production, so enterprise teams can trust it at 50K+ requests a day.
+
 socials:
   github: https://github.com/sarveshtalele
   linkedin: https://www.linkedin.com/in/sarveshtalele

@@ -1,6 +1,6 @@
 ---
 /**
- * Second landing section: a large rounded rectangle with the quote on the
+ * Landing hero: a large rounded rectangle with the quote on the
  * left (words rise in one by one) and the portrait on the right, framed by
  * self-drawing lines and floating proof chips.
  */
@@ -242,7 +242,9 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
     top: 50%;
     width: min(72%, 21rem);
     aspect-ratio: 4 / 5;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) perspective(900px) rotateX(calc(var(--py, 0) * -6deg))
+      rotateY(calc(var(--px, 0) * 8deg));
+    transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
     overflow: hidden;
     border-radius: 1.5rem;
     box-shadow: 0 30px 60px -25px rgb(0 0 0 / 0.5);
@@ -260,6 +262,10 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
   .chip-float {
     position: absolute;
     z-index: 2;
+    /* Pointer parallax rides on the independent `translate` property so it
+       composes with the floating keyframes on `transform`. */
+    translate: calc(var(--px, 0) * var(--depth, -18px)) calc(var(--py, 0) * var(--depth, -18px));
+    transition: translate 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
@@ -284,11 +290,13 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
     top: 12%;
   }
   .chip-2 {
+    --depth: 26px;
     right: 5%;
     top: 44%;
     animation-delay: -2s;
   }
   .chip-3 {
+    --depth: -30px;
     left: 9%;
     bottom: 10%;
     animation-delay: -4s;
@@ -320,5 +328,19 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
       { threshold: 0.25 },
     );
     io.observe(intro);
+
+    // Pointer parallax on the portrait panel: photo tilts, chips drift.
+    const panel = intro.querySelector<HTMLElement>('.portrait');
+    if (panel && matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      intro.addEventListener('pointermove', (e) => {
+        const r = panel.getBoundingClientRect();
+        panel.style.setProperty('--px', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+        panel.style.setProperty('--py', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+      });
+      intro.addEventListener('pointerleave', () => {
+        panel.style.setProperty('--px', '0');
+        panel.style.setProperty('--py', '0');
+      });
+    }
   }
 </script>

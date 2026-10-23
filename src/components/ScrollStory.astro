@@ -1,0 +1,104 @@
+---
+/**
+ * Apple-style scroll story: a sticky heading on the left with a progress rail,
+ * steps on the right that light up as they cross the middle of the viewport.
+ * Steps come from `approach:` in src/content/profile/sarvesh.md.
+ */
+import { getProfile } from '@lib/content';
+
+const { data: profile } = await getProfile();
+const steps = profile.approach;
+---
+
+{
+  steps.length > 0 && (
+    <section class="story mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28" data-story aria-labelledby="story-title">
+      <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div class="lg:sticky lg:top-28 lg:self-start">
+          <p class="eyebrow">How I work</p>
+          <h2 id="story-title" class="mt-3 font-display text-4xl font-bold leading-tight text-fg sm:text-5xl">
+            From a human problem to a system people trust.
+          </h2>
+          <div class="rail mt-8 hidden lg:block" aria-hidden="true">
+            <span class="rail-fill" />
+          </div>
+          <p class="mt-4 hidden text-sm text-fg-faint lg:block" aria-hidden="true">
+            <span data-story-count>01</span> / {String(steps.length).padStart(2, '0')}
+          </p>
+        </div>
+        <ol class="space-y-6 lg:space-y-[28vh] lg:py-[12vh]">
+          {steps.map((s, i) => (
+            <li class="step" data-step={i}>
+              <span class="step-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="mt-2 font-display text-3xl font-bold leading-tight sm:text-4xl">{s.title}</h3>
+              <p class="mt-3 max-w-xl text-lg leading-relaxed">{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .rail {
+    position: relative;
+    height: 3px;
+    width: 100%;
+    max-width: 18rem;
+    overflow: hidden;
+    border-radius: 9999px;
+    background: var(--border);
+  }
+  .rail-fill {
+    position: absolute;
+    inset: 0;
+    transform-origin: left;
+    transform: scaleX(var(--story, 0));
+    background: var(--primary);
+    transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .step {
+    color: var(--fg);
+    transition:
+      opacity 600ms ease,
+      transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .step-num {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .step p {
+    color: var(--fg-muted);
+  }
+  /* Only dim inactive steps on large screens with JS; mobile shows all. */
+  @media (min-width: 1024px) {
+    :global(.js) .story .step:not(.is-active) {
+      opacity: 0.22;
+      transform: scale(0.97);
+      transform-origin: left center;
+    }
+  }
+</style>
+
+<script>
+  const story = document.querySelector<HTMLElement>('[data-story]');
+  if (story) {
+    const steps = [...story.querySelectorAll<HTMLElement>('[data-step]')];
+    const count = story.querySelector<HTMLElement>('[data-story-count]');
+    const activate = (i: number) => {
+      steps.forEach((s, k) => s.classList.toggle('is-active', k === i));
+      story.style.setProperty('--story', String((i + 1) / steps.length));
+      if (count) count.textContent = String(i + 1).padStart(2, '0');
+    };
+    activate(0);
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) activate(Number((e.target as HTMLElement).dataset.step));
+      },
+      { rootMargin: '-45% 0px -45% 0px' },
+    );
+    steps.forEach((s) => io.observe(s));
+  }
+</script>

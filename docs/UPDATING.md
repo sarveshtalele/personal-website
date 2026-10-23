@@ -27,6 +27,7 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 | Your title, headline, bio or socials change | `src/content/profile/sarvesh.md` | Navbar, hero, footer, About, SEO metadata, JSON-LD, Contact |
 | The small label above the headline | `profile/sarvesh.md` → `heroLabel:` | Landing hero (currently "AI Engineer") |
 | You learn a new tool | `profile/sarvesh.md` → `skills:` | Skills dashboard on About + Dashboard |
+| The "How I work" steps | `profile/sarvesh.md` → `approach:` | Scroll story under the hero |
 | The quote on the landing page | `profile/sarvesh.md` → `quotes:` (first entry is used) | Hero rectangle |
 | A new achievement or award | `profile/sarvesh.md` → `achievements:` (and update the `8×` tile in `metrics.md` if it is a TCS award) | About "Achievements", dashboard |
 | You want a new Claude practice question | `src/content/claude/questions/domain-<n>.md` | Learn & Review library, counts on Claude/landing/dashboard |
@@ -133,7 +134,13 @@ palette, with tasteful motion throughout:
   (Claude certifications, GitHub stars, daily requests). A gradient light runs around the card's border.
 - **Skills strip** (`SkillsMarquee.astro`): two rows of your `skills:` scrolling in opposite directions.
 - **Cards** everywhere get a soft spotlight that follows the pointer and a slight 3D tilt.
-- **Section titles** wipe in as you scroll; numbers count up. All motion switches off for visitors who prefer reduced motion.
+- **Section titles** wipe in as you scroll; numbers count up.
+- **How I work** (`ScrollStory.astro`): an Apple-style scroll story. Edit the steps under `approach:` in
+  `profile/sarvesh.md`; each step lights up as it reaches the middle of the screen.
+- **⌘K / Ctrl+K quick menu** (`CommandMenu.astro`): jump to any page, blog post, or pinned project. It lists
+  everything automatically.
+- **Theme toggle** reveals the new theme in a circle from the button; **back-to-top** button shows scroll progress;
+  primary buttons gently follow the pointer; the hero photo tilts and the chips drift with the pointer. All motion switches off for visitors who prefer reduced motion.
 
 | Element | Light | Dark (default) |
 | --- | --- | --- |
