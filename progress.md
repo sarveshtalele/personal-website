@@ -55,3 +55,4 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 16:21 UTC] DONE — build ✔, astro check 0/0, eslint clean, Playwright QA clean.
 [2026-10-23 16:22 UTC] ISSUE — First deploy on main failed: (1) runner Node 22.23.3 < Astro 7.4.2 minimum 22.23.4, (2) snapshot from authenticated MCP search contained 16 private repos, so pinned 'knowyourtokens' wasn't in the public API result.
 [2026-10-23 16:22 UTC] ACTION — Workflows → Node 24 (.nvmrc 24). Removed private repos from src/data/github.json and their overrides; pinned linkedin-content-skill instead. Unknown pinned/hidden names now warn instead of failing the deploy.
+[2026-10-23 16:24 UTC] DONE — Deploy run 39986285284 succeeded; live sarveshtalele.org verified serving the new site (live GitHub sync: 37 public repos, 236 stars). No travel section.
