@@ -79,3 +79,4 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 18:02 UTC] PLAN — Owner: remove card-fan hero, keep only the rectangle hero (now first on the page), add a Blog button to it, add more motion graphics site-wide (animated hero border, skills marquee, card spotlight + tilt, stronger heading reveals). All reduced-motion safe.
 [2026-10-23 18:04 UTC] ACTION — Removed CardFanHero; IntroHero is now the hero (h1 headline, Blog button, rotating conic gradient border). Added SkillsMarquee (two counter-scrolling rows), pointer spotlight + 3D tilt on all .card-hover cards, section-title wipe-in. Docs updated.
 [2026-10-23 18:04 UTC] DONE — build ✔, astro check 0/0, eslint clean, browser QA: no errors, no overflow at 390/1440.
+[2026-10-23 18:05 UTC] DONE — Deploy 40000262502 succeeded; live site verified: rectangle hero first, Read the blog button present, card deck gone.
