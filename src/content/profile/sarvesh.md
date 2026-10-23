@@ -9,6 +9,9 @@ fullName: Sarvesh Kishor Talele
 role: AI Engineer · Claude Certified Architect
 # Small label above the landing-page headline.
 heroLabel: AI Engineer
+# Floating badges around your photo in the hero (up to 3), next to the
+# automatic Claude-certification and GitHub-stars badges.
+heroChips: [AI Security, Harness Engineering, Azure Cloud]
 headline: Simple problems. Complex methods. Simple explanations.
 tagline: AI Engineer at Tata Consultancy Services building agentic systems, Graph-RAG pipelines, and secure LLM platforms used by enterprise teams every day.
 summary: AI Engineer and Claude Certified Architect building agentic AI systems, multi-agent workflows, and enterprise LLM platforms. Writing about MCP, RAG, deterministic AI, and the philosophy of building things that think.
@@ -31,7 +34,7 @@ approach:
   - title: Orchestrate, don't overload.
     text: A coordinator with focused subagents, explicit context passing, and clear escalation paths beats one giant prompt.
   - title: Ship it, trace it, harden it.
-    text: Audited LLM proxies, tracing, and tests in production, so enterprise teams can trust it at 50K+ requests a day.
+    text: Audited LLM proxies, tracing, security checks, and test harnesses in production, so enterprise teams can trust it every day.
 
 socials:
   github: https://github.com/sarveshtalele

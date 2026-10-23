@@ -29,6 +29,7 @@ const profile = defineCollection({
     employer: z.string(),
     photo: z.string(),
     heroLabel: z.string().default('AI Engineer'),
+    heroChips: z.array(z.string()).max(3).default([]),
     approach: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
     quotes: z.array(z.object({ text: z.string(), author: z.string(), source: z.string().optional() })).min(1),
     socials: z.object({

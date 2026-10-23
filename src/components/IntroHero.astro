@@ -5,18 +5,17 @@
  * on the right, with self-drawing lines, drifting colour, floating proof
  * chips, and social links below. No surrounding box.
  */
-import { ArrowRight, BadgeCheck, Star, Zap } from '@lucide/astro';
+import { ArrowRight, BadgeCheck, Star, ShieldCheck, Cloud, Wrench, Sparkles } from '@lucide/astro';
 import { getCollection } from 'astro:content';
 import Button from './Button.astro';
 import GithubIcon from './icons/GithubIcon.astro';
 import LinkedinIcon from './icons/LinkedinIcon.astro';
 import MediumIcon from './icons/MediumIcon.astro';
 import OrcidIcon from './icons/OrcidIcon.astro';
-import { getProfile, getDashboard } from '@lib/content';
+import { getProfile } from '@lib/content';
 import { getGithubStats } from '@lib/github';
 
 const { data: profile } = await getProfile();
-const dashboard = await getDashboard();
 const gh = await getGithubStats();
 const certCount = (await getCollection('certifications')).filter((c) =>
   c.data.title.includes('Claude Certified Architect'),
@@ -24,7 +23,13 @@ const certCount = (await getCollection('certifications')).filter((c) =>
 const quote = profile.quotes[0];
 const words = quote ? quote.text.split(' ') : [];
 const [line1, line2, line3] = profile.headline.split(/(?<=\.)\s+/);
-const requests = dashboard.impact.find((m) => /request/i.test(m.label));
+// Pick a fitting icon for a hero chip from its text; anything else gets a sparkle.
+function chipIcon(label: string) {
+  if (/secur/i.test(label)) return ShieldCheck;
+  if (/cloud|azure|aws|gcp/i.test(label)) return Cloud;
+  if (/harness|test|eval/i.test(label)) return Wrench;
+  return Sparkles;
+}
 const socials = [
   { href: profile.socials.github, label: 'GitHub', Icon: GithubIcon },
   { href: profile.socials.linkedin, label: 'LinkedIn', Icon: LinkedinIcon },
@@ -38,23 +43,17 @@ const socials = [
     <div class="flex flex-col-reverse items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
       <div class="max-w-2xl">
         <p class="eyebrow">{profile.role}</p>
-        <h1 class="hero-title mt-5 font-display text-[clamp(2.4rem,5.4vw,4.1rem)] font-bold leading-[1.05] text-fg">
-          {line1 && <span class="block">{line1}</span>}
-          {line2 && <span class="block">{line2}</span>}
-          {line3 && <span class="block text-primary">{line3}</span>}
-        </h1>
-        <p class="fade-up mt-6 max-w-xl text-lg leading-relaxed text-fg-muted">{profile.tagline}</p>
         {
           quote && (
-            <figure class="mt-8 max-w-xl">
-              <blockquote class="quote text-xl font-medium italic leading-relaxed text-fg sm:text-2xl">
+            <figure class="mt-5">
+              <h1 class="quote font-display text-[clamp(2rem,4.4vw,3.4rem)] font-bold leading-[1.1] text-fg">
                 {words.map((w, i) => (
                   <span class="word" style={`--i:${i}`}>
                     {w}{' '}
                   </span>
                 ))}
-              </blockquote>
-              <figcaption class="cap mt-3 text-sm text-fg-faint">
+              </h1>
+              <figcaption class="cap mt-4 text-sm text-fg-faint">
                 <span class="cap-line" aria-hidden="true" />
                 {quote.author}
                 {quote.source && <span> · {quote.source}</span>}
@@ -62,12 +61,17 @@ const socials = [
             </figure>
           )
         }
+        <p class="fade-up mt-8 text-xl font-semibold leading-snug tracking-tight text-fg sm:text-2xl">
+          {line1}
+          {line2 && <> {line2}</>}
+          {line3 && <span class="text-primary"> {line3}</span>}
+        </p>
+        <p class="fade-up mt-4 max-w-xl text-lg leading-relaxed text-fg-muted">{profile.tagline}</p>
         <div class="fade-up mt-9 flex flex-wrap gap-3">
-          <Button href="/dashboard" size="lg">
-            See the evidence <ArrowRight class="h-4 w-4" aria-hidden="true" />
+          <Button href="/blog" size="lg">
+            Read the blog <ArrowRight class="h-4 w-4" aria-hidden="true" />
           </Button>
           <Button href="/projects" variant="secondary" size="lg">Explore projects</Button>
-          <Button href="/blog" variant="secondary" size="lg">Read the blog</Button>
         </div>
       </div>
 
@@ -97,11 +101,14 @@ const socials = [
             {gh.stars} stars
           </a>
           {
-            requests && (
-              <a href={requests.proof} class="chip-float chip-3">
-                <Zap class="h-4 w-4 text-accent" aria-hidden="true" /> {requests.value} req/day
-              </a>
-            )
+            profile.heroChips.map((label, i) => {
+              const Icon = chipIcon(label);
+              return (
+                <span class:list={['chip-float', `chip-${i + 3}`]}>
+                  <Icon class="h-4 w-4 text-accent" aria-hidden="true" /> {label}
+                </span>
+              );
+            })
           }
         </div>
         <div class="fade-up flex items-center gap-1">
@@ -310,9 +317,21 @@ const socials = [
   }
   .chip-3 {
     --depth: -30px;
-    left: -10%;
-    bottom: 7%;
+    left: -14%;
+    bottom: 22%;
     animation-delay: -4s;
+  }
+  .chip-4 {
+    --depth: 20px;
+    right: -10%;
+    top: -4%;
+    animation-delay: -1s;
+  }
+  .chip-5 {
+    --depth: -24px;
+    right: -6%;
+    bottom: -3%;
+    animation-delay: -3s;
   }
   @keyframes float-chip {
     50% {

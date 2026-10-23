@@ -95,3 +95,10 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 18:36 UTC] ACTION — Hero un-boxed back to the original layout: left role/headline/tagline/quote (word reveal)/buttons incl. blog; right photo (4:5, parallax tilt) with line-draw, blobs, chips outside the photo edges, social icons below; mobile stacks photo on top as originally. Removed rotating border box. Docs updated.
 [2026-10-23 18:36 UTC] DONE — build ✔, check 0/0, lint clean, no errors/overflow light+dark × desktop/mobile.
 [2026-10-23 18:37 UTC] DONE — Deploy 40004645384: completed success.
+
+## Session 8 — Hero chips
+
+[2026-10-23 18:38 UTC] PLAN — Owner: remove '50K+ req/day' hero chip; add 'AI Security', 'Harness Engineering' (third item truncated 'l…', will ask). Make hero chips data-driven via heroChips: in profile MD.
+[2026-10-23 18:40 UTC] PLAN — Updated request: chips = Claude Certified, GitHub stars, AI Security, Harness Engineering, Azure Cloud (data-driven heroChips); quote becomes the big heading, 'Simple problems…' line goes below in the quote's old place; buttons = Read the blog + Explore projects only; 'How I work' becomes sticky stacking cards that scale/fade as the next one slides over (mobile-friendly).
+[2026-10-23 18:47 UTC] ACTION — Hero: quote is now the h1 (word reveal), 'Simple problems…' line below it, buttons = Read the blog (primary) + Explore projects; '50K+ req/day' chip removed; chips from new heroChips: field (AI Security, Harness Engineering, Azure Cloud) with auto icons. 'How I work' rebuilt as sticky stacking cards (scale/dim as the next card slides over; works on touch). Step 4 copy no longer cites 50K+. Docs updated.
+[2026-10-23 18:47 UTC] DONE — build ✔, check 0/0, lint clean, Playwright QA clean (all pages, light/dark, desktop/mobile).

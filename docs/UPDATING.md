@@ -26,6 +26,7 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 | Stars/forks change | Nothing. The site rebuilds daily at 03:17 UTC | Every GitHub number |
 | Your title, headline, bio or socials change | `src/content/profile/sarvesh.md` | Navbar, hero, footer, About, SEO metadata, JSON-LD, Contact |
 | The small label above the headline | `profile/sarvesh.md` → `heroLabel:` | Landing hero (currently "AI Engineer") |
+| Skill badges floating around your photo | `profile/sarvesh.md` → `heroChips:` (up to 3) | Landing hero |
 | You learn a new tool | `profile/sarvesh.md` → `skills:` | Skills dashboard on About + Dashboard |
 | The "How I work" steps | `profile/sarvesh.md` → `approach:` | Scroll story under the hero |
 | The quote on the landing page | `profile/sarvesh.md` → `quotes:` (first entry is used) | Hero (under the headline) |
@@ -131,13 +132,16 @@ palette, with tasteful motion throughout:
 
 - **Hero** (`IntroHero.astro`): the site's original layout, no box. Left: role, big headline, tagline, the quote
   (words rise in), and buttons (evidence, projects, blog). Right: your photo with self-drawing lines, drifting colour,
-  floating proof chips (Claude certifications, GitHub stars, daily requests), and social icons below. The photo tilts
+  floating badges (Claude certifications and GitHub stars are automatic; the rest come from `heroChips:` in
+  `profile/sarvesh.md`, up to 3), and social icons below. The quote is the big heading; your headline line sits
+  under it; buttons are Read the blog and Explore projects. The photo tilts
   and the chips drift with the pointer.
 - **Skills strip** (`SkillsMarquee.astro`): two rows of your `skills:` scrolling in opposite directions.
 - **Cards** everywhere get a soft spotlight that follows the pointer and a slight 3D tilt.
 - **Section titles** wipe in as you scroll; numbers count up.
-- **How I work** (`ScrollStory.astro`): an Apple-style scroll story. Edit the steps under `approach:` in
-  `profile/sarvesh.md`; each step lights up as it reaches the middle of the screen.
+- **How I work** (`ScrollStory.astro`): stacking cards. Each step is a card that sticks as you scroll while the next
+  one slides over it and the card underneath shrinks and dims. Works on phones. Edit the steps under `approach:` in
+  `profile/sarvesh.md`.
 - **⌘K / Ctrl+K quick menu** (`CommandMenu.astro`): jump to any page, blog post, or pinned project. It lists
   everything automatically.
 - **Theme toggle** reveals the new theme in a circle from the button; **back-to-top** button shows scroll progress;
