@@ -94,3 +94,4 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 18:34 UTC] PLAN — Owner: hero must not be inside a rectangle; keep the original site's hero format (left: role, big headline, tagline, quote, buttons; right: photo + social icons). Keep motion (word reveal, line draw, blobs, chips, parallax). Send light + dark screenshots.
 [2026-10-23 18:36 UTC] ACTION — Hero un-boxed back to the original layout: left role/headline/tagline/quote (word reveal)/buttons incl. blog; right photo (4:5, parallax tilt) with line-draw, blobs, chips outside the photo edges, social icons below; mobile stacks photo on top as originally. Removed rotating border box. Docs updated.
 [2026-10-23 18:36 UTC] DONE — build ✔, check 0/0, lint clean, no errors/overflow light+dark × desktop/mobile.
+[2026-10-23 18:37 UTC] DONE — Deploy 40004645384: completed success.
