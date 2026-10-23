@@ -131,27 +131,13 @@ const blog = defineCollection({
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       tags: z.array(z.string()).default([]),
-      category: z.enum(['Engineering', 'Philosophy', 'Travel', 'Claude', 'Career']).default('Engineering'),
+      category: z.enum(['Engineering', 'Philosophy', 'Claude', 'Career']).default('Engineering'),
       cover: image().optional(),
       coverAlt: z.string().default(''),
       canonical: link.optional(),
       featured: z.boolean().default(false),
       draft: z.boolean().default(false),
     }),
-});
-
-/* -------------------------------------------------------------------------- */
-/* Travel — places that shaped the way I think                                 */
-/* -------------------------------------------------------------------------- */
-const travel = defineCollection({
-  loader: glob({ pattern: '*.md', base: './src/content/travel' }),
-  schema: z.object({
-    place: z.string(),
-    country: z.string(),
-    date: z.coerce.date(),
-    reflection: z.string(),
-    draft: z.boolean().default(false),
-  }),
 });
 
 /* -------------------------------------------------------------------------- */
@@ -222,7 +208,6 @@ export const collections = {
   projectSettings,
   projects,
   blog,
-  travel,
   claudeExams,
   publications,
   certifications,

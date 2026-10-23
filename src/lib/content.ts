@@ -30,9 +30,4 @@ export async function getPosts(): Promise<CollectionEntry<'blog'>[]> {
   return posts.sort(byDateDesc((p) => p.data.pubDate));
 }
 
-export async function getTravel() {
-  const items = await getCollection('travel', ({ data }) => !data.draft);
-  return items.sort(byDateDesc((t) => t.data.date));
-}
-
 export { render };

@@ -10,11 +10,11 @@ import BlogCard from '@components/BlogCard.astro';
 import Timeline from '@components/Timeline.astro';
 import QuoteInterlude from '@components/QuoteInterlude.astro';
 import TopmateCTA from '@components/TopmateCTA.astro';
-import { GraduationCap, BookOpen, MapPin } from '@lucide/astro';
-import { getProfile, getPosts, getProjectSettings, getTravel } from '@lib/content';
+import { GraduationCap, BookOpen } from '@lucide/astro';
+import { getProfile, getPosts, getProjectSettings } from '@lib/content';
 import { getGithubStats } from '@lib/github';
 import { minutesRead } from '@lib/blog';
-import { byDateDesc, formatDate } from '@utils/format';
+import { byDateDesc } from '@utils/format';
 import claudeStats from '../data/claude-stats.json';
 
 const { data: profile } = await getProfile();
@@ -26,7 +26,6 @@ const experience = (await getCollection('experience')).sort(byDateDesc((e) => e.
 const claudeCerts = (await getCollection('certifications'))
   .filter((c) => c.data.featured && c.data.badge)
   .sort(byDateDesc((c) => c.data.date));
-const travel = (await getTravel()).slice(0, 4);
 const marquee = [...profile.credentials, ...profile.credentials];
 ---
 
@@ -176,26 +175,8 @@ const marquee = [...profile.credentials, ...profile.credentials];
     </Section>
 
     <Section eyebrow="Journey" title="Where I've built" href="/experience" linkLabel="Full history">
-      <div class:list={['grid gap-10', travel.length > 0 && 'lg:grid-cols-[1.4fr_1fr]']}>
-        <div data-reveal>
-          <Timeline entries={experience.slice(0, 3)} maxHighlights={2} />
-        </div>
-        {
-          travel.length > 0 && (
-            <div class="space-y-4" data-reveal>
-              <p class="eyebrow">The traveller's notebook</p>
-              {travel.map((t) => (
-                <div class="card p-5">
-                  <p class="flex items-center gap-2 text-sm font-semibold text-fg">
-                    <MapPin class="h-4 w-4 text-accent" aria-hidden="true" /> {t.data.place}, {t.data.country}
-                  </p>
-                  <p class="mt-1 text-xs text-fg-faint">{formatDate(t.data.date)}</p>
-                  <p class="mt-2 font-display text-lg italic leading-snug text-fg-muted">{t.data.reflection}</p>
-                </div>
-              ))}
-            </div>
-          )
-        }
+      <div data-reveal>
+        <Timeline entries={experience.slice(0, 3)} maxHighlights={2} />
       </div>
     </Section>
 

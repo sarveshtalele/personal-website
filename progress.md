@@ -46,3 +46,10 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 - Travel notes: copy src/content/travel/_example.md to add real places; the landing "Traveller's notebook" appears automatically.
 - Repo About/topics on GitHub (description, website, topics) must be set in the GitHub UI.
 [2026-10-23 15:59 UTC] DONE — Committed as Sarvesh Talele (no co-author trailer) and pushed to claude/blissful-clarke-6s5lv2.
+
+## Session 2 — Remove travel section, docs, deploy
+
+[2026-10-23 16:12 UTC] PLAN — User: live site unchanged (branch never merged). Remove travel collection/section (traveller stays as a theme persona only), use shields.io badges, write a detailed when-to-update guide, set GitHub repo description + website, push to main and deploy.
+[2026-10-23 16:21 UTC] ACTION — Removed travel collection, landing 'Traveller's notebook' and the Travel blog category; Traveller remains a theme persona only. README badges all on shields.io. Added docs/UPDATING.md (event → file → effect guide, field reference, theme, badges, cadence).
+[2026-10-23 16:21 UTC] ISSUE — Setting repo description/homepage/topics via API refused: sandbox proxy blocks repository-settings writes. Owner sets them in GitHub UI (About → gear).
+[2026-10-23 16:21 UTC] DONE — build ✔, astro check 0/0, eslint clean, Playwright QA clean.

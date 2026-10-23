@@ -1,10 +1,17 @@
 # sarveshtalele.org
 
-[![Deploy](https://github.com/sarveshtalele/personal-website/actions/workflows/deploy.yml/badge.svg)](https://github.com/sarveshtalele/personal-website/actions/workflows/deploy.yml)
-[![CI](https://github.com/sarveshtalele/personal-website/actions/workflows/ci.yml/badge.svg)](https://github.com/sarveshtalele/personal-website/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/sarveshtalele/personal-website/actions/workflows/codeql.yml/badge.svg)](https://github.com/sarveshtalele/personal-website/actions/workflows/codeql.yml)
-[![Astro](https://img.shields.io/badge/Astro-7-BC52EE?logo=astro&logoColor=white)](https://astro.build)
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fsarveshtalele.org&label=sarveshtalele.org)](https://sarveshtalele.org)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fsarveshtalele.org&label=sarveshtalele.org&style=for-the-badge&color=6b4226)](https://sarveshtalele.org)
+[![Deploy](https://img.shields.io/github/actions/workflow/status/sarveshtalele/personal-website/deploy.yml?branch=main&label=deploy&style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/sarveshtalele/personal-website/actions/workflows/deploy.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/sarveshtalele/personal-website/ci.yml?label=ci&style=for-the-badge&logo=github)](https://github.com/sarveshtalele/personal-website/actions/workflows/ci.yml)
+[![CodeQL](https://img.shields.io/github/actions/workflow/status/sarveshtalele/personal-website/codeql.yml?label=codeql&style=for-the-badge&logo=github)](https://github.com/sarveshtalele/personal-website/actions/workflows/codeql.yml)
+[![Last commit](https://img.shields.io/github/last-commit/sarveshtalele/personal-website?style=for-the-badge&color=a67c3d)](https://github.com/sarveshtalele/personal-website/commits/main)
+[![Astro](https://img.shields.io/badge/Astro-7-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+
+[![Claude Certified Architect · Professional](https://img.shields.io/badge/Claude_Certified_Architect-Professional-D97757?style=for-the-badge&logo=anthropic&logoColor=white)](https://www.credly.com/badges/a27e0744-fb64-43d7-9676-ceef2b11452a/public_url)
+[![Claude Certified Architect · Foundations](https://img.shields.io/badge/Claude_Certified_Architect-Foundations-D97757?style=for-the-badge&logo=anthropic&logoColor=white)](https://www.credly.com/badges/f164b498-cc76-44ef-9962-cc79f7d61fe7/public_url)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-sarveshtalele-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sarveshtalele)
+[![arXiv](https://img.shields.io/badge/arXiv-2604.09685-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2604.09685)
 
 Personal website of **Sarvesh Talele**, AI Engineer and Claude Certified Architect: portfolio, evidence-backed
 dashboard, blog, and a free Claude Certified Architect (CCAR-F) mock exam with 360 practice questions.
@@ -18,7 +25,7 @@ search entry, and dashboard tile that depends on it updates on the next deploy.
 
 | Route | What it shows | Source of truth |
 | --- | --- | --- |
-| `/` | Animated hero (Philosopher · AI Engineer · Traveller), credential marquee, impact tiles, quotes, pinned repos, latest posts, Claude, journey, contact | profile, dashboard, project settings, blog, experience, travel |
+| `/` | Animated hero (Philosopher · AI Engineer · Traveller theme), credential marquee, impact tiles, quotes, pinned repos, latest posts, Claude, journey, contact | profile, dashboard, project settings, blog, experience |
 | `/dashboard` | Recruiter view: every metric links to proof, live GitHub stats, verified badges, credentials, research | `dashboard/metrics.md` + GitHub API + certifications + publications |
 | `/projects` | Every public repo, pinned first; search, category + language filters, sort by stars/forks/updated/name | GitHub API + `project-settings/projects.md` |
 | `/blog`, `/blog/<slug>`, `/blog/tags/<tag>`, `/rss.xml` | Cards with title + description, category/tag filters and search; full post with TOC, related posts | `blog/<slug>/index.mdx` |
@@ -51,7 +58,9 @@ pnpm preview
 | Jobs | `src/content/experience/*.md` |
 | Certifications (badge image + verify URL) | `src/content/certifications/*.md` |
 | Papers (with badge links) | `src/content/publications/*.md` |
-| Travel notes (landing page) | `src/content/travel/*.md` |
+
+**Full guide:** [docs/UPDATING.md](docs/UPDATING.md) explains, for every part of the site, which file to edit,
+when to edit it, and what changes on the site as a result.
 
 Frontmatter is validated at build time (`src/content.config.ts`); a typo fails the build with the file and field
 name instead of shipping a broken page.
@@ -70,7 +79,7 @@ title: Why deterministic tools beat clever prompts
 description: Shown on the card, in search results, and in RSS. 150–160 characters is ideal.
 pubDate: 2026-11-01
 tags: [MCP, Agents]
-category: Engineering   # Engineering | Philosophy | Travel | Claude | Career
+category: Engineering   # Engineering | Philosophy | Claude | Career
 cover: ./images/cover.png
 coverAlt: What the cover shows
 canonical: https://medium.com/...   # optional, if first published elsewhere

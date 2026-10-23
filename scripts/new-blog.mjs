@@ -2,7 +2,7 @@
 /**
  * Scaffold a new blog post:
  *   pnpm new:blog "Why deterministic tools beat clever prompts"
- *   pnpm new:blog "Kyoto, slowly" --category Travel --tags "Japan, Slow travel"
+ *   pnpm new:blog "On Sisyphus and shipping" --category Philosophy --tags "Camus, Craft"
  *
  * Creates src/content/blog/<slug>/index.mdx (+ an images/ folder) with every
  * frontmatter field filled in. The post is a draft until you set draft: false.
@@ -26,7 +26,7 @@ const tags = (flag('tags') ?? '')
   .filter(Boolean);
 const title = args.join(' ').trim();
 
-const CATEGORIES = ['Engineering', 'Philosophy', 'Travel', 'Claude', 'Career'];
+const CATEGORIES = ['Engineering', 'Philosophy', 'Claude', 'Career'];
 if (!title) {
   console.error('Usage: pnpm new:blog "Post title" [--category Engineering] [--tags "A, B"]');
   process.exit(1);

@@ -20,7 +20,8 @@ build time. The owner should only ever need to edit Markdown.
 4. **Links from content must be `https://`, `mailto:`, or start with `/`** (enforced by the `link` schema). External
    links use `target="_blank" rel="noopener noreferrer"`.
 5. **Colours only via theme tokens** in `src/styles/global.css` (`--bg`, `--fg`, `--primary`, `--accent`, …). Light =
-   cream/espresso/gold, dark = espresso/ivory/champagne. Use `font-display` (Cormorant Garamond) for headings.
+   cream/espresso/gold, dark = espresso/ivory/champagne. Philosopher · AI Engineer · Traveller is a theme expressed
+   in the hero and personas only; there is no travel section or collection. Use `font-display` (Cormorant Garamond) for headings.
 6. Shared component classes (`.card`, `.chip`, `.pill`, `.field`, `.btn-primary`, `.link-arrow`, `.verify-btn`) live in
    `@layer components` in `global.css` so Tailwind utilities can override them. Don't put shared classes in a single
    component's `<style is:global>`.
@@ -57,9 +58,10 @@ Node ≥ 22.23.4 (see `.nvmrc`), pnpm 11.
 | Jobs | `src/content/experience/*.md` |
 | Certifications (badge + verify link) | `src/content/certifications/*.md` |
 | Papers | `src/content/publications/*.md` |
-| Travel notes (landing page "Traveller's notebook") | `src/content/travel/*.md` |
 | Optional project case studies (`/projects/<id>`) | `src/content/projects/*.mdx` |
 | Nav links, analytics ID, Giscus | `src/lib/site.ts` |
+
+Owner-facing guide: `docs/UPDATING.md`. Keep it in sync when content files or fields change.
 
 ## Architecture
 
