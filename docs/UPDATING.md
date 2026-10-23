@@ -28,7 +28,7 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 | The small label above the headline | `profile/sarvesh.md` → `heroLabel:` | Landing hero (currently "AI Engineer") |
 | You learn a new tool | `profile/sarvesh.md` → `skills:` | Skills dashboard on About + Dashboard |
 | The "How I work" steps | `profile/sarvesh.md` → `approach:` | Scroll story under the hero |
-| The quote on the landing page | `profile/sarvesh.md` → `quotes:` (first entry is used) | Hero rectangle |
+| The quote on the landing page | `profile/sarvesh.md` → `quotes:` (first entry is used) | Hero (under the headline) |
 | A new achievement or award | `profile/sarvesh.md` → `achievements:` (and update the `8×` tile in `metrics.md` if it is a TCS award) | About "Achievements", dashboard |
 | You want a new Claude practice question | `src/content/claude/questions/domain-<n>.md` | Learn & Review library, counts on Claude/landing/dashboard |
 | A question has a wrong answer | Same file, move the `[x]` and fix the explanations | Mock exam + library |
@@ -129,9 +129,10 @@ Only one entry should have `current: true`.
 The site follows an **Apple-style** design: lots of whitespace, the system font, soft cards, and the cream-and-brown
 palette, with tasteful motion throughout:
 
-- **Hero rectangle** (`IntroHero.astro`): the quote on the left (words rise in), your headline, tagline and buttons
-  (evidence, projects, blog); your photo on the right with self-drawing lines, drifting colour, and floating proof chips
-  (Claude certifications, GitHub stars, daily requests). A gradient light runs around the card's border.
+- **Hero** (`IntroHero.astro`): the site's original layout, no box. Left: role, big headline, tagline, the quote
+  (words rise in), and buttons (evidence, projects, blog). Right: your photo with self-drawing lines, drifting colour,
+  floating proof chips (Claude certifications, GitHub stars, daily requests), and social icons below. The photo tilts
+  and the chips drift with the pointer.
 - **Skills strip** (`SkillsMarquee.astro`): two rows of your `skills:` scrolling in opposite directions.
 - **Cards** everywhere get a soft spotlight that follows the pointer and a slight 3D tilt.
 - **Section titles** wipe in as you scroll; numbers count up.
@@ -140,7 +141,7 @@ palette, with tasteful motion throughout:
 - **⌘K / Ctrl+K quick menu** (`CommandMenu.astro`): jump to any page, blog post, or pinned project. It lists
   everything automatically.
 - **Theme toggle** reveals the new theme in a circle from the button; **back-to-top** button shows scroll progress;
-  primary buttons gently follow the pointer; the hero photo tilts and the chips drift with the pointer. All motion switches off for visitors who prefer reduced motion.
+  primary buttons gently follow the pointer. All motion switches off for visitors who prefer reduced motion.
 
 | Element | Light | Dark (default) |
 | --- | --- | --- |

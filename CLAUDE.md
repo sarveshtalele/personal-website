@@ -21,7 +21,7 @@ build time. The owner should only ever need to edit Markdown.
    links use `target="_blank" rel="noopener noreferrer"`.
 5. **Colours only via theme tokens** in `src/styles/global.css` (`--bg`, `--fg`, `--primary`, `--accent`, …). Light =
    cream/espresso/gold, dark = espresso/ivory/champagne. Apple-style base: system font stack only (no web fonts),
-   clean cards. Owner-requested motion: rectangle hero (`IntroHero.astro`, rotating gradient border),
+   clean cards. Owner-requested motion: unboxed hero in the original layout (`IntroHero.astro`: text left, photo right),
    skills marquee, scroll story, ⌘K quick menu, card spotlight + tilt, magnetic buttons,
    view-transition theme toggle, back-to-top progress ring, heading wipe-ins. No persona cards, canvas effects, or travel section.
 6. Shared component classes (`.card`, `.chip`, `.pill`, `.field`, `.btn-primary`, `.link-arrow`, `.verify-btn`) live in

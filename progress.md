@@ -88,3 +88,9 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 18:31 UTC] ACTION — Hero layout/colours unchanged; added pointer parallax (photo tilt, chips drift via independent translate). New: ScrollStory (approach: in profile MD), CommandMenu (⌘K/Ctrl+K, dialog, keyboard nav, search hand-off with ?q=), BackToTop progress ring, magnetic .btn-primary, circular View Transition theme toggle. Fixed: cmdk input double focus ring; back-to-top icon rotated by ring CSS.
 [2026-10-23 18:31 UTC] DONE — build ✔, astro check 0/0, eslint clean; Playwright: palette opens + filters, all 4 story steps activate, back-to-top scrolls to 0, theme toggles, no errors, no overflow. Sent owner dark-mode hero screenshots (desktop + mobile).
 [2026-10-23 18:33 UTC] DONE — Deploy 40003997784 succeeded; live site verified (How I work section + quick menu present).
+
+## Session 7 — Unboxed hero (original layout)
+
+[2026-10-23 18:34 UTC] PLAN — Owner: hero must not be inside a rectangle; keep the original site's hero format (left: role, big headline, tagline, quote, buttons; right: photo + social icons). Keep motion (word reveal, line draw, blobs, chips, parallax). Send light + dark screenshots.
+[2026-10-23 18:36 UTC] ACTION — Hero un-boxed back to the original layout: left role/headline/tagline/quote (word reveal)/buttons incl. blog; right photo (4:5, parallax tilt) with line-draw, blobs, chips outside the photo edges, social icons below; mobile stacks photo on top as originally. Removed rotating border box. Docs updated.
+[2026-10-23 18:36 UTC] DONE — build ✔, check 0/0, lint clean, no errors/overflow light+dark × desktop/mobile.

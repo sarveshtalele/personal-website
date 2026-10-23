@@ -1,12 +1,17 @@
 ---
 /**
- * Landing hero: a large rounded rectangle with the quote on the
- * left (words rise in one by one) and the portrait on the right, framed by
- * self-drawing lines and floating proof chips.
+ * Landing hero in the site's original format: text on the left (role,
+ * headline, tagline, quote rising in word by word, buttons) and the portrait
+ * on the right, with self-drawing lines, drifting colour, floating proof
+ * chips, and social links below. No surrounding box.
  */
 import { ArrowRight, BadgeCheck, Star, Zap } from '@lucide/astro';
 import { getCollection } from 'astro:content';
 import Button from './Button.astro';
+import GithubIcon from './icons/GithubIcon.astro';
+import LinkedinIcon from './icons/LinkedinIcon.astro';
+import MediumIcon from './icons/MediumIcon.astro';
+import OrcidIcon from './icons/OrcidIcon.astro';
 import { getProfile, getDashboard } from '@lib/content';
 import { getGithubStats } from '@lib/github';
 
@@ -20,126 +25,100 @@ const quote = profile.quotes[0];
 const words = quote ? quote.text.split(' ') : [];
 const [line1, line2, line3] = profile.headline.split(/(?<=\.)\s+/);
 const requests = dashboard.impact.find((m) => /request/i.test(m.label));
+const socials = [
+  { href: profile.socials.github, label: 'GitHub', Icon: GithubIcon },
+  { href: profile.socials.linkedin, label: 'LinkedIn', Icon: LinkedinIcon },
+  { href: profile.socials.medium, label: 'Medium', Icon: MediumIcon },
+  { href: profile.socials.orcid, label: 'ORCID', Icon: OrcidIcon },
+].filter((x) => x.href);
 ---
 
-<section id="intro" class="hero-wrap px-4 pb-16 pt-8 sm:px-6 sm:pb-24 sm:pt-12">
-  <div class="intro mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] lg:grid-cols-[1.15fr_1fr]" data-intro>
-    <div class="relative flex flex-col justify-center p-8 sm:p-12 lg:p-16">
-      <p class="eyebrow">{profile.heroLabel}</p>
-      {
-        quote && (
-          <figure class="mt-6">
-            <blockquote class="quote text-[clamp(1.6rem,3.2vw,2.6rem)] font-semibold leading-[1.18] tracking-tight text-fg">
-              <span class="q-mark" aria-hidden="true">
-                “
-              </span>
-              {words.map((w, i) => (
-                <span class="word" style={`--i:${i}`}>
-                  {w}{' '}
-                </span>
-              ))}
-            </blockquote>
-            <figcaption class="cap mt-5 text-sm text-fg-muted">
-              <span class="cap-line" aria-hidden="true" />
-              {quote.author}
-              {quote.source && <span class="text-fg-faint"> · {quote.source}</span>}
-            </figcaption>
-          </figure>
-        )
-      }
-      <h1 class="fade-up mt-10 text-xl font-semibold leading-snug tracking-tight text-fg sm:text-2xl">
-        {line1}
-        {line2 && <> {line2}</>}
-        {line3 && <span class="text-primary"> {line3}</span>}
-      </h1>
-      <p class="fade-up mt-3 max-w-lg text-fg-muted">{profile.tagline}</p>
-      <div class="fade-up mt-8 flex flex-wrap gap-3">
-        <Button href="/dashboard">
-          See the evidence <ArrowRight class="h-4 w-4" aria-hidden="true" />
-        </Button>
-        <Button href="/projects" variant="secondary">Explore projects</Button>
-        <Button href="/blog" variant="secondary">Read the blog</Button>
+<section id="intro" class="hero relative overflow-hidden border-b border-line">
+  <div class="intro mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:py-24" data-intro>
+    <div class="flex flex-col-reverse items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+      <div class="max-w-2xl">
+        <p class="eyebrow">{profile.role}</p>
+        <h1 class="hero-title mt-5 font-display text-[clamp(2.4rem,5.4vw,4.1rem)] font-bold leading-[1.05] text-fg">
+          {line1 && <span class="block">{line1}</span>}
+          {line2 && <span class="block">{line2}</span>}
+          {line3 && <span class="block text-primary">{line3}</span>}
+        </h1>
+        <p class="fade-up mt-6 max-w-xl text-lg leading-relaxed text-fg-muted">{profile.tagline}</p>
+        {
+          quote && (
+            <figure class="mt-8 max-w-xl">
+              <blockquote class="quote text-xl font-medium italic leading-relaxed text-fg sm:text-2xl">
+                {words.map((w, i) => (
+                  <span class="word" style={`--i:${i}`}>
+                    {w}{' '}
+                  </span>
+                ))}
+              </blockquote>
+              <figcaption class="cap mt-3 text-sm text-fg-faint">
+                <span class="cap-line" aria-hidden="true" />
+                {quote.author}
+                {quote.source && <span> · {quote.source}</span>}
+              </figcaption>
+            </figure>
+          )
+        }
+        <div class="fade-up mt-9 flex flex-wrap gap-3">
+          <Button href="/dashboard" size="lg">
+            See the evidence <ArrowRight class="h-4 w-4" aria-hidden="true" />
+          </Button>
+          <Button href="/projects" variant="secondary" size="lg">Explore projects</Button>
+          <Button href="/blog" variant="secondary" size="lg">Read the blog</Button>
+        </div>
       </div>
-    </div>
 
-    <div class="portrait relative min-h-[26rem] overflow-hidden">
-      <div class="blob blob-a" aria-hidden="true"></div>
-      <div class="blob blob-b" aria-hidden="true"></div>
-      <svg class="lines" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M-10 420 C 120 360, 180 470, 410 300"></path>
-        <path d="M-10 120 C 140 60, 260 200, 410 90"></path>
-        <path d="M60 -10 C 40 160, 140 300, 90 510"></path>
-      </svg>
-      <div class="frame">
-        <img src={profile.photo} alt={profile.fullName} width="420" height="525" loading="lazy" decoding="async" />
-      </div>
-      <a href="/claude" class="chip-float chip-1">
-        <BadgeCheck class="h-4 w-4 text-accent" aria-hidden="true" /> Claude Certified ×{certCount}
-      </a>
-      <a href={gh.profileUrl} target="_blank" rel="noopener noreferrer" class="chip-float chip-2">
-        <Star class="h-4 w-4 text-accent" aria-hidden="true" />
-        {gh.stars} GitHub stars
-      </a>
-      {
-        requests && (
-          <a href={requests.proof} class="chip-float chip-3">
-            <Zap class="h-4 w-4 text-accent" aria-hidden="true" /> {requests.value} {requests.label.toLowerCase()}
+      <div class="flex shrink-0 flex-col items-center gap-5">
+        <div class="portrait relative aspect-[4/5] w-64 sm:w-72 lg:w-[21rem]">
+          <div class="blob blob-a" aria-hidden="true"></div>
+          <div class="blob blob-b" aria-hidden="true"></div>
+          <svg class="lines" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M-60 430 C 120 360, 180 500, 460 300"></path>
+            <path d="M-60 110 C 140 40, 260 210, 460 80"></path>
+          </svg>
+          <div class="frame">
+            <img
+              src={profile.photo}
+              alt={profile.fullName}
+              width="420"
+              height="525"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
+          <a href="/claude" class="chip-float chip-1">
+            <BadgeCheck class="h-4 w-4 text-accent" aria-hidden="true" /> Claude Certified ×{certCount}
           </a>
-        )
-      }
+          <a href={gh.profileUrl} target="_blank" rel="noopener noreferrer" class="chip-float chip-2">
+            <Star class="h-4 w-4 text-accent" aria-hidden="true" />
+            {gh.stars} stars
+          </a>
+          {
+            requests && (
+              <a href={requests.proof} class="chip-float chip-3">
+                <Zap class="h-4 w-4 text-accent" aria-hidden="true" /> {requests.value} req/day
+              </a>
+            )
+          }
+        </div>
+        <div class="fade-up flex items-center gap-1">
+          {
+            socials.map(({ href, label, Icon }) => (
+              <a href={href} class="social" aria-label={label} target="_blank" rel="me noopener noreferrer">
+                <Icon class="h-5 w-5" />
+              </a>
+            ))
+          }
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* Rotating gradient border: a conic gradient painted only in the 1.5px
-     padding ring around the card, spun via an animatable custom property. */
-  @property --spin {
-    syntax: '<angle>';
-    inherits: false;
-    initial-value: 0deg;
-  }
-  .intro {
-    position: relative;
-    background: var(--card);
-    box-shadow: var(--shadow-card-hover);
-  }
-  .intro::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    border-radius: inherit;
-    padding: 1.5px;
-    background: conic-gradient(
-      from var(--spin),
-      var(--border) 0deg,
-      var(--accent) 60deg,
-      var(--primary) 120deg,
-      var(--border) 180deg,
-      var(--border) 360deg
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    animation: spin-border 8s linear infinite;
-  }
-  @keyframes spin-border {
-    to {
-      --spin: 360deg;
-    }
-  }
-  .q-mark {
-    display: block;
-    height: 0.55em;
-    font-size: 2.6em;
-    line-height: 1;
-    color: var(--accent);
-  }
-
   /* Words rise in one by one once the section is on screen. */
   .word {
     display: inline-block;
@@ -176,9 +155,45 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
     background: var(--accent);
   }
 
-  /* Right panel: warm gradient field + drifting blobs + self-drawing lines. */
-  .portrait {
-    background: linear-gradient(160deg, var(--bg-alt), color-mix(in srgb, var(--accent) 22%, var(--bg-alt)));
+  .hero {
+    background: radial-gradient(
+      60% 70% at 85% 40%,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 70%
+    );
+  }
+  .hero-title > span {
+    animation: title-in 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero-title > span:nth-child(2) {
+    animation-delay: 90ms;
+  }
+  .hero-title > span:nth-child(3) {
+    animation-delay: 180ms;
+  }
+  @keyframes title-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.4em);
+    }
+  }
+  .social {
+    display: inline-flex;
+    height: 2.5rem;
+    width: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.8rem;
+    color: var(--fg-muted);
+    transition:
+      color 200ms ease,
+      background-color 200ms ease,
+      transform 200ms ease;
+  }
+  .social:hover {
+    color: var(--primary);
+    background: var(--bg-alt);
+    transform: translateY(-2px);
   }
   .blob {
     position: absolute;
@@ -215,9 +230,11 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
   }
   .lines {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    left: -25%;
+    top: -15%;
+    width: 150%;
+    height: 130%;
+    overflow: visible;
   }
   .lines path {
     fill: none;
@@ -238,12 +255,8 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
   }
   .frame {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: min(72%, 21rem);
-    aspect-ratio: 4 / 5;
-    transform: translate(-50%, -50%) perspective(900px) rotateX(calc(var(--py, 0) * -6deg))
-      rotateY(calc(var(--px, 0) * 8deg));
+    inset: 0;
+    transform: perspective(900px) rotateX(calc(var(--py, 0) * -6deg)) rotateY(calc(var(--px, 0) * 8deg));
     transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
     overflow: hidden;
     border-radius: 1.5rem;
@@ -286,19 +299,19 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
     color: var(--primary);
   }
   .chip-1 {
-    left: 6%;
-    top: 12%;
+    left: -18%;
+    top: 9%;
   }
   .chip-2 {
     --depth: 26px;
-    right: 5%;
-    top: 44%;
+    right: -16%;
+    top: 46%;
     animation-delay: -2s;
   }
   .chip-3 {
     --depth: -30px;
-    left: 9%;
-    bottom: 10%;
+    left: -10%;
+    bottom: 7%;
     animation-delay: -4s;
   }
   @keyframes float-chip {
@@ -309,7 +322,7 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
   @media (prefers-reduced-motion: reduce) {
     .blob,
     .chip-float,
-    .intro::before {
+    .hero-title > span {
       animation: none;
     }
   }
