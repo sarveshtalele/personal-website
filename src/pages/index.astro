@@ -1,7 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Hero from '@components/Hero.astro';
+import CardFanHero from '@components/CardFanHero.astro';
+import IntroHero from '@components/IntroHero.astro';
 import Container from '@components/Container.astro';
 import Section from '@components/Section.astro';
 import ImpactGrid from '@components/ImpactGrid.astro';
@@ -28,7 +29,8 @@ const claudeCerts = (await getCollection('certifications'))
 ---
 
 <BaseLayout title="Sarvesh Talele">
-  <Hero />
+  <CardFanHero />
+  <IntroHero />
 
   <section id="proof" class="border-y border-line py-8" aria-label="Credentials">
     <ul class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-2 px-4 sm:px-6">
@@ -140,7 +142,9 @@ const claudeCerts = (await getCollection('certifications'))
         <div>
           <p class="text-fg-muted">
             I hold both Anthropic credentials and wrote a free prep library for the Foundations exam:{' '}
-            <strong class="text-fg">{claudeStats.total} scenario questions</strong> across {claudeStats.domains} domains and{' '}
+            <strong class="text-fg">{claudeStats.total} scenario questions</strong> across {claudeStats.domains} domains and{
+              ' '
+            }
             {claudeStats.tasks} task statements, each with an explanation and the official doc to read, plus a timed {
               claudeStats.mock
             }-question mock exam.

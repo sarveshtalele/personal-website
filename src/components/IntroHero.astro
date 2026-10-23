@@ -1,0 +1,287 @@
+---
+/**
+ * Second landing section: a large rounded rectangle with the quote on the
+ * left (words rise in one by one) and the portrait on the right, framed by
+ * self-drawing lines and floating proof chips.
+ */
+import { ArrowRight, BadgeCheck, Star, Zap } from '@lucide/astro';
+import { getCollection } from 'astro:content';
+import Button from './Button.astro';
+import { getProfile, getDashboard } from '@lib/content';
+import { getGithubStats } from '@lib/github';
+
+const { data: profile } = await getProfile();
+const dashboard = await getDashboard();
+const gh = await getGithubStats();
+const certCount = (await getCollection('certifications')).filter((c) =>
+  c.data.title.includes('Claude Certified Architect'),
+).length;
+const quote = profile.quotes[0];
+const words = quote ? quote.text.split(' ') : [];
+const [line1, line2, line3] = profile.headline.split(/(?<=\.)\s+/);
+const requests = dashboard.impact.find((m) => /request/i.test(m.label));
+---
+
+<section id="intro" class="scroll-mt-20 px-4 py-16 sm:px-6 sm:py-24">
+  <div class="intro mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] lg:grid-cols-[1.15fr_1fr]" data-intro>
+    <div class="relative flex flex-col justify-center p-8 sm:p-12 lg:p-16">
+      <p class="eyebrow">{profile.heroLabel}</p>
+      {
+        quote && (
+          <figure class="mt-6">
+            <blockquote class="quote text-[clamp(1.6rem,3.2vw,2.6rem)] font-semibold leading-[1.18] tracking-tight text-fg">
+              <span class="q-mark" aria-hidden="true">
+                “
+              </span>
+              {words.map((w, i) => (
+                <span class="word" style={`--i:${i}`}>
+                  {w}{' '}
+                </span>
+              ))}
+            </blockquote>
+            <figcaption class="cap mt-5 text-sm text-fg-muted">
+              <span class="cap-line" aria-hidden="true" />
+              {quote.author}
+              {quote.source && <span class="text-fg-faint"> · {quote.source}</span>}
+            </figcaption>
+          </figure>
+        )
+      }
+      <p class="fade-up mt-10 text-lg font-semibold leading-snug text-fg">
+        {line1}
+        {line2 && <> {line2}</>}
+        {line3 && <span class="text-primary"> {line3}</span>}
+      </p>
+      <p class="fade-up mt-3 max-w-lg text-fg-muted">{profile.tagline}</p>
+      <div class="fade-up mt-8 flex flex-wrap gap-3">
+        <Button href="/dashboard">
+          See the evidence <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </Button>
+        <Button href="/projects" variant="secondary">Explore projects</Button>
+      </div>
+    </div>
+
+    <div class="portrait relative min-h-[26rem] overflow-hidden">
+      <div class="blob blob-a" aria-hidden="true"></div>
+      <div class="blob blob-b" aria-hidden="true"></div>
+      <svg class="lines" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M-10 420 C 120 360, 180 470, 410 300"></path>
+        <path d="M-10 120 C 140 60, 260 200, 410 90"></path>
+        <path d="M60 -10 C 40 160, 140 300, 90 510"></path>
+      </svg>
+      <div class="frame">
+        <img src={profile.photo} alt={profile.fullName} width="420" height="525" loading="lazy" decoding="async" />
+      </div>
+      <a href="/claude" class="chip-float chip-1">
+        <BadgeCheck class="h-4 w-4 text-accent" aria-hidden="true" /> Claude Certified ×{certCount}
+      </a>
+      <a href={gh.profileUrl} target="_blank" rel="noopener noreferrer" class="chip-float chip-2">
+        <Star class="h-4 w-4 text-accent" aria-hidden="true" />
+        {gh.stars} GitHub stars
+      </a>
+      {
+        requests && (
+          <a href={requests.proof} class="chip-float chip-3">
+            <Zap class="h-4 w-4 text-accent" aria-hidden="true" /> {requests.value} {requests.label.toLowerCase()}
+          </a>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro {
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+  }
+  .q-mark {
+    display: block;
+    height: 0.55em;
+    font-size: 2.6em;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  /* Words rise in one by one once the section is on screen. */
+  .word {
+    display: inline-block;
+    white-space: pre;
+  }
+  :global(.js) .intro:not(.is-in) .word,
+  :global(.js) .intro:not(.is-in) .fade-up,
+  :global(.js) .intro:not(.is-in) .cap {
+    opacity: 0;
+    transform: translateY(0.6em);
+  }
+  .word,
+  .fade-up,
+  .cap {
+    transition:
+      opacity 700ms ease,
+      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .word {
+    transition-delay: calc(var(--i) * 45ms);
+  }
+  .cap {
+    transition-delay: 0.8s;
+  }
+  .fade-up {
+    transition-delay: 1s;
+  }
+  .cap-line {
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    margin-right: 0.6rem;
+    vertical-align: middle;
+    background: var(--accent);
+  }
+
+  /* Right panel: warm gradient field + drifting blobs + self-drawing lines. */
+  .portrait {
+    background: linear-gradient(160deg, var(--bg-alt), color-mix(in srgb, var(--accent) 22%, var(--bg-alt)));
+  }
+  .blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(40px);
+    opacity: 0.55;
+  }
+  .blob-a {
+    width: 60%;
+    aspect-ratio: 1;
+    left: -10%;
+    top: -10%;
+    background: var(--accent);
+    animation: drift-a 14s ease-in-out infinite;
+  }
+  .blob-b {
+    width: 55%;
+    aspect-ratio: 1;
+    right: -15%;
+    bottom: -15%;
+    background: var(--primary);
+    opacity: 0.35;
+    animation: drift-b 18s ease-in-out infinite;
+  }
+  @keyframes drift-a {
+    50% {
+      transform: translate(18%, 22%) scale(1.15);
+    }
+  }
+  @keyframes drift-b {
+    50% {
+      transform: translate(-20%, -18%) scale(1.1);
+    }
+  }
+  .lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .lines path {
+    fill: none;
+    stroke: color-mix(in srgb, var(--fg) 25%, transparent);
+    stroke-width: 1.2;
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+    transition: stroke-dashoffset 2.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .lines path:nth-child(2) {
+    transition-delay: 0.3s;
+  }
+  .lines path:nth-child(3) {
+    transition-delay: 0.6s;
+  }
+  .intro.is-in .lines path {
+    stroke-dashoffset: 0;
+  }
+  .frame {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(72%, 21rem);
+    aspect-ratio: 4 / 5;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    border-radius: 1.5rem;
+    box-shadow: 0 30px 60px -25px rgb(0 0 0 / 0.5);
+  }
+  .frame img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transform: scale(1.12);
+    transition: transform 1.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .intro.is-in .frame img {
+    transform: scale(1);
+  }
+  .chip-float {
+    position: absolute;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--card) 88%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 0.45rem 0.85rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--fg);
+    box-shadow: var(--shadow-card);
+    animation: float-chip 6s ease-in-out infinite;
+    white-space: nowrap;
+  }
+  .chip-float:hover {
+    color: var(--primary);
+  }
+  .chip-1 {
+    left: 6%;
+    top: 12%;
+  }
+  .chip-2 {
+    right: 5%;
+    top: 44%;
+    animation-delay: -2s;
+  }
+  .chip-3 {
+    left: 9%;
+    bottom: 10%;
+    animation-delay: -4s;
+  }
+  @keyframes float-chip {
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .blob,
+    .chip-float {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const intro = document.querySelector<HTMLElement>('[data-intro]');
+  if (intro) {
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          intro.classList.add('is-in');
+          io.disconnect();
+        }
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(intro);
+  }
+</script>
