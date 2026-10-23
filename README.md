@@ -38,7 +38,7 @@ search entry, and dashboard tile that depends on it updates on the next deploy.
 ## Quick start
 
 ```bash
-nvm use            # Node 22.23.4+ (see .nvmrc)
+nvm use            # Node 24 (minimum 22.23.4, see .nvmrc)
 pnpm install
 pnpm dev           # http://localhost:4321 (drafts are visible in dev)
 pnpm build         # production build into dist/

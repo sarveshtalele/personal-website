@@ -43,7 +43,7 @@ pnpm github:sync       # refresh src/data/github.json (GITHUB_TOKEN optional)
 pnpm claude:build      # recompile Claude question banks only
 ```
 
-Node ≥ 22.23.4 (see `.nvmrc`), pnpm 11.
+Node 24 (see `.nvmrc`; minimum 22.23.4), pnpm 11.
 
 ## Where things live
 

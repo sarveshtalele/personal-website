@@ -15,7 +15,7 @@ pinned:
   - personal-finance-mcp
   - mcp-skills-registry
   - devcrew
-  - knowyourtokens
+  - linkedin-content-skill
   - ACCIDENT-CVPR_2026
 
 hidden:
@@ -38,21 +38,8 @@ overrides:
   vulnerability-checks:
     description: Automated vulnerability checks for Python projects and dependencies.
     categories: [developer-tools]
-  claude-code-integration-with-azure-openai-using-litellm-proxy:
-    description: Run Claude Code against Azure OpenAI models through a LiteLLM proxy.
-    categories: [claude-code]
-  LiteLLM-proxy-with-multiusers:
-    description: Multi-user LiteLLM proxy with per-user keys, budgets, and audit logging.
-  azure-litellm-proxy:
-    description: Secure, traceable LLM gateway on Azure using LiteLLM.
-  agentic-rag-system-with-maf:
-    description: Agentic RAG built with the Microsoft Agent Framework.
-    categories: [agentic-ai, rag]
   maf-harness-testing:
     description: Test harness for Microsoft Agent Framework agents.
-  mcp-server-market:
-    description: Market data exposed as an MCP server.
-    categories: [mcp]
 ---
 
 Settings live in the frontmatter above.

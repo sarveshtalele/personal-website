@@ -53,3 +53,5 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 16:21 UTC] ACTION — Removed travel collection, landing 'Traveller's notebook' and the Travel blog category; Traveller remains a theme persona only. README badges all on shields.io. Added docs/UPDATING.md (event → file → effect guide, field reference, theme, badges, cadence).
 [2026-10-23 16:21 UTC] ISSUE — Setting repo description/homepage/topics via API refused: sandbox proxy blocks repository-settings writes. Owner sets them in GitHub UI (About → gear).
 [2026-10-23 16:21 UTC] DONE — build ✔, astro check 0/0, eslint clean, Playwright QA clean.
+[2026-10-23 16:22 UTC] ISSUE — First deploy on main failed: (1) runner Node 22.23.3 < Astro 7.4.2 minimum 22.23.4, (2) snapshot from authenticated MCP search contained 16 private repos, so pinned 'knowyourtokens' wasn't in the public API result.
+[2026-10-23 16:22 UTC] ACTION — Workflows → Node 24 (.nvmrc 24). Removed private repos from src/data/github.json and their overrides; pinned linkedin-content-skill instead. Unknown pinned/hidden names now warn instead of failing the deploy.
