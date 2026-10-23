@@ -1,0 +1,146 @@
+---
+/**
+ * Filterable, sortable grid of every public repo. Cards are rendered at build
+ * time (fast, SEO-indexable); the script below only shows/hides and reorders
+ * them, so there is no client-side data fetching at all.
+ */
+import { Search } from '@lucide/astro';
+import RepoCard from './RepoCard.astro';
+import { getRepos } from '@lib/github';
+import { getProjectSettings } from '@lib/content';
+
+const settings = await getProjectSettings();
+const repos = await getRepos();
+const categories = Object.entries(settings.categories).filter(([key]) => repos.some((r) => r.categories.includes(key)));
+const languages = [...new Set(repos.map((r) => r.language).filter((l): l is string => !!l))].sort();
+---
+
+<div data-explorer>
+  <div class="card mb-8 flex flex-col gap-4 p-4 sm:p-5">
+    <div class="grid gap-3 sm:grid-cols-[1fr_auto_auto]">
+      <label class="relative block">
+        <span class="sr-only">Search repositories</span>
+        <Search
+          class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-faint"
+          aria-hidden="true"
+        />
+        <input
+          type="search"
+          class="field pl-9"
+          placeholder="Search by name, topic, or description…"
+          data-q
+          autocomplete="off"
+        />
+      </label>
+      <label class="block">
+        <span class="sr-only">Language</span>
+        <select class="field" data-lang>
+          <option value="">All languages</option>
+          {languages.map((l) => <option value={l}>{l}</option>)}
+        </select>
+      </label>
+      <label class="block">
+        <span class="sr-only">Sort by</span>
+        <select class="field" data-sort>
+          <option value="featured">Pinned first</option>
+          <option value="stars">Most stars</option>
+          <option value="forks">Most forks</option>
+          <option value="updated">Recently updated</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </label>
+    </div>
+    <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by category">
+      <button type="button" class="pill" data-cat="" aria-pressed="true">All</button>
+      <button type="button" class="pill" data-cat="__pinned" aria-pressed="false">Pinned</button>
+      {
+        categories.map(([key, label]) => (
+          <button type="button" class="pill" data-cat={key} aria-pressed="false">
+            {label}
+          </button>
+        ))
+      }
+      <span class="ml-auto text-xs text-fg-faint" data-count-label aria-live="polite">{repos.length} repositories</span>
+    </div>
+  </div>
+
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-grid>
+    {repos.map((repo) => <RepoCard repo={repo} categoryLabels={settings.categories} />)}
+  </div>
+  <p class="hidden py-16 text-center text-fg-muted" data-empty>No repositories match those filters.</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-explorer]').forEach((root) => {
+    const grid = root.querySelector<HTMLElement>('[data-grid]')!;
+    const cards = [...grid.querySelectorAll<HTMLElement>('[data-repo]')];
+    const q = root.querySelector<HTMLInputElement>('[data-q]')!;
+    const lang = root.querySelector<HTMLSelectElement>('[data-lang]')!;
+    const sort = root.querySelector<HTMLSelectElement>('[data-sort]')!;
+    const pills = [...root.querySelectorAll<HTMLButtonElement>('[data-cat]')];
+    const label = root.querySelector<HTMLElement>('[data-count-label]')!;
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+
+    // Filters survive reloads and are shareable via the URL (?q=&cat=&lang=&sort=).
+    const params = new URLSearchParams(location.search);
+    let cat = params.get('cat') ?? '';
+    q.value = params.get('q') ?? '';
+    lang.value = params.get('lang') ?? '';
+    sort.value = params.get('sort') ?? 'featured';
+    if (!sort.value) sort.value = 'featured';
+
+    const num = (el: HTMLElement, k: string) => Number(el.dataset[k] ?? 0);
+    const sorters: Record<string, (a: HTMLElement, b: HTMLElement) => number> = {
+      featured: (a, b) => {
+        const pa = a.dataset.pinned === 'true';
+        const pb = b.dataset.pinned === 'true';
+        if (pa !== pb) return pa ? -1 : 1;
+        if (pa) return num(a, 'pinOrder') - num(b, 'pinOrder');
+        return num(b, 'stars') - num(a, 'stars') || num(b, 'forks') - num(a, 'forks');
+      },
+      stars: (a, b) => num(b, 'stars') - num(a, 'stars') || num(b, 'forks') - num(a, 'forks'),
+      forks: (a, b) => num(b, 'forks') - num(a, 'forks') || num(b, 'stars') - num(a, 'stars'),
+      updated: (a, b) => num(b, 'updated') - num(a, 'updated'),
+      name: (a, b) => (a.dataset.name ?? '').localeCompare(b.dataset.name ?? ''),
+    };
+
+    const apply = () => {
+      const term = q.value.trim().toLowerCase();
+      let shown = 0;
+      for (const c of cards) {
+        const okCat =
+          !cat ||
+          (cat === '__pinned' ? c.dataset.pinned === 'true' : (c.dataset.categories ?? '').split(',').includes(cat));
+        const ok =
+          okCat &&
+          (!lang.value || c.dataset.language === lang.value) &&
+          (!term || (c.dataset.text ?? '').includes(term));
+        c.hidden = !ok;
+        if (ok) shown++;
+      }
+      [...cards].sort(sorters[sort.value] ?? sorters.featured).forEach((c) => grid.appendChild(c));
+      pills.forEach((p) => p.setAttribute('aria-pressed', String((p.dataset.cat ?? '') === cat)));
+      label.textContent = `${shown} of ${cards.length} repositories`;
+      empty.classList.toggle('hidden', shown > 0);
+
+      const next = new URLSearchParams();
+      if (term) next.set('q', term);
+      if (cat) next.set('cat', cat);
+      if (lang.value) next.set('lang', lang.value);
+      if (sort.value !== 'featured') next.set('sort', sort.value);
+      const qs = next.toString();
+      history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
+    };
+
+    pills.forEach((p) =>
+      p.addEventListener('click', () => {
+        cat = p.dataset.cat ?? '';
+        apply();
+      }),
+    );
+    q.addEventListener('input', apply);
+    lang.addEventListener('change', apply);
+    sort.addEventListener('change', apply);
+    apply();
+  });
+</script>

@@ -9,7 +9,12 @@ const { type = 'info', title } = Astro.props;
 
 const config = {
   info: { icon: Info, classes: 'border-primary/30 bg-primary-soft', iconColor: 'text-primary', defaultTitle: 'Note' },
-  tip: { icon: Lightbulb, classes: 'border-primary/30 bg-primary-soft', iconColor: 'text-primary', defaultTitle: 'Tip' },
+  tip: {
+    icon: Lightbulb,
+    classes: 'border-primary/30 bg-primary-soft',
+    iconColor: 'text-primary',
+    defaultTitle: 'Tip',
+  },
   warning: {
     icon: TriangleAlert,
     classes: 'border-warning/40 bg-warning/10',

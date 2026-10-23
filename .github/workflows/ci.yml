@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint, type-check, validate content, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Validate content (question banks, blog images, pinned repos)
+        run: pnpm check:content
+      - name: Lint
+        run: pnpm lint
+      - name: Type-check
+        run: pnpm check
+      - name: Build
+        run: pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Dependency audit (high and critical)
+        run: pnpm audit --audit-level high

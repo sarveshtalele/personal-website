@@ -4,30 +4,26 @@ interface Props {
   variant?: 'primary' | 'secondary' | 'ghost';
   size?: 'md' | 'lg';
   external?: boolean;
-  download?: boolean;
   class?: string;
 }
-const { href, variant = 'primary', size = 'md', external = false, download = false, class: className } = Astro.props;
+const { href, variant = 'primary', size = 'md', external = false, class: className } = Astro.props;
 
 const variants = {
-  primary:
-    'bg-primary text-white hover:bg-primary-strong shadow-sm dark:text-slate-900 dark:font-semibold dark:hover:bg-primary-strong',
-  secondary: 'border border-line bg-surface text-fg hover:border-line-strong hover:bg-bg-alt',
+  primary: 'btn-primary',
+  secondary: 'border border-line-strong bg-surface/70 text-fg hover:border-accent hover:text-primary',
   ghost: 'text-fg-muted hover:bg-bg-alt hover:text-fg',
 };
-
 const sizes = {
   md: 'px-5 py-2.5 text-sm',
-  lg: 'px-7 py-3.5 text-base',
+  lg: 'px-7 py-3.5 text-[0.95rem]',
 };
 ---
 
 <a
   href={href}
-  download={download || undefined}
-  {...external ? { target: '_blank', rel: 'noopener' } : {}}
+  {...external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
   class:list={[
-    'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200',
+    'relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full font-medium transition-all duration-300 hover:-translate-y-0.5',
     sizes[size],
     variants[variant],
     className,

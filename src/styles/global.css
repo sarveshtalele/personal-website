@@ -1,57 +1,73 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/600.css';
+@import '@fontsource/cormorant-garamond/700.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
 @import 'katex/dist/katex.min.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Semantic theme tokens. Light mode: Dusty Blue / Light Oak / Cream, an
- * elegant, muted material palette. Dark mode: Sage Green / Walnut / Ivory —
- * not an inversion of light mode, a deliberately separate warm-earthy dark
- * palette. (Note: the homepage "Dashboard" space panel intentionally uses
- * its own hardcoded cosmic palette in SpaceDashboard.astro and is untouched
- * by these tokens.)
+ * Theme tokens — "rich & luxury".
+ * Light: parchment cream, espresso ink, cocoa brown, antique gold.
+ * Dark:  espresso & walnut surfaces, ivory ink, champagne gold.
+ * Every component reads these tokens; never hard-code colours in pages.
  */
 :root {
-  --bg: #f7f1e6;
-  --bg-alt: #efe4ce;
+  --bg: #f6f0e4;
+  --bg-alt: #ede3d1;
   --surface: #fbf7ef;
-  --card: #fbf7ef;
-  --border: #e1d3b0;
-  --border-strong: #cdb98a;
-  --fg: #2b2823;
-  --fg-muted: #5c5545;
-  --fg-faint: #7d7561;
-  --primary: #46627a;
-  --primary-strong: #33485c;
-  --primary-soft: #e1e9ef;
-  --accent: #b8925a;
-  --success: #5c8a5f;
-  --warning: #be8a3d;
-  --code-bg: #efe4ce;
-  --shadow-card: 0 1px 2px rgb(43 40 35 / 0.05), 0 4px 16px rgb(43 40 35 / 0.06);
-  --shadow-card-hover: 0 2px 4px rgb(43 40 35 / 0.06), 0 12px 32px rgb(43 40 35 / 0.1);
+  --card: #fffaf2;
+  --border: #e3d6c0;
+  --border-strong: #cbb593;
+  --fg: #2a1d14;
+  --fg-muted: #5c4838;
+  --fg-faint: #7f6a57;
+  --primary: #6b4226;
+  --primary-strong: #4f2f1a;
+  --primary-soft: #f0e3d1;
+  --on-primary: #fffaf2;
+  --accent: #a67c3d;
+  --accent-soft: #f3e6cc;
+  --gold-1: #c9a45c;
+  --gold-2: #8a6a33;
+  --success: #4f7d4f;
+  --danger: #a3402f;
+  --warning: #b07a2a;
+  --code-bg: #efe5d3;
+  --shadow-card: 0 1px 2px rgb(42 29 20 / 0.05), 0 8px 24px rgb(42 29 20 / 0.06);
+  --shadow-card-hover: 0 2px 4px rgb(42 29 20 / 0.06), 0 18px 40px rgb(42 29 20 / 0.12);
+  --glow: rgb(166 124 61 / 0.35);
+  color-scheme: light;
 }
 
 .dark {
-  --bg: #1a1611;
-  --bg-alt: #211b14;
-  --surface: #29221a;
-  --card: #29221a;
-  --border: #3c3122;
-  --border-strong: #4e402c;
-  --fg: #ece4d2;
-  --fg-muted: #c0b69e;
-  --fg-faint: #978d77;
-  --primary: #93a67c;
-  --primary-strong: #adc091;
-  --primary-soft: #34402a;
-  --accent: #b08d63;
-  --success: #83ae72;
-  --warning: #d2a24c;
-  --code-bg: #29221a;
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
-  --shadow-card-hover: 0 2px 4px rgb(0 0 0 / 0.35), 0 12px 32px rgb(0 0 0 / 0.4);
+  --bg: #14100c;
+  --bg-alt: #1b1510;
+  --surface: #211912;
+  --card: #241b14;
+  --border: #3a2c20;
+  --border-strong: #574230;
+  --fg: #f2e8d8;
+  --fg-muted: #cdbba2;
+  --fg-faint: #a08d75;
+  --primary: #d9b77e;
+  --primary-strong: #ecd09d;
+  --primary-soft: #33271b;
+  --on-primary: #1a120c;
+  --accent: #c99a5b;
+  --accent-soft: #2e2318;
+  --gold-1: #e3c58c;
+  --gold-2: #a57d43;
+  --success: #8dbb84;
+  --danger: #e59a88;
+  --warning: #dcae5c;
+  --code-bg: #1e1711;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.35), 0 8px 24px rgb(0 0 0 / 0.3);
+  --shadow-card-hover: 0 2px 4px rgb(0 0 0 / 0.4), 0 18px 40px rgb(0 0 0 / 0.45);
+  --glow: rgb(217 183 126 / 0.25);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -67,13 +83,17 @@
   --color-primary: var(--primary);
   --color-primary-strong: var(--primary-strong);
   --color-primary-soft: var(--primary-soft);
+  --color-on-primary: var(--on-primary);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --color-success: var(--success);
+  --color-danger: var(--danger);
   --color-warning: var(--warning);
 }
 
 @theme {
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
   --radius-xl: 0.875rem;
   --radius-2xl: 1.25rem;
 }
@@ -81,11 +101,13 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   position: relative;
   isolation: isolate;
+  overflow-x: hidden;
   background-color: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
@@ -93,28 +115,36 @@ body {
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  transition: background-color 200ms ease, color 200ms ease;
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
 }
 
-/*
- * Soft, slowly-drifting color wash behind the whole site — gives the
- * glassmorphic cards below something to actually blur against (Apple's
- * Control Center / macOS panels work the same way: frosted surfaces read
- * as "glass" only when there's colour and depth moving behind them).
- * Fixed + isolated stacking context keeps this cheap and behind all content.
- */
+/* Warm, slowly drifting light behind everything + a faint paper grain. */
 body::before {
+  content: '';
+  position: fixed;
+  inset: -10%;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    radial-gradient(36% 40% at 8% 4%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
+    radial-gradient(30% 36% at 94% 10%, color-mix(in srgb, var(--primary) 14%, transparent), transparent 70%),
+    radial-gradient(46% 50% at 50% 104%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+  animation: theme-drift 60s ease-in-out infinite;
+  will-change: transform;
+}
+body::after {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image:
-    radial-gradient(38% 42% at 10% 6%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 70%),
-    radial-gradient(34% 38% at 92% 12%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
-    radial-gradient(46% 50% at 50% 100%, color-mix(in srgb, var(--primary) 14%, transparent), transparent 70%);
-  animation: theme-drift 50s ease-in-out infinite;
-  will-change: transform;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.dark body::after {
+  opacity: 0.07;
 }
 @keyframes theme-drift {
   0%,
@@ -122,174 +152,498 @@ body::before {
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(-1.5%, 1.5%, 0) scale(1.05);
+    transform: translate3d(-2%, 1.5%, 0) scale(1.06);
   }
 }
 
 ::selection {
-  background-color: var(--primary);
-  color: #ffffff;
+  background-color: var(--accent);
+  color: var(--on-primary);
 }
 
 :focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/*
- * Card utility shared across the site — glassmorphic by default (frosted,
- * translucent, blurred) rather than a flat opaque surface. Opacity is kept
- * high (not billboard-transparent) so body text inside cards stays crisp;
- * the blur + subtle color bleed from the backdrop above is what reads as
- * "glass" without hurting legibility.
- */
-.card {
-  background-color: color-mix(in srgb, var(--card) 88%, transparent);
-  border: 1px solid color-mix(in srgb, var(--fg) 6%, var(--border));
-  border-radius: var(--radius-2xl);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  box-shadow: var(--shadow-card);
-  transition: box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease, background-color 200ms ease;
-}
-.card-hover:hover {
-  box-shadow: var(--shadow-card-hover);
-  border-color: var(--border-strong);
-  background-color: color-mix(in srgb, var(--card) 94%, transparent);
-  transform: translateY(-2px);
-}
-
-/*
- * Frosted-glass utility — used sparingly (About page dashboards only), not
- * site-wide. Needs a colorful backdrop behind it to read as "glass" rather
- * than a plain translucent card.
- */
-.glass-card {
-  background-color: color-mix(in srgb, var(--card) 55%, transparent);
-  border: 1px solid color-mix(in srgb, var(--fg) 10%, transparent);
-  border-radius: var(--radius-2xl);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  box-shadow: var(--shadow-card);
-}
-.glass-surface {
-  position: relative;
-  border-radius: var(--radius-2xl);
-  overflow: hidden;
-  background:
-    radial-gradient(60% 80% at 15% 10%, color-mix(in srgb, var(--primary) 30%, transparent), transparent 60%),
-    radial-gradient(50% 70% at 85% 30%, color-mix(in srgb, var(--success) 18%, transparent), transparent 65%),
-    radial-gradient(70% 90% at 50% 100%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%),
-    var(--bg-alt);
-}
-
-/* ------------------------------------------------------------------ */
-/* Prose — long-form article styling (max width enforced by layouts)  */
-/* ------------------------------------------------------------------ */
-.prose {
-  max-width: 50rem;
-  color: var(--fg);
-}
-.prose > * + * {
-  margin-top: 1.25em;
-}
-.prose h2,
-.prose h3,
-.prose h4 {
-  color: var(--fg);
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  line-height: 1.3;
-  scroll-margin-top: 5.5rem;
-}
-.prose h2 {
-  font-size: 1.6em;
-  margin-top: 2em;
-}
-.prose h3 {
-  font-size: 1.3em;
-  margin-top: 1.75em;
-}
-.prose h4 {
-  font-size: 1.1em;
-  margin-top: 1.5em;
-}
-.prose a {
-  color: var(--primary);
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--primary) 35%, transparent);
-  text-underline-offset: 3px;
-  font-weight: 500;
-  transition: text-decoration-color 150ms ease;
-}
-.prose a:hover {
-  text-decoration-color: var(--primary);
-}
-.prose strong {
-  color: var(--fg);
-  font-weight: 650;
-}
-.prose ul,
-.prose ol {
-  padding-left: 1.5em;
-}
-.prose ul {
-  list-style: disc;
-}
-.prose ol {
-  list-style: decimal;
-}
-.prose li + li {
-  margin-top: 0.4em;
-}
-.prose li::marker {
-  color: var(--fg-faint);
-}
-.prose blockquote {
-  border-left: 3px solid var(--primary);
-  padding-left: 1.25em;
-  color: var(--fg-muted);
-  font-style: italic;
-}
-.prose hr {
-  border-color: var(--border);
-  margin: 2.5em 0;
-}
-.prose img {
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border);
-}
-.prose table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.925em;
-}
-.prose th {
-  text-align: left;
-  font-weight: 600;
-  border-bottom: 2px solid var(--border-strong);
-  padding: 0.5em 0.75em;
-}
-.prose td {
-  border-bottom: 1px solid var(--border);
-  padding: 0.5em 0.75em;
-}
-.prose code:not(pre code) {
-  background-color: var(--code-bg);
-  border: 1px solid var(--border);
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
   border-radius: 6px;
-  padding: 0.125em 0.375em;
-  font-size: 0.875em;
-  font-weight: 500;
 }
-.prose pre {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  padding: 1.25rem 1.5rem;
-  font-size: 0.875rem;
-  line-height: 1.7;
-  overflow-x: auto;
+
+@layer components {
+  /* ------------------------------------------------------------------ */
+  /* Typography helpers                                                  */
+  /* ------------------------------------------------------------------ */
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  .text-gold {
+    background: linear-gradient(
+      110deg,
+      var(--gold-2) 0%,
+      var(--gold-1) 35%,
+      var(--primary-strong) 55%,
+      var(--gold-1) 75%,
+      var(--gold-2) 100%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gold-sheen 9s ease-in-out infinite;
+  }
+  @keyframes gold-sheen {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 1.75rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent));
+  }
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--accent);
+  }
+  .ornament::before,
+  .ornament::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  }
+}
+
+@layer components {
+  /* ------------------------------------------------------------------ */
+  /* Surfaces                                                            */
+  /* ------------------------------------------------------------------ */
+  .card {
+    position: relative;
+    background-color: color-mix(in srgb, var(--card) 90%, transparent);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-2xl);
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow 300ms ease,
+      border-color 300ms ease,
+      transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      background-color 300ms ease;
+  }
+  .card-hover:hover {
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+  }
+  /* Gilded hairline that lights up on hover. */
+  .card-gilded::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(140deg, transparent 30%, var(--gold-1), transparent 70%);
+    background-size: 250% 250%;
+    background-position: 100% 100%;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition:
+      opacity 400ms ease,
+      background-position 900ms ease;
+    pointer-events: none;
+  }
+  .card-gilded:hover::before {
+    opacity: 1;
+    background-position: 0% 0%;
+  }
+
+  .glass-card {
+    background-color: color-mix(in srgb, var(--card) 60%, transparent);
+    border: 1px solid color-mix(in srgb, var(--fg) 10%, transparent);
+    border-radius: var(--radius-2xl);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: var(--shadow-card);
+  }
+  .glass-surface {
+    position: relative;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    background:
+      radial-gradient(60% 80% at 15% 10%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 60%),
+      radial-gradient(50% 70% at 85% 30%, color-mix(in srgb, var(--primary) 18%, transparent), transparent 65%),
+      var(--bg-alt);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0.2rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--fg-muted);
+    white-space: nowrap;
+  }
+  .chip-gold {
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    background: var(--accent-soft);
+    color: var(--primary);
+  }
+
+  /* Filter pill buttons (projects, blog, skills). */
+  .pill {
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0.4rem 0.95rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--fg-muted);
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      border-color 200ms ease;
+    cursor: pointer;
+  }
+  .pill:hover {
+    border-color: var(--border-strong);
+    color: var(--fg);
+  }
+  .pill[aria-pressed='true'],
+  .pill[aria-selected='true'] {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--on-primary);
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 0.85rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+    color: var(--fg);
+  }
+  .field::placeholder {
+    color: var(--fg-faint);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--glow);
+  }
+
+  /* Shared interactive bits (used across many pages, so they live here). */
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--primary);
+    transition:
+      gap 250ms ease,
+      color 200ms ease;
+  }
+  .link-arrow:hover {
+    gap: 0.6rem;
+    color: var(--accent);
+  }
+  .btn-primary {
+    position: relative;
+    overflow: hidden;
+    color: var(--on-primary);
+    background: linear-gradient(135deg, var(--primary-strong), var(--primary) 55%, var(--accent));
+    box-shadow: 0 8px 24px -8px var(--glow);
+    transition:
+      transform 300ms ease,
+      box-shadow 300ms ease;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 800ms ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -10px var(--glow);
+  }
+  .btn-primary:hover::after {
+    transform: translateX(120%);
+  }
+  .verify-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 9999px;
+    background: var(--accent-soft);
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    padding: 0.25rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--primary);
+    transition: all 200ms ease;
+  }
+  .verify-btn:hover {
+    background: var(--primary);
+    color: var(--on-primary);
+  }
+  .repo-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--fg-muted);
+    transition: all 200ms ease;
+  }
+  .repo-action:hover {
+    border-color: var(--accent);
+    color: var(--primary);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion: scroll reveal (BaseLayout adds .is-visible)                 */
+/* ------------------------------------------------------------------ */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 900ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--reveal-i, 0) * 90ms);
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+.js [data-reveal='fade'] {
+  transform: none;
+}
+.js [data-reveal='scale'] {
+  transform: scale(0.96);
+}
+.reveal-i-1 {
+  --reveal-i: 1;
+}
+.reveal-i-2 {
+  --reveal-i: 2;
+}
+.reveal-i-3 {
+  --reveal-i: 3;
+}
+.reveal-i-4 {
+  --reveal-i: 4;
+}
+.reveal-i-5 {
+  --reveal-i: 5;
+}
+
+/* Infinite marquee used for the credential strip. */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 2.5rem;
+  padding-right: 2.5rem;
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-float {
+  animation: float-slow 7s ease-in-out infinite;
+}
+.animate-spin-slow {
+  animation: spin-slow 60s linear infinite;
+}
+.animate-spin-slower {
+  animation: spin-slow 120s linear infinite reverse;
+}
+
+@layer components {
+  /* ------------------------------------------------------------------ */
+  /* Prose — long-form article styling                                   */
+  /* ------------------------------------------------------------------ */
+  .prose {
+    max-width: 46rem;
+    color: var(--fg);
+    font-size: 1.075rem;
+    line-height: 1.85;
+  }
+  .prose > * + * {
+    margin-top: 1.3em;
+  }
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: var(--fg);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    scroll-margin-top: 5.5rem;
+  }
+  .prose h2 {
+    font-family: var(--font-display);
+    font-size: 2em;
+    font-weight: 600;
+    margin-top: 2em;
+  }
+  .prose h3 {
+    font-size: 1.3em;
+    margin-top: 1.75em;
+  }
+  .prose h4 {
+    font-size: 1.1em;
+    margin-top: 1.5em;
+  }
+  .prose a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    text-underline-offset: 3px;
+    font-weight: 500;
+    transition: text-decoration-color 150ms ease;
+  }
+  .prose a:hover {
+    text-decoration-color: var(--accent);
+  }
+  .prose strong {
+    color: var(--fg);
+    font-weight: 650;
+  }
+  .prose ul,
+  .prose ol {
+    padding-left: 1.5em;
+  }
+  .prose ul {
+    list-style: disc;
+  }
+  .prose ol {
+    list-style: decimal;
+  }
+  .prose li + li {
+    margin-top: 0.4em;
+  }
+  .prose li::marker {
+    color: var(--accent);
+  }
+  .prose blockquote {
+    border-left: 2px solid var(--accent);
+    padding: 0.25em 0 0.25em 1.25em;
+    color: var(--fg-muted);
+    font-family: var(--font-display);
+    font-size: 1.35em;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .prose hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+    margin: 3em 0;
+  }
+  .prose img {
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+  }
+  .prose figure figcaption {
+    margin-top: 0.6em;
+    text-align: center;
+    font-size: 0.85em;
+    color: var(--fg-faint);
+  }
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.925em;
+    display: block;
+    overflow-x: auto;
+  }
+  .prose th {
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-strong);
+    padding: 0.5em 0.75em;
+  }
+  .prose td {
+    border-bottom: 1px solid var(--border);
+    padding: 0.5em 0.75em;
+  }
+  .prose code:not(pre code) {
+    background-color: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.125em 0.375em;
+    font-size: 0.875em;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  .prose pre {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 1.25rem 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
 }
 
 /* Shiki dual theme: switch to the dark palette when .dark is active */
@@ -301,7 +655,6 @@ body::before {
   font-weight: var(--shiki-dark-font-weight) !important;
 }
 
-/* KaTeX sizing inside prose */
 .prose .katex-display {
   overflow-x: auto;
   padding: 0.5em 0;
@@ -323,25 +676,18 @@ body::before {
   --pagefind-ui-font: var(--font-sans);
 }
 
-/* ------------------------------------------------------------------ */
-/* Print styles for the resume page                                    */
-/* ------------------------------------------------------------------ */
 @media print {
   .no-print {
     display: none !important;
   }
   body {
     background: #ffffff;
-    color: #0f172a;
+    color: #111111;
     font-size: 11pt;
   }
-  .print-page {
-    max-width: 100% !important;
-    padding: 0 !important;
-  }
-  a {
-    text-decoration: none;
-    color: inherit;
+  body::before,
+  body::after {
+    display: none;
   }
 }
 
@@ -350,7 +696,12 @@ body::before {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 }

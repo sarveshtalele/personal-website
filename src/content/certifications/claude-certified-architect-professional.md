@@ -4,6 +4,7 @@ issuer: Anthropic
 date: 2026-07-11
 credentialUrl: https://www.credly.com/badges/a27e0744-fb64-43d7-9676-ceef2b11452a/public_url
 badge: /images/badges/claude-certified-architect-professional.png
+featured: true
 ---
 
 Certified on advanced, professional level Claude architecture, covering production scale multi-agent design,

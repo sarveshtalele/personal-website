@@ -3,9 +3,11 @@ import { getCollection } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
 import { FlaskConical, ExternalLink, FileDown, GraduationCap } from '@lucide/astro';
 import OrcidIcon from '@components/icons/OrcidIcon.astro';
-import { SOCIALS } from '@lib/site';
+import { getProfile } from '@lib/content';
 import { formatDate, byDateDesc } from '@utils/format';
 
+const { data: profile } = await getProfile();
+const SOCIALS = profile.socials;
 const publications = (await getCollection('publications')).sort(byDateDesc((p) => p.data.pubDate));
 ---
 
@@ -19,7 +21,7 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
     <a
       href={SOCIALS.scholar}
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
       class="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-2 text-sm font-medium text-fg-muted transition-colors hover:border-primary hover:text-primary"
     >
       <GraduationCap class="h-4 w-4" aria-hidden="true" /> Google Scholar profile
@@ -27,7 +29,7 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
     <a
       href={SOCIALS.orcid}
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
       class="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-2 text-sm font-medium text-fg-muted transition-colors hover:border-primary hover:text-primary"
     >
       <OrcidIcon class="h-4 w-4" /> ORCID profile
@@ -40,26 +42,45 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
     ) : (
       <div class="space-y-4">
         {publications.map((pub) => (
-          <div class="card p-6">
+          <div class="card card-gilded p-6" data-reveal>
             <div class="flex items-start gap-4">
               <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
                 <FlaskConical class="h-5 w-5" aria-hidden="true" />
               </span>
               <div class="min-w-0">
-                <h2 class="text-base font-semibold text-fg">{pub.data.title}</h2>
+                <h2 class="font-display text-2xl font-semibold leading-snug text-fg">{pub.data.title}</h2>
                 <p class="mt-1 text-sm text-fg-muted">{pub.data.description}</p>
                 <p class="mt-2 text-sm text-fg-faint">
                   {pub.data.venue} · {formatDate(pub.data.pubDate)}
                   {pub.data.authors.length > 0 && ` · ${pub.data.authors.join(', ')}`}
                 </p>
+                {pub.data.badges.length > 0 && (
+                  <div class="mt-3 flex flex-wrap gap-2">
+                    {pub.data.badges.map((b) => (
+                      <a href={b.href} target="_blank" rel="noopener noreferrer" class="verify-btn">
+                        {b.label} ↗
+                      </a>
+                    ))}
+                  </div>
+                )}
                 <div class="mt-3 flex gap-4 text-sm">
                   {pub.data.url && (
-                    <a href={pub.data.url} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 font-medium text-primary hover:text-primary-strong">
+                    <a
+                      href={pub.data.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1.5 font-medium text-primary hover:text-primary-strong"
+                    >
                       <ExternalLink class="h-4 w-4" aria-hidden="true" /> View
                     </a>
                   )}
                   {pub.data.pdf && (
-                    <a href={pub.data.pdf} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 font-medium text-primary hover:text-primary-strong">
+                    <a
+                      href={pub.data.pdf}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1.5 font-medium text-primary hover:text-primary-strong"
+                    >
                       <FileDown class="h-4 w-4" aria-hidden="true" /> PDF
                     </a>
                   )}

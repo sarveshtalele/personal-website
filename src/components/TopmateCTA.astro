@@ -1,46 +1,87 @@
 ---
-import { Coffee, ArrowRight, Sparkles, Calendar, MessageCircle } from '@lucide/astro';
+import { ArrowRight, Mail } from '@lucide/astro';
+import LinkedinIcon from './icons/LinkedinIcon.astro';
+import { getProfile } from '@lib/content';
 
-const PERKS = [
-  { icon: MessageCircle, label: '1:1 AI engineering & career advice' },
-  { icon: Sparkles, label: 'Agentic AI & architecture reviews' },
-  { icon: Calendar, label: 'Flexible, pick-your-own-slot scheduling' },
-];
+const { data: profile } = await getProfile();
 ---
 
-<div class="glass-surface group relative overflow-hidden p-8 sm:p-10">
-  <div class="glass-card relative flex flex-col gap-8 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-    <div class="max-w-xl">
-      <span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-fg-muted">
-        <Coffee class="h-3.5 w-3.5 text-primary" aria-hidden="true" /> Book a session
-      </span>
-      <h3 class="mt-4 text-2xl font-bold tracking-tight text-fg">Let's talk, one on one.</h3>
-      <p class="mt-2 text-fg-muted">
-        Have a project, a role, or a question about agentic AI? Skip the back-and-forth, book time with me
-        directly.
+<div class="cta relative overflow-hidden rounded-[2rem] p-8 sm:p-14" data-reveal="scale">
+  <div class="cta-glow" aria-hidden="true"></div>
+  <div class="relative grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+    <div>
+      <p class="eyebrow">Let's talk</p>
+      <h2 class="mt-4 font-display text-4xl font-semibold leading-[1.05] text-[#f2e8d8] sm:text-6xl">
+        Have a hard problem? <span class="italic text-[#e3c58c]">Let's make it simple.</span>
+      </h2>
+      <p class="mt-5 max-w-xl text-[#cdbba2]">
+        Roles, architecture reviews, Claude certification prep, or a conversation about agentic AI. Pick a slot, no
+        back-and-forth.
       </p>
-      <ul class="mt-5 space-y-2.5">
-        {
-          PERKS.map(({ icon: Icon, label }) => (
-            <li class="flex items-center gap-2.5 text-sm text-fg-muted">
-              <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
-                <Icon class="h-3.5 w-3.5" aria-hidden="true" />
-              </span>
-              {label}
-            </li>
-          ))
-        }
-      </ul>
     </div>
-
-    <a
-      href="https://topmate.io/sarveshtalele"
-      target="_blank"
-      rel="noopener"
-      class="group/btn inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-primary px-7 py-4 text-base font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:bg-primary-strong hover:shadow-xl hover:shadow-primary/30 dark:text-slate-900"
-    >
-      Book on Topmate
-      <ArrowRight class="h-5 w-5 transition-transform group-hover/btn:translate-x-1" aria-hidden="true" />
-    </a>
+    <div class="flex flex-col gap-3">
+      {
+        profile.socials.topmate && (
+          <a href={profile.socials.topmate} target="_blank" rel="noopener noreferrer" class="cta-primary">
+            Book a 1:1 on Topmate <ArrowRight class="h-4 w-4" aria-hidden="true" />
+          </a>
+        )
+      }
+      <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer" class="cta-secondary">
+        <LinkedinIcon class="h-4 w-4" /> Connect on LinkedIn
+      </a>
+      <a href={`mailto:${profile.email}`} class="cta-secondary">
+        <Mail class="h-4 w-4" aria-hidden="true" />
+        {profile.email}
+      </a>
+    </div>
   </div>
 </div>
+
+<style>
+  .cta {
+    background: radial-gradient(120% 140% at 0% 0%, #3a2a1c 0%, #1b140f 55%, #120d09 100%);
+    border: 1px solid #574230;
+  }
+  .cta-glow {
+    position: absolute;
+    right: -10%;
+    top: -40%;
+    width: 60%;
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgb(217 183 126 / 0.35), transparent 65%);
+    animation: float-slow 9s ease-in-out infinite;
+  }
+  .cta-primary,
+  .cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    padding: 0.95rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 300ms ease;
+    overflow-wrap: anywhere;
+  }
+  .cta-primary {
+    color: #1a120c;
+    background: linear-gradient(135deg, #e3c58c, #c99a5b);
+    box-shadow: 0 12px 30px -10px rgb(217 183 126 / 0.6);
+  }
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px -12px rgb(217 183 126 / 0.7);
+  }
+  .cta-secondary {
+    color: #f2e8d8;
+    border: 1px solid #574230;
+    background: rgb(255 255 255 / 0.03);
+  }
+  .cta-secondary:hover {
+    border-color: #d9b77e;
+    color: #e3c58c;
+  }
+</style>

@@ -1,0 +1,120 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import BlogCard from '@components/BlogCard.astro';
+import { Search, Rss } from '@lucide/astro';
+import { getPosts } from '@lib/content';
+import { minutesRead, tagIndex } from '@lib/blog';
+
+const posts = await getPosts();
+const minutes = Object.fromEntries(await Promise.all(posts.map(async (p) => [p.id, await minutesRead(p)] as const)));
+const tags = tagIndex(posts);
+const categories = [...new Set(posts.map((p) => p.data.category))];
+const [lead, ...rest] = posts;
+---
+
+<PageLayout
+  title="Blog"
+  description="Essays on agentic AI, deterministic systems, Claude, and the philosophy of building things that think."
+  eyebrow="Writing"
+  crumbs={[{ label: 'Blog' }]}
+>
+  {
+    posts.length === 0 ? (
+      <p class="text-fg-muted">The first post is on its way.</p>
+    ) : (
+      <div data-blog>
+        <div class="card mb-10 flex flex-col gap-4 p-4 sm:p-5">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <label class="relative block flex-1">
+              <span class="sr-only">Search posts</span>
+              <Search
+                class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-faint"
+                aria-hidden="true"
+              />
+              <input type="search" class="field pl-9" placeholder="Search posts…" data-q autocomplete="off" />
+            </label>
+            <a href="/rss.xml" class="pill inline-flex items-center gap-1.5 self-start sm:self-auto">
+              <Rss class="h-3.5 w-3.5" aria-hidden="true" /> RSS
+            </a>
+          </div>
+          {categories.length > 1 && (
+            <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+              <button type="button" class="pill" data-cat="" aria-pressed="true">
+                All
+              </button>
+              {categories.map((c) => (
+                <button type="button" class="pill" data-cat={c} aria-pressed="false">
+                  {c}
+                </button>
+              ))}
+            </div>
+          )}
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by tag">
+            {tags.map((t) => (
+              <button type="button" class="pill text-xs" data-tag={t.slug} aria-pressed="false">
+                #{t.label} <span class="opacity-60">{t.count}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-grid>
+          <div class="sm:col-span-2 lg:col-span-3" data-reveal>
+            <BlogCard post={lead} minutes={minutes[lead.id]} featured />
+          </div>
+          {rest.map((p, i) => (
+            <div data-reveal class={`reveal-i-${(i % 3) + 1}`}>
+              <BlogCard post={p} minutes={minutes[p.id]} />
+            </div>
+          ))}
+        </div>
+        <p class="hidden py-16 text-center text-fg-muted" data-empty>
+          No posts match those filters.
+        </p>
+      </div>
+    )
+  }
+</PageLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-blog]');
+  if (root) {
+    const items = [...root.querySelectorAll<HTMLElement>('[data-grid] > div')];
+    const q = root.querySelector<HTMLInputElement>('[data-q]')!;
+    const catBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-cat]')];
+    const tagBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-tag]')];
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+    const params = new URLSearchParams(location.search);
+    let cat = params.get('category') ?? '';
+    let tag = params.get('tag') ?? '';
+    q.value = params.get('q') ?? '';
+
+    const apply = () => {
+      const term = q.value.trim().toLowerCase();
+      let shown = 0;
+      for (const item of items) {
+        const post = item.querySelector<HTMLElement>('[data-post]')!;
+        const ok =
+          (!cat || post.dataset.category === cat) &&
+          (!tag || (post.dataset.tags ?? '').split(',').includes(tag)) &&
+          (!term || (post.dataset.text ?? '').includes(term));
+        item.hidden = !ok;
+        if (ok) shown++;
+      }
+      catBtns.forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.cat ?? '') === cat)));
+      tagBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tag === tag)));
+      empty.classList.toggle('hidden', shown > 0);
+      const next = new URLSearchParams();
+      if (term) next.set('q', term);
+      if (cat) next.set('category', cat);
+      if (tag) next.set('tag', tag);
+      history.replaceState(null, '', next.toString() ? `?${next}` : location.pathname);
+    };
+    catBtns.forEach((b) => b.addEventListener('click', () => ((cat = b.dataset.cat ?? ''), apply())));
+    tagBtns.forEach((b) =>
+      b.addEventListener('click', () => ((tag = tag === b.dataset.tag ? '' : (b.dataset.tag ?? '')), apply())),
+    );
+    q.addEventListener('input', apply);
+    apply();
+  }
+</script>

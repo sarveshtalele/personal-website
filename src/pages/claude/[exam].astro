@@ -1,0 +1,176 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import { ArrowRight, ExternalLink, GraduationCap, BookOpen } from '@lucide/astro';
+import claudeStats from '../../data/claude-stats.json';
+
+// One page per exam guide in src/content/claude/exams/ with `status: live`.
+export async function getStaticPaths() {
+  const exams = await getCollection('claudeExams', ({ data }) => data.status === 'live');
+  return exams.map((exam) => ({ params: { exam: exam.id }, props: { exam } }));
+}
+const { exam } = Astro.props;
+const { Content } = await render(exam);
+const d = exam.data;
+---
+
+<PageLayout
+  title={`Preparing for ${d.code}`}
+  description={d.description}
+  eyebrow={`Claude · ${d.title}`}
+  crumbs={[{ label: 'Claude', href: '/claude' }, { label: d.code }]}
+>
+  <div class="card card-gilded p-6 sm:p-8" data-reveal>
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div class="max-w-2xl">
+        <span class="chip chip-gold"><GraduationCap class="h-3.5 w-3.5" aria-hidden="true" /> Start here</span>
+        <h2 class="mt-3 font-display text-3xl font-semibold text-fg">Find your weak domains first</h2>
+        <p class="mt-2 text-fg-muted">
+          Sit the {claudeStats.mock}-question mock under exam conditions, or study all {claudeStats.total} questions with
+          explanations and doc links.
+        </p>
+        <p class="mt-3 rounded-xl border border-line bg-surface px-4 py-3 text-sm text-fg-muted">
+          <strong class="text-primary">Unofficial.</strong> Not real exam questions and not affiliated with Anthropic.
+        </p>
+      </div>
+      <div class="flex shrink-0 flex-col gap-3">
+        <a
+          href="/claude/quiz"
+          class="btn-primary relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 text-sm font-semibold"
+        >
+          Start the mock exam <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+        <a
+          href="/claude/review"
+          class="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong px-6 py-3 text-sm font-semibold text-fg hover:border-accent"
+        >
+          <BookOpen class="h-4 w-4" aria-hidden="true" /> Learn &amp; review all {claudeStats.total}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {
+    d.glance.length > 0 && (
+      <>
+        <h2 class="exam-h2">Exam at a glance</h2>
+        <dl class="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
+          {d.glance.map((g) => (
+            <div class="bg-card p-4">
+              <dt class="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-fg-faint">{g.label}</dt>
+              <dd class="mt-1 text-sm font-medium text-fg">{g.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="mt-2 text-xs text-fg-faint">
+          Confirm against the{' '}
+          <a
+            href={d.official}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary underline underline-offset-2"
+          >
+            official {d.code} page
+          </a>
+          .
+        </p>
+      </>
+    )
+  }
+
+  {
+    d.domains.length > 0 && (
+      <>
+        <h2 class="exam-h2">The {d.domains.length} content domains</h2>
+        <div class="space-y-3">
+          {d.domains.map((dom) => (
+            <div class="card grid gap-3 p-5 sm:grid-cols-[3rem_1fr_auto] sm:items-center" data-reveal>
+              <span class="font-display text-4xl font-semibold text-accent">{dom.n}</span>
+              <div>
+                <p class="font-semibold text-fg">{dom.name}</p>
+                <p class="mt-1 text-sm text-fg-muted">{dom.tests}</p>
+              </div>
+              <span class="font-display text-3xl font-semibold text-gold">{dom.weight}</span>
+            </div>
+          ))}
+        </div>
+      </>
+    )
+  }
+
+  {
+    d.scenarios.length > 0 && (
+      <>
+        <h2 class="exam-h2">
+          The {d.scenarios.length} scenarios{' '}
+          <span class="text-base font-normal text-fg-muted">(4 appear on exam day)</span>
+        </h2>
+        <ol class="grid gap-3 sm:grid-cols-2">
+          {d.scenarios.map((s, i) => (
+            <li class="card flex gap-3 p-4 text-sm text-fg-muted">
+              <span class="font-display text-2xl font-semibold leading-none text-accent">{i + 1}</span>
+              {s}
+            </li>
+          ))}
+        </ol>
+      </>
+    )
+  }
+
+  {
+    d.rules.length > 0 && (
+      <>
+        <h2 class="exam-h2">The mental model that passes</h2>
+        <div class="grid gap-4 sm:grid-cols-3">
+          {d.rules.map((r) => (
+            <div class="card card-gilded p-5" data-reveal>
+              <p class="font-display text-xl font-semibold text-fg">{r.title}</p>
+              <p class="mt-2 text-sm text-fg-muted">{r.body}</p>
+            </div>
+          ))}
+        </div>
+        {d.distractors.length > 0 && (
+          <div class="mt-4 flex flex-wrap items-center gap-2 text-sm">
+            <span class="font-semibold text-fg">Recurring distractors:</span>
+            {d.distractors.map((x) => (
+              <span class="chip">{x}</span>
+            ))}
+          </div>
+        )}
+      </>
+    )
+  }
+
+  <div class="prose mt-12">
+    <Content />
+  </div>
+
+  {
+    d.resources.length > 0 && (
+      <>
+        <h2 class="exam-h2">Official &amp; open resources</h2>
+        <div class="grid gap-4 sm:grid-cols-2">
+          {d.resources.map((r) => (
+            <a href={r.url} target="_blank" rel="noopener noreferrer" class="card card-hover flex flex-col gap-1 p-5">
+              <span class="inline-flex items-center gap-1.5 font-semibold text-fg">
+                {r.name} <ExternalLink class="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+              </span>
+              <span class="text-sm text-fg-muted">{r.use}</span>
+            </a>
+          ))}
+        </div>
+      </>
+    )
+  }
+</PageLayout>
+
+<style>
+  .exam-h2 {
+    margin: 3.5rem 0 1.25rem;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--fg);
+  }
+</style>

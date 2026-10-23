@@ -1,0 +1,18 @@
+name: Exam question correction
+description: Report an incorrect answer or explanation in the Claude practice questions
+labels: [content, claude-exam]
+body:
+  - type: input
+    id: qid
+    attributes:
+      label: Question ID
+      placeholder: D2-Q14
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What is wrong, and what is the source?
+      description: Link the Claude documentation page that supports the correction.
+    validations:
+      required: true

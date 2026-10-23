@@ -7,13 +7,15 @@ import { Compass } from '@lucide/astro';
 
 <BaseLayout title="Page Not Found" description="This page doesn't exist." noindex>
   <Container class="flex min-h-[70vh] flex-col items-center justify-center py-20 text-center">
-    <span class="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+    <span class="flex h-16 w-16 items-center justify-center rounded-2xl bg-accent-soft text-accent animate-float">
       <Compass class="h-8 w-8" aria-hidden="true" />
     </span>
     <p class="mt-6 text-sm font-semibold uppercase tracking-widest text-primary">404</p>
-    <h1 class="mt-2 text-3xl font-bold tracking-tight text-fg sm:text-4xl">Page not found</h1>
+    <h1 class="mt-2 font-display text-5xl font-semibold tracking-tight text-fg sm:text-6xl">
+      Not all who wander are lost.
+    </h1>
     <p class="mt-4 max-w-md text-fg-muted">
-      The page you're looking for doesn't exist or may have moved. Try searching, or head back home.
+      But this page is. It may have moved, or never existed. Try searching, or head back home.
     </p>
     <div class="mt-8 flex gap-3">
       <Button href="/">Back home</Button>

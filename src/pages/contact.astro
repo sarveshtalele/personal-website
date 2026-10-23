@@ -1,76 +1,56 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
-import { GraduationCap, Mail } from '@lucide/astro';
+import { GraduationCap, Mail, ArrowUpRight } from '@lucide/astro';
 import GithubIcon from '@components/icons/GithubIcon.astro';
 import LinkedinIcon from '@components/icons/LinkedinIcon.astro';
 import MediumIcon from '@components/icons/MediumIcon.astro';
 import OrcidIcon from '@components/icons/OrcidIcon.astro';
 import TopmateCTA from '@components/TopmateCTA.astro';
-import { SITE, SOCIALS } from '@lib/site';
+import { getProfile } from '@lib/content';
+
+const { data: p } = await getProfile();
+const channels = [
+  { href: `mailto:${p.email}`, title: 'Email', note: p.email, Icon: Mail, external: false },
+  { href: p.socials.linkedin, title: 'LinkedIn', note: 'Connect professionally', Icon: LinkedinIcon, external: true },
+  { href: p.socials.github, title: 'GitHub', note: "See what I'm building", Icon: GithubIcon, external: true },
+  { href: p.socials.medium, title: 'Medium', note: 'Read my articles', Icon: MediumIcon, external: true },
+  {
+    href: p.socials.scholar,
+    title: 'Google Scholar',
+    note: 'Research publications',
+    Icon: GraduationCap,
+    external: true,
+  },
+  { href: p.socials.orcid, title: 'ORCID', note: 'Researcher identifier', Icon: OrcidIcon, external: true },
+].filter((c) => c.href);
 ---
 
 <PageLayout
   title="Contact"
-  description="Get in touch about roles, collaborations, or questions on agentic AI engineering."
-  eyebrow="Say Hello"
+  description="Roles, collaborations, architecture reviews, or a question about agentic AI. Pick the channel that suits you."
+  eyebrow="Say hello"
   crumbs={[{ label: 'Contact' }]}
 >
   <TopmateCTA />
-
-  <div class="mt-10 grid gap-6 sm:grid-cols-3">
-    <a href={SOCIALS.email} class="card card-hover flex flex-col items-start gap-3 p-6">
-      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
-        <Mail class="h-5 w-5" aria-hidden="true" />
-      </span>
-      <div>
-        <p class="font-semibold text-fg">Email</p>
-        <p class="mt-1 text-sm text-fg-muted">{SITE.email}</p>
-      </div>
-    </a>
-    <a href={SOCIALS.linkedin} target="_blank" rel="me noopener" class="card card-hover flex flex-col items-start gap-3 p-6">
-      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
-        <LinkedinIcon class="h-5 w-5" />
-      </span>
-      <div>
-        <p class="font-semibold text-fg">LinkedIn</p>
-        <p class="mt-1 text-sm text-fg-muted">Connect professionally</p>
-      </div>
-    </a>
-    <a href={SOCIALS.github} target="_blank" rel="me noopener" class="card card-hover flex flex-col items-start gap-3 p-6">
-      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
-        <GithubIcon class="h-5 w-5" />
-      </span>
-      <div>
-        <p class="font-semibold text-fg">GitHub</p>
-        <p class="mt-1 text-sm text-fg-muted">See what I'm building</p>
-      </div>
-    </a>
-    <a href={SOCIALS.medium} target="_blank" rel="me noopener" class="card card-hover flex flex-col items-start gap-3 p-6">
-      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
-        <MediumIcon class="h-5 w-5" />
-      </span>
-      <div>
-        <p class="font-semibold text-fg">Medium</p>
-        <p class="mt-1 text-sm text-fg-muted">Read my articles</p>
-      </div>
-    </a>
-    <a href={SOCIALS.scholar} target="_blank" rel="me noopener" class="card card-hover flex flex-col items-start gap-3 p-6">
-      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
-        <GraduationCap class="h-5 w-5" aria-hidden="true" />
-      </span>
-      <div>
-        <p class="font-semibold text-fg">Google Scholar</p>
-        <p class="mt-1 text-sm text-fg-muted">Research publications</p>
-      </div>
-    </a>
-    <a href={SOCIALS.orcid} target="_blank" rel="me noopener" class="card card-hover flex flex-col items-start gap-3 p-6">
-      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
-        <OrcidIcon class="h-5 w-5" />
-      </span>
-      <div>
-        <p class="font-semibold text-fg">ORCID</p>
-        <p class="mt-1 text-sm text-fg-muted">Researcher identifier</p>
-      </div>
-    </a>
+  <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      channels.map(({ href, title, note, Icon, external }, i) => (
+        <a
+          href={href}
+          class:list={['card card-hover card-gilded group flex items-center gap-4 p-5', `reveal-i-${(i % 5) + 1}`]}
+          data-reveal
+          {...(external ? { target: '_blank', rel: 'me noopener noreferrer' } : {})}
+        >
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent">
+            <Icon class="h-5 w-5" aria-hidden="true" />
+          </span>
+          <span class="min-w-0 flex-1">
+            <span class="block font-semibold text-fg">{title}</span>
+            <span class="block truncate text-sm text-fg-muted">{note}</span>
+          </span>
+          <ArrowUpRight class="h-4 w-4 text-fg-faint transition-colors group-hover:text-accent" aria-hidden="true" />
+        </a>
+      ))
+    }
   </div>
 </PageLayout>

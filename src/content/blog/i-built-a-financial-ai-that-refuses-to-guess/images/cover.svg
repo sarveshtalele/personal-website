@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 840" role="img" aria-labelledby="t">
+  <title id="t">Language model on the left handing a request across an MCP bridge to a grid of deterministic calculators on the right</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a1d14"/><stop offset="1" stop-color="#14100c"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8a6a33"/><stop offset=".5" stop-color="#e3c58c"/><stop offset="1" stop-color="#8a6a33"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#d9b77e" stop-opacity=".35"/><stop offset="1" stop-color="#d9b77e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="840" fill="url(#bg)"/>
+  <circle cx="800" cy="420" r="420" fill="url(#glow)"/>
+  <g fill="#e3c58c" opacity=".5">
+    <circle cx="120" cy="90" r="2"/><circle cx="1480" cy="120" r="2"/><circle cx="260" cy="760" r="1.5"/><circle cx="1380" cy="740" r="1.5"/><circle cx="700" cy="70" r="1.5"/><circle cx="980" cy="790" r="2"/>
+  </g>
+  <!-- Story: speech bubble -->
+  <g transform="translate(170 250)">
+    <rect width="420" height="300" rx="36" fill="#f6f0e4"/>
+    <path d="M90 300 L70 370 L160 300 Z" fill="#f6f0e4"/>
+    <text x="40" y="80" font-family="Georgia, serif" font-size="34" font-style="italic" fill="#6b4226">“I want to retire</text>
+    <text x="40" y="128" font-family="Georgia, serif" font-size="34" font-style="italic" fill="#6b4226">at 60. Am I</text>
+    <text x="40" y="176" font-family="Georgia, serif" font-size="34" font-style="italic" fill="#6b4226">on track?”</text>
+    <rect x="40" y="220" width="200" height="12" rx="6" fill="#e3d6c0"/>
+    <rect x="40" y="246" width="300" height="12" rx="6" fill="#e3d6c0"/>
+  </g>
+  <!-- Bridge -->
+  <g>
+    <path d="M610 400 C 700 330, 900 330, 990 400" fill="none" stroke="url(#gold)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M610 440 C 700 510, 900 510, 990 440" fill="none" stroke="url(#gold)" stroke-width="6" stroke-linecap="round" stroke-dasharray="4 14"/>
+    <rect x="720" y="380" width="160" height="80" rx="40" fill="#241b14" stroke="#d9b77e" stroke-width="2"/>
+    <text x="800" y="432" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="6" fill="#e3c58c">MCP</text>
+  </g>
+  <!-- Spreadsheet: calculator grid -->
+  <g transform="translate(1010 230)">
+    <rect width="420" height="380" rx="36" fill="#241b14" stroke="#574230" stroke-width="2"/>
+    <rect x="30" y="30" width="360" height="80" rx="16" fill="#14100c" stroke="#3a2c20"/>
+    <text x="370" y="86" text-anchor="end" font-family="Menlo, monospace" font-size="38" fill="#e3c58c">₹ 4.82 Cr</text>
+    <g font-family="Menlo, monospace" font-size="26" fill="#cdbba2" text-anchor="middle">
+      <rect x="30" y="135" width="105" height="64" rx="14" fill="#33271b"/><text x="82" y="177">FV</text>
+      <rect x="157" y="135" width="105" height="64" rx="14" fill="#33271b"/><text x="210" y="177">EMI</text>
+      <rect x="285" y="135" width="105" height="64" rx="14" fill="#6b4226"/><text x="337" y="177" fill="#f6f0e4">SIP</text>
+      <rect x="30" y="215" width="105" height="64" rx="14" fill="#33271b"/><text x="82" y="257">CAGR</text>
+      <rect x="157" y="215" width="105" height="64" rx="14" fill="#33271b"/><text x="210" y="257">β</text>
+      <rect x="285" y="215" width="105" height="64" rx="14" fill="#33271b"/><text x="337" y="257">PPF</text>
+      <rect x="30" y="295" width="105" height="64" rx="14" fill="#33271b"/><text x="82" y="337">NAV</text>
+      <rect x="157" y="295" width="105" height="64" rx="14" fill="#33271b"/><text x="210" y="337">%</text>
+      <rect x="285" y="295" width="105" height="64" rx="14" fill="#a67c3d"/><text x="337" y="337" fill="#14100c">=</text>
+    </g>
+  </g>
+  <text x="800" y="740" text-anchor="middle" font-family="Georgia, serif" font-size="40" fill="#f2e8d8">The AI understands the story. Mathematics tells the truth.</text>
+</svg>

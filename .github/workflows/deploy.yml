@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Daily rebuild so GitHub stars/forks/repos on the site stay fresh.
+  schedule:
+    - cron: '17 3 * * *'
   workflow_dispatch:
 
 permissions:
@@ -33,8 +36,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build (Astro build + RSS + sitemap + Pagefind search index)
+      # Compiles Claude question banks, syncs GitHub repo data, validates
+      # content, builds Astro, injects the CSP, and builds the search index.
+      - name: Build
         run: pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

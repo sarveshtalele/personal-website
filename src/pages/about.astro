@@ -1,160 +1,104 @@
 ---
-import { getCollection } from 'astro:content';
+import { render } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
 import Button from '@components/Button.astro';
-import StatsDashboard from '@components/StatsDashboard.astro';
 import SkillsDashboard from '@components/SkillsDashboard.astro';
-import { SOCIALS, SITE, EDUCATION, CREDENTIALS, ACHIEVEMENTS } from '@lib/site';
-import { Award, GraduationCap, Mail, Sparkles } from '@lucide/astro';
-import GithubIcon from '@components/icons/GithubIcon.astro';
-import LinkedinIcon from '@components/icons/LinkedinIcon.astro';
-import MediumIcon from '@components/icons/MediumIcon.astro';
-import OrcidIcon from '@components/icons/OrcidIcon.astro';
-import { formatDate, byDateDesc } from '@utils/format';
+import CredentialWall from '@components/CredentialWall.astro';
+import VerifiedBadges from '@components/VerifiedBadges.astro';
+import Icon from '@components/Icon.astro';
+import { GraduationCap, Trophy, ArrowRight } from '@lucide/astro';
+import { getProfile } from '@lib/content';
 
-const certifications = (await getCollection('certifications')).sort(byDateDesc((c) => c.data.date));
+const profile = await getProfile();
+const { Content } = await render(profile);
+const p = profile.data;
 ---
 
-<PageLayout
-  title="About"
-  description="AI Engineer at Tata Consultancy Services building agentic AI automations, Graph-RAG pipelines, and secure LLM infrastructure at enterprise scale."
-  eyebrow="Who I Am"
-  crumbs={[{ label: 'About' }]}
->
-  <div class="grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
-    <img
-      src="/images/sarvesh-talele.jpg"
-      alt={SITE.author}
-      width="320"
-      height="320"
-      class="aspect-square w-32 rounded-2xl border border-line object-cover shadow-sm lg:w-full"
-    />
+<PageLayout title="About" description={p.tagline} eyebrow="The person behind the work" crumbs={[{ label: 'About' }]}>
+  <div class="grid gap-12 lg:grid-cols-[18rem_minmax(0,1fr)]">
+    <div class="lg:sticky lg:top-24 lg:self-start" data-reveal>
+      <div class="about-arch mx-auto w-56 lg:w-full">
+        <img src={p.photo} alt={p.fullName} width="320" height="400" class="h-full w-full object-cover" />
+      </div>
+      <p class="mt-6 text-center font-display text-2xl font-semibold text-fg lg:text-left">{p.fullName}</p>
+      <p class="mt-1 text-center text-sm text-fg-muted lg:text-left">{p.role}</p>
+      <p class="mt-1 text-center text-xs text-fg-faint lg:text-left">{p.location}</p>
+      <div class="mt-5 flex flex-wrap justify-center gap-2 lg:justify-start">
+        <Button href="/contact" size="md">Get in touch <ArrowRight class="h-4 w-4" aria-hidden="true" /></Button>
+        <Button href="/dashboard" variant="secondary">Dashboard</Button>
+      </div>
+    </div>
 
-    <div>
-      <h1 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">{SITE.author}</h1>
-      <p class="mt-1 text-lg text-fg-muted">{SITE.role}</p>
-      <p class="mt-4 max-w-2xl text-fg-muted">
-        AI Engineer specialising in Agentic AI, Generative AI, and Enterprise Automation, building
-        production-grade multi-agent systems, RAG applications, and enterprise AI platforms with Claude Code,
-        Azure AI, Microsoft Foundry, LangChain, LangGraph, and FastAPI.
+    <div class="min-w-0">
+      <div class="prose" data-reveal>
+        <Content />
+      </div>
+
+      <div class="mt-12 grid gap-4 sm:grid-cols-3">
+        {
+          p.personas.map((x, i) => (
+            <div class:list={['card p-5', `reveal-i-${i + 1}`]} data-reveal>
+              <Icon name={x.icon} class="h-5 w-5 text-accent" />
+              <p class="mt-3 font-display text-xl font-semibold text-fg">{x.title}</p>
+              <p class="mt-1 text-sm text-fg-muted">{x.line}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-12" data-reveal>
+        <p class="eyebrow mb-4">Verified profiles</p>
+        <VerifiedBadges />
+      </div>
+    </div>
+  </div>
+
+  <h2 class="mb-6 mt-20 font-display text-4xl font-semibold text-fg" data-reveal>Skills</h2>
+  <SkillsDashboard />
+
+  <h2 class="mb-6 mt-20 font-display text-4xl font-semibold text-fg" data-reveal>Credentials</h2>
+  <CredentialWall />
+
+  <div class="mt-20 grid gap-6 lg:grid-cols-2">
+    <div class="card p-6 sm:p-8" data-reveal>
+      <p class="flex items-center gap-2 font-display text-2xl font-semibold text-fg">
+        <GraduationCap class="h-5 w-5 text-accent" aria-hidden="true" /> Education
       </p>
-
-      <div class="mt-5 flex flex-wrap gap-2">
+      <div class="mt-5 space-y-5">
         {
-          CREDENTIALS.map((credential) => (
-            <span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-fg-muted">
-              <Sparkles class="h-3 w-3 text-primary" aria-hidden="true" />
-              {credential}
-            </span>
-          ))
-        }
-      </div>
-
-      <div class="mt-6 flex flex-wrap items-center gap-2">
-        <Button href="/resume.pdf" variant="primary" download>Download Resume</Button>
-        <Button href="/contact" variant="secondary">
-          <Mail class="h-4 w-4" aria-hidden="true" /> Contact
-        </Button>
-        <div class="ml-1 flex items-center gap-1">
-          <a
-            href={SOCIALS.github}
-            target="_blank"
-            rel="me noopener"
-            aria-label="GitHub"
-            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
-            ><GithubIcon class="h-[18px] w-[18px]" /></a
-          >
-          <a
-            href={SOCIALS.linkedin}
-            target="_blank"
-            rel="me noopener"
-            aria-label="LinkedIn"
-            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
-            ><LinkedinIcon class="h-[18px] w-[18px]" /></a
-          >
-          <a
-            href={SOCIALS.medium}
-            target="_blank"
-            rel="me noopener"
-            aria-label="Medium"
-            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
-            ><MediumIcon class="h-[18px] w-[18px]" /></a
-          >
-          <a
-            href={SOCIALS.scholar}
-            target="_blank"
-            rel="me noopener"
-            aria-label="Google Scholar"
-            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
-            ><GraduationCap class="h-[18px] w-[18px]" aria-hidden="true" /></a
-          >
-          <a
-            href={SOCIALS.orcid}
-            target="_blank"
-            rel="me noopener"
-            aria-label="ORCID"
-            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
-            ><OrcidIcon class="h-[18px] w-[18px]" /></a
-          >
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="mt-12">
-    <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-fg-faint">Impact at a glance</p>
-    <StatsDashboard />
-  </div>
-
-  <div class="mt-12">
-    <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-fg-faint">Skills dashboard</p>
-    <SkillsDashboard glass />
-  </div>
-
-  <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    <div class="card p-6">
-      <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Education</p>
-      <div class="mt-4 space-y-4">
-        {
-          EDUCATION.map((edu) => (
+          p.education.map((e) => (
             <div>
-              <p class="text-sm font-semibold text-fg">{edu.degree}</p>
-              <p class="text-sm text-fg-muted">{edu.institution}</p>
-              <p class="text-xs text-fg-faint">{edu.year} · {edu.detail}</p>
+              <p class="font-semibold text-fg">{e.degree}</p>
+              <p class="text-sm text-fg-muted">{e.institution}</p>
+              <p class="text-xs text-fg-faint">
+                {e.year} · {e.detail}
+              </p>
             </div>
           ))
         }
       </div>
     </div>
-
-    <div class="card p-6 sm:col-span-2 lg:col-span-1">
-      <div class="flex items-center justify-between">
-        <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Certifications</p>
-        <a href="/certifications" class="text-xs font-medium text-primary hover:text-primary-strong">View all →</a>
-      </div>
-      <div class="mt-4 space-y-3">
+    <div id="achievements" class="card scroll-mt-24 p-6 sm:p-8" data-reveal>
+      <p class="flex items-center gap-2 font-display text-2xl font-semibold text-fg">
+        <Trophy class="h-5 w-5 text-accent" aria-hidden="true" /> Achievements
+      </p>
+      <ul class="mt-5 space-y-3">
         {
-          certifications.slice(0, 4).map((cert) => (
-            <div class="flex items-start gap-3">
-              <Award class="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-              <div class="min-w-0">
-                <p class="text-sm font-medium text-fg">{cert.data.title}</p>
-                <p class="text-xs text-fg-faint">{cert.data.issuer} · {formatDate(cert.data.date)}</p>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-
-    <div class="card p-6">
-      <p class="text-sm font-semibold uppercase tracking-widest text-fg-faint">Achievements</p>
-      <ul class="mt-4 space-y-3">
-        {
-          ACHIEVEMENTS.map((item) => (
-            <li class="flex gap-2 text-sm text-fg-muted">
-              <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" aria-hidden="true" />
-              {item}
+          p.achievements.map((a) => (
+            <li class="flex gap-3 text-sm text-fg-muted">
+              <span class="mt-2 h-1.5 w-1.5 shrink-0 rotate-45 bg-accent" aria-hidden="true" />
+              {a.href ? (
+                <a
+                  href={a.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="underline decoration-accent/40 underline-offset-2 hover:text-primary"
+                >
+                  {a.text}
+                </a>
+              ) : (
+                <span>{a.text}</span>
+              )}
             </li>
           ))
         }
@@ -162,3 +106,16 @@ const certifications = (await getCollection('certifications')).sort(byDateDesc((
     </div>
   </div>
 </PageLayout>
+
+<style>
+  .about-arch {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 999px 999px 1.25rem 1.25rem;
+    padding: 5px;
+    background: linear-gradient(160deg, var(--gold-1), var(--gold-2));
+  }
+  .about-arch img {
+    border-radius: inherit;
+  }
+</style>

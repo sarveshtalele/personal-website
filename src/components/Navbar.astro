@@ -2,39 +2,34 @@
 import { Search, Menu, X } from '@lucide/astro';
 import GithubIcon from './icons/GithubIcon.astro';
 import LinkedinIcon from './icons/LinkedinIcon.astro';
-import MediumIcon from './icons/MediumIcon.astro';
 import ThemeToggle from './ThemeToggle.astro';
-import { NAV_LINKS, SOCIALS, SITE } from '@lib/site';
+import { NAV_LINKS } from '@lib/site';
+import { getProfile } from '@lib/content';
 
+const { data: profile } = await getProfile();
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => currentPath === href || (href !== '/' && currentPath.startsWith(href));
+const initials = profile.name
+  .split(' ')
+  .map((p) => p[0])
+  .join('');
 ---
 
-<header class="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-lg">
-  <nav class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6" aria-label="Main navigation">
-    <a href="/" class="flex items-center gap-2 font-semibold tracking-tight text-fg transition-colors hover:text-primary">
-      <img
-        src="/images/sarvesh-talele.jpg"
-        alt=""
-        width="32"
-        height="32"
-        class="h-8 w-8 shrink-0 rounded-full border border-line object-cover"
-      />
-      <span class="hidden sm:inline">{SITE.name}</span>
+<header class="site-header sticky top-0 z-50">
+  <nav class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6" aria-label="Main navigation">
+    <a href="/" class="group flex items-center gap-3" aria-label={`${profile.name}, home`}>
+      <span class="monogram font-display" aria-hidden="true">{initials}</span>
+      <span class="hidden flex-col leading-none sm:flex">
+        <span class="font-display text-lg font-semibold tracking-tight text-fg">{profile.name}</span>
+        <span class="mt-1 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-fg-faint">AI Engineer</span>
+      </span>
     </a>
 
-    <ul class="hidden items-center gap-1 lg:flex">
+    <ul class="hidden items-center gap-0.5 lg:flex">
       {
         NAV_LINKS.map((link) => (
           <li>
-            <a
-              href={link.href}
-              aria-current={isActive(link.href) ? 'page' : undefined}
-              class:list={[
-                'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                isActive(link.href) ? 'bg-primary-soft text-primary' : 'text-fg-muted hover:bg-bg-alt hover:text-fg',
-              ]}
-            >
+            <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined} class="nav-link">
               {link.label}
             </a>
           </li>
@@ -43,69 +38,54 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     </ul>
 
     <div class="flex items-center gap-1">
-      <a
-        href="/search"
-        class="inline-flex h-9 items-center gap-2 rounded-xl px-2.5 text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg sm:border sm:border-line sm:bg-surface"
-        aria-label="Search the site"
-      >
+      <a href="/search" class="icon-btn" aria-label="Search the site">
         <Search class="h-[18px] w-[18px]" aria-hidden="true" />
-        <span class="hidden text-xs text-fg-faint sm:inline">Search</span>
-        <kbd class="hidden rounded border border-line bg-bg-alt px-1.5 py-0.5 text-[10px] font-medium text-fg-faint sm:inline">/</kbd>
       </a>
       <ThemeToggle />
       <a
-        href={SOCIALS.github}
-        class="hidden h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg sm:inline-flex"
+        href={profile.socials.github}
+        class="icon-btn hidden sm:inline-flex"
         aria-label="GitHub profile"
-        rel="me noopener"
+        rel="me noopener noreferrer"
         target="_blank"
       >
         <GithubIcon class="h-[18px] w-[18px]" />
       </a>
       <a
-        href={SOCIALS.linkedin}
-        class="hidden h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg sm:inline-flex"
+        href={profile.socials.linkedin}
+        class="icon-btn hidden sm:inline-flex"
         aria-label="LinkedIn profile"
-        rel="me noopener"
+        rel="me noopener noreferrer"
         target="_blank"
       >
         <LinkedinIcon class="h-[18px] w-[18px]" />
       </a>
-      <a
-        href={SOCIALS.medium}
-        class="hidden h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg sm:inline-flex"
-        aria-label="Medium blog"
-        rel="me noopener"
-        target="_blank"
-      >
-        <MediumIcon class="h-[18px] w-[18px]" />
-      </a>
       <button
         id="mobile-menu-button"
         type="button"
-        class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg lg:hidden"
+        class="icon-btn lg:hidden"
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
-        <Menu class="h-5 w-5 menu-open-icon" aria-hidden="true" />
-        <X class="hidden h-5 w-5 menu-close-icon" aria-hidden="true" />
+        <Menu class="menu-open-icon h-5 w-5" aria-hidden="true" />
+        <X class="menu-close-icon hidden h-5 w-5" aria-hidden="true" />
       </button>
     </div>
   </nav>
 
-  <div id="mobile-menu" class="hidden border-t border-line bg-bg lg:hidden">
-    <ul class="mx-auto max-w-6xl space-y-1 px-4 py-4 sm:px-6">
+  <div id="mobile-menu" class="mobile-menu lg:hidden" hidden>
+    <ul class="mx-auto max-w-6xl space-y-1 px-4 py-6 sm:px-6">
+      <li>
+        <a href="/" class="mobile-link font-display" aria-current={currentPath === '/' ? 'page' : undefined}>Home</a>
+      </li>
       {
-        NAV_LINKS.map((link) => (
-          <li>
+        NAV_LINKS.map((link, i) => (
+          <li class:list={['mobile-item', `reveal-i-${Math.min(i + 1, 5)}`]}>
             <a
               href={link.href}
               aria-current={isActive(link.href) ? 'page' : undefined}
-              class:list={[
-                'block rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                isActive(link.href) ? 'bg-primary-soft text-primary' : 'text-fg-muted hover:bg-bg-alt hover:text-fg',
-              ]}
+              class="mobile-link font-display"
             >
               {link.label}
             </a>
@@ -116,25 +96,132 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   </div>
 </header>
 
+<style>
+  .site-header {
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  }
+  .monogram {
+    display: inline-flex;
+    height: 2.4rem;
+    width: 2.4rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--on-primary);
+    background: radial-gradient(circle at 30% 25%, var(--gold-1), var(--gold-2) 70%);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, #fff 25%, transparent),
+      0 4px 14px var(--glow);
+    transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .group:hover .monogram {
+    transform: rotate(-8deg) scale(1.05);
+  }
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    border-radius: 0.6rem;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--fg-muted);
+    transition: color 200ms ease;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0.8rem;
+    right: 0.8rem;
+    bottom: 0.3rem;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 350ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .nav-link:hover {
+    color: var(--fg);
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+  .nav-link[aria-current='page'] {
+    color: var(--primary);
+  }
+  .icon-btn {
+    display: inline-flex;
+    height: 2.25rem;
+    width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    color: var(--fg-muted);
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+  .icon-btn:hover {
+    background: var(--bg-alt);
+    color: var(--fg);
+  }
+  .mobile-menu {
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    max-height: calc(100dvh - 4rem);
+    overflow-y: auto;
+  }
+  .mobile-link {
+    display: block;
+    border-radius: 0.75rem;
+    padding: 0.55rem 0.75rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--fg);
+  }
+  .mobile-link[aria-current='page'] {
+    color: var(--accent);
+  }
+  .mobile-item {
+    animation: menu-in 500ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--reveal-i, 0) * 50ms);
+  }
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+</style>
+
 <script>
-  function bindNavbar() {
-    const button = document.getElementById('mobile-menu-button');
-    const menu = document.getElementById('mobile-menu');
-    if (!button || !menu) return;
-    button.addEventListener('click', () => {
-      const open = menu.classList.toggle('hidden') === false;
+  const button = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
+  if (button && menu) {
+    const setOpen = (open: boolean) => {
+      menu.hidden = !open;
       button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       button.querySelector('.menu-open-icon')?.classList.toggle('hidden', open);
       button.querySelector('.menu-close-icon')?.classList.toggle('hidden', !open);
-    });
-
-    // "/" focuses search from anywhere
+    };
+    button.addEventListener('click', () => setOpen(menu.hasAttribute('hidden')));
     document.addEventListener('keydown', (e) => {
-      if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
-        e.preventDefault();
-        window.location.href = '/search';
-      }
+      if (e.key === 'Escape' && !menu.hidden) setOpen(false);
     });
   }
-  bindNavbar();
+
+  // "/" opens search from anywhere (except while typing).
+  document.addEventListener('keydown', (e) => {
+    const t = e.target as HTMLElement;
+    if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(t.tagName) && !t.isContentEditable) {
+      e.preventDefault();
+      window.location.href = '/search';
+    }
+  });
 </script>

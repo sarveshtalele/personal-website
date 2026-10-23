@@ -1,13 +1,17 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
-import GitHubRepoExplorer from '@components/GitHubRepoExplorer.astro';
+import ProjectExplorer from '@components/ProjectExplorer.astro';
+import GithubPanel from '@components/GithubPanel.astro';
 ---
 
 <PageLayout
   title="Projects"
-  description="Agentic AI systems, LLM infrastructure, and tools I've designed and shipped, pulled live from GitHub."
+  description="Agentic systems, MCP servers, Claude skills, RAG pipelines, and ML experiments. Every public repository, pinned picks first, with live stars and forks from GitHub."
   eyebrow="Portfolio"
   crumbs={[{ label: 'Projects' }]}
 >
-  <GitHubRepoExplorer mode="categorized" />
+  <div class="mb-12">
+    <GithubPanel />
+  </div>
+  <ProjectExplorer />
 </PageLayout>

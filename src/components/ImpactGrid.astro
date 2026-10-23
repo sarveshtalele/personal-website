@@ -1,0 +1,41 @@
+---
+import { ArrowUpRight } from '@lucide/astro';
+import { getDashboard } from '@lib/content';
+
+interface Props {
+  limit?: number;
+}
+const { limit } = Astro.props;
+const dashboard = await getDashboard();
+const items = limit ? dashboard.impact.slice(0, limit) : dashboard.impact;
+const isExternal = (href: string) => href.startsWith('http');
+---
+
+<div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+  {
+    items.map((m, i) => (
+      <a
+        href={m.proof}
+        class:list={[
+          'impact-tile card card-hover card-gilded group flex flex-col p-5 sm:p-6',
+          `reveal-i-${(i % 5) + 1}`,
+        ]}
+        data-reveal
+        {...(isExternal(m.proof) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
+        <p class="font-display text-4xl font-semibold leading-none text-gold sm:text-5xl" data-count>
+          {m.value}
+        </p>
+        <p class="mt-3 text-sm font-semibold text-fg">{m.label}</p>
+        <p class="mt-1 flex-1 text-xs leading-relaxed text-fg-muted">{m.context}</p>
+        <span class="mt-4 inline-flex items-center gap-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-accent">
+          Proof · {m.proofLabel}
+          <ArrowUpRight
+            class="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            aria-hidden="true"
+          />
+        </span>
+      </a>
+    ))
+  }
+</div>

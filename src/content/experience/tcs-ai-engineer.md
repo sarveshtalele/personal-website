@@ -5,6 +5,7 @@ title: System Engineer
 location: Thane, India
 startDate: 2022-06-01
 current: true
+companyUrl: https://www.tcs.com
 highlights:
   - "Partnered directly with the CXO's office and leadership to architect Agentic AI automations, accelerating Total Contract Value (TCV) growth by 25% and reducing executive workflow bottlenecks by 40%."
   - "Deployed autonomous workflows to analyse 500+ monthly client meetings and streamline engagement pipelines, increasing follow-up efficiency by 35% and driving data-backed strategic conversions."

@@ -1,0 +1,38 @@
+---
+/**
+ * Maps the short icon names used in Markdown frontmatter (personas, dashboard
+ * highlights) to lucide icons, so content files never import components.
+ */
+import {
+  Brain,
+  Cpu,
+  Compass,
+  Feather,
+  Globe,
+  BookOpen,
+  ShieldCheck,
+  FlaskConical,
+  Trophy,
+  Sparkles,
+} from '@lucide/astro';
+
+interface Props {
+  name: string;
+  class?: string;
+}
+const { name, class: className } = Astro.props;
+const ICONS = {
+  brain: Brain,
+  cpu: Cpu,
+  compass: Compass,
+  feather: Feather,
+  globe: Globe,
+  book: BookOpen,
+  shield: ShieldCheck,
+  flask: FlaskConical,
+  trophy: Trophy,
+} as const;
+const Cmp = ICONS[name as keyof typeof ICONS] ?? Sparkles;
+---
+
+<Cmp class={className} aria-hidden="true" />

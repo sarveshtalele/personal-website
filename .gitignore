@@ -24,3 +24,8 @@ pnpm-debug.log*
 
 # macOS
 .DS_Store
+
+# generated from src/content/claude/questions/*.md by scripts/build-claude-data.mjs
+public/claude/review/questions.json
+public/claude/review/concepts.json
+public/claude/quiz/questions.json

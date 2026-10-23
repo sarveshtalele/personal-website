@@ -1,256 +1,218 @@
 ---
 import { getCollection } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
-import { Sparkles, ArrowRight, ShieldCheck, ExternalLink, Coffee, Clock, GraduationCap, BookOpen, FileText } from '@lucide/astro';
-import { formatDate } from '@utils/format';
+import {
+  ArrowRight,
+  BadgeCheck,
+  BookOpen,
+  Clock,
+  GraduationCap,
+  Timer,
+  Layers,
+  Library,
+  Coffee,
+  ExternalLink,
+} from '@lucide/astro';
+import GithubIcon from '@components/icons/GithubIcon.astro';
+import { getProfile } from '@lib/content';
+import { formatDate, byDateDesc } from '@utils/format';
+import claudeStats from '../../data/claude-stats.json';
 
-const EXAM_REPO = 'https://github.com/sarveshtalele/claude-architect-exam-guide';
-const EXAM_REPO_FOUNDATIONS = 'https://github.com/sarveshtalele/claude-architect-exam-guide/tree/main/foundations';
-const TOPMATE = 'https://topmate.io/sarveshtalele';
-
-const certifications = (await getCollection('certifications'))
+const { data: profile } = await getProfile();
+const certs = (await getCollection('certifications'))
   .filter((c) => c.data.title.includes('Claude Certified Architect'))
-  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+  .sort(byDateDesc((c) => c.data.date));
+const exams = (await getCollection('claudeExams')).sort(
+  (a, b) => (a.data.status === 'live' ? -1 : 1) - (b.data.status === 'live' ? -1 : 1),
+);
+const EXAM_REPO = 'https://github.com/sarveshtalele/claude-architect-exam-guide';
 ---
 
 <PageLayout
   title="Claude"
-  description="Claude Certified Architect badges, guides, and products, everything on this site specific to the Claude ecosystem."
-  eyebrow="Anthropic · Claude"
+  description={`Two Anthropic certifications, a free mock exam, a ${claudeStats.total}-question study library, and the open-source exam guide. Everything I build and teach about Claude, in one place.`}
+  eyebrow="Anthropic · Claude Certified Architect"
   crumbs={[{ label: 'Claude' }]}
 >
-  <div class="claude-page">
-    <a
-      href="/"
-      class="mb-6 inline-flex items-center gap-1.5 rounded-full border border-(--claude-line) bg-(--claude-chip) px-3.5 py-1.5 text-sm font-medium text-(--claude-ink) transition-transform hover:-translate-y-0.5"
-    >
-      &larr; Back to home
-    </a>
-    <div class="claude-hero relative overflow-hidden rounded-2xl p-8 sm:p-12">
-      <span class="inline-flex items-center gap-1.5 rounded-full border border-(--claude-line) bg-(--claude-chip) px-3 py-1 text-xs font-medium text-(--claude-ink)">
-        <Sparkles class="h-3.5 w-3.5" aria-hidden="true" /> Claude Certified Architect
-      </span>
-      <h1 class="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-(--claude-ink) sm:text-4xl">
-        Everything I build and write about Claude, in one place.
-      </h1>
-      <p class="mt-3 max-w-xl text-(--claude-ink-muted)">
-        Both Claude architecture tracks, exam guides, and the sessions I run for people navigating the Claude
-        ecosystem, whether you're technical or not.
-      </p>
-    </div>
-
-    {/* Mock exam, the free practice product */}
-    <section class="mt-14">
-      <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-(--claude-accent)">Practice</p>
-      <div class="claude-card claude-card-accent overflow-hidden rounded-2xl p-6 sm:p-8">
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div class="max-w-2xl">
-            <span class="inline-flex items-center gap-1.5 rounded-full border border-(--claude-line) bg-(--claude-chip) px-3 py-1 text-xs font-medium text-(--claude-ink)">
-              <GraduationCap class="h-3.5 w-3.5" aria-hidden="true" /> Free CCAR-F Mock Exam
-            </span>
-            <h2 class="mt-3 text-2xl font-bold tracking-tight text-(--claude-ink)">
-              Sit a full mock exam for the Claude Certified Architect, Foundations exam
-            </h2>
-            <p class="mt-2 text-(--claude-ink-muted)">
-              A timed, 60-question mock exam that mirrors the real CCAR-F format, scored by domain, plus an
-              untimed practice mode with full explanations. Or study the complete bank of{' '}
-              <strong class="text-(--claude-ink)">360 questions</strong> in the Learn &amp; Review library, each with
-              the exact documentation page to read.
+  {/* Credentials */}
+  <div class="grid gap-6 sm:grid-cols-2">
+    {
+      certs.map((cert, i) => (
+        <div class:list={['card card-gilded flex items-center gap-5 p-6', `reveal-i-${i + 1}`]} data-reveal>
+          {cert.data.badge && (
+            <img
+              src={cert.data.badge}
+              alt={`${cert.data.title} badge`}
+              width="112"
+              height="112"
+              class="h-24 w-24 shrink-0 object-contain drop-shadow-lg sm:h-28 sm:w-28"
+            />
+          )}
+          <div class="min-w-0">
+            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-accent">
+              {cert.data.issuer} · {formatDate(cert.data.date)}
             </p>
-            <p class="claude-warning mt-4 text-sm">
-              <strong>Heads up:</strong> these are <strong>not official exam questions</strong> and are not affiliated
-              with or endorsed by Anthropic. They're written to strengthen your understanding and reflect the
-              <em>style</em> of scenario-based reasoning the exam rewards.
+            <p class="mt-1 font-display text-2xl font-semibold leading-tight text-fg">
+              {cert.data.title.replace('Claude Certified Architect: ', '')}
             </p>
-          </div>
-          <div class="flex shrink-0 flex-col gap-3">
-            <a
-              href="/claude/quiz"
-              class="inline-flex items-center justify-center gap-2 rounded-xl bg-(--claude-accent) px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
-            >
-              Start the mock exam <ArrowRight class="h-4 w-4" aria-hidden="true" />
-            </a>
-            <a
-              href="/claude/review"
-              class="inline-flex items-center justify-center gap-2 rounded-xl border border-(--claude-line) bg-(--claude-chip) px-5 py-3 text-sm font-semibold text-(--claude-ink) transition-transform hover:-translate-y-0.5"
-            >
-              Learn &amp; review all 360 <ArrowRight class="h-4 w-4" aria-hidden="true" />
-            </a>
+            <p class="text-sm text-fg-muted">Claude Certified Architect</p>
+            {cert.data.credentialUrl && (
+              <a href={cert.data.credentialUrl} target="_blank" rel="noopener noreferrer" class="verify-btn mt-3">
+                <BadgeCheck class="h-3.5 w-3.5" aria-hidden="true" /> Verify on Credly{' '}
+                <ExternalLink class="h-3 w-3" aria-hidden="true" />
+              </a>
+            )}
           </div>
         </div>
-      </div>
-    </section>
+      ))
+    }
+  </div>
 
-    {/* Dashboard, certifications + products (unchanged three cards) */}
-    <section class="mt-14">
-      <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-(--claude-accent)">Dashboard</p>
-      <div class="grid gap-6 lg:grid-cols-3">
-        {
-          certifications.map((cert) => (
-            <div class="claude-card flex flex-col items-center gap-4 rounded-2xl p-6 text-center">
-              {cert.data.badge && (
-                <img
-                  src={cert.data.badge}
-                  alt={cert.data.title}
-                  width="120"
-                  height="120"
-                  class="h-28 w-28 rounded-xl object-contain"
-                />
-              )}
-              <div>
-                <p class="flex items-center justify-center gap-1.5 text-sm font-semibold text-(--claude-ink)">
-                  <ShieldCheck class="h-4 w-4 text-(--claude-accent)" aria-hidden="true" />
-                  {cert.data.title}
-                </p>
-                <p class="mt-1 text-xs text-(--claude-ink-muted)">{cert.data.issuer} · {formatDate(cert.data.date)}</p>
-              </div>
-              {cert.data.credentialUrl && (
-                <a
-                  href={cert.data.credentialUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 rounded-full border border-(--claude-accent) bg-(--claude-accent) px-4 py-1.5 text-xs font-semibold text-white transition-transform hover:-translate-y-0.5"
-                >
-                  Verify <ExternalLink class="h-3 w-3" aria-hidden="true" />
-                </a>
-              )}
+  {/* Practice */}
+  <section class="mt-20">
+    <p class="eyebrow">Practice, free</p>
+    <h2 class="mt-3 font-display text-4xl font-semibold text-fg sm:text-5xl">Prepare for CCAR-F</h2>
+    <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4" data-reveal>
+      {
+        [
+          { v: claudeStats.total, l: 'Practice questions', I: Library },
+          { v: claudeStats.mock, l: 'In the timed mock', I: Timer },
+          { v: claudeStats.tasks, l: 'Task statements', I: Layers },
+          { v: claudeStats.domains, l: 'Exam domains', I: BookOpen },
+        ].map(({ v, l, I }) => (
+          <div class="card p-4">
+            <I class="h-4 w-4 text-accent" aria-hidden="true" />
+            <p class="mt-2 font-display text-4xl font-semibold leading-none text-fg" data-count>
+              {v}
+            </p>
+            <p class="mt-1 text-xs text-fg-muted">{l}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-6 grid gap-6 lg:grid-cols-3">
+      <a
+        href="/claude/quiz"
+        class="claude-tile card card-hover card-gilded group flex flex-col p-7 lg:col-span-2"
+        data-reveal
+      >
+        <span class="chip chip-gold w-fit"
+          ><GraduationCap class="h-3.5 w-3.5" aria-hidden="true" /> Exam conditions</span
+        >
+        <h3 class="mt-4 font-display text-3xl font-semibold text-fg sm:text-4xl">The mock exam</h3>
+        <p class="mt-2 max-w-xl flex-1 text-fg-muted">
+          {claudeStats.mock} questions, 120 minutes, scored by domain like the real CCAR-F. Or switch to untimed practice
+          for instant feedback on every option. Progress survives a refresh.
+        </p>
+        <span class="link-arrow mt-6 text-sm font-semibold"
+          >Start now <ArrowRight class="h-4 w-4" aria-hidden="true" /></span
+        >
+      </a>
+      <a href="/claude/review" class="claude-tile card card-hover card-gilded group flex flex-col p-7" data-reveal>
+        <span class="chip w-fit"><BookOpen class="h-3.5 w-3.5" aria-hidden="true" /> Study library</span>
+        <h3 class="mt-4 font-display text-3xl font-semibold text-fg">Learn &amp; review</h3>
+        <p class="mt-2 flex-1 text-fg-muted">
+          All {claudeStats.total} questions grouped by task statement, with a test mode and the exact doc to read.
+        </p>
+        <span class="link-arrow mt-6 text-sm font-semibold"
+          >Open library <ArrowRight class="h-4 w-4" aria-hidden="true" /></span
+        >
+      </a>
+    </div>
+    <p class="mt-4 rounded-xl border border-line bg-surface px-4 py-3 text-sm text-fg-muted">
+      <strong class="text-primary">Heads up:</strong> these are original practice questions, <strong
+        >not official exam questions</strong
+      >, and are not affiliated with or endorsed by Anthropic.
+    </p>
+  </section>
+
+  {/* Exam guides */}
+  <section class="mt-20">
+    <p class="eyebrow">Study guides</p>
+    <h2 class="mt-3 font-display text-4xl font-semibold text-fg sm:text-5xl">Both tracks</h2>
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        exams.map((e) =>
+          e.data.status === 'live' ? (
+            <a href={`/claude/${e.id}`} class="card card-hover card-gilded flex flex-col p-6" data-reveal>
+              <span class="chip chip-gold w-fit">{e.data.code}</span>
+              <h3 class="mt-3 font-display text-2xl font-semibold text-fg">{e.data.title}</h3>
+              <p class="mt-2 flex-1 text-sm text-fg-muted">{e.data.description}</p>
+              <span class="link-arrow mt-5 text-sm font-semibold">
+                Read the guide <ArrowRight class="h-4 w-4" aria-hidden="true" />
+              </span>
+            </a>
+          ) : (
+            <div class="card flex flex-col p-6 opacity-85" data-reveal>
+              <span class="chip w-fit">
+                <Clock class="h-3.5 w-3.5" aria-hidden="true" /> {e.data.code} · Coming soon
+              </span>
+              <h3 class="mt-3 font-display text-2xl font-semibold text-fg">{e.data.title}</h3>
+              <p class="mt-2 flex-1 text-sm text-fg-muted">{e.data.description}</p>
+              <a
+                href={e.data.repo}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link-arrow mt-5 text-sm font-semibold"
+              >
+                Follow on GitHub <ExternalLink class="h-3.5 w-3.5" aria-hidden="true" />
+              </a>
             </div>
-          ))
-        }
+          ),
+        )
+      }
+      <a
+        href={EXAM_REPO}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="card card-hover flex flex-col p-6"
+        data-reveal
+      >
+        <span class="chip w-fit"><GithubIcon class="h-3.5 w-3.5" /> Open source</span>
+        <h3 class="mt-3 font-display text-2xl font-semibold text-fg">Exam guide repo</h3>
+        <p class="mt-2 flex-1 text-sm text-fg-muted">
+          The study hub: blueprints, a slash-command study skill, and copy-paste prompt packs for learning and mock
+          tests.
+        </p>
+        <img
+          src="https://img.shields.io/github/stars/sarveshtalele/claude-architect-exam-guide?style=for-the-badge&logo=github&label=Stars&color=a67c3d"
+          alt="GitHub stars for claude-architect-exam-guide"
+          height="28"
+          loading="lazy"
+          class="mt-5 h-7 w-fit"
+        />
+      </a>
+    </div>
+  </section>
 
-        <div class="claude-card claude-card-accent flex flex-col justify-between gap-6 rounded-2xl p-6 sm:col-span-2 lg:col-span-1">
-          <div>
-            <span class="inline-flex items-center gap-1.5 rounded-full border border-(--claude-line) bg-(--claude-chip) px-3 py-1 text-xs font-medium text-(--claude-ink)">
-              <Coffee class="h-3.5 w-3.5" aria-hidden="true" /> My Claude Products
+  {/* Products */}
+  {
+    profile.socials.topmate && (
+      <section class="mt-20">
+        <div
+          class="card card-gilded flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"
+          data-reveal
+        >
+          <div class="max-w-2xl">
+            <span class="chip chip-gold w-fit">
+              <Coffee class="h-3.5 w-3.5" aria-hidden="true" /> 1:1 sessions
             </span>
-            <p class="mt-3 text-sm text-(--claude-ink-muted)">
-              1:1 Claude architecture reviews, exam prep sessions, and build sessions, book directly, no
-              back-and-forth.
+            <h2 class="mt-3 font-display text-3xl font-semibold text-fg">Architecture reviews &amp; exam coaching</h2>
+            <p class="mt-2 text-fg-muted">
+              Claude architecture reviews, CCAR-F/P exam prep, and hands-on build sessions. Book directly.
             </p>
           </div>
           <a
-            href={TOPMATE}
+            href={profile.socials.topmate}
             target="_blank"
-            rel="noopener"
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-(--claude-accent) px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+            rel="noopener noreferrer"
+            class="btn-primary relative inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 text-sm font-semibold"
           >
             Book on Topmate <ArrowRight class="h-4 w-4" aria-hidden="true" />
           </a>
         </div>
-      </div>
-    </section>
-
-    {/* Exam prep, replaces the old blog section */}
-    <section class="mt-14">
-      <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-(--claude-accent)">Exam Prep</p>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <a href="/claude/foundations" class="claude-card flex h-full flex-col gap-3 rounded-2xl p-6">
-          <span class="inline-flex w-fit items-center gap-1.5 rounded-full border border-(--claude-line) bg-(--claude-chip) px-3 py-1 text-xs font-medium text-(--claude-ink)">
-            <BookOpen class="h-3.5 w-3.5" aria-hidden="true" /> CCAR-F
-          </span>
-          <h3 class="text-lg font-semibold leading-snug tracking-tight text-(--claude-ink)">
-            Preparing for the Claude Foundation exam
-          </h3>
-          <p class="flex-1 text-sm text-(--claude-ink-muted)">
-            The blueprint, domains, task statements, and a study plan for the Foundations (CCAR-F) tier, plus a link
-            straight into the mock exam.
-          </p>
-          <span class="inline-flex items-center gap-1 text-sm font-medium text-(--claude-accent)">
-            Open the guide <ArrowRight class="h-4 w-4" aria-hidden="true" />
-          </span>
-        </a>
-
-        <a href={EXAM_REPO_FOUNDATIONS} target="_blank" rel="noopener" class="claude-card flex h-full flex-col gap-3 rounded-2xl p-6">
-          <span class="inline-flex w-fit items-center gap-1.5 rounded-full border border-(--claude-line) bg-(--claude-chip) px-3 py-1 text-xs font-medium text-(--claude-ink)">
-            <FileText class="h-3.5 w-3.5" aria-hidden="true" /> GitHub
-          </span>
-          <h3 class="text-lg font-semibold leading-snug tracking-tight text-(--claude-ink)">
-            Exam guide &amp; resources repo
-          </h3>
-          <p class="flex-1 text-sm text-(--claude-ink-muted)">
-            The open-source study hub: Foundations blueprint, a slash-command study skill, and copy-paste prompt packs
-            for learning, practice, and mock tests.
-          </p>
-          <span class="inline-flex items-center gap-1 text-sm font-medium text-(--claude-accent)">
-            View on GitHub <ExternalLink class="h-3.5 w-3.5" aria-hidden="true" />
-          </span>
-        </a>
-
-        <div class="claude-card flex h-full flex-col gap-3 rounded-2xl p-6 opacity-80">
-          <span class="inline-flex w-fit items-center gap-1.5 rounded-full border border-(--claude-line) bg-(--claude-chip) px-3 py-1 text-xs font-medium text-(--claude-ink-muted)">
-            <Clock class="h-3.5 w-3.5" aria-hidden="true" /> CCAR-P · Coming soon
-          </span>
-          <h3 class="text-lg font-semibold leading-snug tracking-tight text-(--claude-ink)">
-            Preparing for the Professional exam
-          </h3>
-          <p class="flex-1 text-sm text-(--claude-ink-muted)">
-            The Professional-track write-up and practice set are on the way, once I've sat the exam, the full study
-            path lands here.
-          </p>
-          <a href={EXAM_REPO} target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-sm font-medium text-(--claude-accent) hover:underline">
-            Browse the repo <ExternalLink class="h-3.5 w-3.5" aria-hidden="true" />
-          </a>
-        </div>
-      </div>
-    </section>
-  </div>
+      </section>
+    )
+  }
 </PageLayout>
-
-<style>
-  /*
-   * Self-contained Claude brand palette (Anthropic's warm clay/cream
-   * language), scoped to this page only, same isolation pattern as
-   * SpaceDashboard's cosmic theme. Doesn't touch the site's global tokens.
-   */
-  .claude-page {
-    --claude-bg: #f0eee6;
-    --claude-card: #fffdf9;
-    --claude-ink: #262624;
-    --claude-ink-muted: #6b6a63;
-    --claude-line: #e3ddd0;
-    --claude-chip: #f5efe4;
-    --claude-accent: #cc785c;
-    --claude-accent-strong: #b35f45;
-  }
-  :global(.dark) .claude-page {
-    --claude-bg: #262624;
-    --claude-card: #2f2e2b;
-    --claude-ink: #f0eee6;
-    --claude-ink-muted: #b5b2a6;
-    --claude-line: #46443e;
-    --claude-chip: #3a3833;
-    --claude-accent: #e0956f;
-    --claude-accent-strong: #eeb290;
-  }
-
-  .claude-hero {
-    background: linear-gradient(135deg, var(--claude-bg) 0%, var(--claude-chip) 100%);
-    border: 1px solid var(--claude-line);
-  }
-
-  .claude-card {
-    background-color: var(--claude-card);
-    border: 1px solid var(--claude-line);
-    box-shadow: var(--shadow-card);
-    transition: transform 200ms ease, box-shadow 200ms ease;
-  }
-  a.claude-card:hover,
-  .claude-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-card-hover);
-  }
-  .claude-card-accent {
-    background: linear-gradient(160deg, var(--claude-card) 0%, var(--claude-chip) 100%);
-  }
-  .claude-warning {
-    border: 1px solid var(--claude-line);
-    background: var(--claude-chip);
-    color: var(--claude-ink);
-    border-radius: 0.75rem;
-    padding: 0.7rem 0.9rem;
-    line-height: 1.5;
-  }
-  .claude-warning strong {
-    color: var(--claude-accent-strong);
-  }
-</style>

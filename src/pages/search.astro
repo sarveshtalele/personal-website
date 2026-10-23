@@ -6,12 +6,13 @@ import Container from '@components/Container.astro';
 <BaseLayout title="Search" description="Search projects, publications, certifications, and Claude exam-prep pages.">
   <link rel="stylesheet" href="/pagefind/pagefind-ui.css" slot="head" />
   <Container size="narrow" class="py-14">
-    <h1 class="text-3xl font-bold tracking-tight text-fg">Search</h1>
-    <p class="mt-3 text-fg-muted">Search across every project, publication, and page on this site.</p>
+    <p class="eyebrow">Find anything</p>
+    <h1 class="mt-4 font-display text-5xl font-semibold tracking-tight text-fg">Search</h1>
+    <p class="mt-3 text-fg-muted">Search every blog post, project, Claude guide, and page on this site.</p>
     <div id="search" class="mt-8"></div>
     <p id="search-fallback" class="hidden text-sm text-fg-faint">
-      The search index is generated during <code>pnpm build</code> and isn't available in dev mode. Run a
-      production build to try it locally, or use the deployed site.
+      The search index is generated during <code>pnpm build</code> and isn't available in dev mode. Run a production build
+      to try it locally, or use the deployed site.
     </p>
   </Container>
 </BaseLayout>

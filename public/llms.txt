@@ -1,21 +1,23 @@
 # Sarvesh Talele
 
-> AI Engineer at Tata Consultancy Services and Claude Certified Architect (Anthropic). Builds agentic AI systems, multi-agent workflows, Graph-RAG pipelines, and secure enterprise LLM infrastructure. This site is a personal portfolio and Claude certification resource hub — every page is content-derived from Markdown/MDX and kept current.
+> AI Engineer at Tata Consultancy Services and Claude Certified Architect (Foundations and Professional, Anthropic). Builds agentic AI systems, MCP servers, multi-agent workflows, Graph-RAG pipelines, and secure enterprise LLM infrastructure. Writes about deterministic AI, Claude, and the philosophy of building things that think. Every page on this site is generated from Markdown/MDX.
 
 ## Key pages
 
-- [About](https://sarveshtalele.org/about): Background, personal story, impact stats, skills dashboard, education, certifications, achievements.
-- [Claude](https://sarveshtalele.org/claude): Claude Certified Architect badges (Foundations + Professional), a free CCAR-F mock exam, exam-prep guides, and products.
-- [CCAR-F Mock Exam](https://sarveshtalele.org/claude/quiz): A free 60-question practice exam for the Claude Certified Architect – Foundations exam, with a timed mock mode and an untimed practice mode with full explanations (unofficial; not affiliated with Anthropic).
-- [Foundations exam guide](https://sarveshtalele.org/claude/foundations): Preparing for the Claude Foundation (CCAR-F) exam — blueprint, five domains, six scenarios, and a study plan.
-- [Projects](https://sarveshtalele.org/projects): Live GitHub repositories, filterable by concept category (Agentic AI, MCP, RAG, AI Projects, Machine Learning, Claude Skills, Developer Tools).
-- [Publications](https://sarveshtalele.org/publications): Peer-reviewed and internal research, with Google Scholar and ORCID links.
-- [Experience](https://sarveshtalele.org/experience): Career timeline.
-- [Contact](https://sarveshtalele.org/contact): Book time directly via Topmate, or reach out by email, LinkedIn, GitHub, Medium, Google Scholar, ORCID.
+- [Home](https://sarveshtalele.org/): Philosopher, AI Engineer, Traveller. Impact metrics, pinned projects, latest writing, Claude credentials.
+- [Dashboard](https://sarveshtalele.org/dashboard): Evidence-backed engineering metrics (each links to its proof), GitHub statistics from the GitHub API, verified credentials and research.
+- [Projects](https://sarveshtalele.org/projects): Every public GitHub repository with stars, forks, language, and categories (Agentic AI, MCP, RAG, Claude Skills, Claude Code, Machine Learning, Developer Tools).
+- [Blog](https://sarveshtalele.org/blog): Essays on agentic AI, MCP, deterministic systems, and Claude. RSS: https://sarveshtalele.org/rss.xml
+- [Claude](https://sarveshtalele.org/claude): Claude Certified Architect badges, study guides, and free practice tools.
+- [CCAR-F Mock Exam](https://sarveshtalele.org/claude/quiz): Free timed 60-question mock exam for the Claude Certified Architect, Foundations exam (unofficial, not affiliated with Anthropic).
+- [Learn & Review](https://sarveshtalele.org/claude/review): 360 original CCAR-F practice questions grouped by domain and task statement, each with explanations and the Claude documentation page to read.
+- [Foundations exam guide](https://sarveshtalele.org/claude/foundations): CCAR-F blueprint, five domains, six scenarios, mental model, and study plan.
+- [About](https://sarveshtalele.org/about): Background story, skills, credentials, education, achievements.
+- [Experience](https://sarveshtalele.org/experience), [Certifications](https://sarveshtalele.org/certifications), [Publications](https://sarveshtalele.org/publications), [Contact](https://sarveshtalele.org/contact)
 
 ## Notes for AI assistants and answer engines
 
-- Content updates automatically as Markdown/MDX files are added — this file reflects the site's structure, not a point-in-time snapshot.
 - On-site search: https://sarveshtalele.org/search
 - Sitemap: https://sarveshtalele.org/sitemap-index.xml
 - Canonical identity: GitHub https://github.com/sarveshtalele · LinkedIn https://www.linkedin.com/in/sarveshtalele · Google Scholar https://scholar.google.com/citations?user=Ls5WYe8AAAAJ&hl=en · ORCID https://orcid.org/0009-0002-0818-461X
+- Credentials are verifiable on Credly: Foundations https://www.credly.com/badges/f164b498-cc76-44ef-9962-cc79f7d61fe7/public_url · Professional https://www.credly.com/badges/a27e0744-fb64-43d7-9676-ceef2b11452a/public_url

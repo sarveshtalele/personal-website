@@ -1,0 +1,29 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import BlogCard from '@components/BlogCard.astro';
+import { getPosts } from '@lib/content';
+import { minutesRead, tagIndex } from '@lib/blog';
+import { slugifyTag } from '@utils/format';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return tagIndex(posts).map((t) => ({
+    params: { tag: t.slug },
+    props: { label: t.label, posts: posts.filter((p) => p.data.tags.some((x) => slugifyTag(x) === t.slug)) },
+  }));
+}
+const { label, posts } = Astro.props;
+const minutes = Object.fromEntries(await Promise.all(posts.map(async (p) => [p.id, await minutesRead(p)] as const)));
+---
+
+<PageLayout
+  title={`#${label}`}
+  description={`${posts.length} post${posts.length === 1 ? '' : 's'} tagged “${label}”.`}
+  eyebrow="Tag"
+  crumbs={[{ label: 'Blog', href: '/blog' }, { label }]}
+>
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {posts.map((p) => <BlogCard post={p} minutes={minutes[p.id]} />)}
+  </div>
+  <a href="/blog" class="link-arrow mt-10 text-sm font-medium">← All posts</a>
+</PageLayout>

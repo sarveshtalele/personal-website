@@ -9,7 +9,7 @@ name: Retry Pages Deploy on Failure
 # rerun each time.
 on:
   workflow_run:
-    workflows: ["Deploy to GitHub Pages"]
+    workflows: ['Deploy to GitHub Pages']
     types: [completed]
 
 permissions:

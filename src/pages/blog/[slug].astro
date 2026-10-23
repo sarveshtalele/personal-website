@@ -1,0 +1,78 @@
+---
+import { render } from 'astro:content';
+import ArticleLayout from '@layouts/ArticleLayout.astro';
+import BlogCard from '@components/BlogCard.astro';
+import { mdxComponents } from '@components/mdx-components';
+import { getPosts } from '@lib/content';
+import { minutesRead } from '@lib/blog';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1], all: posts },
+  }));
+}
+
+const { post, newer, older, all } = Astro.props;
+const { Content, headings, remarkPluginFrontmatter } = await render(post);
+const { title, description, pubDate, updatedDate, tags, category, cover, coverAlt, canonical } = post.data;
+const related = all.filter((p) => p.id !== post.id && p.data.tags.some((t) => tags.includes(t))).slice(0, 3);
+const relatedMinutes = Object.fromEntries(
+  await Promise.all(related.map(async (p) => [p.id, await minutesRead(p)] as const)),
+);
+---
+
+<ArticleLayout
+  title={title}
+  description={description}
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  minutesRead={Number(remarkPluginFrontmatter.minutesRead ?? 1)}
+  tags={tags}
+  category={category}
+  heroImage={cover}
+  heroAlt={coverAlt}
+  headings={headings}
+  originalUrl={canonical}
+  crumbs={[{ label: 'Blog', href: '/blog' }, { label: title }]}
+  showShare
+  showComments
+>
+  <Content components={mdxComponents} />
+
+  <div slot="after">
+    {
+      (newer || older) && (
+        <nav class="mt-16 grid gap-4 border-t border-line pt-8 sm:grid-cols-2" aria-label="More posts">
+          {older ? (
+            <a href={`/blog/${older.id}`} class="card card-hover p-5">
+              <p class="text-xs uppercase tracking-[0.2em] text-fg-faint">← Older</p>
+              <p class="mt-1 font-display text-xl font-semibold text-fg">{older.data.title}</p>
+            </a>
+          ) : (
+            <span />
+          )}
+          {newer && (
+            <a href={`/blog/${newer.id}`} class="card card-hover p-5 text-right">
+              <p class="text-xs uppercase tracking-[0.2em] text-fg-faint">Newer →</p>
+              <p class="mt-1 font-display text-xl font-semibold text-fg">{newer.data.title}</p>
+            </a>
+          )}
+        </nav>
+      )
+    }
+    {
+      related.length > 0 && (
+        <section class="mt-16">
+          <p class="eyebrow">Keep reading</p>
+          <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {related.map((p) => (
+              <BlogCard post={p} minutes={relatedMinutes[p.id]} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</ArticleLayout>

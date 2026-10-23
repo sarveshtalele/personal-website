@@ -4,80 +4,120 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import Container from '@components/Container.astro';
 import Section from '@components/Section.astro';
-import PublicationCard from '@components/PublicationCard.astro';
-import SkillsDashboard from '@components/SkillsDashboard.astro';
-import SpaceDashboard from '@components/SpaceDashboard.astro';
+import ImpactGrid from '@components/ImpactGrid.astro';
+import RepoCard from '@components/RepoCard.astro';
+import BlogCard from '@components/BlogCard.astro';
 import Timeline from '@components/Timeline.astro';
-import GitHubRepoExplorer from '@components/GitHubRepoExplorer.astro';
+import QuoteInterlude from '@components/QuoteInterlude.astro';
 import TopmateCTA from '@components/TopmateCTA.astro';
-import { Award } from '@lucide/astro';
+import { GraduationCap, BookOpen, MapPin } from '@lucide/astro';
+import { getProfile, getPosts, getProjectSettings, getTravel } from '@lib/content';
+import { getGithubStats } from '@lib/github';
+import { minutesRead } from '@lib/blog';
 import { byDateDesc, formatDate } from '@utils/format';
-import { SITE } from '@lib/site';
+import claudeStats from '../data/claude-stats.json';
 
+const { data: profile } = await getProfile();
+const settings = await getProjectSettings();
+const gh = await getGithubStats();
+const posts = (await getPosts()).slice(0, 3);
+const minutes = Object.fromEntries(await Promise.all(posts.map(async (p) => [p.id, await minutesRead(p)] as const)));
 const experience = (await getCollection('experience')).sort(byDateDesc((e) => e.data.startDate));
-
-const certifications = (await getCollection('certifications')).sort(byDateDesc((c) => c.data.date));
-
-const publications = (await getCollection('publications')).sort(byDateDesc((p) => p.data.pubDate));
-
-const siteStats = [
-  { value: String(certifications.length), label: 'Certifications' },
-  { value: String(publications.length), label: 'Publications' },
-];
+const claudeCerts = (await getCollection('certifications'))
+  .filter((c) => c.data.featured && c.data.badge)
+  .sort(byDateDesc((c) => c.data.date));
+const travel = (await getTravel()).slice(0, 4);
+const marquee = [...profile.credentials, ...profile.credentials];
 ---
 
-<BaseLayout title={SITE.name} description={SITE.description}>
+<BaseLayout title="Sarvesh Talele">
   <Hero />
 
+  <section id="proof" class="border-y border-line bg-bg-alt/50 py-6" aria-label="Credentials">
+    <div class="marquee">
+      <ul class="marquee-track">
+        {
+          marquee.map((c, i) => (
+            <li
+              class="flex items-center gap-10 whitespace-nowrap"
+              aria-hidden={i >= profile.credentials.length ? 'true' : undefined}
+            >
+              <a
+                href={c.href}
+                class="font-display text-xl italic text-fg-muted transition-colors hover:text-accent sm:text-2xl"
+                {...(c.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                tabindex={i >= profile.credentials.length ? -1 : undefined}
+              >
+                {c.label}
+              </a>
+              <span class="text-accent" aria-hidden="true">
+                ✦
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
   <Container>
-    <Section eyebrow="Overview" title="Dashboard">
-      <SpaceDashboard siteStats={siteStats} />
-    </Section>
-
-    <Section eyebrow="Featured Work" title="Most starred repos" href="/projects" linkLabel="All projects">
-      <GitHubRepoExplorer mode="starred" limit={6} />
-    </Section>
-
-    <Section eyebrow="Claude" title="Claude Certified Architect" href="/claude" linkLabel="Explore Claude">
-      <div class="card flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p class="text-lg font-semibold text-fg">Free CCAR-F mock exam &amp; exam-prep guides</p>
-          <p class="mt-1 text-sm text-fg-muted">
-            Sit a 60-question practice exam for the Claude Certified Architect, Foundations exam, or read the
-            Foundations study guide.
-          </p>
-        </div>
-        <a
-          href="/claude/quiz"
-          class="inline-flex shrink-0 items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-strong"
-        >
-          Start the mock exam →
+    <Section
+      eyebrow="Evidence"
+      title="Impact, with receipts"
+      description="Every number links to where it can be verified."
+      href="/dashboard"
+      linkLabel="Full dashboard"
+    >
+      <ImpactGrid />
+      <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4" data-reveal>
+        <a href={gh.profileUrl} target="_blank" rel="noopener noreferrer" class="mini-stat card card-hover p-4">
+          <span class="font-display text-3xl font-semibold text-fg" data-count>{gh.stars}</span>
+          <span class="text-xs text-fg-muted">GitHub stars</span>
+        </a>
+        <a href={gh.profileUrl} target="_blank" rel="noopener noreferrer" class="mini-stat card card-hover p-4">
+          <span class="font-display text-3xl font-semibold text-fg" data-count>{gh.forks}</span>
+          <span class="text-xs text-fg-muted">Forks by others</span>
+        </a>
+        <a href="/projects" class="mini-stat card card-hover p-4">
+          <span class="font-display text-3xl font-semibold text-fg" data-count>{gh.publicRepos}</span>
+          <span class="text-xs text-fg-muted">Public repositories</span>
+        </a>
+        <a href="/claude/review" class="mini-stat card card-hover p-4">
+          <span class="font-display text-3xl font-semibold text-fg" data-count>{claudeStats.total}</span>
+          <span class="text-xs text-fg-muted">Free exam questions written</span>
         </a>
       </div>
     </Section>
+  </Container>
 
-    <Section eyebrow="Toolbox" title="Skills & technologies" href="/about" linkLabel="Full skills dashboard">
-      <SkillsDashboard />
-    </Section>
+  <QuoteInterlude />
 
-    <Section eyebrow="Career" title="Experience" href="/experience" linkLabel="Full history">
-      <Timeline entries={experience.slice(0, 2)} maxHighlights={3} />
+  <Container>
+    <Section
+      eyebrow="Selected work"
+      title="Pinned projects"
+      description="Hand-picked from GitHub. Stars and forks sync on every deploy."
+      href="/projects"
+      linkLabel="All projects"
+    >
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          gh.pinned.slice(0, 6).map((repo, i) => (
+            <div data-reveal class={`reveal-i-${(i % 3) + 1}`}>
+              <RepoCard repo={repo} categoryLabels={settings.categories} />
+            </div>
+          ))
+        }
+      </div>
     </Section>
 
     {
-      certifications.length > 0 && (
-        <Section eyebrow="Credentials" title="Certifications" href="/certifications" linkLabel="All certifications">
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {certifications.map((cert) => (
-              <div class="card flex items-start gap-4 p-5">
-                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
-                  <Award class="h-5 w-5" aria-hidden="true" />
-                </span>
-                <div class="min-w-0">
-                  <p class="text-sm font-semibold text-fg">{cert.data.title}</p>
-                  <p class="mt-0.5 text-sm text-fg-muted">{cert.data.issuer}</p>
-                  <p class="mt-0.5 text-xs text-fg-faint">{formatDate(cert.data.date)}</p>
-                </div>
+      posts.length > 0 && (
+        <Section eyebrow="Writing" title="From the journal" href="/blog" linkLabel="All posts">
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.map((p, i) => (
+              <div data-reveal class:list={[`reveal-i-${i + 1}`, posts.length === 1 && 'sm:col-span-2 lg:col-span-3']}>
+                <BlogCard post={p} minutes={minutes[p.id]} featured={posts.length === 1} />
               </div>
             ))}
           </div>
@@ -85,20 +125,90 @@ const siteStats = [
       )
     }
 
-    {
-      publications.length > 0 && (
-        <Section eyebrow="Research" title="Publications" href="/publications" linkLabel="All publications">
-          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {publications.map((pub) => (
-              <PublicationCard publication={pub} />
-            ))}
+    <Section eyebrow="Claude" title="Certified twice. Teaching it for free." href="/claude" linkLabel="Explore Claude">
+      <div
+        class="card card-gilded grid gap-8 overflow-hidden p-6 sm:p-10 lg:grid-cols-[1fr_1.2fr] lg:items-center"
+        data-reveal
+      >
+        <div class="flex items-center justify-center gap-4 sm:gap-8">
+          {
+            claudeCerts.map((c) => (
+              <a href={c.data.credentialUrl} target="_blank" rel="noopener noreferrer" class="group text-center">
+                <img
+                  src={c.data.badge}
+                  alt={`${c.data.title} badge, verify on Credly`}
+                  width="150"
+                  height="150"
+                  loading="lazy"
+                  class="mx-auto h-28 w-28 object-contain drop-shadow-xl transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-2 sm:h-36 sm:w-36"
+                />
+                <span class="mt-2 block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-accent">
+                  Verify ↗
+                </span>
+              </a>
+            ))
+          }
+        </div>
+        <div>
+          <p class="text-fg-muted">
+            I hold both Anthropic credentials and wrote a free prep library for the Foundations exam:{' '}
+            <strong class="text-fg">{claudeStats.total} scenario questions</strong> across {claudeStats.domains} domains and
+            {claudeStats.tasks} task statements, each with an explanation and the official doc to read, plus a timed {
+              claudeStats.mock
+            }-question mock exam.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a
+              href="/claude/quiz"
+              class="btn-primary relative inline-flex items-center gap-2 overflow-hidden rounded-full px-5 py-2.5 text-sm font-medium transition-all hover:-translate-y-0.5"
+            >
+              <GraduationCap class="h-4 w-4" aria-hidden="true" /> Take the mock exam
+            </a>
+            <a
+              href="/claude/review"
+              class="inline-flex items-center gap-2 rounded-full border border-line-strong px-5 py-2.5 text-sm font-medium text-fg transition-all hover:-translate-y-0.5 hover:border-accent"
+            >
+              <BookOpen class="h-4 w-4" aria-hidden="true" /> Study all {claudeStats.total}
+            </a>
           </div>
-        </Section>
-      )
-    }
-
-    <Section eyebrow="Get in Touch" title="Let's build something" class="pb-24">
-      <TopmateCTA />
+        </div>
+      </div>
     </Section>
+
+    <Section eyebrow="Journey" title="Where I've built" href="/experience" linkLabel="Full history">
+      <div class:list={['grid gap-10', travel.length > 0 && 'lg:grid-cols-[1.4fr_1fr]']}>
+        <div data-reveal>
+          <Timeline entries={experience.slice(0, 3)} maxHighlights={2} />
+        </div>
+        {
+          travel.length > 0 && (
+            <div class="space-y-4" data-reveal>
+              <p class="eyebrow">The traveller's notebook</p>
+              {travel.map((t) => (
+                <div class="card p-5">
+                  <p class="flex items-center gap-2 text-sm font-semibold text-fg">
+                    <MapPin class="h-4 w-4 text-accent" aria-hidden="true" /> {t.data.place}, {t.data.country}
+                  </p>
+                  <p class="mt-1 text-xs text-fg-faint">{formatDate(t.data.date)}</p>
+                  <p class="mt-2 font-display text-lg italic leading-snug text-fg-muted">{t.data.reflection}</p>
+                </div>
+              ))}
+            </div>
+          )
+        }
+      </div>
+    </Section>
+
+    <section class="pb-8 pt-8">
+      <TopmateCTA />
+    </section>
   </Container>
 </BaseLayout>
+
+<style>
+  .mini-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+</style>

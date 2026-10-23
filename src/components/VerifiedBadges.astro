@@ -1,0 +1,65 @@
+---
+/**
+ * Official badges (shields.io for profiles + repo stats). Each badge links to
+ * the profile it represents, so every claim is one click from verification.
+ */
+import { getProfile } from '@lib/content';
+import { GITHUB_USERNAME } from '@lib/site';
+
+const { data: profile } = await getProfile();
+const s = profile.socials;
+const badges = [
+  s.github && {
+    href: s.github,
+    src: `https://img.shields.io/github/followers/${GITHUB_USERNAME}?label=GitHub&logo=github&style=for-the-badge&color=6b4226`,
+    alt: 'GitHub followers',
+  },
+  {
+    href: `https://github.com/${GITHUB_USERNAME}/claude-architect-exam-guide`,
+    src: `https://img.shields.io/github/stars/${GITHUB_USERNAME}/claude-architect-exam-guide?label=Exam%20guide%20stars&logo=github&style=for-the-badge&color=a67c3d`,
+    alt: 'Claude exam guide stars',
+  },
+  s.linkedin && {
+    href: s.linkedin,
+    src: 'https://img.shields.io/badge/LinkedIn-sarveshtalele-0A66C2?logo=linkedin&logoColor=white&style=for-the-badge',
+    alt: 'LinkedIn profile',
+  },
+  {
+    href: 'https://arxiv.org/abs/2604.09685',
+    src: 'https://img.shields.io/badge/arXiv-2604.09685-B31B1B?logo=arxiv&logoColor=white&style=for-the-badge',
+    alt: 'arXiv paper 2604.09685',
+  },
+  s.orcid && {
+    href: s.orcid,
+    src: 'https://img.shields.io/badge/ORCID-0009--0002--0818--461X-A6CE39?logo=orcid&logoColor=white&style=for-the-badge',
+    alt: 'ORCID iD',
+  },
+  s.scholar && {
+    href: s.scholar,
+    src: 'https://img.shields.io/badge/Google%20Scholar-Profile-4285F4?logo=googlescholar&logoColor=white&style=for-the-badge',
+    alt: 'Google Scholar profile',
+  },
+  s.medium && {
+    href: s.medium,
+    src: 'https://img.shields.io/badge/Medium-Articles-000000?logo=medium&logoColor=white&style=for-the-badge',
+    alt: 'Medium articles',
+  },
+].filter(Boolean) as { href: string; src: string; alt: string }[];
+---
+
+<ul class="flex flex-wrap gap-2" aria-label="Verified profiles">
+  {
+    badges.map((b) => (
+      <li>
+        <a
+          href={b.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block transition-transform hover:-translate-y-0.5"
+        >
+          <img src={b.src} alt={b.alt} height="28" loading="lazy" decoding="async" class="h-7 w-auto rounded" />
+        </a>
+      </li>
+    ))
+  }
+</ul>

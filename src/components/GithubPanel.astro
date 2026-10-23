@@ -1,0 +1,88 @@
+---
+import { Star, GitFork, BookMarked, Bot, Plug, ArrowUpRight } from '@lucide/astro';
+import GithubIcon from './icons/GithubIcon.astro';
+import { getGithubStats } from '@lib/github';
+import { formatDate } from '@utils/format';
+
+const gh = await getGithubStats();
+const tiles = [
+  { icon: Star, value: gh.stars, label: 'Stars earned' },
+  { icon: GitFork, value: gh.forks, label: 'Forks by others' },
+  { icon: BookMarked, value: gh.publicRepos, label: 'Public repos' },
+  { icon: Bot, value: gh.agentRepos, label: 'Agent & skill repos' },
+  { icon: Plug, value: gh.mcpRepos, label: 'MCP servers & tools' },
+];
+---
+
+<div class="card overflow-hidden" data-reveal>
+  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line px-6 py-4">
+    <p class="flex items-center gap-2 text-sm font-semibold text-fg">
+      <GithubIcon class="h-4 w-4" /> Open-source footprint
+    </p>
+    <p class="text-xs text-fg-faint">GitHub API · synced {formatDate(new Date(gh.fetchedAt))}</p>
+  </div>
+  <div class="grid gap-px bg-line sm:grid-cols-[1.1fr_1fr]">
+    <div class="grid grid-cols-2 gap-px bg-line sm:grid-cols-3">
+      {
+        tiles.map(({ icon: Icon, value, label }) => (
+          <div class="bg-card p-5">
+            <Icon class="h-4 w-4 text-accent" aria-hidden="true" />
+            <p class="mt-3 font-display text-4xl font-semibold leading-none text-fg" data-count>
+              {value}
+            </p>
+            <p class="mt-1.5 text-xs text-fg-muted">{label}</p>
+          </div>
+        ))
+      }
+      {
+        gh.top && (
+          <a
+            href={gh.top.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group bg-card p-5 transition-colors hover:bg-surface"
+          >
+            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-accent">Most starred</p>
+            <p class="mt-2 break-words text-sm font-semibold text-fg group-hover:text-primary">{gh.top.name}</p>
+            <p class="mt-1 text-xs text-fg-muted">
+              ★ {gh.top.stars} · ⑂ {gh.top.forks}
+            </p>
+          </a>
+        )
+      }
+    </div>
+    <div class="bg-card p-6">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-fg-faint">Languages across repos</p>
+      <div class="mt-4 space-y-3">
+        {
+          gh.languages.map((l) => (
+            <div>
+              <div class="mb-1 flex justify-between text-xs text-fg-muted">
+                <span>{l.name}</span>
+                <span>{l.pct}%</span>
+              </div>
+              <div class="h-1.5 overflow-hidden rounded-full bg-bg-alt">
+                <div class="lang-bar h-full rounded-full" style={`width:${l.pct}%;background:${l.color}`} />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <a href={gh.profileUrl} target="_blank" rel="noopener noreferrer" class="link-arrow mt-6 text-sm font-medium">
+        Open GitHub profile <ArrowUpRight class="h-3.5 w-3.5" aria-hidden="true" />
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .lang-bar {
+    transform-origin: left;
+    animation: bar-grow 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  @keyframes bar-grow {
+    from {
+      transform: scaleX(0);
+    }
+  }
+</style>

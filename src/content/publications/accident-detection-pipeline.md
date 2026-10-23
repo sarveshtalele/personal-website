@@ -7,6 +7,13 @@ authors:
   - Amey Thakur
   - Sarvesh Talele
 url: https://arxiv.org/abs/2604.09685
+badges:
+  - label: arXiv:2604.09685
+    href: https://arxiv.org/abs/2604.09685
+  - label: NASA ADS
+    href: https://ui.adsabs.harvard.edu/search/q=arXiv%3A2604.09685
+  - label: Code on GitHub
+    href: https://github.com/sarveshtalele/ACCIDENT-CVPR_2026
 ---
 
 Submitted to the ACCIDENT @ CVPR 2026 challenge and indexed in the NASA Astrophysics Data System. The pipeline

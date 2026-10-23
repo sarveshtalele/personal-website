@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-labelledby="t3">
+  <title id="t3">Meta Advisor sequence: cash flow, emergency reserves, debt burden, risk capacity, retirement gap, then investment strategy.</title>
+  <rect width="1200" height="300" rx="28" fill="#241b14"/>
+  <defs><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#d9b77e"/></marker></defs>
+  <g font-family="Helvetica, Arial, sans-serif" text-anchor="middle">
+    <g fill="#33271b" stroke="#574230" stroke-width="2">
+      <rect x="30" y="100" width="160" height="100" rx="18"/><rect x="225" y="100" width="160" height="100" rx="18"/><rect x="420" y="100" width="160" height="100" rx="18"/>
+      <rect x="615" y="100" width="160" height="100" rx="18"/><rect x="810" y="100" width="160" height="100" rx="18"/>
+    </g>
+    <rect x="1005" y="100" width="165" height="100" rx="18" fill="#a67c3d"/>
+    <g font-size="15" fill="#e3c58c" font-weight="700" letter-spacing="2">
+      <text x="110" y="135">01</text><text x="305" y="135">02</text><text x="500" y="135">03</text><text x="695" y="135">04</text><text x="890" y="135">05</text><text x="1087" y="135" fill="#14100c">06</text>
+    </g>
+    <g font-size="19" fill="#f2e8d8" font-weight="600">
+      <text x="110" y="168">Cash flow</text><text x="305" y="168">Emergency</text><text x="500" y="168">Debt burden</text><text x="695" y="168">Risk capacity</text><text x="890" y="168">Retirement gap</text><text x="1087" y="168" fill="#14100c">Investments</text>
+    </g>
+    <text x="600" y="60" font-family="Georgia, serif" font-style="italic" font-size="22" fill="#cdbba2">Before recommending investments, the system checks the foundations</text>
+  </g>
+  <g stroke="#d9b77e" stroke-width="2.5" marker-end="url(#b)">
+    <path d="M190 150 H219"/><path d="M385 150 H414"/><path d="M580 150 H609"/><path d="M775 150 H804"/><path d="M970 150 H999"/>
+  </g>
+</svg>
