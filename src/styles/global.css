@@ -1,9 +1,4 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/inter';
-@import '@fontsource/cormorant-garamond/500.css';
-@import '@fontsource/cormorant-garamond/600.css';
-@import '@fontsource/cormorant-garamond/700.css';
-@import '@fontsource/cormorant-garamond/500-italic.css';
 @import 'katex/dist/katex.min.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -92,8 +87,14 @@
 }
 
 @theme {
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  /* Apple-style system typography: SF Pro on Apple devices, Segoe UI Variable on
+     Windows, Roboto on Android. No web fonts to download, nothing to flash. */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI Variable Text', 'Segoe UI', system-ui,
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI Variable Display', 'Segoe UI', system-ui, Roboto,
+    'Helvetica Neue', Arial, sans-serif;
   --radius-xl: 0.875rem;
   --radius-2xl: 1.25rem;
 }
@@ -120,42 +121,6 @@ body {
     color 300ms ease;
 }
 
-/* Warm, slowly drifting light behind everything + a faint paper grain. */
-body::before {
-  content: '';
-  position: fixed;
-  inset: -10%;
-  z-index: -2;
-  pointer-events: none;
-  background-image:
-    radial-gradient(36% 40% at 8% 4%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
-    radial-gradient(30% 36% at 94% 10%, color-mix(in srgb, var(--primary) 14%, transparent), transparent 70%),
-    radial-gradient(46% 50% at 50% 104%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
-  animation: theme-drift 60s ease-in-out infinite;
-  will-change: transform;
-}
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-.dark body::after {
-  opacity: 0.07;
-}
-@keyframes theme-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-2%, 1.5%, 0) scale(1.06);
-  }
-}
-
 ::selection {
   background-color: var(--accent);
   color: var(--on-primary);
@@ -173,47 +138,18 @@ body::after {
   /* ------------------------------------------------------------------ */
   .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.025em;
   }
   .text-gold {
-    background: linear-gradient(
-      110deg,
-      var(--gold-2) 0%,
-      var(--gold-1) 35%,
-      var(--primary-strong) 55%,
-      var(--gold-1) 75%,
-      var(--gold-2) 100%
-    );
-    background-size: 220% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gold-sheen 9s ease-in-out infinite;
-  }
-  @keyframes gold-sheen {
-    0%,
-    100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
+    color: var(--primary);
   }
   .eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
     color: var(--accent);
-  }
-  .eyebrow::before {
-    content: '';
-    width: 1.75rem;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent));
   }
   .ornament {
     display: flex;
@@ -251,34 +187,8 @@ body::after {
   .card-hover:hover {
     box-shadow: var(--shadow-card-hover);
     border-color: var(--border-strong);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
   }
-  /* Gilded hairline that lights up on hover. */
-  .card-gilded::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(140deg, transparent 30%, var(--gold-1), transparent 70%);
-    background-size: 250% 250%;
-    background-position: 100% 100%;
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition:
-      opacity 400ms ease,
-      background-position 900ms ease;
-    pointer-events: none;
-  }
-  .card-gilded:hover::before {
-    opacity: 1;
-    background-position: 0% 0%;
-  }
-
   .glass-card {
     background-color: color-mix(in srgb, var(--card) 60%, transparent);
     border: 1px solid color-mix(in srgb, var(--fg) 10%, transparent);
@@ -375,29 +285,14 @@ body::after {
     color: var(--accent);
   }
   .btn-primary {
-    position: relative;
-    overflow: hidden;
     color: var(--on-primary);
-    background: linear-gradient(135deg, var(--primary-strong), var(--primary) 55%, var(--accent));
-    box-shadow: 0 8px 24px -8px var(--glow);
+    background: var(--primary);
     transition:
-      transform 300ms ease,
-      box-shadow 300ms ease;
-  }
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%);
-    transform: translateX(-120%);
-    transition: transform 800ms ease;
+      background-color 200ms ease,
+      transform 200ms ease;
   }
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 30px -10px var(--glow);
-  }
-  .btn-primary:hover::after {
-    transform: translateX(120%);
+    background: var(--primary-strong);
   }
   .verify-btn {
     display: inline-flex;
@@ -542,8 +437,8 @@ body::after {
   }
   .prose h2 {
     font-family: var(--font-display);
-    font-size: 2em;
-    font-weight: 600;
+    font-size: 1.75em;
+    font-weight: 700;
     margin-top: 2em;
   }
   .prose h3 {
@@ -586,13 +481,11 @@ body::after {
     color: var(--accent);
   }
   .prose blockquote {
-    border-left: 2px solid var(--accent);
+    border-left: 3px solid var(--accent);
     padding: 0.25em 0 0.25em 1.25em;
     color: var(--fg-muted);
-    font-family: var(--font-display);
-    font-size: 1.35em;
-    font-style: italic;
-    line-height: 1.5;
+    font-size: 1.15em;
+    line-height: 1.6;
   }
   .prose hr {
     border: 0;
@@ -684,10 +577,6 @@ body::after {
     background: #ffffff;
     color: #111111;
     font-size: 11pt;
-  }
-  body::before,
-  body::after {
-    display: none;
   }
 }
 

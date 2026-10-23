@@ -42,7 +42,7 @@ const publications = (await getCollection('publications')).sort(byDateDesc((p) =
     ) : (
       <div class="space-y-4">
         {publications.map((pub) => (
-          <div class="card card-gilded p-6" data-reveal>
+          <div class="card p-6" data-reveal>
             <div class="flex items-start gap-4">
               <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
                 <FlaskConical class="h-5 w-5" aria-hidden="true" />

@@ -17,7 +17,7 @@ const minutes = Object.fromEntries(await Promise.all(posts.map(async (p) => [p.i
 ---
 
 <PageLayout
-  title={`#${label}`}
+  title={label}
   description={`${posts.length} post${posts.length === 1 ? '' : 's'} tagged “${label}”.`}
   eyebrow="Tag"
   crumbs={[{ label: 'Blog', href: '/blog' }, { label }]}

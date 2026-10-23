@@ -20,8 +20,8 @@ build time. The owner should only ever need to edit Markdown.
 4. **Links from content must be `https://`, `mailto:`, or start with `/`** (enforced by the `link` schema). External
    links use `target="_blank" rel="noopener noreferrer"`.
 5. **Colours only via theme tokens** in `src/styles/global.css` (`--bg`, `--fg`, `--primary`, `--accent`, …). Light =
-   cream/espresso/gold, dark = espresso/ivory/champagne. Philosopher · AI Engineer · Traveller is a theme expressed
-   in the hero and personas only; there is no travel section or collection. Use `font-display` (Cormorant Garamond) for headings.
+   cream/espresso/gold, dark = espresso/ivory/champagne. Apple-style: system font stack only (no web fonts),
+   centered hero, calm motion. No persona cards, rotating text, canvas effects, or travel section.
 6. Shared component classes (`.card`, `.chip`, `.pill`, `.field`, `.btn-primary`, `.link-arrow`, `.verify-btn`) live in
    `@layer components` in `global.css` so Tailwind utilities can override them. Don't put shared classes in a single
    component's `<style is:global>`.
@@ -30,6 +30,9 @@ build time. The owner should only ever need to edit Markdown.
 9. **Log every decision and action in `progress.md`** with a UTC timestamp, before and after the change:
    `[YYYY-MM-DD HH:MM UTC] TYPE — note` (TYPE = PLAN, DECISION, ACTION, DONE, ISSUE).
 10. Commits are authored by the repo owner. Do not add AI co-author trailers.
+11. Never render the owner's email address anywhere on the site. Contact is Topmate + LinkedIn.
+12. Scoped component `<style>` is unlayered: never set `display` there on elements that also use Tailwind
+    responsive visibility (`hidden`, `lg:hidden`, `sm:inline-flex`), or the utilities stop working.
 
 ## Commands
 
@@ -49,7 +52,7 @@ Node 24 (see `.nvmrc`; minimum 22.23.4), pnpm 11.
 
 | Want to change… | Edit |
 | --- | --- |
-| Name, headline, personas, quotes, socials, skills, education, achievements, About story | `src/content/profile/sarvesh.md` |
+| Name, headline, hero label, quote, socials, skills, education, achievements, About story | `src/content/profile/sarvesh.md` |
 | Dashboard impact tiles and highlights | `src/content/dashboard/metrics.md` |
 | Pinned / hidden repos, category filters, repo description overrides | `src/content/project-settings/projects.md` |
 | Blog posts | `src/content/blog/<slug>/index.mdx` + `images/` |

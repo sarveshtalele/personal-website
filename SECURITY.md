@@ -5,8 +5,9 @@ stores personal data.
 
 ## Reporting a vulnerability
 
-Please **do not open a public issue**. Email **talelesarvesh@gmail.com** with the subject `SECURITY: sarveshtalele.org`
-and include steps to reproduce. You will get an acknowledgement within 72 hours.
+Please **do not open a public issue**. Use GitHub's private reporting instead:
+[Report a vulnerability](https://github.com/sarveshtalele/personal-website/security/advisories/new), and include steps to
+reproduce. You will get an acknowledgement within 72 hours.
 
 ## What is in place
 

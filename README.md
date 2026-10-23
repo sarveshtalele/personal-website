@@ -25,11 +25,11 @@ search entry, and dashboard tile that depends on it updates on the next deploy.
 
 | Route | What it shows | Source of truth |
 | --- | --- | --- |
-| `/` | Animated hero (Philosopher · AI Engineer · Traveller theme), credential marquee, impact tiles, quotes, pinned repos, latest posts, Claude, journey, contact | profile, dashboard, project settings, blog, experience |
+| `/` | Centered hero (photo, AI Engineer, headline, Dostoevsky quote), credentials, impact tiles, pinned repos, latest posts, Claude Prep, journey, contact | profile, dashboard, project settings, blog, experience |
 | `/dashboard` | Recruiter view: every metric links to proof, live GitHub stats, verified badges, credentials, research | `dashboard/metrics.md` + GitHub API + certifications + publications |
 | `/projects` | Every public repo, pinned first; search, category + language filters, sort by stars/forks/updated/name | GitHub API + `project-settings/projects.md` |
 | `/blog`, `/blog/<slug>`, `/blog/tags/<tag>`, `/rss.xml` | Cards with title + description, category/tag filters and search; full post with TOC, related posts | `blog/<slug>/index.mdx` |
-| `/claude` | Both Anthropic badges (verify on Credly), practice hub, study guides | certifications + `claude/exams/*.md` |
+| `/claude` (Claude Prep) | Both Anthropic badges (verify on Credly), practice hub, study guides | certifications + `claude/exams/*.md` |
 | `/claude/foundations` | CCAR-F guide: glance, domains, scenarios, mental model, resources | `claude/exams/foundations.md` |
 | `/claude/quiz` | Timed 60-question mock exam (scored by domain) + untimed practice | `claude/questions/*.md` (`mock: true`) |
 | `/claude/review` | All 360 questions grouped by task statement, test mode, doc links | `claude/questions/*.md` |
@@ -49,7 +49,7 @@ pnpm preview
 
 | To change… | Edit this file |
 | --- | --- |
-| Name, headline, personas, quotes, socials, skills, education, achievements, About story | `src/content/profile/sarvesh.md` |
+| Name, headline, hero label, quote, socials, skills, education, achievements, About story | `src/content/profile/sarvesh.md` |
 | Dashboard impact numbers (each needs a `proof:` link) | `src/content/dashboard/metrics.md` |
 | Pinned / hidden repos, filter categories, repo description overrides | `src/content/project-settings/projects.md` |
 | A blog post | `src/content/blog/<slug>/index.mdx` (+ `images/`) |
@@ -90,7 +90,7 @@ draft: true             # set to false to publish
 Your post. Images: ![Alt text](./images/diagram.png). Components: <Callout type="tip">Hi</Callout>
 ```
 
-Set `draft: false`, commit, push. The card on `/blog`, the landing-page "From the journal" section, tag pages, RSS,
+Set `draft: false`, commit, push. The card on `/blog`, the landing-page "From the journal" section, tag pages, RSS feed,
 sitemap, and search all update automatically. `pnpm check:content` verifies every referenced image exists.
 
 ### Pin a repository
@@ -124,13 +124,12 @@ astro build ─► scripts/csp.mjs (hash inline scripts → CSP meta) ─► pag
 | `pnpm claude:build` | Recompile only the Claude question JSON |
 | `pnpm check` / `pnpm lint` / `pnpm format` | Type-check, ESLint, Prettier |
 
-**Stack:** Astro 7, Tailwind CSS 4, MDX, KaTeX, Shiki, Pagefind, Lucide. Fonts: Cormorant Garamond (display) and
-Inter (body), self-hosted. No client-side frameworks, no tracking, no third-party scripts.
+**Stack:** Astro 7, Tailwind CSS 4, MDX, KaTeX, Shiki, Pagefind, Lucide. Font: the system font stack (SF Pro on
+Apple devices), no web fonts. No client-side frameworks, no tracking, no third-party scripts.
 
-**Design system:** cream parchment, espresso, cocoa and antique gold in light mode; espresso, walnut, ivory and
-champagne gold in dark mode (dark is the default, the toggle remembers your choice). Motion: constellation canvas,
-masked headline reveal, persona rotator, scroll reveals, count-ups, gilded hover borders, marquee. All of it
-respects `prefers-reduced-motion`, and content stays visible without JavaScript.
+**Design:** Apple-style. Centered hero, generous whitespace, soft cards, warm cream/brown palette in light mode and
+espresso/ivory in dark mode (dark is the default). Motion is limited to gentle fade-ins and count-ups, and respects
+`prefers-reduced-motion`.
 
 ## Deployment
 

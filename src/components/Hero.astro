@@ -1,429 +1,91 @@
 ---
-import { ArrowRight, ArrowDown } from '@lucide/astro';
+import { ArrowRight } from '@lucide/astro';
 import Button from './Button.astro';
-import Icon from './Icon.astro';
 import { getProfile } from '@lib/content';
 
 const { data: profile } = await getProfile();
 const [line1, line2, line3] = profile.headline.split(/(?<=\.)\s+/);
-const ring = `${profile.personas.map((p) => p.title.toUpperCase()).join(' · ')} · `;
-const ringText = ring.repeat(Math.max(1, Math.ceil(70 / ring.length)));
+const quote = profile.quotes[0];
 ---
 
-<section class="hero relative isolate overflow-hidden">
-  <canvas class="hero-canvas" data-constellation aria-hidden="true"></canvas>
-  <div class="hero-vignette" aria-hidden="true"></div>
+<section class="hero relative overflow-hidden">
+  <div class="mx-auto flex max-w-4xl flex-col items-center px-4 pb-20 pt-16 text-center sm:px-6 sm:pt-24">
+    <img
+      src={profile.photo}
+      alt={profile.fullName}
+      width="160"
+      height="160"
+      fetchpriority="high"
+      decoding="async"
+      class="hero-in h-32 w-32 rounded-full object-cover shadow-xl ring-1 ring-line sm:h-40 sm:w-40"
+    />
 
-  <div
-    class="mx-auto grid min-h-[calc(100svh-4rem)] max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.25fr_1fr] lg:py-20"
-  >
-    <div>
-      <p class="eyebrow hero-in hero-d0">{profile.role}</p>
+    <p class="hero-in hero-d1 mt-8 text-base font-semibold text-accent sm:text-lg">{profile.heroLabel}</p>
 
-      <h1
-        class="mt-6 font-display text-[clamp(2.6rem,7vw,4.9rem)] font-semibold leading-[0.98] lg:whitespace-nowrap tracking-tight text-fg"
-      >
-        <span class="line-mask"><span class="line hero-d1">{line1 ?? profile.headline}</span></span>
-        {
-          line2 && (
-            <span class="line-mask">
-              <span class="line hero-d2">{line2}</span>
-            </span>
-          )
-        }
-        {
-          line3 && (
-            <span class="line-mask">
-              <span class="line hero-d3 text-gold italic">{line3}</span>
-            </span>
-          )
-        }
-      </h1>
+    <h1 class="hero-in hero-d2 mt-3 font-display text-[clamp(2.5rem,7vw,4.75rem)] font-bold leading-[1.04] text-fg">
+      {line1 ?? profile.headline}
+      {line2 && <span class="block">{line2}</span>}
+      {line3 && <span class="block text-primary">{line3}</span>}
+    </h1>
 
-      <p class="hero-in hero-d4 mt-7 flex flex-wrap items-baseline gap-x-2 text-lg text-fg-muted sm:text-xl">
-        <span>One craft, three lenses:</span>
-        <span
-          class="rotator font-display text-2xl font-semibold italic text-primary sm:text-3xl"
-          data-rotator
-          aria-live="polite"
-        >
-          {profile.personas.map((p, i) => <span class:list={['rotator-word', i === 0 && 'is-active']}>{p.title}</span>)}
-        </span>
-      </p>
+    <p class="hero-in hero-d3 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-fg-muted sm:text-xl">
+      {profile.tagline}
+    </p>
 
-      <p class="hero-in hero-d5 mt-5 max-w-xl text-[0.98rem] leading-relaxed text-fg-muted">{profile.tagline}</p>
+    {
+      quote && (
+        <figure class="hero-in hero-d4 mx-auto mt-10 max-w-xl">
+          <blockquote class="text-lg leading-relaxed text-fg-muted italic sm:text-xl">“{quote.text}”</blockquote>
+          <figcaption class="mt-3 text-sm text-fg-faint">
+            {quote.author}
+            {quote.source && <span> · {quote.source}</span>}
+          </figcaption>
+        </figure>
+      )
+    }
 
-      <div class="hero-in hero-d6 mt-9 flex flex-wrap items-center gap-3">
-        <Button href="/dashboard" size="lg">
-          See the evidence <ArrowRight class="h-4 w-4" aria-hidden="true" />
-        </Button>
-        <Button href="/projects" variant="secondary" size="lg">Explore projects</Button>
-        {
-          profile.socials.topmate && (
-            <Button href={profile.socials.topmate} variant="ghost" size="lg" external>
-              Book a call
-            </Button>
-          )
-        }
-      </div>
-    </div>
-
-    <div class="portrait hero-in hero-d3 relative mx-auto aspect-square w-full max-w-[22rem] lg:max-w-[27rem]">
-      <div class="orbit orbit-1 animate-spin-slow" aria-hidden="true"><span></span></div>
-      <div class="orbit orbit-2 animate-spin-slower" aria-hidden="true"><span></span></div>
-      <svg class="ring-text animate-spin-slow" viewBox="0 0 300 300" aria-hidden="true">
-        <defs>
-          <path id="hero-ring" d="M150,150 m-132,0 a132,132 0 1,1 264,0 a132,132 0 1,1 -264,0"></path>
-        </defs>
-        <text><textPath href="#hero-ring" textLength="828">{ringText}</textPath></text>
-      </svg>
-      <div class="arch animate-float">
-        <img
-          src={profile.photo}
-          alt={profile.fullName}
-          width="400"
-          height="500"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </div>
-    </div>
-  </div>
-
-  <div class="mx-auto max-w-6xl px-4 pb-14 sm:px-6">
-    <div class="grid gap-4 sm:grid-cols-3">
+    <div class="hero-in hero-d5 mt-10 flex flex-wrap items-center justify-center gap-3">
+      <Button href="/dashboard" size="lg">
+        See the evidence <ArrowRight class="h-4 w-4" aria-hidden="true" />
+      </Button>
+      <Button href="/projects" variant="secondary" size="lg">Explore projects</Button>
       {
-        profile.personas.map((p, i) => (
-          <div class:list={['persona card card-gilded p-6', `reveal-i-${i + 1}`]} data-reveal>
-            <span class="persona-icon">
-              <Icon name={p.icon} class="h-5 w-5" />
-            </span>
-            <p class="mt-4 font-display text-2xl font-semibold text-fg">{p.title}</p>
-            <p class="mt-2 text-sm leading-relaxed text-fg-muted">{p.line}</p>
-          </div>
-        ))
+        profile.socials.topmate && (
+          <Button href={profile.socials.topmate} variant="ghost" size="lg" external>
+            Book a call
+          </Button>
+        )
       }
     </div>
-    <a
-      href="#proof"
-      class="mx-auto mt-10 flex w-fit items-center gap-2 text-xs uppercase tracking-[0.25em] text-fg-faint transition-colors hover:text-accent"
-    >
-      Scroll <ArrowDown class="scroll-cue h-3.5 w-3.5" aria-hidden="true" />
-    </a>
   </div>
 </section>
 
 <style>
-  .hero-canvas {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    width: 100%;
-    height: 100%;
-  }
-  .hero-vignette {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(60% 55% at 78% 38%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
-      linear-gradient(180deg, transparent 70%, var(--bg));
-    pointer-events: none;
-  }
-
-  /* Headline: each line slides up from behind a mask. */
-  .line-mask {
-    display: block;
-    overflow: hidden;
-    padding-bottom: 0.08em;
-  }
-  .line {
-    display: block;
-    animation: line-up 1.1s cubic-bezier(0.2, 0.75, 0.15, 1) both;
-  }
-  @keyframes line-up {
-    from {
-      transform: translateY(105%);
-    }
+  .hero {
+    background: radial-gradient(70% 60% at 50% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%);
   }
   .hero-in {
-    animation: hero-fade 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation: hero-fade 900ms cubic-bezier(0.25, 0.1, 0.25, 1) both;
   }
   @keyframes hero-fade {
     from {
       opacity: 0;
-      transform: translateY(16px);
+      transform: translateY(12px);
     }
   }
-  .hero-d0 {
-    animation-delay: 0ms;
-  }
   .hero-d1 {
-    animation-delay: 120ms;
+    animation-delay: 80ms;
   }
   .hero-d2 {
-    animation-delay: 240ms;
+    animation-delay: 160ms;
   }
   .hero-d3 {
-    animation-delay: 360ms;
+    animation-delay: 240ms;
   }
   .hero-d4 {
-    animation-delay: 600ms;
+    animation-delay: 320ms;
   }
   .hero-d5 {
-    animation-delay: 720ms;
-  }
-  .hero-d6 {
-    animation-delay: 840ms;
-  }
-
-  /* Persona word rotator. */
-  .rotator {
-    position: relative;
-    display: inline-grid;
-  }
-  .rotator-word {
-    grid-area: 1 / 1;
-    opacity: 0;
-    transform: translateY(0.4em);
-    filter: blur(4px);
-    transition:
-      opacity 700ms ease,
-      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
-      filter 700ms ease;
-  }
-  .rotator-word.is-active {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-  .rotator-word.is-leaving {
-    opacity: 0;
-    transform: translateY(-0.4em);
-    filter: blur(4px);
-  }
-
-  /* Arched portrait. */
-  .arch {
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: 50%;
-    width: 46%;
-    margin: -28.75% 0 0 -23%;
-    aspect-ratio: 4 / 5;
-    border-radius: 999px 999px 1.5rem 1.5rem;
-    padding: 6px;
-    background: linear-gradient(160deg, var(--gold-1), var(--gold-2) 50%, var(--primary-strong));
-    box-shadow:
-      0 30px 60px -20px rgb(0 0 0 / 0.35),
-      0 0 0 1px color-mix(in srgb, var(--gold-1) 40%, transparent);
-  }
-  .arch img {
-    height: 100%;
-    width: 100%;
-    border-radius: inherit;
-    object-fit: cover;
-    filter: sepia(0.12) saturate(1.05);
-  }
-  .ring-text {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: auto;
-    z-index: 2;
-    pointer-events: none;
-  }
-  .ring-text text {
-    font-family: var(--font-sans);
-    font-size: 11px;
-    letter-spacing: 3px;
-    font-weight: 600;
-    fill: var(--accent);
-  }
-  .orbit {
-    position: absolute;
-    inset: 4%;
-    border-radius: 9999px;
-    border: 1px dashed color-mix(in srgb, var(--accent) 35%, transparent);
-  }
-  .orbit-2 {
-    inset: -4%;
-    border-style: solid;
-    border-color: color-mix(in srgb, var(--accent) 18%, transparent);
-  }
-  .orbit span {
-    position: absolute;
-    top: 50%;
-    left: -5px;
-    height: 10px;
-    width: 10px;
-    border-radius: 9999px;
-    background: var(--gold-1);
-    box-shadow: 0 0 16px 4px var(--glow);
-  }
-  .orbit-2 span {
-    top: 12%;
-    left: 80%;
-    height: 7px;
-    width: 7px;
-  }
-
-  .persona-icon {
-    display: inline-flex;
-    height: 2.75rem;
-    width: 2.75rem;
-    align-items: center;
-    justify-content: center;
-    border-radius: 9999px;
-    color: var(--accent);
-    background: var(--accent-soft);
-    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-    transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-  .persona:hover .persona-icon {
-    transform: rotate(-12deg) scale(1.08);
-  }
-  .scroll-cue {
-    animation: float-slow 2.4s ease-in-out infinite;
+    animation-delay: 400ms;
   }
 </style>
-
-<script>
-  // ---- Persona word rotator --------------------------------------------
-  document.querySelectorAll<HTMLElement>('[data-rotator]').forEach((el) => {
-    const words = [...el.querySelectorAll<HTMLElement>('.rotator-word')];
-    if (words.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    let i = 0;
-    setInterval(() => {
-      const prev = words[i];
-      i = (i + 1) % words.length;
-      prev.classList.remove('is-active');
-      prev.classList.add('is-leaving');
-      setTimeout(() => prev.classList.remove('is-leaving'), 700);
-      words[i].classList.add('is-active');
-    }, 2600);
-  });
-
-  // ---- Constellation canvas ---------------------------------------------
-  // Gold "stars" drift slowly and link up when close: equal parts night sky
-  // (the traveller), a neural network (the engineer), connected ideas (the philosopher).
-  const canvas = document.querySelector<HTMLCanvasElement>('[data-constellation]');
-  const ctx = canvas?.getContext('2d');
-  if (canvas && ctx) {
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    type P = { x: number; y: number; vx: number; vy: number; r: number };
-    let pts: P[] = [];
-    let w = 0;
-    let h = 0;
-    let raf = 0;
-    let running = true;
-    const mouse = { x: -9999, y: -9999 };
-    let color = '201,164,92';
-
-    const readColor = () => {
-      const hex = getComputedStyle(document.documentElement).getPropertyValue('--gold-1').trim();
-      const m = hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
-      if (m) color = `${parseInt(m[1], 16)},${parseInt(m[2], 16)},${parseInt(m[3], 16)}`;
-    };
-
-    const resize = () => {
-      const dpr = Math.min(devicePixelRatio || 1, 2);
-      w = canvas.clientWidth;
-      h = canvas.clientHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.round(Math.min(110, (w * h) / 13000));
-      pts = Array.from({ length: count }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        r: Math.random() * 1.4 + 0.4,
-      }));
-    };
-
-    const LINK = 130;
-    const draw = () => {
-      ctx.clearRect(0, 0, w, h);
-      for (const p of pts) {
-        if (!reduce) {
-          p.x += p.vx;
-          p.y += p.vy;
-          if (p.x < 0 || p.x > w) p.vx *= -1;
-          if (p.y < 0 || p.y > h) p.vy *= -1;
-          const dx = mouse.x - p.x;
-          const dy = mouse.y - p.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < 160 * 160) {
-            p.x += dx * 0.004;
-            p.y += dy * 0.004;
-          }
-        }
-      }
-      for (let i = 0; i < pts.length; i++) {
-        const a = pts[i];
-        for (let j = i + 1; j < pts.length; j++) {
-          const b = pts[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < LINK) {
-            ctx.strokeStyle = `rgba(${color},${(1 - d / LINK) * 0.28})`;
-            ctx.lineWidth = 0.6;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-        ctx.fillStyle = `rgba(${color},0.85)`;
-        ctx.beginPath();
-        ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      if (!reduce && running) raf = requestAnimationFrame(draw);
-    };
-
-    const start = () => {
-      cancelAnimationFrame(raf);
-      running = true;
-      draw();
-    };
-    readColor();
-    resize();
-    start();
-    addEventListener('resize', () => {
-      resize();
-      if (reduce) draw();
-    });
-    canvas.parentElement?.addEventListener('pointermove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    });
-    canvas.parentElement?.addEventListener('pointerleave', () => {
-      mouse.x = mouse.y = -9999;
-    });
-    // Pause when the hero is off-screen or the tab is hidden.
-    new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !document.hidden) start();
-      else {
-        running = false;
-        cancelAnimationFrame(raf);
-      }
-    }).observe(canvas);
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        running = false;
-        cancelAnimationFrame(raf);
-      } else start();
-    });
-    // Re-tint when the theme toggles.
-    new MutationObserver(() => {
-      readColor();
-      if (reduce) draw();
-    }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-  }
-</script>

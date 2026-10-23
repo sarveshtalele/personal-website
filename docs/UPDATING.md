@@ -25,15 +25,16 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 | You add a GitHub topic to a repo | Nothing here (topic must be listed under `categories:` to become a filter) | Category filter on the Projects page after the next deploy |
 | Stars/forks change | Nothing. The site rebuilds daily at 03:17 UTC | Every GitHub number |
 | Your title, headline, bio or socials change | `src/content/profile/sarvesh.md` | Navbar, hero, footer, About, SEO metadata, JSON-LD, Contact |
+| The small label above the headline | `profile/sarvesh.md` → `heroLabel:` | Landing hero (currently "AI Engineer") |
 | You learn a new tool | `profile/sarvesh.md` → `skills:` | Skills dashboard on About + Dashboard |
-| A new quote you want to live by | `profile/sarvesh.md` → `quotes:` | Landing quote carousel (first quote also in the footer) |
+| The quote under your headline | `profile/sarvesh.md` → `quotes:` (first entry is used) | Landing hero |
 | A new achievement or award | `profile/sarvesh.md` → `achievements:` (and update the `8×` tile in `metrics.md` if it is a TCS award) | About "Achievements", dashboard |
 | You want a new Claude practice question | `src/content/claude/questions/domain-<n>.md` | Learn & Review library, counts on Claude/landing/dashboard |
 | A question has a wrong answer | Same file, move the `[x]` and fix the explanations | Mock exam + library |
 | You want to change which questions are in the mock | Add/remove `- mock: true` (keep 60 to mirror the real exam) | `/claude/quiz` |
 | Anthropic changes the exam (fee, time, domains) | `src/content/claude/exams/foundations.md` | `/claude/foundations` |
 | You are ready to publish the Professional guide | `src/content/claude/exams/professional.md` → fill fields, set `status: live` | New page `/claude/professional` + live card on `/claude` |
-| New profile photo | Replace `public/images/sarvesh-talele.jpg` (same name, portrait ~4:5) | Hero arch, About, blog author line, navbar is the monogram |
+| New profile photo | Replace `public/images/sarvesh-talele.jpg` (same name, square works best) | Navbar, hero, About, blog author line |
 | New nav item, analytics, comments | `src/lib/site.ts` (the only non-Markdown settings file) | Navbar/footer, GA, Giscus |
 
 ---
@@ -46,14 +47,14 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 | Field | Shown on | Notes |
 | --- | --- | --- |
 | `name`, `fullName` | Navbar, footer, SEO title, JSON-LD | `fullName` is used for schema.org and copyright |
-| `role` | Hero eyebrow, About, footer, `<title>` | Keep it short: `AI Engineer · Claude Certified Architect` |
+| `role` | About, footer, `<title>` | Keep it short: `AI Engineer · Claude Certified Architect` |
+| `heroLabel` | Small label above the landing headline | e.g. `AI Engineer` |
 | `headline` | Hero headline | Sentences split on `. `; the **third** sentence is rendered in gold italic |
 | `tagline` | Hero paragraph, About intro | One sentence, concrete |
 | `summary` | Default meta description, RSS description | 150–160 characters is ideal for search |
-| `personas` | Hero word rotator + three cards, About | `icon` is one of `brain, cpu, compass, feather, globe, book` |
-| `quotes` | Landing carousel, footer (first one) | `source` optional |
-| `socials` | Navbar, footer, Contact, badges, JSON-LD `sameAs` | Must be `https://` links |
-| `credentials` | Landing marquee | Each item needs `href` (proof) |
+| `quotes` | Landing hero (first one) | `source` optional |
+| `socials` | Navbar, footer, Contact, badges, JSON-LD `sameAs` | Must be `https://` links. No email is shown anywhere on the site by design |
+| `credentials` | Landing credential row | Each item needs `href` (proof) |
 | `achievements` | About | `href` optional |
 | `education`, `skills` | About, Dashboard | Skills are grouped; groups become filter pills |
 | Body (Markdown below `---`) | About page story | Plain Markdown, links allowed |
@@ -122,10 +123,11 @@ Only one entry should have `current: true`.
 
 ---
 
-## 3. Theme & philosophy (do not change by accident)
+## 3. Theme (do not change by accident)
 
-The site has one look: **rich, quiet luxury**. Philosopher · AI Engineer · Traveller is a *theme*, carried by the hero,
-the persona cards, the quotes and the constellation background. There is deliberately no travel section.
+The site follows an **Apple-style** design: lots of whitespace, a centered hero, the system font, soft cards, and only
+subtle motion (gentle fade-ins and count-ups). The cream-and-brown palette gives it warmth. There are no persona cards,
+travel section, canvas effects, or rotating text.
 
 | Element | Light | Dark (default) |
 | --- | --- | --- |
@@ -133,11 +135,10 @@ the persona cards, the quotes and the constellation background. There is deliber
 | Text | espresso `#2a1d14` | ivory `#f2e8d8` |
 | Primary | cocoa brown `#6b4226` | champagne gold `#d9b77e` |
 | Accent | antique gold `#a67c3d` | warm gold `#c99a5b` |
-| Display font | Cormorant Garamond | Cormorant Garamond |
-| Body font | Inter | Inter |
+| Font | System font (SF Pro on Apple, Segoe UI on Windows, Roboto on Android) | same |
 
 All colours are tokens in `src/styles/global.css`. To retune the palette, change the token values there, never
-individual pages. Motion (constellation, reveals, count-ups, marquee) switches off automatically for visitors who
+individual pages. Motion (fade-ins, count-ups) switches off automatically for visitors who
 prefer reduced motion.
 
 ---
@@ -146,7 +147,7 @@ prefer reduced motion.
 
 Profile and repo badges come from [shields.io](https://shields.io) and update themselves:
 
-- Site: `src/components/VerifiedBadges.astro` (Dashboard + About) and the exam-guide stars badge on `/claude`.
+- Site: `src/components/VerifiedBadges.astro` (Dashboard + About) and the exam-guide stars badge on `/claude` (Claude Prep).
 - README: the badge rows at the top.
 
 To add one, build it at <https://shields.io/badges> (style `for-the-badge`, colour `6b4226` brown or `a67c3d` gold to

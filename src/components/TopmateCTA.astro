@@ -1,87 +1,39 @@
 ---
-import { ArrowRight, Mail } from '@lucide/astro';
+import { ArrowRight } from '@lucide/astro';
 import LinkedinIcon from './icons/LinkedinIcon.astro';
 import { getProfile } from '@lib/content';
 
 const { data: profile } = await getProfile();
 ---
 
-<div class="cta relative overflow-hidden rounded-[2rem] p-8 sm:p-14" data-reveal="scale">
-  <div class="cta-glow" aria-hidden="true"></div>
-  <div class="relative grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
-    <div>
-      <p class="eyebrow">Let's talk</p>
-      <h2 class="mt-4 font-display text-4xl font-semibold leading-[1.05] text-[#f2e8d8] sm:text-6xl">
-        Have a hard problem? <span class="italic text-[#e3c58c]">Let's make it simple.</span>
-      </h2>
-      <p class="mt-5 max-w-xl text-[#cdbba2]">
-        Roles, architecture reviews, Claude certification prep, or a conversation about agentic AI. Pick a slot, no
-        back-and-forth.
-      </p>
-    </div>
-    <div class="flex flex-col gap-3">
-      {
-        profile.socials.topmate && (
-          <a href={profile.socials.topmate} target="_blank" rel="noopener noreferrer" class="cta-primary">
-            Book a 1:1 on Topmate <ArrowRight class="h-4 w-4" aria-hidden="true" />
-          </a>
-        )
-      }
-      <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer" class="cta-secondary">
-        <LinkedinIcon class="h-4 w-4" /> Connect on LinkedIn
-      </a>
-      <a href={`mailto:${profile.email}`} class="cta-secondary">
-        <Mail class="h-4 w-4" aria-hidden="true" />
-        {profile.email}
-      </a>
-    </div>
+<div class="card px-6 py-14 text-center sm:px-12 sm:py-20" data-reveal>
+  <p class="eyebrow justify-center">Let's talk</p>
+  <h2 class="mx-auto mt-3 max-w-2xl font-display text-4xl font-bold leading-tight text-fg sm:text-5xl">
+    Have a hard problem? <span class="text-primary">Let's make it simple.</span>
+  </h2>
+  <p class="mx-auto mt-5 max-w-xl text-lg text-fg-muted">
+    Roles, architecture reviews, Claude certification prep, or a conversation about agentic AI.
+  </p>
+  <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+    {
+      profile.socials.topmate && (
+        <a
+          href={profile.socials.topmate}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary inline-flex items-center gap-2 rounded-full px-6 py-3 text-[0.95rem] font-medium"
+        >
+          Book a 1:1 on Topmate <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+      )
+    }
+    <a
+      href={profile.socials.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 rounded-full border border-line-strong px-6 py-3 text-[0.95rem] font-medium text-fg transition-colors hover:border-accent"
+    >
+      <LinkedinIcon class="h-4 w-4" /> Connect on LinkedIn
+    </a>
   </div>
 </div>
-
-<style>
-  .cta {
-    background: radial-gradient(120% 140% at 0% 0%, #3a2a1c 0%, #1b140f 55%, #120d09 100%);
-    border: 1px solid #574230;
-  }
-  .cta-glow {
-    position: absolute;
-    right: -10%;
-    top: -40%;
-    width: 60%;
-    aspect-ratio: 1;
-    border-radius: 9999px;
-    background: radial-gradient(circle, rgb(217 183 126 / 0.35), transparent 65%);
-    animation: float-slow 9s ease-in-out infinite;
-  }
-  .cta-primary,
-  .cta-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border-radius: 9999px;
-    padding: 0.95rem 1.5rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: all 300ms ease;
-    overflow-wrap: anywhere;
-  }
-  .cta-primary {
-    color: #1a120c;
-    background: linear-gradient(135deg, #e3c58c, #c99a5b);
-    box-shadow: 0 12px 30px -10px rgb(217 183 126 / 0.6);
-  }
-  .cta-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 18px 40px -12px rgb(217 183 126 / 0.7);
-  }
-  .cta-secondary {
-    color: #f2e8d8;
-    border: 1px solid #574230;
-    background: rgb(255 255 255 / 0.03);
-  }
-  .cta-secondary:hover {
-    border-color: #d9b77e;
-    color: #e3c58c;
-  }
-</style>

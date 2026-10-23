@@ -1,6 +1,6 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
-import { GraduationCap, Mail, ArrowUpRight } from '@lucide/astro';
+import { GraduationCap, ArrowUpRight } from '@lucide/astro';
 import GithubIcon from '@components/icons/GithubIcon.astro';
 import LinkedinIcon from '@components/icons/LinkedinIcon.astro';
 import MediumIcon from '@components/icons/MediumIcon.astro';
@@ -10,7 +10,6 @@ import { getProfile } from '@lib/content';
 
 const { data: p } = await getProfile();
 const channels = [
-  { href: `mailto:${p.email}`, title: 'Email', note: p.email, Icon: Mail, external: false },
   { href: p.socials.linkedin, title: 'LinkedIn', note: 'Connect professionally', Icon: LinkedinIcon, external: true },
   { href: p.socials.github, title: 'GitHub', note: "See what I'm building", Icon: GithubIcon, external: true },
   { href: p.socials.medium, title: 'Medium', note: 'Read my articles', Icon: MediumIcon, external: true },
@@ -37,7 +36,7 @@ const channels = [
       channels.map(({ href, title, note, Icon, external }, i) => (
         <a
           href={href}
-          class:list={['card card-hover card-gilded group flex items-center gap-4 p-5', `reveal-i-${(i % 5) + 1}`]}
+          class:list={['card card-hover group flex items-center gap-4 p-5', `reveal-i-${(i % 5) + 1}`]}
           data-reveal
           {...(external ? { target: '_blank', rel: 'me noopener noreferrer' } : {})}
         >

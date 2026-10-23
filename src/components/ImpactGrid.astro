@@ -16,10 +16,7 @@ const isExternal = (href: string) => href.startsWith('http');
     items.map((m, i) => (
       <a
         href={m.proof}
-        class:list={[
-          'impact-tile card card-hover card-gilded group flex flex-col p-5 sm:p-6',
-          `reveal-i-${(i % 5) + 1}`,
-        ]}
+        class:list={['impact-tile card card-hover group flex flex-col p-5 sm:p-6', `reveal-i-${(i % 5) + 1}`]}
         data-reveal
         {...(isExternal(m.proof) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       >

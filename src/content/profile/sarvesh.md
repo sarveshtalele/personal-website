@@ -7,38 +7,20 @@
 name: Sarvesh Talele
 fullName: Sarvesh Kishor Talele
 role: AI Engineer · Claude Certified Architect
+# Small label above the landing-page headline.
+heroLabel: AI Engineer
 headline: Simple problems. Complex methods. Simple explanations.
 tagline: AI Engineer at Tata Consultancy Services building agentic systems, Graph-RAG pipelines, and secure LLM platforms used by enterprise teams every day.
 summary: AI Engineer and Claude Certified Architect building agentic AI systems, multi-agent workflows, and enterprise LLM platforms. Writing about MCP, RAG, deterministic AI, and the philosophy of building things that think.
 location: Thane, India
-email: talelesarvesh@gmail.com
 employer: Tata Consultancy Services
 photo: /images/sarvesh-talele.jpg
 
-# The three lenses shown in the landing-page hero. icon = a lucide icon name
-# from this list: brain, cpu, compass, feather, globe, book
-personas:
-  - title: Philosopher
-    icon: feather
-    line: Asking why before how. Reading Dostoevsky, Camus, and Housel to understand the humans behind every system.
-  - title: AI Engineer
-    icon: cpu
-    line: Shipping agentic workflows, MCP servers, and Graph-RAG pipelines that serve 50K+ requests a day.
-  - title: Traveller
-    icon: compass
-    line: Collecting perspectives from new places, because the best design ideas rarely come from the desk.
-
-# Rotates on the landing page. Add as many as you like.
+# Shown under the headline on the landing page (the first one is used).
 quotes:
   - text: The mystery of human existence lies not in just staying alive, but in finding something to live for.
     author: Fyodor Dostoevsky
     source: The Brothers Karamazov
-  - text: Doing well with money has a little to do with how smart you are and a lot to do with how you behave.
-    author: Morgan Housel
-    source: The Psychology of Money
-  - text: The struggle itself toward the heights is enough to fill a man's heart.
-    author: Albert Camus
-    source: The Myth of Sisyphus
 
 socials:
   github: https://github.com/sarveshtalele

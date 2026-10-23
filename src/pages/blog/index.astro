@@ -1,7 +1,7 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import BlogCard from '@components/BlogCard.astro';
-import { Search, Rss } from '@lucide/astro';
+import { Search } from '@lucide/astro';
 import { getPosts } from '@lib/content';
 import { minutesRead, tagIndex } from '@lib/blog';
 
@@ -33,9 +33,6 @@ const [lead, ...rest] = posts;
               />
               <input type="search" class="field pl-9" placeholder="Search posts…" data-q autocomplete="off" />
             </label>
-            <a href="/rss.xml" class="pill inline-flex items-center gap-1.5 self-start sm:self-auto">
-              <Rss class="h-3.5 w-3.5" aria-hidden="true" /> RSS
-            </a>
           </div>
           {categories.length > 1 && (
             <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
@@ -52,7 +49,7 @@ const [lead, ...rest] = posts;
           <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by tag">
             {tags.map((t) => (
               <button type="button" class="pill text-xs" data-tag={t.slug} aria-pressed="false">
-                #{t.label} <span class="opacity-60">{t.count}</span>
+                {t.label} <span class="opacity-60">{t.count}</span>
               </button>
             ))}
           </div>

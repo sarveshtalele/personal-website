@@ -8,7 +8,6 @@ import ImpactGrid from '@components/ImpactGrid.astro';
 import RepoCard from '@components/RepoCard.astro';
 import BlogCard from '@components/BlogCard.astro';
 import Timeline from '@components/Timeline.astro';
-import QuoteInterlude from '@components/QuoteInterlude.astro';
 import TopmateCTA from '@components/TopmateCTA.astro';
 import { GraduationCap, BookOpen } from '@lucide/astro';
 import { getProfile, getPosts, getProjectSettings } from '@lib/content';
@@ -26,37 +25,27 @@ const experience = (await getCollection('experience')).sort(byDateDesc((e) => e.
 const claudeCerts = (await getCollection('certifications'))
   .filter((c) => c.data.featured && c.data.badge)
   .sort(byDateDesc((c) => c.data.date));
-const marquee = [...profile.credentials, ...profile.credentials];
 ---
 
 <BaseLayout title="Sarvesh Talele">
   <Hero />
 
-  <section id="proof" class="border-y border-line bg-bg-alt/50 py-6" aria-label="Credentials">
-    <div class="marquee">
-      <ul class="marquee-track">
-        {
-          marquee.map((c, i) => (
-            <li
-              class="flex items-center gap-10 whitespace-nowrap"
-              aria-hidden={i >= profile.credentials.length ? 'true' : undefined}
+  <section id="proof" class="border-y border-line py-8" aria-label="Credentials">
+    <ul class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-2 px-4 sm:px-6">
+      {
+        profile.credentials.map((c) => (
+          <li>
+            <a
+              href={c.href}
+              class="chip transition-colors hover:border-accent hover:text-primary"
+              {...(c.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             >
-              <a
-                href={c.href}
-                class="font-display text-xl italic text-fg-muted transition-colors hover:text-accent sm:text-2xl"
-                {...(c.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                tabindex={i >= profile.credentials.length ? -1 : undefined}
-              >
-                {c.label}
-              </a>
-              <span class="text-accent" aria-hidden="true">
-                ✦
-              </span>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+              {c.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   <Container>
@@ -88,8 +77,6 @@ const marquee = [...profile.credentials, ...profile.credentials];
       </div>
     </Section>
   </Container>
-
-  <QuoteInterlude />
 
   <Container>
     <Section
@@ -124,11 +111,13 @@ const marquee = [...profile.credentials, ...profile.credentials];
       )
     }
 
-    <Section eyebrow="Claude" title="Certified twice. Teaching it for free." href="/claude" linkLabel="Explore Claude">
-      <div
-        class="card card-gilded grid gap-8 overflow-hidden p-6 sm:p-10 lg:grid-cols-[1fr_1.2fr] lg:items-center"
-        data-reveal
-      >
+    <Section
+      eyebrow="Claude Prep"
+      title="Certified twice. Teaching it for free."
+      href="/claude"
+      linkLabel="Open Claude Prep"
+    >
+      <div class="card grid gap-8 overflow-hidden p-6 sm:p-10 lg:grid-cols-[1fr_1.2fr] lg:items-center" data-reveal>
         <div class="flex items-center justify-center gap-4 sm:gap-8">
           {
             claudeCerts.map((c) => (

@@ -27,10 +27,11 @@ export const GISCUS = {
 } as const;
 
 export const NAV_LINKS = [
+  { label: 'Home', href: '/' },
   { label: 'Dashboard', href: '/dashboard' },
   { label: 'Projects', href: '/projects' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Claude', href: '/claude' },
+  { label: 'Claude Prep', href: '/claude' },
   { label: 'About', href: '/about' },
 ] as const;
 
@@ -40,6 +41,5 @@ export const FOOTER_LINKS = [
   { label: 'Publications', href: '/publications' },
   { label: 'Mock exam', href: '/claude/quiz' },
   { label: 'Contact', href: '/contact' },
-  { label: 'RSS', href: '/rss.xml' },
   { label: 'Privacy', href: '/privacy' },
 ] as const;

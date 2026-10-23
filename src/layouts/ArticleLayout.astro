@@ -86,7 +86,7 @@ const originHost = originalUrl ? new URL(originalUrl).hostname.replace(/^www\./,
         tags.length > 0 && (
           <div class="mt-5 flex flex-wrap justify-center gap-2">
             {tags.map((tag) => (
-              <Tag tag={`#${tag}`} href={`/blog/tags/${slugifyTag(tag)}`} linked />
+              <Tag tag={tag} href={`/blog/tags/${slugifyTag(tag)}`} linked />
             ))}
           </div>
         )

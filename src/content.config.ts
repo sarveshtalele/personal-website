@@ -26,10 +26,9 @@ const profile = defineCollection({
     tagline: z.string(),
     summary: z.string(),
     location: z.string(),
-    email: z.email(),
     employer: z.string(),
     photo: z.string(),
-    personas: z.array(z.object({ title: z.string(), line: z.string(), icon: z.string() })),
+    heroLabel: z.string().default('AI Engineer'),
     quotes: z.array(z.object({ text: z.string(), author: z.string(), source: z.string().optional() })).min(1),
     socials: z.object({
       github: link,
