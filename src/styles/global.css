@@ -366,7 +366,46 @@ body {
   --reveal-i: 5;
 }
 
-/* Infinite marquee used for the credential strip. */
+/* Pointer spotlight + subtle 3D tilt on interactive cards (BaseLayout script
+   sets --mx/--my/--rx/--ry). Pure decoration: without JS nothing changes. */
+.card-hover {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+}
+.card-hover:hover {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-3px);
+}
+.card-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--accent) 16%, transparent),
+    transparent 45%
+  );
+  transition: opacity 300ms ease;
+}
+.card-hover:hover::after {
+  opacity: 1;
+}
+
+/* Section titles wipe in from below once revealed. */
+.js [data-reveal] h2 {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(0.4em);
+  transition:
+    clip-path 900ms cubic-bezier(0.2, 0.7, 0.2, 1) 120ms,
+    transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1) 120ms;
+}
+.js [data-reveal].is-visible h2 {
+  clip-path: inset(0 0 -10% 0);
+  transform: none;
+}
+
+/* Infinite marquee (skills strip). */
 .marquee {
   display: flex;
   overflow: hidden;
@@ -591,6 +630,14 @@ body {
   }
   .js [data-reveal] {
     opacity: 1;
+    transform: none;
+  }
+  .js [data-reveal] h2 {
+    clip-path: none;
+    transform: none;
+  }
+  .card-hover,
+  .card-hover:hover {
     transform: none;
   }
 }

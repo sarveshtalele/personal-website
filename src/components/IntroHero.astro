@@ -22,7 +22,7 @@ const [line1, line2, line3] = profile.headline.split(/(?<=\.)\s+/);
 const requests = dashboard.impact.find((m) => /request/i.test(m.label));
 ---
 
-<section id="intro" class="scroll-mt-20 px-4 py-16 sm:px-6 sm:py-24">
+<section id="intro" class="hero-wrap px-4 pb-16 pt-8 sm:px-6 sm:pb-24 sm:pt-12">
   <div class="intro mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] lg:grid-cols-[1.15fr_1fr]" data-intro>
     <div class="relative flex flex-col justify-center p-8 sm:p-12 lg:p-16">
       <p class="eyebrow">{profile.heroLabel}</p>
@@ -47,17 +47,18 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
           </figure>
         )
       }
-      <p class="fade-up mt-10 text-lg font-semibold leading-snug text-fg">
+      <h1 class="fade-up mt-10 text-xl font-semibold leading-snug tracking-tight text-fg sm:text-2xl">
         {line1}
         {line2 && <> {line2}</>}
         {line3 && <span class="text-primary"> {line3}</span>}
-      </p>
+      </h1>
       <p class="fade-up mt-3 max-w-lg text-fg-muted">{profile.tagline}</p>
       <div class="fade-up mt-8 flex flex-wrap gap-3">
         <Button href="/dashboard">
           See the evidence <ArrowRight class="h-4 w-4" aria-hidden="true" />
         </Button>
         <Button href="/projects" variant="secondary">Explore projects</Button>
+        <Button href="/blog" variant="secondary">Read the blog</Button>
       </div>
     </div>
 
@@ -91,10 +92,45 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
 </section>
 
 <style>
+  /* Rotating gradient border: a conic gradient painted only in the 1.5px
+     padding ring around the card, spun via an animatable custom property. */
+  @property --spin {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+  }
   .intro {
+    position: relative;
     background: var(--card);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--shadow-card-hover);
+  }
+  .intro::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--spin),
+      var(--border) 0deg,
+      var(--accent) 60deg,
+      var(--primary) 120deg,
+      var(--border) 180deg,
+      var(--border) 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    animation: spin-border 8s linear infinite;
+  }
+  @keyframes spin-border {
+    to {
+      --spin: 360deg;
+    }
   }
   .q-mark {
     display: block;
@@ -264,7 +300,8 @@ const requests = dashboard.impact.find((m) => /request/i.test(m.label));
   }
   @media (prefers-reduced-motion: reduce) {
     .blob,
-    .chip-float {
+    .chip-float,
+    .intro::before {
       animation: none;
     }
   }

@@ -73,3 +73,9 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 17:45 UTC] ACTION — Replaced Hero with CardFanHero (rotating card deck on an arc, dashed ring with counter-rotating text, ▲ ME link, staggered deal-in, pointer parallax, hover pause) and IntroHero (rounded rectangle: word-by-word quote reveal left; photo right with self-drawing SVG lines, drifting blobs, floating proof chips). All cards data-driven. Docs + CLAUDE.md rule 5 updated.
 [2026-10-23 17:45 UTC] DONE — build ✔, astro check 0/0, eslint clean, Playwright QA clean (16 pages × light/dark × desktop/mobile), no horizontal overflow.
 [2026-10-23 17:46 UTC] DONE — Deploy 39997718483 succeeded; card-fan hero + intro rectangle verified live on sarveshtalele.org.
+
+## Session 5 — Rectangle hero only + more motion
+
+[2026-10-23 18:02 UTC] PLAN — Owner: remove card-fan hero, keep only the rectangle hero (now first on the page), add a Blog button to it, add more motion graphics site-wide (animated hero border, skills marquee, card spotlight + tilt, stronger heading reveals). All reduced-motion safe.
+[2026-10-23 18:04 UTC] ACTION — Removed CardFanHero; IntroHero is now the hero (h1 headline, Blog button, rotating conic gradient border). Added SkillsMarquee (two counter-scrolling rows), pointer spotlight + 3D tilt on all .card-hover cards, section-title wipe-in. Docs updated.
+[2026-10-23 18:04 UTC] DONE — build ✔, astro check 0/0, eslint clean, browser QA: no errors, no overflow at 390/1440.

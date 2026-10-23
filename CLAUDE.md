@@ -21,8 +21,8 @@ build time. The owner should only ever need to edit Markdown.
    links use `target="_blank" rel="noopener noreferrer"`.
 5. **Colours only via theme tokens** in `src/styles/global.css` (`--bg`, `--fg`, `--primary`, `--accent`, …). Light =
    cream/espresso/gold, dark = espresso/ivory/champagne. Apple-style base: system font stack only (no web fonts),
-   clean cards. The landing page is the owner-requested motion exception: a rotating card-fan hero
-   (`CardFanHero.astro`) and a rectangle intro (`IntroHero.astro`). No persona cards, canvas effects, or travel section.
+   clean cards. Owner-requested motion: rectangle hero (`IntroHero.astro`, rotating gradient border),
+   skills marquee, card spotlight + tilt (BaseLayout script), heading wipe-ins. No persona cards, canvas effects, or travel section.
 6. Shared component classes (`.card`, `.chip`, `.pill`, `.field`, `.btn-primary`, `.link-arrow`, `.verify-btn`) live in
    `@layer components` in `global.css` so Tailwind utilities can override them. Don't put shared classes in a single
    component's `<style is:global>`.

@@ -27,7 +27,7 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 | Your title, headline, bio or socials change | `src/content/profile/sarvesh.md` | Navbar, hero, footer, About, SEO metadata, JSON-LD, Contact |
 | The small label above the headline | `profile/sarvesh.md` → `heroLabel:` | Landing hero (currently "AI Engineer") |
 | You learn a new tool | `profile/sarvesh.md` → `skills:` | Skills dashboard on About + Dashboard |
-| The quote on the landing page | `profile/sarvesh.md` → `quotes:` (first entry is used) | Intro rectangle under the card deck |
+| The quote on the landing page | `profile/sarvesh.md` → `quotes:` (first entry is used) | Hero rectangle |
 | A new achievement or award | `profile/sarvesh.md` → `achievements:` (and update the `8×` tile in `metrics.md` if it is a TCS award) | About "Achievements", dashboard |
 | You want a new Claude practice question | `src/content/claude/questions/domain-<n>.md` | Learn & Review library, counts on Claude/landing/dashboard |
 | A question has a wrong answer | Same file, move the `[x]` and fix the explanations | Mock exam + library |
@@ -126,16 +126,14 @@ Only one entry should have `current: true`.
 ## 3. Theme (do not change by accident)
 
 The site follows an **Apple-style** design: lots of whitespace, the system font, soft cards, and the cream-and-brown
-palette. The landing page opens with two motion sections:
+palette, with tasteful motion throughout:
 
-- **Card-fan hero** (`CardFanHero.astro`): a deck of rounded cards slowly turning on an arc above a dashed
-  "PORTFOLIO" ring, with "▲ ME" linking down to the intro. Cards are generated automatically: your B&W photo, the
-  Claude badge card, your first four `pinned:` repos, the first three dashboard `impact:` tiles, the latest blog post,
-  and the Claude Prep question count. Change those Markdown files and the deck changes. Hovering pauses the deck.
-- **Intro rectangle** (`IntroHero.astro`): the quote on the left (words rise in), your photo on the right with
-  self-drawing lines, drifting colour, and floating proof chips (Claude certifications, GitHub stars, daily requests).
-
-Everything else stays calm (fade-ins, count-ups). All motion switches off for visitors who prefer reduced motion.
+- **Hero rectangle** (`IntroHero.astro`): the quote on the left (words rise in), your headline, tagline and buttons
+  (evidence, projects, blog); your photo on the right with self-drawing lines, drifting colour, and floating proof chips
+  (Claude certifications, GitHub stars, daily requests). A gradient light runs around the card's border.
+- **Skills strip** (`SkillsMarquee.astro`): two rows of your `skills:` scrolling in opposite directions.
+- **Cards** everywhere get a soft spotlight that follows the pointer and a slight 3D tilt.
+- **Section titles** wipe in as you scroll; numbers count up. All motion switches off for visitors who prefer reduced motion.
 
 | Element | Light | Dark (default) |
 | --- | --- | --- |

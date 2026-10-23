@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import CardFanHero from '@components/CardFanHero.astro';
 import IntroHero from '@components/IntroHero.astro';
+import SkillsMarquee from '@components/SkillsMarquee.astro';
 import Container from '@components/Container.astro';
 import Section from '@components/Section.astro';
 import ImpactGrid from '@components/ImpactGrid.astro';
@@ -29,8 +29,8 @@ const claudeCerts = (await getCollection('certifications'))
 ---
 
 <BaseLayout title="Sarvesh Talele">
-  <CardFanHero />
   <IntroHero />
+  <SkillsMarquee />
 
   <section id="proof" class="border-y border-line py-8" aria-label="Credentials">
     <ul class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-2 px-4 sm:px-6">
