@@ -65,3 +65,7 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 16:39 UTC] ACTION — Navbar: profile photo replaces ST monogram, Home added, 'Claude Prep' label/title/crumbs; burger fixed by moving display to Tailwind utilities. Blog: RSS button removed, tags shown without '#'. Email removed from footer, CTA, contact, privacy, profile schema; SECURITY.md uses GitHub private reporting.
 [2026-10-23 16:39 UTC] DONE — build ✔, astro check 0/0, eslint clean, Playwright QA clean; burger verified on 390px (opens, navigates, Esc closes) and hidden at 1440px.
 [2026-10-23 16:41 UTC] ISSUE — Live check: '5 domains and30' (prettier wrapped text before an expression). Fixed with explicit {' '}. Deploy 39988630658 succeeded, Apple-style site verified live.
+
+## Session 4 — Hero from Behance reference
+
+[2026-10-23 17:34 UTC] ISSUE — Could not view the reference (behance.net/gallery/249893745): Behance/Vimeo CDNs blocked by the sandbox proxy; scraper returns only OCR text (About page, film poster), no layout. Asked owner for a screenshot of the hero instead of guessing.
