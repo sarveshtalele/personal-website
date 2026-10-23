@@ -2,7 +2,8 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import IntroHero from '@components/IntroHero.astro';
-import SkillsMarquee from '@components/SkillsMarquee.astro';
+import SkillsBento from '@components/SkillsBento.astro';
+import CredentialCards from '@components/CredentialCards.astro';
 import ScrollStory from '@components/ScrollStory.astro';
 import Container from '@components/Container.astro';
 import Section from '@components/Section.astro';
@@ -12,13 +13,12 @@ import BlogCard from '@components/BlogCard.astro';
 import Timeline from '@components/Timeline.astro';
 import TopmateCTA from '@components/TopmateCTA.astro';
 import { GraduationCap, BookOpen } from '@lucide/astro';
-import { getProfile, getPosts, getProjectSettings } from '@lib/content';
+import { getPosts, getProjectSettings } from '@lib/content';
 import { getGithubStats } from '@lib/github';
 import { minutesRead } from '@lib/blog';
 import { byDateDesc } from '@utils/format';
 import claudeStats from '../data/claude-stats.json';
 
-const { data: profile } = await getProfile();
 const settings = await getProjectSettings();
 const gh = await getGithubStats();
 const posts = (await getPosts()).slice(0, 3);
@@ -31,32 +31,24 @@ const claudeCerts = (await getCollection('certifications'))
 
 <BaseLayout title="Sarvesh Talele">
   <IntroHero />
-  <SkillsMarquee />
-  <ScrollStory />
+  <Container>
+    <Section
+      id="proof"
+      eyebrow="Credentials"
+      title="Things you can check."
+      description="Certifications, research, and recognition. Each card opens the proof."
+    >
+      <CredentialCards />
+    </Section>
+  </Container>
 
-  <section id="proof" class="border-y border-line py-8" aria-label="Credentials">
-    <ul class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-2 px-4 sm:px-6">
-      {
-        profile.credentials.map((c) => (
-          <li>
-            <a
-              href={c.href}
-              class="chip transition-colors hover:border-accent hover:text-primary"
-              {...(c.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            >
-              {c.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+  <ScrollStory />
 
   <Container>
     <Section
-      eyebrow="Evidence"
-      title="Impact, with receipts"
-      description="Every number links to where it can be verified."
+      eyebrow="Impact"
+      title="What my work has done so far."
+      description="Numbers from real projects at TCS. Tap any card to see where it comes from."
       href="/dashboard"
       linkLabel="Full dashboard"
     >
@@ -76,7 +68,7 @@ const claudeCerts = (await getCollection('certifications'))
         </a>
         <a href="/claude/review" class="mini-stat card card-hover p-4">
           <span class="font-display text-3xl font-semibold text-fg" data-count>{claudeStats.total}</span>
-          <span class="text-xs text-fg-muted">Free exam questions written</span>
+          <span class="text-xs text-fg-muted">Practice questions I wrote</span>
         </a>
       </div>
     </Section>
@@ -84,9 +76,9 @@ const claudeCerts = (await getCollection('certifications'))
 
   <Container>
     <Section
-      eyebrow="Selected work"
-      title="Pinned projects"
-      description="Hand-picked from GitHub. Stars and forks sync on every deploy."
+      eyebrow="Projects"
+      title="A few things I've built."
+      description="My favourite open-source work. Star and fork counts update from GitHub every day."
       href="/projects"
       linkLabel="All projects"
     >
@@ -103,7 +95,7 @@ const claudeCerts = (await getCollection('certifications'))
 
     {
       posts.length > 0 && (
-        <Section eyebrow="Writing" title="From the journal" href="/blog" linkLabel="All posts">
+        <Section eyebrow="Writing" title="Latest from the blog." href="/blog" linkLabel="All posts">
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((p, i) => (
               <div data-reveal class:list={[`reveal-i-${i + 1}`, posts.length === 1 && 'sm:col-span-2 lg:col-span-3']}>
@@ -117,7 +109,7 @@ const claudeCerts = (await getCollection('certifications'))
 
     <Section
       eyebrow="Claude Prep"
-      title="Certified twice. Teaching it for free."
+      title="I passed both Claude exams. Here's how you can too."
       href="/claude"
       linkLabel="Open Claude Prep"
     >
@@ -143,13 +135,9 @@ const claudeCerts = (await getCollection('certifications'))
         </div>
         <div>
           <p class="text-fg-muted">
-            I hold both Anthropic credentials and wrote a free prep library for the Foundations exam:{' '}
-            <strong class="text-fg">{claudeStats.total} scenario questions</strong> across {claudeStats.domains} domains and{
-              ' '
-            }
-            {claudeStats.tasks} task statements, each with an explanation and the official doc to read, plus a timed {
-              claudeStats.mock
-            }-question mock exam.
+            I wrote <strong class="text-fg">{claudeStats.total} practice questions</strong> while preparing for the Foundations
+            exam, and put them all online for free. There's a timed {claudeStats.mock}-question mock exam, and every
+            answer explains why the other options are wrong.
           </p>
           <div class="mt-6 flex flex-wrap gap-3">
             <a
@@ -169,7 +157,11 @@ const claudeCerts = (await getCollection('certifications'))
       </div>
     </Section>
 
-    <Section eyebrow="Journey" title="Where I've built" href="/experience" linkLabel="Full history">
+    <Section eyebrow="Toolbox" title="What I work with." href="/about" linkLabel="More about me">
+      <SkillsBento />
+    </Section>
+
+    <Section eyebrow="Experience" title="Where I've worked." href="/experience" linkLabel="Full history">
       <div data-reveal>
         <Timeline entries={experience.slice(0, 3)} maxHighlights={2} />
       </div>

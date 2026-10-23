@@ -4,28 +4,51 @@ import claudeStats from '../../data/claude-stats.json';
 ---
 
 <PageLayout
-  title="CCAR-F Question Bank: Learn & Review"
-  description={`All ${claudeStats.total} CCAR-F practice questions in one scrollable place, grouped by domain and task statement, with full explanations, concept summaries, and a link to the exact Claude documentation page to read for each topic.`}
+  title="Learn & Review"
+  description={`Every one of my ${claudeStats.total} CCAR-F practice questions on one page, grouped by topic. Search them, hide the answers to test yourself, and open the Claude doc behind each one.`}
   eyebrow="Claude · Learn & Review"
   crumbs={[{ label: 'Claude Prep', href: '/claude' }, { label: 'Learn & Review' }]}
 >
   <div class="review" id="review-app" data-q="/claude/review/questions.json" data-c="/claude/review/concepts.json">
-    <a href="/claude" class="review-back">&larr; Back to Claude Prep</a>
-    <div class="review-warning" role="note">
-      <strong>Unofficial study material.</strong> Original practice questions, not real exam questions and not affiliated
-      with or endorsed by Anthropic. Every item links to the Claude documentation page that covers the concept, so you can
-      learn it end to end.
+    <ul class="review-stats" aria-label="Library at a glance">
+      <li><strong>{claudeStats.total}</strong> questions</li>
+      <li><strong>{claudeStats.domains}</strong> domains</li>
+      <li><strong>{claudeStats.tasks}</strong> task statements</li>
+      <li><strong>1</strong> doc link per question</li>
+    </ul>
+    <p class="review-warning" role="note">
+      <strong>Unofficial.</strong> I wrote these to practise for the exam. They aren't real exam questions and aren't endorsed
+      by Anthropic, but every one links to the Claude doc that explains it.
+    </p>
+
+    <div class="review-bar" role="search">
+      <div class="review-bar-row">
+        <label class="review-search-wrap">
+          <span class="sr-only">Filter questions by keyword</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"
+            ><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg
+          >
+          <input
+            id="review-search"
+            type="search"
+            placeholder="Search questions, e.g. stop_reason, hooks, MCP…"
+            autocomplete="off"
+          />
+          <button type="button" class="review-clear" id="review-clear" aria-label="Clear search" hidden>Clear</button>
+        </label>
+        <label class="review-switch">
+          <input type="checkbox" id="review-testmode" role="switch" />
+          <span class="track" aria-hidden="true"><span class="thumb"></span></span>
+          <span class="label">Test mode <span class="hint">hide answers</span></span>
+        </label>
+        <span class="review-count" id="review-count" aria-live="polite"></span>
+      </div>
+      <nav class="review-jump" aria-label="Jump to domain">
+        <span>Jump to</span>
+        {[1, 2, 3, 4, 5].slice(0, claudeStats.domains).map((d) => <a href={`#d${d}`}>Domain {d}</a>)}
+      </nav>
     </div>
-    <div class="review-toolbar">
-      <input
-        id="review-search"
-        type="search"
-        placeholder="Filter questions by keyword…"
-        aria-label="Filter questions"
-      />
-      <label class="review-toggle"><input type="checkbox" id="review-testmode" /> Test mode (hide answers)</label>
-      <span class="review-count" id="review-count"></span>
-    </div>
+
     <div class="review-layout">
       <nav class="review-toc" id="review-toc" aria-label="Contents">
         <p class="review-toc-title">On this page</p>
@@ -70,54 +93,210 @@ import claudeStats from '../../data/claude-stats.json';
   .review-warning strong {
     color: var(--r-accent-strong);
   }
-  .review-toolbar {
+  .review-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .review-stats li {
+    border: 1px solid var(--r-line);
+    background: var(--r-card);
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.85rem;
+    color: var(--r-muted);
+  }
+  .review-stats strong {
+    color: var(--r-ink);
+    font-size: 1rem;
+  }
+
+  /* Sticky control bar: the main way to use a 360-question page. */
+  .review-bar {
+    position: sticky;
+    top: 4.5rem;
+    z-index: 30;
+    margin: 0 -0.5rem 1.5rem;
+    padding: 0.85rem;
+    border: 1px solid var(--r-line);
+    border-radius: 1.1rem;
+    background: color-mix(in srgb, var(--r-card) 92%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: var(--shadow-card);
+  }
+  .review-bar-row {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
     align-items: center;
-    margin-bottom: 1rem;
+  }
+  .review-search-wrap {
+    position: relative;
+    flex: 1 1 18rem;
+    display: flex;
+    align-items: center;
+  }
+  .review-search-wrap svg {
+    position: absolute;
+    left: 0.95rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: none;
+    stroke: var(--r-muted);
+    stroke-width: 2;
+    stroke-linecap: round;
+    pointer-events: none;
   }
   #review-search {
-    flex: 1;
-    min-width: 220px;
-    border: 1px solid var(--r-line);
-    background: var(--r-card);
+    width: 100%;
+    height: 3rem;
+    border: 1.5px solid var(--r-line);
+    background: var(--bg);
     color: var(--r-ink);
-    border-radius: 0.6rem;
-    padding: 0.5rem 0.8rem;
-    font-size: 0.9rem;
+    border-radius: 0.85rem;
+    padding: 0 4.5rem 0 2.75rem;
+    font-size: 1rem;
   }
-  .review-toggle {
+  #review-search:focus {
+    outline: none;
+    border-color: var(--r-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--r-accent) 18%, transparent);
+  }
+  #review-search::-webkit-search-cancel-button {
+    display: none;
+  }
+  .review-clear {
+    position: absolute;
+    right: 0.5rem;
+    border-radius: 0.6rem;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--r-accent);
+    background: var(--r-chip);
+  }
+  .review-clear[hidden] {
+    display: none;
+  }
+  .review-switch {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    font-size: 0.85rem;
-    color: var(--r-muted);
+    gap: 0.6rem;
+    min-height: 3rem;
+    padding: 0 0.85rem;
+    border: 1.5px solid var(--r-line);
+    border-radius: 0.85rem;
     cursor: pointer;
+    user-select: none;
+  }
+  .review-switch input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+  .review-switch .track {
+    position: relative;
+    width: 2.6rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: var(--r-line);
+    transition: background-color 200ms ease;
+  }
+  .review-switch .thumb {
+    position: absolute;
+    top: 0.15rem;
+    left: 0.15rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+    transition: transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .review-switch input:checked + .track {
+    background: var(--r-accent);
+  }
+  .review-switch input:checked + .track .thumb {
+    transform: translateX(1.1rem);
+  }
+  .review-switch input:focus-visible + .track {
+    outline: 2px solid var(--r-accent);
+    outline-offset: 2px;
+  }
+  .review-switch .label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--r-ink);
+  }
+  .review-switch .hint {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--r-muted);
   }
   .review-count {
-    font-size: 0.8rem;
-    color: var(--r-muted);
-    font-weight: 600;
-  }
-
-  .review-back {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    margin-bottom: 1rem;
-    border: 1px solid var(--r-line);
-    background: var(--r-chip);
-    color: var(--r-ink);
-    border-radius: 999px;
-    padding: 0.35rem 0.9rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-decoration: none;
+    min-height: 3rem;
+    padding: 0 1rem;
+    border-radius: 0.85rem;
+    background: var(--r-accent);
+    color: var(--on-primary);
+    font-size: 0.9rem;
+    font-weight: 700;
+    white-space: nowrap;
   }
-  .review-back:hover {
+  .review-jump {
+    white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--r-muted);
+  }
+  .review-jump a {
+    border: 1px solid var(--r-line);
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    font-weight: 600;
+    color: var(--r-ink);
+  }
+  .review-jump a:hover {
     border-color: var(--r-accent);
     color: var(--r-accent);
+  }
+  .review-top {
+    display: none !important;
+  }
+  @media (max-width: 640px) {
+    .review-bar {
+      top: 4.25rem;
+      margin: 0 -0.25rem 1.25rem;
+      padding: 0.6rem;
+    }
+    .review-switch .hint {
+      display: none;
+    }
+    .review-jump {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      margin-top: 0.6rem;
+      scrollbar-width: none;
+    }
+    .review-jump a {
+      flex-shrink: 0;
+    }
+    .review-switch,
+    .review-count,
+    #review-search {
+      min-height: 2.75rem;
+      height: 2.75rem;
+    }
   }
 
   .review-layout {
@@ -136,11 +315,17 @@ import claudeStats from '../../data/claude-stats.json';
   .review-toc {
     align-self: start;
   }
+  /* Below desktop the domain chips in the control bar replace the long sidebar. */
+  @media (max-width: 1023px) {
+    .review-toc {
+      display: none;
+    }
+  }
   @media (min-width: 1024px) {
     .review-toc {
       position: sticky;
-      top: 5rem;
-      height: calc(100vh - 6rem);
+      top: 12.5rem;
+      height: calc(100vh - 13.5rem);
       overflow-y: auto;
       padding-right: 0.4rem;
     }
@@ -233,7 +418,7 @@ import claudeStats from '../../data/claude-stats.json';
 
   .r-domain {
     margin-top: 2.5rem;
-    scroll-margin-top: 5rem;
+    scroll-margin-top: 13rem;
   }
   .r-domain:first-child {
     margin-top: 0;
@@ -288,7 +473,7 @@ import claudeStats from '../../data/claude-stats.json';
 
   .r-task {
     margin-top: 1.6rem;
-    scroll-margin-top: 5rem;
+    scroll-margin-top: 13rem;
   }
   .r-task h3 {
     font-size: 1.05rem;
@@ -581,7 +766,14 @@ import claudeStats from '../../data/claude-stats.json';
     });
     // search filter
     const search = document.getElementById('review-search') as HTMLInputElement;
+    const clearBtn = document.getElementById('review-clear') as HTMLButtonElement;
+    clearBtn.addEventListener('click', () => {
+      search.value = '';
+      search.dispatchEvent(new Event('input'));
+      search.focus();
+    });
     search.addEventListener('input', () => {
+      clearBtn.hidden = !search.value;
       const term = search.value.trim().toLowerCase();
       let shown = 0;
       contentEl.querySelectorAll<HTMLElement>('.r-q').forEach((card) => {
@@ -623,7 +815,7 @@ import claudeStats from '../../data/claude-stats.json';
     let activeTask = '',
       activeDom = '',
       ticking = false;
-    const LINE = 96; // px below the sticky navbar treated as the "current" line
+    const LINE = 220; // px below the sticky navbar + control bar treated as the "current" line
     function spy() {
       ticking = false;
       // active domain = last .r-domain whose top has crossed the line

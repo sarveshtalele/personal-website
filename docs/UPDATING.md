@@ -27,7 +27,7 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 | Your title, headline, bio or socials change | `src/content/profile/sarvesh.md` | Navbar, hero, footer, About, SEO metadata, JSON-LD, Contact |
 | The small label above the headline | `profile/sarvesh.md` → `heroLabel:` | Landing hero (currently "AI Engineer") |
 | Skill badges floating around your photo | `profile/sarvesh.md` → `heroChips:` (up to 3) | Landing hero |
-| You learn a new tool | `profile/sarvesh.md` → `skills:` | Skills dashboard on About + Dashboard |
+| You learn a new tool | `profile/sarvesh.md` → `skills:` | Toolbox cards on Home, About, and Dashboard |
 | The "How I work" steps | `profile/sarvesh.md` → `approach:` | Scroll story under the hero |
 | The quote on the landing page | `profile/sarvesh.md` → `quotes:` (first entry is used) | Hero (under the headline) |
 | A new achievement or award | `profile/sarvesh.md` → `achievements:` (and update the `8×` tile in `metrics.md` if it is a TCS award) | About "Achievements", dashboard |
@@ -56,7 +56,7 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 | `summary` | Default meta description, RSS description | 150–160 characters is ideal for search |
 | `quotes` | Landing hero (first one) | `source` optional |
 | `socials` | Navbar, footer, Contact, badges, JSON-LD `sameAs` | Must be `https://` links. No email is shown anywhere on the site by design |
-| `credentials` | Landing credential row | Each item needs `href` (proof) |
+| `credentials` | Credential cards on the landing page | `label`, `href` (proof), optional `note` (issuer · year) and `badge` (image path in `public/`) |
 | `achievements` | About | `href` optional |
 | `education`, `skills` | About, Dashboard | Skills are grouped; groups become filter pills |
 | Body (Markdown below `---`) | About page story | Plain Markdown, links allowed |
@@ -136,7 +136,9 @@ palette, with tasteful motion throughout:
   `profile/sarvesh.md`, up to 3), and social icons below. The quote is the big heading; your headline line sits
   under it; buttons are Read the blog and Explore projects. The photo tilts
   and the chips drift with the pointer.
-- **Skills strip** (`SkillsMarquee.astro`): two rows of your `skills:` scrolling in opposite directions.
+- **Credential cards** (`CredentialCards.astro`): one card per item in `credentials:` with its badge (or a matching
+  icon), a short note, and a Verify / See details link.
+- **Toolbox** (`SkillsBento.astro`): one card per group in `skills:`; the pills pop in when the card scrolls into view.
 - **Cards** everywhere get a soft spotlight that follows the pointer and a slight 3D tilt.
 - **Section titles** wipe in as you scroll; numbers count up.
 - **How I work** (`ScrollStory.astro`): stacking cards. Each step is a card that sticks as you scroll while the next
@@ -205,3 +207,12 @@ workflow re-runs it automatically.
 | Quarterly | Dashboard metrics, experience highlights, skills |
 | On each credential | Certification file + badge image; `credentials:` in profile |
 | When Anthropic updates the exam | `claude/exams/foundations.md`, affected questions |
+
+## 8. Writing style
+
+Write the way you'd talk to someone over coffee: first person, short sentences, plain words. Skip slogans, buzzwords
+("leverage", "synergy", "cutting-edge"), and long dashes. Say what you did and what changed because of it.
+
+## 9. Design
+
+The reasoning behind the layout, colours, and motion is in [`DESIGN-PLAN.md`](DESIGN-PLAN.md).

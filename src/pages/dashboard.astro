@@ -4,8 +4,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 import ImpactGrid from '@components/ImpactGrid.astro';
 import GithubPanel from '@components/GithubPanel.astro';
 import CredentialWall from '@components/CredentialWall.astro';
-import VerifiedBadges from '@components/VerifiedBadges.astro';
-import SkillsDashboard from '@components/SkillsDashboard.astro';
+import SkillsBento from '@components/SkillsBento.astro';
 import Icon from '@components/Icon.astro';
 import { ArrowUpRight, FlaskConical } from '@lucide/astro';
 import { getDashboard } from '@lib/content';
@@ -20,10 +19,6 @@ const isExternal = (href: string) => href.startsWith('http');
 ---
 
 <PageLayout title="Dashboard" description={dashboard.intro} eyebrow={dashboard.title} crumbs={[{ label: 'Dashboard' }]}>
-  <div class="mb-12" data-reveal>
-    <VerifiedBadges />
-  </div>
-
   {
     current && (
       <div class="card mb-12 grid gap-6 p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:p-8" data-reveal>
@@ -44,12 +39,14 @@ const isExternal = (href: string) => href.startsWith('http');
     )
   }
 
-  <h2 class="font-display text-3xl font-semibold text-fg sm:text-4xl" data-reveal>Production impact</h2>
-  <p class="mb-6 mt-2 text-sm text-fg-muted">From enterprise deployments at TCS. Click any tile for the source.</p>
+  <h2 class="font-display text-3xl font-semibold text-fg sm:text-4xl" data-reveal>Impact at work</h2>
+  <p class="mb-6 mt-2 text-sm text-fg-muted">
+    From projects I've shipped at TCS. Tap a card to see where the number comes from.
+  </p>
   <ImpactGrid />
 
   <h2 class="mt-16 font-display text-3xl font-semibold text-fg sm:text-4xl" data-reveal>Open source</h2>
-  <p class="mb-6 mt-2 text-sm text-fg-muted">Computed from the public GitHub API, not typed by hand.</p>
+  <p class="mb-6 mt-2 text-sm text-fg-muted">Pulled straight from GitHub every day, so these stay honest.</p>
   <GithubPanel />
 
   <div class="mt-16 grid gap-6 lg:grid-cols-3">
@@ -74,8 +71,8 @@ const isExternal = (href: string) => href.startsWith('http');
     }
   </div>
 
-  <h2 class="mt-16 font-display text-3xl font-semibold text-fg sm:text-4xl" data-reveal>Verified credentials</h2>
-  <p class="mb-6 mt-2 text-sm text-fg-muted">Badges link to the issuer's own verification page.</p>
+  <h2 class="mt-16 font-display text-3xl font-semibold text-fg sm:text-4xl" data-reveal>Credentials</h2>
+  <p class="mb-6 mt-2 text-sm text-fg-muted">Each badge opens the issuer's own verification page.</p>
   <CredentialWall />
 
   <h2 class="mt-16 font-display text-3xl font-semibold text-fg sm:text-4xl" data-reveal>Research</h2>
@@ -117,7 +114,7 @@ const isExternal = (href: string) => href.startsWith('http');
     }
   </div>
 
-  <h2 class="mt-16 font-display text-3xl font-semibold text-fg sm:text-4xl" data-reveal>Knowledge shared</h2>
+  <h2 class="mt-16 font-display text-3xl font-semibold text-fg sm:text-4xl" data-reveal>What I've shared</h2>
   <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
     {
       [
@@ -136,6 +133,6 @@ const isExternal = (href: string) => href.startsWith('http');
     }
   </div>
 
-  <h2 class="mb-6 mt-16 font-display text-3xl font-semibold text-fg sm:text-4xl" data-reveal>Toolbox</h2>
-  <SkillsDashboard />
+  <h2 class="mb-6 mt-16 font-display text-3xl font-semibold text-fg sm:text-4xl" data-reveal>What I work with</h2>
+  <SkillsBento />
 </PageLayout>

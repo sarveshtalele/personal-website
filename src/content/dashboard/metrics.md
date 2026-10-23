@@ -5,8 +5,8 @@
 # where the bullet lives). GitHub stats (stars, forks, repos, languages) are
 # computed automatically from the GitHub API at build time; do not add them here.
 # ─────────────────────────────────────────────────────────────────────────────
-title: Engineering impact, with receipts
-intro: Every number below links to where it can be verified. GitHub figures are pulled from the GitHub API on each deploy.
+title: My work, with proof
+intro: Every number here links to where you can check it. The GitHub numbers update by themselves every day.
 
 impact:
   - value: 4+ yrs
@@ -43,17 +43,17 @@ impact:
 highlights:
   - title: Claude Certified Architect
     icon: shield
-    description: Both Anthropic credentials, Foundations (Mar 2026) and Professional (Jul 2026), verifiable on Credly.
+    description: I passed Foundations in March 2026 and Professional in July 2026. Both are on Credly.
     href: /certifications
     linkLabel: Verify credentials
   - title: Peer-reviewed research
     icon: flask
-    description: Zero-shot accident detection pipeline for ACCIDENT @ CVPR 2026, on arXiv and indexed in NASA ADS.
+    description: A paper on spotting traffic accidents in CCTV video without training data, for ACCIDENT @ CVPR 2026.
     href: https://arxiv.org/abs/2604.09685
     linkLabel: Read on arXiv
   - title: Open-source educator
     icon: book
-    description: The Claude Architect exam guide is my most-starred and most-forked repo, plus 360 free practice questions on this site.
+    description: My Claude exam guide is my most-starred project on GitHub, and the 360 practice questions here are free.
     href: https://github.com/sarveshtalele/claude-architect-exam-guide
     linkLabel: View the repo
 ---

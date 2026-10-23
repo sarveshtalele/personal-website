@@ -41,7 +41,16 @@ const profile = defineCollection({
       topmate: link.optional(),
       credly: link.optional(),
     }),
-    credentials: z.array(z.object({ label: z.string(), href: link })),
+    credentials: z.array(
+      z.object({
+        label: z.string(),
+        href: link,
+        /** Optional badge image in public/ (e.g. /images/badges/x.png); otherwise an icon is chosen. */
+        badge: z.string().optional(),
+        /** Short line under the title, e.g. issuer or year. */
+        note: z.string().optional(),
+      }),
+    ),
     achievements: z.array(z.object({ text: z.string(), href: link.optional() })),
     education: z.array(z.object({ degree: z.string(), institution: z.string(), year: z.string(), detail: z.string() })),
     skills: z.array(z.object({ group: z.string(), items: z.array(z.string()) })),

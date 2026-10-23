@@ -15,9 +15,9 @@ const steps = profile.approach;
   steps.length > 0 && (
     <section class="mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-28" data-stack aria-labelledby="stack-title">
       <div class="mx-auto max-w-2xl text-center" data-reveal>
-        <p class="eyebrow justify-center">How I work</p>
+        <p class="eyebrow justify-center">My process</p>
         <h2 id="stack-title" class="mt-3 font-display text-4xl font-bold leading-tight text-fg sm:text-5xl">
-          From a human problem to a system people trust.
+          How I like to work.
         </h2>
       </div>
       <ol class="stack mt-14">
@@ -25,7 +25,10 @@ const steps = profile.approach;
           <li class="stack-item" style={`--i:${i}`} data-stack-item>
             <article class:list={['stack-card', `tone-${i % 4}`]} data-stack-card>
               <span class="stack-glow" aria-hidden="true" />
-              <div class="relative flex h-full flex-col justify-between gap-10 sm:flex-row sm:items-end">
+              <span class="stack-num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div class="relative pr-20 sm:pr-36">
                 <div class="max-w-xl">
                   <p class="text-sm font-semibold text-accent">
                     Step {String(i + 1).padStart(2, '0')} of {String(steps.length).padStart(2, '0')}
@@ -33,9 +36,6 @@ const steps = profile.approach;
                   <h3 class="mt-3 font-display text-3xl font-bold leading-tight text-fg sm:text-4xl">{s.title}</h3>
                   <p class="mt-4 text-lg leading-relaxed text-fg-muted">{s.text}</p>
                 </div>
-                <span class="stack-num" aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
               </div>
               <div class="stack-progress" aria-hidden="true">
                 {steps.map((_, k) => (
@@ -83,12 +83,12 @@ const steps = profile.approach;
     width: 60%;
     aspect-ratio: 1;
     border-radius: 9999px;
-    filter: blur(50px);
-    opacity: 0.45;
+    filter: blur(60px);
+    opacity: 0.22;
     animation: glow-drift 12s ease-in-out infinite;
   }
   :global(.dark) .stack-glow {
-    opacity: 0.22;
+    opacity: 0.18;
   }
   .tone-0 .stack-glow {
     background: var(--accent);
@@ -108,12 +108,18 @@ const steps = profile.approach;
     }
   }
   .stack-num {
-    font-size: clamp(4.5rem, 12vw, 8rem);
+    position: absolute;
+    right: clamp(1.25rem, 4vw, 3rem);
+    top: clamp(1rem, 3vw, 2.25rem);
+    font-size: clamp(3.25rem, 9vw, 6.5rem);
     font-weight: 800;
-    line-height: 0.8;
+    line-height: 1;
     letter-spacing: -0.05em;
+    background: linear-gradient(160deg, var(--accent), var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
-    -webkit-text-stroke: 1.5px color-mix(in srgb, var(--accent) 70%, transparent);
+    opacity: 0.9;
   }
   .stack-progress {
     position: absolute;

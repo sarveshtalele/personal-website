@@ -22,7 +22,7 @@ build time. The owner should only ever need to edit Markdown.
 5. **Colours only via theme tokens** in `src/styles/global.css` (`--bg`, `--fg`, `--primary`, `--accent`, …). Light =
    cream/espresso/gold, dark = espresso/ivory/champagne. Apple-style base: system font stack only (no web fonts),
    clean cards. Owner-requested motion: unboxed hero in the original layout (`IntroHero.astro`: text left, photo right),
-   skills marquee, scroll story, ⌘K quick menu, card spotlight + tilt, magnetic buttons,
+   credential cards, skills bento, stacking-card scroll story, ⌘K quick menu, card spotlight + tilt, magnetic buttons,
    view-transition theme toggle, back-to-top progress ring, heading wipe-ins. No persona cards, canvas effects, or travel section.
 6. Shared component classes (`.card`, `.chip`, `.pill`, `.field`, `.btn-primary`, `.link-arrow`, `.verify-btn`) live in
    `@layer components` in `global.css` so Tailwind utilities can override them. Don't put shared classes in a single
@@ -33,6 +33,8 @@ build time. The owner should only ever need to edit Markdown.
    `[YYYY-MM-DD HH:MM UTC] TYPE — note` (TYPE = PLAN, DECISION, ACTION, DONE, ISSUE).
 10. Commits are authored by the repo owner. Do not add AI co-author trailers.
 11. Never render the owner's email address anywhere on the site. Contact is Topmate + LinkedIn.
+13. Decorative layers (SVG lines, blobs, glows) must be `pointer-events: none` so they never cover links.
+14. Copy is first person, plain, and human (see `docs/UPDATING.md` → Writing style). Design rationale: `docs/DESIGN-PLAN.md`.
 12. Scoped component `<style>` is unlayered: never set `display` there on elements that also use Tailwind
     responsive visibility (`hidden`, `lg:hidden`, `sm:inline-flex`), or the utilities stop working.
 

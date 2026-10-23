@@ -1,0 +1,106 @@
+---
+/**
+ * Toolbox bento: one card per skill group from `skills:` in the profile.
+ * Pills pop in one after another when the card scrolls into view; the
+ * first group gets the wide tile.
+ */
+import { Code2, BrainCircuit, Cloud, Wrench, Layers } from '@lucide/astro';
+import { getProfile } from '@lib/content';
+
+const { data: profile } = await getProfile();
+function iconFor(group: string) {
+  if (/ai|agent|model/i.test(group)) return BrainCircuit;
+  if (/cloud|platform|infra/i.test(group)) return Cloud;
+  if (/tool/i.test(group)) return Wrench;
+  if (/language|framework/i.test(group)) return Code2;
+  return Layers;
+}
+const total = profile.skills.reduce((n, g) => n + g.items.length, 0);
+---
+
+<div class="bento grid gap-4 md:grid-cols-6" data-bento>
+  {
+    profile.skills.map((g, gi) => {
+      const Icon = iconFor(g.group);
+      const span = gi === 0 || gi === 3 ? 'md:col-span-4' : 'md:col-span-2';
+      return (
+        <section class:list={['bento-card card card-hover p-6 sm:p-7', span]} aria-label={g.group} data-bento-card>
+          <div class="flex items-start justify-between gap-4">
+            <span class="bento-icon">
+              <Icon class="h-5 w-5" aria-hidden="true" />
+            </span>
+            <span class="text-4xl font-bold leading-none tracking-tight text-fg/15">
+              {String(g.items.length).padStart(2, '0')}
+            </span>
+          </div>
+          <h3 class="mt-5 text-lg font-semibold text-fg">{g.group}</h3>
+          <ul class="mt-4 flex flex-wrap gap-2">
+            {g.items.map((s, i) => (
+              <li class="pill-pop" style={`--k:${i}`}>
+                {s}
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    })
+  }
+</div>
+<p class="mt-4 text-center text-sm text-fg-faint">{total} tools I use regularly, grouped the way I think about them.</p>
+
+<style>
+  .bento-icon {
+    display: inline-flex;
+    height: 2.75rem;
+    width: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.9rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .pill-pop {
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0.4rem 0.85rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--fg-muted);
+    transition:
+      opacity 500ms ease,
+      transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1.2),
+      border-color 200ms ease,
+      color 200ms ease;
+    transition-delay: calc(var(--k) * 40ms);
+  }
+  .pill-pop:hover {
+    border-color: var(--accent);
+    color: var(--primary);
+  }
+  :global(.js) .bento-card:not(.is-in) .pill-pop {
+    opacity: 0;
+    transform: translateY(10px) scale(0.92);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .bento-card:not(.is-in) .pill-pop {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
+      }
+    },
+    { threshold: 0.25 },
+  );
+  document.querySelectorAll('[data-bento-card]').forEach((c) => io.observe(c));
+</script>

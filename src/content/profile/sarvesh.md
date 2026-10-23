@@ -13,8 +13,8 @@ heroLabel: AI Engineer
 # automatic Claude-certification and GitHub-stars badges.
 heroChips: [AI Security, Harness Engineering, Azure Cloud]
 headline: Simple problems. Complex methods. Simple explanations.
-tagline: AI Engineer at Tata Consultancy Services building agentic systems, Graph-RAG pipelines, and secure LLM platforms used by enterprise teams every day.
-summary: AI Engineer and Claude Certified Architect building agentic AI systems, multi-agent workflows, and enterprise LLM platforms. Writing about MCP, RAG, deterministic AI, and the philosophy of building things that think.
+tagline: I'm an AI engineer at Tata Consultancy Services. I build AI agents and the plumbing around them, so big companies can actually rely on them.
+summary: Sarvesh Talele, AI engineer at TCS and Claude Certified Architect. I build AI agents for enterprise teams, write about what works, and share free Claude exam prep.
 location: Thane, India
 employer: Tata Consultancy Services
 photo: /images/sarvesh-talele.jpg
@@ -27,14 +27,14 @@ quotes:
 
 # "How I work" scroll story on the landing page. Steps light up as you scroll.
 approach:
-  - title: Understand the story first.
-    text: Every system starts with people. I map intent, constraints, and the cost of being wrong before touching a model.
-  - title: Let deterministic tools do the math.
-    text: Language models reason and explain. MCP tools, JSON schemas, and hooks guarantee the numbers and the rules.
-  - title: Orchestrate, don't overload.
-    text: A coordinator with focused subagents, explicit context passing, and clear escalation paths beats one giant prompt.
-  - title: Ship it, trace it, harden it.
-    text: Audited LLM proxies, tracing, security checks, and test harnesses in production, so enterprise teams can trust it every day.
+  - title: Understand the problem first.
+    text: Before I open an editor, I talk to the people who will use the thing. What do they need, and what happens if it's wrong?
+  - title: Let code do the maths.
+    text: Models are great at reading and explaining. Anything that has to be exact, like money, rules, or IDs, goes through tested code instead.
+  - title: Keep each agent small.
+    text: One coordinator, a few focused helpers, and clear hand-offs. Easier to test, easier to fix, cheaper to run.
+  - title: Ship it, then watch it.
+    text: Logs, audits, security checks, and test harnesses from day one, so teams can trust it on a busy Monday morning.
 
 socials:
   github: https://github.com/sarveshtalele
@@ -46,17 +46,25 @@ socials:
 
 # Credibility strip. Every item links to its proof.
 credentials:
-  - label: Claude Certified Architect · Professional
+  - label: Claude Certified Architect, Professional
+    note: Anthropic · 2026
+    badge: /images/badges/claude-certified-architect-professional.png
     href: https://www.credly.com/badges/a27e0744-fb64-43d7-9676-ceef2b11452a/public_url
-  - label: Claude Certified Architect · Foundations
+  - label: Claude Certified Architect, Foundations
+    note: Anthropic · 2026
+    badge: /images/badges/claude-certified-architect-foundations.png
     href: https://www.credly.com/badges/f164b498-cc76-44ef-9962-cc79f7d61fe7/public_url
-  - label: arXiv / NASA ADS published
+  - label: Published on arXiv, indexed in NASA ADS
+    note: ACCIDENT @ CVPR 2026
     href: https://arxiv.org/abs/2604.09685
-  - label: HarvardX CSAI certified
+  - label: HarvardX CSAI certificate
+    note: Harvard Extension School · 2024
     href: /certifications
   - label: Guinness World Record participant
+    note: Online programming lesson · 2021
     href: /about#achievements
-  - label: 8× awards at TCS
+  - label: 8 awards at TCS
+    note: Tata Consultancy Services
     href: /experience
 
 achievements:
@@ -88,19 +96,17 @@ skills:
     items: [Claude Code, GitHub Copilot, Copilot Studio, Codex, Antigravity, Spec-kit (SDD)]
 ---
 
-I started as a mechanical engineer, programming 8-axis KUKA robots to weld and cut steel. Machines that follow
-instructions perfectly taught me the first lesson I still build on: **precision is a design decision, not an
-accident.**
+I started out as a mechanical engineer, teaching 8-axis KUKA robots to weld and cut steel. Robots do exactly what you
+tell them, nothing more. That lesson stuck with me: **if something has to be precise, you have to design it that way.**
 
-Today I am an AI Engineer at Tata Consultancy Services, working with the CXO's office to turn messy, human
-workflows into agentic systems. I build multi-agent orchestration on Microsoft Foundry and MCP, Graph-RAG
-retrieval that ranked among the top internal research papers in a 10,000+ engineer division, and a secure LLM
-proxy on Azure that gives 100+ enterprise users audited access to models.
+These days I'm an AI engineer at Tata Consultancy Services. I work with the leadership team to turn slow, manual
+processes into AI agents. I've built multi-agent workflows on Microsoft Foundry and MCP, a Graph-RAG retrieval
+system that made it into the top 15 internal research papers in a division of 10,000+ engineers, and a secure LLM
+gateway on Azure that 100+ people use every day.
 
-I hold both Anthropic credentials, **Claude Certified Architect: Foundations and Professional**, and I share
-what I learn openly: my [exam guide](https://github.com/sarveshtalele/claude-architect-exam-guide) is the most
-starred thing I have built, and the [free mock exam](/claude/quiz) on this site has 360 practice questions.
+I hold both Anthropic certifications, **Claude Certified Architect: Foundations and Professional**. I like sharing
+what I learn, so my [exam guide](https://github.com/sarveshtalele/claude-architect-exam-guide) is open source, and
+the [practice exam](/claude/quiz) on this site is free.
 
-Outside work I read philosophy, write about where AI meets everyday life, and travel to see how other people
-solve the same human problems differently. The thread through all of it: **understand the story first, then let
-deterministic systems do the math.**
+Outside work I read a lot of philosophy, write about where AI meets everyday life, and travel whenever I can. The
+idea I keep coming back to: **understand the person first, then let reliable code handle the details.**
