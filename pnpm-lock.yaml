@@ -24,8 +24,8 @@ importers:
         specifier: ^3.7.4
         version: 3.7.4
       '@lucide/astro':
-        specifier: ^1.61.0
-        version: 1.61.0(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@24.19.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1))
+        specifier: ^1.63.0
+        version: 1.63.0(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@24.19.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1))
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1))
@@ -797,8 +797,8 @@ packages:
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
 
-  '@lucide/astro@1.61.0':
-    resolution: {integrity: sha512-XoFZGoHjYtnDTuOQ4b105IO+WUCh8rzitIgBIrkOcdC1PRmsvLx+fwnrCRHiZ1JfbA36r/jAMxQL/HeyRqKJjQ==}
+  '@lucide/astro@1.63.0':
+    resolution: {integrity: sha512-u/edquBZ8WqGE3yEh/DMoLZ7/jgKxBcKcGb//DYkm6/6ZTzYXwuAwhKWLCx5R5iyJN6nJBxLhOh3kmyWqe6/qw==}
     peerDependencies:
       astro: ^4 || ^5 || ^6 || ^7
 
@@ -818,6 +818,13 @@ packages:
     peerDependencies:
       '@emnapi/core': ^1.7.1 || ^2.0.0-alpha.4
       '@emnapi/runtime': ^1.7.1 || ^2.0.0-alpha.4
+
+  '@napi-rs/wasm-runtime@1.2.6':
+    resolution: {integrity: sha512-mRyDmEw9/fCDXCGfL1sbgIw/GUK0PVxRW4YwgPN61F3LQ+fSyoBFarJVzgGyhF6kRzEQZ0FejDqm4WLXSeqQmw==}
+    engines: {node: ^20.19.0 || ^22.13.0 || >=23.5.0}
+    peerDependencies:
+      '@emnapi/core': ^1.7.1 || 2.0.0-beta.2
+      '@emnapi/runtime': ^1.7.1 || 2.0.0-beta.2
 
   '@nodable/entities@3.1.0':
     resolution: {integrity: sha512-LsS/DjHr+uDM647Gru/cA8+J3a3HfhttwCKLyuoyN7yXTFCxKBtSgMQBvrW9yNPa2/zDRUNuGPaH5QUFoa4arQ==}
@@ -2345,6 +2352,10 @@ packages:
     resolution: {integrity: sha512-YUbWYCgErwnMAVkjUnYa+KlMBzGpHwiIt/DE7f0G33AuX2LH9UcTk6KgWxd3zRU+pN3u/C+Xl3EnMLM4Hea7Sg==}
     engines: {node: ^10 || ^12 || >=14}
 
+  postcss@8.5.32:
+    resolution: {integrity: sha512-LJlKCCAUFKOuZxipUdYw1NzIITEsPcgyOG9LkvRJvuKj/bRzbuRY0ARXvL0pWGpsZvn8jku+LMep2eU0seHp8g==}
+    engines: {node: ^10 || ^12 || >=14}
+
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
@@ -3305,7 +3316,7 @@ snapshots:
     dependencies:
       '@emnapi/core': 1.11.1
       '@emnapi/runtime': 1.11.1
-      '@napi-rs/wasm-runtime': 1.2.5(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
+      '@napi-rs/wasm-runtime': 1.2.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
     optional: true
 
   '@bruits/satteri-win32-arm64-msvc@0.10.5':
@@ -3657,7 +3668,7 @@ snapshots:
 
   '@keyv/serialize@1.1.1': {}
 
-  '@lucide/astro@1.61.0(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@24.19.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1))':
+  '@lucide/astro@1.63.0(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@24.19.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1))':
     dependencies:
       astro: 7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@24.19.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1)
 
@@ -3708,6 +3719,13 @@ snapshots:
     dependencies:
       '@emnapi/core': 1.11.3
       '@emnapi/runtime': 1.11.3
+      '@tybys/wasm-util': 0.10.4
+    optional: true
+
+  '@napi-rs/wasm-runtime@1.2.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
+    dependencies:
+      '@emnapi/core': 1.11.1
+      '@emnapi/runtime': 1.11.1
       '@tybys/wasm-util': 0.10.4
     optional: true
 
@@ -5636,6 +5654,12 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.2
 
+  postcss@8.5.32:
+    dependencies:
+      nanoid: 3.3.20
+      picocolors: 1.1.1
+      source-map-js: 1.2.2
+
   prelude-ls@1.2.1: {}
 
   prettier-plugin-astro@0.14.1:
@@ -6171,7 +6195,7 @@ snapshots:
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
-      postcss: 8.5.31
+      postcss: 8.5.32
       rolldown: 1.2.15
       tinyglobby: 0.2.17
     optionalDependencies:
