@@ -38,6 +38,10 @@ build time. The owner should only ever need to edit Markdown.
 12. Scoped component `<style>` is unlayered: never set `display` there on elements that also use Tailwind
     responsive visibility (`hidden`, `lg:hidden`, `sm:inline-flex`), or the utilities stop working.
 
+## Visual design and motion
+
+Before creating product-style illustrations, animated diagrams, UI demos or motion graphics, read `.agents/skills/stageshow/SKILL.md`. Follow its site-adapted guidance for composition, story beats, timing, framing, loop continuity, reduced-motion fallback and rehearsal. Keep the site palette and system typography; do not add external fonts, runtime scripts or a client framework just to animate an illustration.
+
 ## Commands
 
 ```bash
