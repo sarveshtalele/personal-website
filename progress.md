@@ -119,3 +119,7 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-11-04 16:34 UTC] DECISION — Use a site-adapted skill guide rather than copying the complete upstream React kit into this static Astro project. The guide links to the upstream skill and records the composition, motion, framing and rehearsal rules needed for future work.
 [2026-11-04 16:35 UTC] ACTION — Create a 12-second visual story: junior task → delegate to agent → repository inspection / implementation / tests → pull request ready → interrupted practice step → apprenticeship question. The loop resets under an opaque veil; the reduced-motion media query shows the completed, question-led frame.
 [2026-11-04 16:36 UTC] ACTION — Add the article, accessible cover and motion graphic to the existing MDX blog collection. Update CLAUDE.md and add AGENTS.md guidance so coding agents can discover the Stageshow playbook.
+
+[2026-11-04 16:39 UTC] ACTION — Open PR #20 against main with the article, cover, animated SVG and repo-local Stageshow guidance: https://github.com/sarveshtalele/personal-website/pull/20.
+[2026-11-04 16:39 UTC] DONE — PR is open and mergeable. Initial CI content validation, lint, type-check, build and dependency audit passed; CodeQL analysis completed successfully. Final CI reruns after the progress-log update.
+[2026-11-04 16:39 UTC] DONE — Exported a companion 720 × 405 GIF at 6fps (12 seconds) for download and reuse. The blog embeds the SVG animation to retain vector sharpness and a reduced-motion static state.
