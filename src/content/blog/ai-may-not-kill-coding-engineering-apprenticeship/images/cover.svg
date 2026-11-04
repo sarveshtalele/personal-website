@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title id="title">From human computers to AI agents: who teaches the next generation of engineers?</title>
+<desc id="desc">A historical timeline from human computers through programming abstractions to AI coding agents. Beneath it, a staircase shows how beginners learn through writing code, fixing bugs, reading systems, and designing architecture. The staircase is interrupted by automation, leading to the question: where will tomorrow's senior engineers come from?</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#241b14"/><stop offset="1" stop-color="#14100c"/></linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a6a33"/><stop offset=".5" stop-color="#e3c58c"/><stop offset="1" stop-color="#8a6a33"/></linearGradient>
+  <radialGradient id="halo"><stop offset="0" stop-color="#a67c3d" stop-opacity=".18"/><stop offset="1" stop-color="#a67c3d" stop-opacity="0"/></radialGradient>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity=".22"/></filter>
+</defs>
+<rect width="1600" height="900" fill="url(#bg)"/>
+<circle cx="1280" cy="250" r="430" fill="url(#halo)"/>
+<g fill="#e3c58c" opacity=".45"><circle cx="90" cy="90" r="2"/><circle cx="1510" cy="120" r="2"/><circle cx="1450" cy="820" r="2"/><circle cx="700" cy="60" r="1.5"/><circle cx="300" cy="830" r="1.5"/></g>
+
+<text x="92" y="92" fill="#c99a5b" font-family="Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="5">A HISTORY OF AUTOMATION</text>
+<text x="92" y="148" fill="#f2e8d8" font-family="Georgia, serif" font-size="42" font-weight="700">The tools changed. The apprenticeship must, too.</text>
+<text x="94" y="188" fill="#cdbba2" font-family="Arial, sans-serif" font-size="21">From human calculation to AI-assisted engineering — and the people learning along the way.</text>
+
+<!-- Historical progression -->
+<g filter="url(#shadow)">
+  <rect x="92" y="235" width="390" height="210" rx="24" fill="#2e2318" stroke="#574230" stroke-width="2"/>
+  <rect x="605" y="235" width="390" height="210" rx="24" fill="#2e2318" stroke="#574230" stroke-width="2"/>
+  <rect x="1118" y="235" width="390" height="210" rx="24" fill="#33271b" stroke="#a67c3d" stroke-width="2"/>
+</g>
+<!-- human computer illustration -->
+<g transform="translate(145 278)" stroke="#e3c58c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+  <circle cx="54" cy="32" r="20" fill="#6b4226"/>
+  <path d="M27 88 Q54 59 82 88 L95 132 H15 Z" fill="#6b4226"/>
+  <path d="M98 116 H220 L202 142 H78 Z" fill="#574230"/>
+  <path d="M124 109 L144 81 L161 109 M133 88 L154 88" />
+  <path d="M180 83 L219 83 M180 96 L219 96 M180 109 L213 109" stroke="#c99a5b"/>
+  <path d="M15 153 H220" stroke="#a67c3d"/>
+</g>
+<text x="365" y="292" fill="#e3c58c" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle">HUMAN COMPUTERS</text>
+<text x="365" y="326" fill="#f2e8d8" font-family="Georgia, serif" font-size="25" text-anchor="middle">People performed</text>
+<text x="365" y="358" fill="#f2e8d8" font-family="Georgia, serif" font-size="25" text-anchor="middle">the calculations.</text>
+<text x="365" y="408" fill="#a08d75" font-family="Arial, sans-serif" font-size="17" text-anchor="middle">1910s – 1980s</text>
+
+<!-- connectors -->
+<path d="M493 340 H575 M558 324 L576 340 L558 356" stroke="url(#gold)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- programmer illustration -->
+<g transform="translate(660 275)" stroke="#e3c58c" stroke-width="4" stroke-linejoin="round">
+  <rect x="8" y="5" width="172" height="112" rx="12" fill="#14100c"/>
+  <rect x="22" y="20" width="144" height="80" rx="5" fill="#33271b" stroke="#8a6a33"/>
+  <path d="M42 42 H112 M42 59 H145 M42 76 H98" stroke="#c99a5b" stroke-width="5" stroke-linecap="round"/>
+  <path d="M94 118 V145 M58 147 H130" fill="none"/>
+  <path d="M24 163 H170 L150 181 H42 Z" fill="#574230"/>
+</g>
+<text x="870" y="292" fill="#e3c58c" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle">PROGRAMMERS</text>
+<text x="870" y="326" fill="#f2e8d8" font-family="Georgia, serif" font-size="25" text-anchor="middle">Built tools that</text>
+<text x="870" y="358" fill="#f2e8d8" font-family="Georgia, serif" font-size="25" text-anchor="middle">automated their work.</text>
+<text x="870" y="408" fill="#a08d75" font-family="Arial, sans-serif" font-size="17" text-anchor="middle">1950s – PRESENT</text>
+
+<path d="M1006 340 H1088 M1071 324 L1089 340 L1071 356" stroke="url(#gold)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- AI agent constellation -->
+<g transform="translate(1160 275)" stroke="#e3c58c" stroke-width="4" fill="none">
+  <rect x="20" y="12" width="158" height="112" rx="12" fill="#14100c"/>
+  <rect x="34" y="27" width="130" height="80" rx="5" fill="#33271b" stroke="#8a6a33"/>
+  <path d="M49 50 H130 M49 67 H112 M49 84 H140" stroke="#c99a5b" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="220" cy="35" r="22" fill="#6b4226"/>
+  <path d="M200 63 Q220 51 240 63 L250 111 H190 Z" fill="#6b4226"/>
+  <path d="M203 32 Q220 20 237 32" stroke="#f2e8d8"/>
+  <circle cx="212" cy="37" r="3" fill="#f2e8d8" stroke="none"/><circle cx="228" cy="37" r="3" fill="#f2e8d8" stroke="none"/>
+  <path d="M181 69 L196 69 M179 91 L193 91" stroke="#a67c3d" stroke-dasharray="4 7"/>
+</g>
+<text x="1380" y="292" fill="#e3c58c" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle">AI CODING AGENTS</text>
+<text x="1380" y="326" fill="#f2e8d8" font-family="Georgia, serif" font-size="25" text-anchor="middle">Can explore, write,</text>
+<text x="1380" y="358" fill="#f2e8d8" font-family="Georgia, serif" font-size="25" text-anchor="middle">test and modify.</text>
+<text x="1380" y="408" fill="#a08d75" font-family="Arial, sans-serif" font-size="17" text-anchor="middle">2020s – TODAY</text>
+
+<!-- apprenticeship pathway -->
+<text x="92" y="520" fill="#c99a5b" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="4">THE ENGINEERING APPRENTICESHIP</text>
+<text x="92" y="561" fill="#f2e8d8" font-family="Georgia, serif" font-size="30">How a beginner becomes someone who can own a system.</text>
+
+<!-- staircase -->
+<g filter="url(#shadow)">
+  <path d="M92 790 V730 H255 V682 H418 V634 H581 V586 H744 V538 H880 V790 Z" fill="#3a2c20" stroke="#8a6a33" stroke-width="2"/>
+  <path d="M92 730 H255 M255 682 H418 M418 634 H581 M581 586 H744 M744 538 H880" stroke="#e3c58c" stroke-width="3"/>
+</g>
+<g font-family="Arial, sans-serif" text-anchor="middle">
+  <text x="173" y="768" fill="#f2e8d8" font-size="18" font-weight="700">WRITE CODE</text>
+  <text x="336" y="720" fill="#f2e8d8" font-size="18" font-weight="700">FIX BUGS</text>
+  <text x="499" y="672" fill="#f2e8d8" font-size="18" font-weight="700">READ SYSTEMS</text>
+  <text x="662" y="624" fill="#f2e8d8" font-size="18" font-weight="700">BUILD FEATURES</text>
+  <text x="812" y="576" fill="#f2e8d8" font-size="18" font-weight="700">DESIGN</text>
+  <text x="812" y="600" fill="#e3c58c" font-size="15">SYSTEMS</text>
+</g>
+<text x="92" y="820" fill="#a08d75" font-family="Arial, sans-serif" font-size="17" letter-spacing="2">BEGINNER</text>
+<text x="780" y="820" fill="#a08d75" font-family="Arial, sans-serif" font-size="17" letter-spacing="2">EXPERIENCE · JUDGMENT · OWNERSHIP</text>
+
+<!-- automation gap -->
+<path d="M902 560 L946 600 L920 625 L967 663 L940 690" stroke="#a67c3d" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 9"/>
+<rect x="988" y="585" width="500" height="192" rx="22" fill="#33271b" stroke="#a67c3d" stroke-width="2"/>
+<text x="1030" y="635" fill="#c99a5b" font-family="Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="3">THE QUESTION WE CANNOT IGNORE</text>
+<text x="1030" y="684" fill="#f2e8d8" font-family="Georgia, serif" font-size="31" font-weight="700">Where will tomorrow's</text>
+<text x="1030" y="724" fill="#f2e8d8" font-family="Georgia, serif" font-size="31" font-weight="700">senior engineers come from?</text>
+<text x="1030" y="755" fill="#cdbba2" font-family="Arial, sans-serif" font-size="17">Automate the work. Rebuild the apprenticeship.</text>
+</svg>
