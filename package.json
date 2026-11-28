@@ -43,13 +43,13 @@
     "@astrojs/check": "^0.9.12",
     "@types/three": "^0.187.0",
     "dejavu-fonts-ttf": "^2.37.3",
-    "eslint": "^10.13.0",
-    "eslint-plugin-astro": "^2.1.1",
+    "eslint": "^10.15.0",
+    "eslint-plugin-astro": "^3.2.1",
     "pdfjs-dist": "^6.5.438",
     "pdfkit": "0.21.0",
-    "prettier": "^3.9.10",
-    "prettier-plugin-astro": "^0.14.1",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.72.0"
+    "prettier": "^3.10.1",
+    "prettier-plugin-astro": "^1.1.2",
+    "typescript": "^7.0.2",
+    "typescript-eslint": "^8.74.0"
   }
 }
