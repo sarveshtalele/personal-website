@@ -1,6 +1,7 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import claudeStats from '../../data/claude-stats.json';
+import PdfDownloads from '@components/PdfDownloads.astro';
 ---
 
 <PageLayout
@@ -20,6 +21,10 @@ import claudeStats from '../../data/claude-stats.json';
       <strong>Unofficial.</strong> I wrote these to practise for the exam. They aren't real exam questions and aren't endorsed
       by Anthropic, but every one links to the Claude doc that explains it.
     </p>
+    <details class="review-pdf">
+      <summary>Download all {claudeStats.total} questions as a PDF</summary>
+      <div class="mt-3"><PdfDownloads /></div>
+    </details>
 
     <div class="review-bar" role="search">
       <div class="review-bar-row">
@@ -92,6 +97,18 @@ import claudeStats from '../../data/claude-stats.json';
   }
   .review-warning strong {
     color: var(--r-accent-strong);
+  }
+  .review-pdf {
+    margin-bottom: 1rem;
+    border: 1px solid var(--r-line);
+    border-radius: 0.9rem;
+    padding: 0.75rem 1rem;
+    background: var(--r-card);
+  }
+  .review-pdf summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--r-accent);
   }
   .review-stats {
     display: flex;

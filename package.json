@@ -9,7 +9,7 @@
   },
   "packageManager": "pnpm@11.9.0",
   "scripts": {
-    "prepare:data": "node scripts/build-claude-data.mjs && node scripts/fetch-github.mjs",
+    "prepare:data": "node scripts/build-claude-data.mjs && node scripts/build-claude-pdf.mjs && node scripts/verify-claude-pdf.mjs && node scripts/fetch-github.mjs",
     "dev": "node scripts/build-claude-data.mjs && astro dev",
     "build": "pnpm prepare:data && node scripts/validate-content.mjs && astro build && node scripts/csp.mjs && pagefind --site dist",
     "preview": "astro preview",
@@ -19,7 +19,8 @@
     "github:sync": "node scripts/fetch-github.mjs",
     "new:blog": "node scripts/new-blog.mjs",
     "format": "prettier --write .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "claude:pdf": "node scripts/build-claude-data.mjs && node scripts/build-claude-pdf.mjs && node scripts/verify-claude-pdf.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.4",
@@ -40,8 +41,11 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "dejavu-fonts-ttf": "^2.37.3",
     "eslint": "^10.13.0",
     "eslint-plugin-astro": "^2.1.1",
+    "pdfjs-dist": "^6.5.438",
+    "pdfkit": "0.21.0",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^6.0.3",

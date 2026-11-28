@@ -29,3 +29,6 @@ pnpm-debug.log*
 public/claude/review/questions.json
 public/claude/review/concepts.json
 public/claude/quiz/questions.json
+
+# generated PDFs (scripts/build-claude-pdf.mjs)
+public/claude/downloads/

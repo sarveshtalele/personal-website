@@ -1,0 +1,40 @@
+---
+/** Download buttons for the two question-bank PDFs (built by scripts/build-claude-pdf.mjs). */
+import { FileDown } from '@lucide/astro';
+import claudeStats from '../data/claude-stats.json';
+
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const files = [
+  {
+    href: '/claude/downloads/ccar-f-practice-questions-study.pdf',
+    title: 'Study edition',
+    note: 'Answers and explanations right after each question',
+  },
+  {
+    href: '/claude/downloads/ccar-f-practice-questions-practice.pdf',
+    title: 'Practice edition',
+    note: 'Questions first, answer key at the back',
+  },
+];
+---
+
+<div class:list={['grid gap-3', !compact && 'sm:grid-cols-2']}>
+  {
+    files.map((f) => (
+      <a href={f.href} download class="card card-hover group flex items-center gap-4 p-4">
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent">
+          <FileDown class="h-5 w-5" aria-hidden="true" />
+        </span>
+        <span class="min-w-0">
+          <span class="block font-semibold text-fg group-hover:text-primary">
+            {f.title} <span class="text-xs font-medium text-fg-faint">PDF · {claudeStats.total} questions</span>
+          </span>
+          <span class="block text-sm text-fg-muted">{f.note}</span>
+        </span>
+      </a>
+    ))
+  }
+</div>
