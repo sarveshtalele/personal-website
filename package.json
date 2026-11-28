@@ -23,12 +23,12 @@
     "new:article": "node scripts/new-article.mjs"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "^7.3.4",
-    "@astrojs/mdx": "^7.0.8",
-    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/markdown-remark": "^7.3.10",
+    "@astrojs/mdx": "^8.1.6",
+    "@astrojs/sitemap": "^3.7.6",
     "@lucide/astro": "^1.61.0",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.4.2",
+    "astro": "^7.4.13",
     "katex": "^0.17.0",
     "mdast-util-to-string": "^4.0.0",
     "pagefind": "^1.5.2",
