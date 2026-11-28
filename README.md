@@ -20,25 +20,25 @@ dashboard, a newsletter, and a free Claude Certified Architect (CCAR-F) mock exa
 **Everything on the site is generated from Markdown.** Edit a `.md` file, push, and every card, page, tag, feed,
 search entry, and dashboard tile that depends on it updates on the next deploy.
 
-**Publishing a newsletter issue?** Read [HOW-TO-PUBLISH.md](HOW-TO-PUBLISH.md): five steps, all on github.com.
+**Publishing a newsletter article?** Read [HOW-TO-PUBLISH.md](HOW-TO-PUBLISH.md): five steps, all on github.com.
 **What lives where?** [content/README.md](content/README.md).
 
 ---
 
 ## Pages
 
-| Route                                                                         | What it shows                                                                                                                                                                                               | Source of truth                                                     |
-| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `/`                                                                           | Mission Log: a scroll-driven Three.js space journey (lazy-loaded, static sky fallback) through hero, credentials, impact, how I work, projects, newsletter, podcast, Claude Prep, toolbox, journey, contact | profile, dashboard, project settings, newsletter, media, experience |
-| `/dashboard`                                                                  | Recruiter view: every metric links to proof, live GitHub stats, verified badges, credentials, research                                                                                                      | `dashboard/metrics.md` + GitHub API + certifications + publications |
-| `/projects`                                                                   | Every public repo, pinned first; search, category + language filters, sort by stars/forks/updated/name                                                                                                      | GitHub API + `project-settings/projects.md`                         |
-| `/newsletter`, `/newsletter/<slug>`, `/newsletter/topics/<topic>`, `/rss.xml` | Newsletter archive: masthead, numbered issues, topic filters, search; issue reading layout with TOC, share, Follow on LinkedIn                                                                              | `newsletter/<slug>/index.md`                                        |
-| `/references`                                                                 | Podcasts and talks (thumbnails), plus LinkedIn posts and articles published elsewhere, with source/topic filters and search                                                                                 | `references/links.md`, `media/appearances.md`                       |
-| `/claude` (Claude Prep)                                                       | Both Anthropic badges (verify on Credly), practice hub, study guides                                                                                                                                        | certifications + `claude/exams/*.md`                                |
-| `/claude/foundations`                                                         | CCAR-F guide: glance, domains, scenarios, mental model, resources                                                                                                                                           | `claude/exams/foundations.md`                                       |
-| `/claude/quiz`                                                                | Timed 60-question mock exam (scored by domain) + untimed practice                                                                                                                                           | `claude/questions/*.md` (`mock: true`)                              |
-| `/claude/review`                                                              | All 360 questions grouped by task statement, test mode, doc links, PDF downloads (Study + Practice editions)                                                                                                | `claude/questions/*.md`                                             |
-| `/about`, `/experience`, `/certifications`, `/publications`, `/contact`       | Story, timeline, badges, papers, channels                                                                                                                                                                   | profile, experience, certifications, publications                   |
+| Route                                                                                                                                 | What it shows                                                                                                                                                                                                                                                                                                     | Source of truth                                                     |
+| ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `/`                                                                                                                                   | Andromeda Voyage: a first-person Three.js flight (lazy-loaded, CSS galaxy fallback). Scrolling is the throttle; each chapter is a world on the way to Andromeda, with cockpit readouts and an optional soundtrack (off by default)                                                                                | profile, dashboard, project settings, newsletter, media, experience |
+| `/dashboard`                                                                                                                          | Recruiter view: every metric links to proof, live GitHub stats, verified badges, credentials, research                                                                                                                                                                                                            | `dashboard/metrics.md` + GitHub API + certifications + publications |
+| `/projects`                                                                                                                           | Every public repo, pinned first; search, category + language filters, sort by stars/forks/updated/name                                                                                                                                                                                                            | GitHub API + `project-settings/projects.md`                         |
+| `/newsletter`, `/newsletter/archive`, `/newsletter/products`, `/newsletter/about`, `/newsletter/<slug>`, `/newsletter/topics/<topic>` | Sarvesh's AI Newsletter: night-sky hero with my photo, featured article + latest list, "From curious to certified" path, topic shelves; archive with search, multi-topic filters, sort, year, grid/list, pagination; Topmate products; Substack-style article page. Light paper theme by default, dark on request | `newsletter/<slug>/index.md`, `products/products.md`                |
+| `/references`                                                                                                                         | Podcasts and talks (thumbnails), plus LinkedIn posts and articles published elsewhere, with source/topic filters and search                                                                                                                                                                                       | `references/links.md`, `media/appearances.md`                       |
+| `/claude` (Claude Prep)                                                                                                               | Both Anthropic badges (verify on Credly), practice hub, study guides                                                                                                                                                                                                                                              | certifications + `claude/exams/*.md`                                |
+| `/claude/foundations`                                                                                                                 | CCAR-F guide: glance, domains, scenarios, mental model, resources                                                                                                                                                                                                                                                 | `claude/exams/foundations.md`                                       |
+| `/claude/quiz`                                                                                                                        | Timed 60-question mock exam (scored by domain) + untimed practice                                                                                                                                                                                                                                                 | `claude/questions/*.md` (`mock: true`)                              |
+| `/claude/review`                                                                                                                      | All 360 questions grouped by task statement, test mode, doc links, PDF downloads (Study + Practice editions)                                                                                                                                                                                                      | `claude/questions/*.md`                                             |
+| `/about`, `/experience`, `/certifications`, `/publications`, `/contact`                                                               | Story, timeline, badges, papers, channels                                                                                                                                                                                                                                                                         | profile, experience, certifications, publications                   |
 
 ## Quick start
 
@@ -57,7 +57,7 @@ pnpm preview
 | Name, headline, hero label, quote, socials, skills, education, achievements, About story | `content/profile/sarvesh.md`                                                                   |
 | Dashboard impact numbers (each needs a `proof:` link)                                    | `content/dashboard/metrics.md`                                                                 |
 | Pinned / hidden repos, filter categories, repo description overrides                     | `content/project-settings/projects.md`                                                         |
-| A newsletter issue                                                                       | `content/newsletter/<slug>/index.md` (+ `images/`), see [HOW-TO-PUBLISH.md](HOW-TO-PUBLISH.md) |
+| A newsletter article                                                                     | `content/newsletter/<slug>/index.md` (+ `images/`), see [HOW-TO-PUBLISH.md](HOW-TO-PUBLISH.md) |
 | LinkedIn posts / articles elsewhere                                                      | `content/references/links.md`                                                                  |
 | Podcasts and talks                                                                       | `content/media/appearances.md` (YouTube video ID)                                              |
 | Claude questions, answers, explanations, mock-exam selection                             | `content/claude/questions/domain-1.md` … `domain-5.md`                                         |
@@ -72,17 +72,17 @@ when to edit it, and what changes on the site as a result.
 Frontmatter is validated at build time (`content.config.ts`); a typo fails the build with the file and field
 name instead of shipping a broken page.
 
-### Publish a newsletter issue
+### Publish a newsletter article
 
 On github.com: create `content/newsletter/<slug>/index.md`, add the frontmatter, upload images to `images/`, commit.
 Step by step: [HOW-TO-PUBLISH.md](HOW-TO-PUBLISH.md). Locally:
 
 ```bash
-pnpm new:issue "Claude Code Hooks, Explained" --tags "Claude, Agents"
+pnpm new:article "Claude Code Hooks, Explained" --tags "Claude, Agents"
 ```
 
-Issues are numbered by date, get topic pages from their tags, and appear on the homepage, `/newsletter`, RSS,
-sitemap, and search. `pnpm check:content` verifies every referenced image exists.
+Articles get topic pages from their tags and appear on the homepage, `/newsletter`, the archive, the sitemap, and
+search. `pnpm check:content` verifies every referenced image exists.
 
 ### Pin a repository
 
@@ -111,7 +111,7 @@ astro build ─► scripts/csp.mjs (hash inline scripts → CSP meta) ─► pag
 | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
 | `pnpm build`                               | Compile questions → build + verify PDFs → sync GitHub → validate content → Astro build → CSP → search index |
 | `pnpm check:content`                       | Validate question banks, newsletter images and dates, pinned/hidden repo names                              |
-| `pnpm new:issue "Title"`                   | Scaffold a newsletter issue folder                                                                          |
+| `pnpm new:article "Title"`                 | Scaffold a newsletter article folder                                                                        |
 | `pnpm claude:pdf`                          | Rebuild and verify the two question-bank PDFs                                                               |
 | `pnpm github:sync`                         | Refresh the GitHub snapshot (set `GITHUB_TOKEN` for higher rate limits)                                     |
 | `pnpm claude:build`                        | Recompile only the Claude question JSON                                                                     |
@@ -144,20 +144,20 @@ noreferrer` on external links; content links restricted to `https:`/`mailto:`/si
 
 ```
 content/              ← all editable content (Markdown); map in content/README.md
-  newsletter/         ← one folder per issue (+ _template/)
+  newsletter/         ← one folder per article (+ _template/)
   references/ media/  ← links elsewhere, podcasts and talks
   profile/ dashboard/ project-settings/ projects/ experience/ certifications/ publications/ claude/
 src/
-  components/         ← IntroHero, MissionScene, MissionHUD, IssueCard, PodcastCard, CredentialCards, …
+  components/         ← IntroHero, MissionScene, MissionHUD, SoundToggle, newsletter/*, PodcastCard, …
   layouts/            ← BaseLayout, PageLayout, ArticleLayout
   lib/                ← site.ts (tech config), content.ts, github.ts, newsletter.ts
   pages/              ← routes
   scripts/            ← client modules (mission-scene.ts: the Three.js scene)
   data/               ← github.json snapshot, claude-stats.json (generated)
   styles/global.css   ← theme tokens + shared component classes
-scripts/              ← build-claude-data, build/verify-claude-pdf, fetch-github, validate-content, csp, new-issue
+scripts/              ← build-claude-data, build/verify-claude-pdf, fetch-github, validate-content, csp, new-article
 docs/                 ← UPDATING.md (owner guide), DESIGN-PLAN.md, PLAN-2026-11.md
-HOW-TO-PUBLISH.md     ← publishing a newsletter issue from github.com
+HOW-TO-PUBLISH.md     ← publishing a newsletter article from github.com
 progress.md           ← timestamped log of every structural decision
 CLAUDE.md             ← rules for AI agents editing this repo
 ```

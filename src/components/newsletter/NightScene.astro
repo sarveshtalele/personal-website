@@ -37,8 +37,22 @@ const bank = (cx: number, cy: number, w: number, h: number, n: number) =>
     return { x, y: cy - lift * (0.55 + rnd() * 0.45) + r * 0.35, r };
   });
 const clouds = [
-  { id: 'l', y0: 150, y1: 520, puffs: [...bank(150, 470, 420, 260, 16), ...bank(380, 500, 300, 120, 10), ...bank(60, 340, 200, 180, 8)], depth: 0.45, cls: 'cloud-l' },
-  { id: 'r', y0: 90, y1: 520, puffs: [...bank(1430, 470, 420, 320, 16), ...bank(1210, 505, 300, 110, 10), ...bank(1540, 260, 160, 160, 8)], depth: 0.45, cls: 'cloud-r' },
+  {
+    id: 'l',
+    y0: 150,
+    y1: 520,
+    puffs: [...bank(150, 470, 420, 260, 16), ...bank(380, 500, 300, 120, 10), ...bank(60, 340, 200, 180, 8)],
+    depth: 0.45,
+    cls: 'cloud-l',
+  },
+  {
+    id: 'r',
+    y0: 90,
+    y1: 520,
+    puffs: [...bank(1430, 470, 420, 320, 16), ...bank(1210, 505, 300, 110, 10), ...bank(1540, 260, 160, 160, 8)],
+    depth: 0.45,
+    cls: 'cloud-r',
+  },
   { id: 'c', y0: 380, y1: 560, puffs: bank(560, 560, 260, 60, 9), depth: 0.55, cls: 'cloud-c' },
 ];
 const flowers = Array.from({ length: 90 }, () => ({
@@ -119,7 +133,14 @@ const flowers = Array.from({ length: 90 }, () => ({
   <g data-depth="0.15">
     {
       stars.map((s) => (
-        <circle cx={s.x.toFixed(1)} cy={s.y.toFixed(1)} r={s.r.toFixed(2)} fill="#fff" opacity={s.o.toFixed(2)} class={s.tw ? 'tw' : undefined} />
+        <circle
+          cx={s.x.toFixed(1)}
+          cy={s.y.toFixed(1)}
+          r={s.r.toFixed(2)}
+          fill="#fff"
+          opacity={s.o.toFixed(2)}
+          class={s.tw ? 'tw' : undefined}
+        />
       ))
     }
   </g>
@@ -129,8 +150,18 @@ const flowers = Array.from({ length: 90 }, () => ({
     <g transform="translate(1040 205) rotate(-24)">
       <ellipse rx="300" ry="96" fill="url(#ns-core)" opacity="0.55" filter="url(#ns-soft)"></ellipse>
       <ellipse rx="170" ry="54" fill="url(#ns-core)" opacity="0.85"></ellipse>
-      {galaxy.map((g) => <circle cx={g.x.toFixed(1)} cy={g.y.toFixed(1)} r={g.r.toFixed(2)} fill={g.c} opacity={g.o.toFixed(2)} />)}
-      <path d="M-210 10 Q-60 34 90 14 T240 -6" stroke="#1a1640" stroke-width="7" fill="none" opacity="0.45" filter="url(#ns-soft)"></path>
+      {
+        galaxy.map((g) => (
+          <circle cx={g.x.toFixed(1)} cy={g.y.toFixed(1)} r={g.r.toFixed(2)} fill={g.c} opacity={g.o.toFixed(2)} />
+        ))
+      }
+      <path
+        d="M-210 10 Q-60 34 90 14 T240 -6"
+        stroke="#1a1640"
+        stroke-width="7"
+        fill="none"
+        opacity="0.45"
+        filter="url(#ns-soft)"></path>
       <ellipse rx="22" ry="9" fill="#fffaf0"></ellipse>
       <circle cx="120" cy="-62" r="7" fill="#ffe9c9" opacity="0.6" filter="url(#ns-soft)"></circle>
       <circle cx="-70" cy="44" r="5" fill="#ffe9c9" opacity="0.55" filter="url(#ns-soft)"></circle>
@@ -165,7 +196,8 @@ const flowers = Array.from({ length: 90 }, () => ({
 
   <!-- Hills -->
   <g data-depth="0.6">
-    <path d="M0 600 C 220 540 380 560 560 610 S 900 640 1040 600 S 1380 530 1600 560 V900 H0Z" fill="url(#ns-hill-far)"></path>
+    <path d="M0 600 C 220 540 380 560 560 610 S 900 640 1040 600 S 1380 530 1600 560 V900 H0Z" fill="url(#ns-hill-far)"
+    ></path>
     <!-- A distant launch site glowing in the valley -->
     <g opacity="0.9">
       <circle cx="800" cy="628" r="26" fill="#ffd39a" opacity="0.25" filter="url(#ns-soft)"></circle>
@@ -176,10 +208,14 @@ const flowers = Array.from({ length: 90 }, () => ({
     </g>
   </g>
   <g data-depth="0.8">
-    <path d="M0 610 C 160 600 300 640 450 700 C 560 744 680 760 800 760 C 920 760 1040 742 1150 700 C 1300 640 1440 600 1600 600 V900 H0Z" fill="url(#ns-hill-mid)"></path>
+    <path
+      d="M0 610 C 160 600 300 640 450 700 C 560 744 680 760 800 760 C 920 760 1040 742 1150 700 C 1300 640 1440 600 1600 600 V900 H0Z"
+      fill="url(#ns-hill-mid)"></path>
   </g>
   <g data-depth="1">
-    <path d="M0 700 C 240 690 420 720 640 770 C 720 790 760 792 800 792 C 840 792 880 790 960 770 C 1180 720 1360 690 1600 700 V900 H0Z" fill="url(#ns-hill-near)"></path>
+    <path
+      d="M0 700 C 240 690 420 720 640 770 C 720 790 760 792 800 792 C 840 792 880 790 960 770 C 1180 720 1360 690 1600 700 V900 H0Z"
+      fill="url(#ns-hill-near)"></path>
     <!-- The traveller, sitting on the hill and looking up -->
     <g transform="translate(728 752)">
       <ellipse cx="10" cy="22" rx="24" ry="4" fill="#000" opacity="0.35"></ellipse>
@@ -188,7 +224,11 @@ const flowers = Array.from({ length: 90 }, () => ({
       <path d="M17 -16 C 20 -12 20 -7 18 -4" stroke="#ffcf9a" stroke-width="1.2" fill="none" opacity="0.7"></path>
       <path d="M20 14 L36 20 L34 23 L18 19 Z" fill="#0b0f1e"></path>
     </g>
-    {flowers.map((f) => <circle cx={f.x.toFixed(1)} cy={f.y.toFixed(1)} r={f.r.toFixed(2)} fill={f.c} opacity="0.55" />)}
+    {
+      flowers.map((f) => (
+        <circle cx={f.x.toFixed(1)} cy={f.y.toFixed(1)} r={f.r.toFixed(2)} fill={f.c} opacity="0.55" />
+      ))
+    }
   </g>
 
   <rect width="1600" height="900" filter="url(#ns-grain)" opacity="0.07" class="grain"></rect>

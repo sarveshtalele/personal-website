@@ -2,7 +2,6 @@
 import { render } from 'astro:content';
 import { Image } from 'astro:assets';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Container from '@components/Container.astro';
 import TableOfContents from '@components/TableOfContents.astro';
 import ShareButtons from '@components/ShareButtons.astro';
 import FollowLinkedIn from '@components/FollowLinkedIn.astro';
@@ -16,7 +15,7 @@ import { formatDate, slugifyTag } from '@utils/format';
 
 export async function getStaticPaths() {
   const issues = await getIssues();
-  return issues.map((issue, i) => ({
+  return issues.map((issue) => ({
     params: { slug: issue.id },
     props: { issue, more: issues.filter((x) => x.id !== issue.id).slice(0, 3) },
   }));
@@ -42,7 +41,13 @@ const moreMinutes = Object.fromEntries(await Promise.all(more.map(async (p) => [
 >
   <div class="mx-auto w-full max-w-6xl px-4 pt-8 sm:px-6 sm:pt-12">
     <a href="/newsletter" class="pub-link">
-      <img src="/images/sarvesh-talele-320.webp" alt="" width="28" height="28" class="h-7 w-7 rounded-full object-cover" />
+      <img
+        src="/images/sarvesh-talele-320.webp"
+        alt=""
+        width="28"
+        height="28"
+        class="h-7 w-7 rounded-full object-cover"
+      />
       {profile.newsletter.name}
     </a>
 
@@ -64,9 +69,16 @@ const moreMinutes = Object.fromEntries(await Promise.all(more.map(async (p) => [
       <p class="subtitle mt-4">{d.description}</p>
       <div class="mt-7 flex flex-wrap items-center justify-between gap-4 border-y border-line py-4">
         <div class="flex items-center gap-3">
-          <img src="/images/sarvesh-talele-320.webp" alt="" width="44" height="44" class="h-11 w-11 rounded-full object-cover" />
+          <img
+            src="/images/sarvesh-talele-320.webp"
+            alt=""
+            width="44"
+            height="44"
+            class="h-11 w-11 rounded-full object-cover"
+          />
           <div class="leading-tight">
-            <a href="/newsletter/about" class="text-[0.95rem] font-semibold text-fg hover:text-accent">{profile.name}</a>
+            <a href="/newsletter/about" class="text-[0.95rem] font-semibold text-fg hover:text-accent">{profile.name}</a
+            >
             <p class="mt-1 text-[0.8rem] text-fg-faint">
               <time datetime={d.pubDate.toISOString()}>{formatDate(d.pubDate)}</time>
               {d.updatedDate && <span> · Updated {formatDate(d.updatedDate)}</span>}
@@ -116,12 +128,20 @@ const moreMinutes = Object.fromEntries(await Promise.all(more.map(async (p) => [
           </div>
 
           <aside class="end-card" aria-label="About this newsletter">
-            <img src="/images/sarvesh-talele-320.webp" alt="" width="64" height="64" class="h-16 w-16 rounded-full object-cover" />
+            <img
+              src="/images/sarvesh-talele-320.webp"
+              alt=""
+              width="64"
+              height="64"
+              class="h-16 w-16 rounded-full object-cover"
+            />
             <p class="mt-4 text-xl font-bold text-fg">Enjoyed this? There's more where it came from.</p>
             <p class="mt-2 max-w-md text-[0.95rem] leading-relaxed text-fg-muted">{profile.newsletter.about}</p>
             <div class="mt-5 flex flex-wrap items-center justify-center gap-4">
               <FollowLinkedIn />
-              <a href="/newsletter/products" class="text-sm font-semibold text-accent hover:underline">Free exam prep &amp; 1:1s</a>
+              <a href="/newsletter/products" class="text-sm font-semibold text-accent hover:underline"
+                >Free exam prep &amp; 1:1s</a
+              >
             </div>
           </aside>
         </div>
@@ -137,7 +157,9 @@ const moreMinutes = Object.fromEntries(await Promise.all(more.map(async (p) => [
     {
       more.length > 0 && (
         <section class="mx-auto mt-20 max-w-6xl border-t border-line pt-12" aria-labelledby="more-title">
-          <h2 id="more-title" class="text-2xl font-bold tracking-tight text-fg">More articles</h2>
+          <h2 id="more-title" class="text-2xl font-bold tracking-tight text-fg">
+            More articles
+          </h2>
           <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {more.map((a) => (
               <ArticleCard article={a} minutes={moreMinutes[a.id]} />

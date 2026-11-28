@@ -1,8 +1,8 @@
 ---
 /**
- * Fixed 3D sky behind the homepage. The canvas is decoration only
+ * Fixed 3D voyage behind the homepage. The canvas is decoration only
  * (aria-hidden, pointer-events: none). Three.js loads after the page has
- * painted; until then, and when WebGL is unavailable, the CSS sky shows.
+ * painted; until then, and when WebGL is unavailable, a CSS galaxy shows.
  */
 ---
 
@@ -17,15 +17,11 @@
     z-index: 0;
     pointer-events: none;
     background:
-      radial-gradient(80% 60% at 70% 10%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
-      radial-gradient(70% 60% at 10% 90%, color-mix(in srgb, var(--primary) 14%, transparent), transparent 70%),
-      linear-gradient(180deg, var(--bg-alt), var(--bg) 60%);
-  }
-  :global(.dark) .mission-sky {
-    background:
-      radial-gradient(70% 50% at 75% 15%, rgb(201 154 91 / 0.18), transparent 70%),
-      radial-gradient(60% 60% at 15% 85%, rgb(70 98 122 / 0.22), transparent 70%),
-      linear-gradient(180deg, #0f0b08, #15100c 50%, #0b0907);
+      radial-gradient(6% 4% at 72% 30%, rgb(255 241 214 / 0.9), transparent 70%),
+      radial-gradient(30% 9% at 72% 30%, rgb(243 199 122 / 0.35), transparent 70%),
+      radial-gradient(48% 16% at 72% 30%, rgb(164 139 255 / 0.28), transparent 72%),
+      radial-gradient(70% 50% at 15% 85%, rgb(76 194 255 / 0.1), transparent 70%),
+      linear-gradient(180deg, #05061a, #070814 55%, #04050f);
   }
   canvas {
     display: block;
@@ -44,8 +40,8 @@
   if (canvas) {
     const boot = async () => {
       const { startMissionScene } = await import('../scripts/mission-scene');
-      const chapters = document.querySelectorAll('[data-chapter]').length || 8;
-      if (startMissionScene(canvas, chapters)) canvas.classList.add('is-ready');
+      const ids = [...document.querySelectorAll<HTMLElement>('[data-chapter]')].map((el) => el.dataset.chapter!);
+      if (startMissionScene(canvas, ids)) canvas.classList.add('is-ready');
     };
     const later = (cb: () => void) =>
       'requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 1500 }) : setTimeout(cb, 300);

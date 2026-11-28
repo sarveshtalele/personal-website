@@ -33,22 +33,24 @@ const claudeCerts = (await getCollection('certifications'))
   .filter((c) => c.data.featured && c.data.badge)
   .sort(byDateDesc((c) => c.data.date));
 
-// The homepage is a flight past one planet per chapter (see MissionScene).
+// The homepage is a voyage to Andromeda: one world per chapter (see MissionScene).
+// `label` is the themed sector name; `title` is the plain heading.
 const chapters = [
-  { id: 'launch', title: 'Launch' },
-  { id: 'proof', title: 'Credentials' },
-  { id: 'impact', title: 'Impact' },
-  { id: 'process', title: 'How I work' },
-  { id: 'projects', title: 'Projects' },
-  ...(posts.length ? [{ id: 'newsletter', title: 'Newsletter' }] : []),
-  ...(appearances.length ? [{ id: 'on-air', title: 'On air' }] : []),
-  { id: 'claude', title: 'Claude Prep' },
-  { id: 'toolbox', title: 'Toolbox' },
-  { id: 'journey', title: 'Journey' },
-  { id: 'contact', title: 'Contact' },
+  { id: 'launch', label: 'Departure', title: 'Introduction' },
+  { id: 'proof', label: 'Flight Clearance', title: 'Verified credentials' },
+  { id: 'process', label: 'Flight Protocol', title: 'How I build AI systems' },
+  { id: 'impact', label: 'Mission Telemetry', title: 'Measured impact' },
+  { id: 'projects', label: 'Engineering Bay', title: 'Selected open-source work' },
+  ...(posts.length ? [{ id: 'newsletter', label: 'Transmissions', title: 'Latest articles' }] : []),
+  ...(appearances.length ? [{ id: 'on-air', label: 'Comms Channel', title: 'Podcasts & talks' }] : []),
+  { id: 'claude', label: 'Flight Academy', title: 'Claude certification prep' },
+  { id: 'toolbox', label: 'Instrument Panel', title: 'Core stack' },
+  { id: 'journey', label: 'Voyage Log', title: 'Experience' },
+  { id: 'contact', label: 'Open Channel', title: "Let's work together" },
 ];
+const ch = (id: string) => chapters.find((c) => c.id === id)!;
 const n = (id: string) => String(chapters.findIndex((c) => c.id === id) + 1).padStart(2, '0');
-const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id === id)!.title}`;
+const eyebrow = (id: string) => `Sector ${n(id)} · ${ch(id).label}`;
 ---
 
 <BaseLayout title="Sarvesh Talele">
@@ -62,14 +64,16 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
         class="chapter"
         data-chapter="proof"
         eyebrow={eyebrow('proof')}
-        title="Things you can check."
+        title={ch('proof').title}
         description="Certifications, research, and recognition. Each card opens the proof."
       >
         <CredentialCards />
       </Section>
     </Container>
 
-    <div class="chapter" id="process" data-chapter="process"><ScrollStory /></div>
+    <div class="chapter" id="process" data-chapter="process">
+      <ScrollStory eyebrow={eyebrow('process')} title={ch('process').title} />
+    </div>
 
     <Container>
       <Section
@@ -77,7 +81,7 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
         class="chapter"
         data-chapter="impact"
         eyebrow={eyebrow('impact')}
-        title="What my work has done so far."
+        title={ch('impact').title}
         description="Numbers from real projects at TCS. Tap any card to see where it comes from."
         href="/dashboard"
         linkLabel="Full dashboard"
@@ -110,7 +114,7 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
         class="chapter"
         data-chapter="projects"
         eyebrow={eyebrow('projects')}
-        title="A few things I've built."
+        title={ch('projects').title}
         description="My favourite open-source work. Star and fork counts update from GitHub every day."
         href="/projects"
         linkLabel="All projects"
@@ -133,10 +137,10 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
             class="chapter"
             data-chapter="newsletter"
             eyebrow={eyebrow('newsletter')}
-            title="Latest from the newsletter."
-            description="Every issue lives here first. I share each one on LinkedIn too."
+            title={ch('newsletter').title}
+            description="From Sarvesh's AI Newsletter. Every article lives here first; I share each one on LinkedIn."
             href="/newsletter"
-            linkLabel="All issues"
+            linkLabel="Open the newsletter"
           >
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((p, i) => (
@@ -159,7 +163,7 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
             class="chapter"
             data-chapter="on-air"
             eyebrow={eyebrow('on-air')}
-            title="Heard on podcasts."
+            title={ch('on-air').title}
             description="Conversations about moving into AI, shipping it for real, and the Claude exams."
             href="/references"
             linkLabel="All references"
@@ -178,7 +182,8 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
         class="chapter"
         data-chapter="claude"
         eyebrow={eyebrow('claude')}
-        title="I passed both Claude exams. Here's how you can too."
+        title={ch('claude').title}
+        description="I passed both Claude Certified Architect exams. Here's everything I used, free."
         href="/claude"
         linkLabel="Open Claude Prep"
       >
@@ -231,7 +236,7 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
         class="chapter"
         data-chapter="toolbox"
         eyebrow={eyebrow('toolbox')}
-        title="What I work with."
+        title={ch('toolbox').title}
         href="/about"
         linkLabel="More about me"
       >
@@ -243,7 +248,7 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
         class="chapter"
         data-chapter="journey"
         eyebrow={eyebrow('journey')}
-        title="Where I've worked."
+        title={ch('journey').title}
         href="/experience"
         linkLabel="Full history"
       >
@@ -254,6 +259,7 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
 
       <section class="chapter pb-8 pt-16" id="contact" data-chapter="contact">
         <p class="eyebrow mb-4">{eyebrow('contact')}</p>
+        <h2 class="sr-only">{ch('contact').title}</h2>
         <TopmateCTA />
         <div class="mt-8 flex justify-center"><FollowLinkedIn /></div>
       </section>
@@ -270,13 +276,23 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
     position: relative;
     scroll-margin-top: 4.5rem;
   }
-  :global(.mission .chapter)::before {
+  :global(.mission .chapter:not(#launch))::before {
     content: '';
     position: absolute;
     inset: 0 -6vw;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(70% 65% at 50% 50%, color-mix(in srgb, var(--bg) 72%, transparent), transparent 78%);
+    background: radial-gradient(70% 65% at 50% 50%, rgb(7 8 20 / 0.62), transparent 78%);
+  }
+  :global(.mission #launch)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgb(7 8 20 / 0.7) 0%, rgb(7 8 20 / 0.35) 55%, transparent 80%);
+    -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
+    mask-image: linear-gradient(180deg, #000 60%, transparent);
   }
   :global(.mission .hero) {
     background: none;

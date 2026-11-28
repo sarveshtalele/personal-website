@@ -166,8 +166,12 @@ const shelves = topics
 <script>
   document.querySelectorAll<HTMLElement>('[data-shelf]').forEach((shelf) => {
     const track = shelf.querySelector<HTMLElement>('[data-track]')!;
-    shelf.querySelectorAll<HTMLButtonElement>('[data-dir]').forEach((b) =>
-      b.addEventListener('click', () => track.scrollBy({ left: Number(b.dataset.dir) * track.clientWidth * 0.9, behavior: 'smooth' })),
-    );
+    shelf
+      .querySelectorAll<HTMLButtonElement>('[data-dir]')
+      .forEach((b) =>
+        b.addEventListener('click', () =>
+          track.scrollBy({ left: Number(b.dataset.dir) * track.clientWidth * 0.9, behavior: 'smooth' }),
+        ),
+      );
   });
 </script>

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Scaffold a new newsletter issue:
- *   pnpm new:issue "Why deterministic tools beat clever prompts"
- *   pnpm new:issue "On Sisyphus and shipping" --tags "Philosophy, Craft"
+ * Scaffold a new newsletter article:
+ *   pnpm new:article "Why deterministic tools beat clever prompts"
+ *   pnpm new:article "On Sisyphus and shipping" --tags "Philosophy, Craft"
  *
  * Creates content/newsletter/<slug>/index.md (+ an images/ folder) with every
- * frontmatter field filled in. The issue is a draft until you set draft: false.
+ * frontmatter field filled in. The article is a draft until you set draft: false.
  * The archive, topic pages, RSS feed, search, and homepage update on the next
  * build automatically; there is nothing else to register.
  */
@@ -26,7 +26,7 @@ const tags = (flag('tags') ?? '')
 const title = args.join(' ').trim();
 
 if (!title) {
-  console.error('Usage: pnpm new:issue "Issue title" [--tags "A, B"]');
+  console.error('Usage: pnpm new:article "Article title" [--tags "A, B"]');
   process.exit(1);
 }
 
@@ -51,7 +51,7 @@ writeFileSync(
   `---
 title: ${yamlString(title)}
 seoTitle: ${yamlString(title.slice(0, 60))}
-description: ${yamlString('One or two sentences for the issue card, Google, and LinkedIn previews.')}
+description: ${yamlString('One or two sentences for the article card, Google, and LinkedIn previews.')}
 pubDate: ${today}
 tags: [${tags.map(yamlString).join(', ')}]
 # cover: ./images/cover.png
@@ -62,7 +62,7 @@ draft: true
 
 Start writing here.
 
-Images: drop files into this issue's images/ folder and embed them with a normal Markdown image
+Images: drop files into this article's images/ folder and embed them with a normal Markdown image
 whose path starts with ./images/ (pnpm check:content verifies the file exists).
 `
 );

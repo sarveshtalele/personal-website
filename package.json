@@ -20,7 +20,7 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "claude:pdf": "node scripts/build-claude-data.mjs && node scripts/build-claude-pdf.mjs && node scripts/verify-claude-pdf.mjs",
-    "new:issue": "node scripts/new-issue.mjs"
+    "new:article": "node scripts/new-article.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.4",

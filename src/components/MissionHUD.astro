@@ -1,30 +1,58 @@
 ---
 /**
- * Mission Log HUD for the homepage: a pill showing the current chapter and,
- * on desktop, a rail of chapter dots you can click to jump.
+ * Cockpit overlay for the homepage voyage:
+ *  - a thin window frame at the screen edges (decorative, click-through)
+ *  - readouts: current sector, velocity, distance to Andromeda, sound chip
+ *  - on wide screens, a rail of chapter dots you can click to jump
+ * It also tells the soundtrack which chapter you're in ('voyage:chapter').
  */
 interface Props {
-  chapters: { id: string; title: string }[];
+  chapters: { id: string; label: string; title: string }[];
 }
 const { chapters } = Astro.props;
 const pad = (i: number) => String(i + 1).padStart(2, '0');
 ---
 
-<div class="hud-pill" data-hud-pill aria-hidden="true">
-  <span class="hud-dot"></span>
-  <span class="hud-label">Mission log</span>
-  <span class="hud-num" data-hud-num>01</span><span class="hud-total">/{pad(chapters.length - 1)}</span>
-  <span class="hud-title" data-hud-title>{chapters[0]?.title}</span>
+<div class="cockpit" aria-hidden="true">
+  <svg class="struts" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <path d="M0 9 Q 2.5 2.5 9 0"></path>
+    <path d="M100 9 Q 97.5 2.5 91 0"></path>
+    <path d="M0 91 Q 2.5 97.5 9 100"></path>
+    <path d="M100 91 Q 97.5 97.5 91 100"></path>
+  </svg>
+  <span class="tick tick-l"></span>
+  <span class="tick tick-r"></span>
 </div>
 
-<nav class="hud-rail" aria-label="Homepage chapters">
+<div class="readouts" data-readouts>
+  <div class="ro ro-sector" aria-hidden="true">
+    <span class="ro-label">Sector <span data-ro-num>01</span>/{pad(chapters.length - 1)}</span>
+    <span class="ro-value" data-ro-title>{chapters[0]?.label}</span>
+  </div>
+  <div class="ro ro-nav">
+    <span class="ro-cell" aria-hidden="true">
+      <span class="ro-label">Velocity</span>
+      <span class="ro-value"><span data-ro-speed>0.02</span> c</span>
+    </span>
+    <span class="ro-cell" aria-hidden="true">
+      <span class="ro-label">To Andromeda</span>
+      <span class="ro-value"><span data-ro-dist>2.537</span>M ly</span>
+    </span>
+    <button type="button" class="ro-sound" data-ro-sound aria-label="Turn on the soundtrack">
+      <span class="ro-sound-dot" aria-hidden="true"></span>
+      <span data-ro-sound-text>Sound off</span>
+    </button>
+  </div>
+</div>
+
+<nav class="hud-rail" aria-label="Voyage chapters">
   <ol>
     {
       chapters.map((c, i) => (
         <li>
-          <a href={`#${c.id}`} data-hud-link={c.id} aria-label={`Chapter ${i + 1}: ${c.title}`}>
+          <a href={`#${c.id}`} data-hud-link={c.id} aria-label={`${c.label}: ${c.title}`}>
             <span class="rail-label">
-              {pad(i)} · {c.title}
+              {pad(i)} · {c.label}
             </span>
             <span class="rail-dot" />
           </a>
@@ -35,67 +63,131 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
 </nav>
 
 <style>
-  .hud-pill {
+  .cockpit {
     position: fixed;
-    left: 1.25rem;
-    bottom: 1.25rem;
-    z-index: 40;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-radius: 9999px;
-    border: 1px solid var(--border);
-    background: color-mix(in srgb, var(--card) 82%, transparent);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    padding: 0.45rem 0.9rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--fg-muted);
-    box-shadow: var(--shadow-card);
-    white-space: nowrap;
-    transition:
-      opacity 400ms ease,
-      translate 400ms ease;
-  }
-  /* Hidden over the hero; appears once the journey starts. */
-  :global(.js) .hud-pill:not(.is-on) {
-    opacity: 0;
-    translate: 0 0.75rem;
+    inset: 4rem 0 0 0;
+    z-index: 30;
     pointer-events: none;
   }
-  .hud-dot {
-    height: 0.45rem;
-    width: 0.45rem;
-    border-radius: 9999px;
-    background: var(--success);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 25%, transparent);
-    animation: blink 2s ease-in-out infinite;
+  .struts {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
-  .hud-label {
-    letter-spacing: 0.14em;
+  .struts path {
+    fill: none;
+    stroke: rgb(164 139 255 / 0.35);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+  .tick {
+    position: absolute;
+    top: 50%;
+    width: 1.1rem;
+    height: 1px;
+    background: rgb(243 199 122 / 0.6);
+  }
+  .tick-l {
+    left: 0.6rem;
+  }
+  .tick-r {
+    right: 0.6rem;
+  }
+  .readouts {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+    /* Right padding leaves room for the back-to-top button. */
+    padding: 0 max(5rem, env(safe-area-inset-right)) max(0.9rem, env(safe-area-inset-bottom))
+      max(1rem, env(safe-area-inset-left));
+    pointer-events: none;
+    transition:
+      opacity 500ms ease,
+      translate 500ms ease;
+  }
+  :global(.js) .readouts:not(.is-on) {
+    opacity: 0;
+    translate: 0 0.75rem;
+  }
+  :global(.js) .readouts:not(.is-on) .ro-sound {
+    pointer-events: none;
+  }
+  .ro {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 0.9rem;
+    border: 1px solid rgb(150 140 255 / 0.22);
+    background: rgb(10 12 34 / 0.62);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 0.5rem 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .ro-sector {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+  }
+  .ro-cell {
+    display: inline-flex;
+    flex-direction: column;
+  }
+  .ro-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--fg-faint);
   }
-  .hud-num {
-    color: var(--accent);
-    font-variant-numeric: tabular-nums;
+  .ro-value {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--fg);
+    white-space: nowrap;
   }
-  .hud-total {
-    margin-left: -0.4rem;
-    color: var(--fg-faint);
+  .ro-sector .ro-value {
+    color: var(--primary);
   }
-  .hud-title {
+  .ro-sound {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 9999px;
+    border: 1px solid rgb(255 255 255 / 0.2);
+    padding: 0.35rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+    transition:
+      border-color 200ms ease,
+      color 200ms ease;
+  }
+  .ro-sound:hover {
+    border-color: var(--primary);
     color: var(--fg);
   }
-  @keyframes blink {
-    50% {
-      opacity: 0.35;
-    }
+  .ro-sound-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 9999px;
+    background: var(--fg-faint);
+  }
+  .ro-sound[aria-pressed='true'] .ro-sound-dot {
+    background: var(--success);
+    box-shadow: 0 0 0 3px rgb(127 214 164 / 0.25);
   }
   .hud-rail {
     position: fixed;
-    right: 1.1rem;
+    right: 1.4rem;
     top: 50%;
     z-index: 40;
     translate: 0 -50%;
@@ -137,12 +229,12 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
   .hud-rail a[aria-current='true'] .rail-dot {
     height: 0.65rem;
     width: 0.65rem;
-    border-color: var(--accent);
-    background: var(--accent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+    border-color: var(--primary);
+    background: var(--primary);
+    box-shadow: 0 0 0 4px rgb(243 199 122 / 0.22);
   }
   .hud-rail a[aria-current='true'] .rail-label {
-    color: var(--accent);
+    color: var(--primary);
   }
   @media (max-width: 1279px) {
     .hud-rail {
@@ -150,41 +242,85 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     }
   }
   @media (max-width: 640px) {
-    .hud-label {
+    .cockpit {
       display: none;
     }
-    .hud-pill {
-      left: 1rem;
-      padding: 0.4rem 0.75rem;
+    .readouts {
+      padding-left: 0.6rem;
+      padding-right: 4.25rem;
     }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hud-dot {
-      animation: none;
+    .ro {
+      gap: 0.7rem;
+      padding: 0.4rem 0.65rem;
+    }
+    .ro-nav .ro-cell:first-child {
+      display: none;
+    }
+    .ro-sector .ro-label {
+      display: none;
     }
   }
 </style>
 
 <script>
   const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-hud-link]')];
-  const num = document.querySelector<HTMLElement>('[data-hud-num]');
-  const title = document.querySelector<HTMLElement>('[data-hud-title]');
   const sections = links.map((l) => document.getElementById(l.dataset.hudLink!)).filter(Boolean) as HTMLElement[];
+  const num = document.querySelector<HTMLElement>('[data-ro-num]');
+  const title = document.querySelector<HTMLElement>('[data-ro-title]');
+  const speedEl = document.querySelector<HTMLElement>('[data-ro-speed]');
+  const distEl = document.querySelector<HTMLElement>('[data-ro-dist]');
+  const readouts = document.querySelector<HTMLElement>('[data-readouts]');
+  const soundBtn = document.querySelector<HTMLButtonElement>('[data-ro-sound]');
+  const soundText = document.querySelector<HTMLElement>('[data-ro-sound-text]');
+  let current = -1;
+
   const io = new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
         if (!e.isIntersecting) continue;
         const i = sections.indexOf(e.target as HTMLElement);
+        if (i === current) continue;
+        current = i;
         links.forEach((l, k) => l.setAttribute('aria-current', String(k === i)));
         if (num) num.textContent = String(i + 1).padStart(2, '0');
-        if (title) title.textContent = links[i]?.getAttribute('aria-label')?.replace(/^Chapter \d+: /, '') ?? '';
+        if (title) title.textContent = links[i]?.getAttribute('aria-label')?.split(':')[0] ?? '';
+        dispatchEvent(new CustomEvent('voyage:chapter', { detail: i }));
       }
     },
     { rootMargin: '-45% 0px -50% 0px' },
   );
   sections.forEach((s) => io.observe(s));
-  const pill = document.querySelector<HTMLElement>('[data-hud-pill]');
-  const togglePill = () => pill?.classList.toggle('is-on', scrollY > innerHeight * 0.6);
-  addEventListener('scroll', togglePill, { passive: true });
-  togglePill();
+
+  const onScroll = () => {
+    readouts?.classList.toggle('is-on', scrollY > innerHeight * 0.55);
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const p = max > 0 ? Math.min(scrollY / max, 1) : 0;
+    // 2.537 million light-years to Andromeda, counted down as you scroll.
+    if (distEl) distEl.textContent = (2.537 * (1 - p)).toFixed(3);
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  let lastWarp = -1;
+  let warping = false;
+  addEventListener('voyage:speed', (e) => {
+    const w = (e as CustomEvent<number>).detail;
+    if (Math.abs(w - lastWarp) < 0.01) return;
+    lastWarp = w;
+    if (speedEl) speedEl.textContent = (0.02 + w * 0.97).toFixed(2);
+    if (w > 0.75 && !warping) dispatchEvent(new CustomEvent('voyage:warp'));
+    warping = w > 0.5 ? warping || w > 0.75 : false;
+  });
+
+  // The cockpit chip mirrors the navbar speaker switch.
+  const navSound = document.getElementById('sound-toggle');
+  const sync = () => {
+    const on = navSound?.getAttribute('aria-pressed') === 'true';
+    soundBtn?.setAttribute('aria-pressed', String(on));
+    soundBtn?.setAttribute('aria-label', on ? 'Turn off the soundtrack' : 'Turn on the soundtrack');
+    if (soundText) soundText.textContent = on ? 'Sound on' : 'Sound off';
+  };
+  soundBtn?.addEventListener('click', () => navSound?.click());
+  if (navSound) new MutationObserver(sync).observe(navSound, { attributes: true, attributeFilter: ['aria-pressed'] });
+  sync();
 </script>

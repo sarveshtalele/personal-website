@@ -16,8 +16,22 @@ const bundle = products.items.find((p) => p.icon === 'bundle');
 const call = products.items.find((p) => p.icon === 'call');
 
 const steps = [
-  { n: 1, title: 'Read the newsletter', note: 'Plain-English articles', href: '/newsletter/archive', Icon: BookOpen, ext: false },
-  { n: 2, title: 'Practise for free', note: '360 questions + mock exam', href: '/claude/review', Icon: Library, ext: false },
+  {
+    n: 1,
+    title: 'Read the newsletter',
+    note: 'Plain-English articles',
+    href: '/newsletter/archive',
+    Icon: BookOpen,
+    ext: false,
+  },
+  {
+    n: 2,
+    title: 'Practise for free',
+    note: '360 questions + mock exam',
+    href: '/claude/review',
+    Icon: Library,
+    ext: false,
+  },
   {
     n: 3,
     title: 'Get unstuck',
@@ -92,39 +106,78 @@ const flowers = Array.from({ length: 70 }, () => ({
 
       <rect width="1600" height="900" fill="url(#ps-sky)"></rect>
       <g class="ps-stars" fill="#fff">
-        <circle cx="200" cy="90" r="1.4"></circle><circle cx="420" cy="150" r="1"></circle><circle cx="640" cy="70" r="1.6"></circle>
-        <circle cx="900" cy="120" r="1.1"></circle><circle cx="1120" cy="60" r="1.5"></circle><circle cx="1500" cy="250" r="1.2"></circle>
-        <circle cx="760" cy="210" r="0.9"></circle><circle cx="80" cy="220" r="1.1"></circle><circle cx="1300" cy="180" r="0.9"></circle>
+        <circle cx="200" cy="90" r="1.4"></circle><circle cx="420" cy="150" r="1"></circle><circle
+          cx="640"
+          cy="70"
+          r="1.6"></circle>
+        <circle cx="900" cy="120" r="1.1"></circle><circle cx="1120" cy="60" r="1.5"></circle><circle
+          cx="1500"
+          cy="250"
+          r="1.2"></circle>
+        <circle cx="760" cy="210" r="0.9"></circle><circle cx="80" cy="220" r="1.1"></circle><circle
+          cx="1300"
+          cy="180"
+          r="0.9"></circle>
       </g>
 
       <!-- Ringed planet where the sun would be -->
       <g class="ps-planet" transform="translate(1380 150)">
         <circle r="78" style="fill:var(--ps-halo)" opacity="0.35"></circle>
         <circle r="54" fill="url(#ps-planet)"></circle>
-        <path d="M-50 -8 Q 0 -22 50 -6" style="stroke:var(--ps-planet2)" stroke-width="5" fill="none" opacity="0.25"></path>
-        <ellipse rx="98" ry="20" transform="rotate(-16)" fill="none" style="stroke:var(--ps-ring)" stroke-width="5" opacity="0.9"></ellipse>
+        <path d="M-50 -8 Q 0 -22 50 -6" style="stroke:var(--ps-planet2)" stroke-width="5" fill="none" opacity="0.25"
+        ></path>
+        <ellipse
+          rx="98"
+          ry="20"
+          transform="rotate(-16)"
+          fill="none"
+          style="stroke:var(--ps-ring)"
+          stroke-width="5"
+          opacity="0.9"></ellipse>
       </g>
 
       <g class="ps-cloud ps-c1" filter="url(#ps-fluff)">
-        <circle cx="0" cy="210" r="90" fill="url(#ps-cloud)"></circle><circle cx="110" cy="250" r="70" fill="url(#ps-cloud)"></circle>
+        <circle cx="0" cy="210" r="90" fill="url(#ps-cloud)"></circle><circle
+          cx="110"
+          cy="250"
+          r="70"
+          fill="url(#ps-cloud)"></circle>
         <circle cx="40" cy="300" r="80" fill="url(#ps-cloud)"></circle>
       </g>
       <g class="ps-cloud ps-c2" filter="url(#ps-fluff)">
-        <circle cx="900" cy="200" r="70" fill="url(#ps-cloud)"></circle><circle cx="990" cy="230" r="58" fill="url(#ps-cloud)"></circle>
-        <circle cx="840" cy="245" r="50" fill="url(#ps-cloud)"></circle><circle cx="1060" cy="260" r="40" fill="url(#ps-cloud)"></circle>
+        <circle cx="900" cy="200" r="70" fill="url(#ps-cloud)"></circle><circle
+          cx="990"
+          cy="230"
+          r="58"
+          fill="url(#ps-cloud)"></circle>
+        <circle cx="840" cy="245" r="50" fill="url(#ps-cloud)"></circle><circle
+          cx="1060"
+          cy="260"
+          r="40"
+          fill="url(#ps-cloud)"></circle>
       </g>
       <g class="ps-cloud ps-c3" filter="url(#ps-fluff)">
-        <circle cx="1540" cy="430" r="100" fill="url(#ps-cloud)"></circle><circle cx="1420" cy="470" r="70" fill="url(#ps-cloud)"></circle>
+        <circle cx="1540" cy="430" r="100" fill="url(#ps-cloud)"></circle><circle
+          cx="1420"
+          cy="470"
+          r="70"
+          fill="url(#ps-cloud)"></circle>
         <circle cx="1330" cy="500" r="48" fill="url(#ps-cloud)"></circle>
       </g>
       <g class="ps-cloud ps-c4" filter="url(#ps-fluff)" opacity="0.85">
-        <circle cx="250" cy="560" r="60" fill="url(#ps-cloud)"></circle><circle cx="340" cy="580" r="48" fill="url(#ps-cloud)"></circle>
+        <circle cx="250" cy="560" r="60" fill="url(#ps-cloud)"></circle><circle
+          cx="340"
+          cy="580"
+          r="48"
+          fill="url(#ps-cloud)"></circle>
         <circle cx="160" cy="585" r="44" fill="url(#ps-cloud)"></circle>
       </g>
 
       <!-- Distant mountains, a lake, and an observatory on the far shore -->
       <g filter="url(#ps-paint)">
-        <path d="M600 640 L760 540 L860 600 L980 500 L1120 590 L1260 520 L1420 610 L1600 560 V700 H600Z" fill="url(#ps-far)"></path>
+        <path
+          d="M600 640 L760 540 L860 600 L980 500 L1120 590 L1260 520 L1420 610 L1600 560 V700 H600Z"
+          fill="url(#ps-far)"></path>
         <path d="M640 660 C 900 640 1200 650 1600 640 V730 H640Z" fill="url(#ps-water)"></path>
         <path d="M980 650 C 1080 630 1200 628 1320 650 L1330 700 L980 700Z" style="fill:var(--ps-shore)"></path>
       </g>
@@ -134,7 +187,11 @@ const flowers = Array.from({ length: 70 }, () => ({
         <rect x="-3" y="-30" width="6" height="16" style="fill:var(--ps-build)" transform="rotate(30)"></rect>
         <rect x="40" y="0" width="34" height="10" rx="2" style="fill:var(--ps-build)"></rect>
         <path d="M43 0 A 14 14 0 0 1 71 0Z" style="fill:var(--ps-dome)"></path>
-        <circle cx="0" cy="4" r="2.2" style="fill:var(--ps-window)"></circle><circle cx="57" cy="5" r="1.8" style="fill:var(--ps-window)"></circle>
+        <circle cx="0" cy="4" r="2.2" style="fill:var(--ps-window)"></circle><circle
+          cx="57"
+          cy="5"
+          r="1.8"
+          style="fill:var(--ps-window)"></circle>
       </g>
 
       <!-- Cypress trees -->
@@ -144,11 +201,17 @@ const flowers = Array.from({ length: 70 }, () => ({
       </g>
 
       <!-- Foreground hill -->
-      <path d="M0 760 C 220 700 420 690 620 730 C 820 770 1000 800 1200 790 C 1380 782 1500 770 1600 760 V900 H0Z" fill="url(#ps-near)"></path>
+      <path
+        d="M0 760 C 220 700 420 690 620 730 C 820 770 1000 800 1200 790 C 1380 782 1500 770 1600 760 V900 H0Z"
+        fill="url(#ps-near)"></path>
       <ellipse cx="380" cy="830" rx="70" ry="34" style="fill:var(--ps-rock)"></ellipse>
       <ellipse cx="410" cy="818" rx="40" ry="18" style="fill:var(--ps-rock-hi)" opacity="0.5"></ellipse>
       <ellipse cx="1100" cy="850" rx="54" ry="24" style="fill:var(--ps-rock)"></ellipse>
-      {flowers.map((f) => <circle cx={f.x.toFixed(1)} cy={f.y.toFixed(1)} r={f.r.toFixed(1)} fill={f.c} opacity="0.85" />)}
+      {
+        flowers.map((f) => (
+          <circle cx={f.x.toFixed(1)} cy={f.y.toFixed(1)} r={f.r.toFixed(1)} fill={f.c} opacity="0.85" />
+        ))
+      }
 
       <!-- The explorer: a small astronaut with a backpack -->
       <g class="ps-explorer" transform="translate(520 690)">
@@ -162,8 +225,15 @@ const flowers = Array.from({ length: 70 }, () => ({
         <rect x="-6" y="12" width="12" height="8" rx="2" style="fill:var(--ps-badge)"></rect>
         <circle cx="0" cy="-22" r="25" style="fill:var(--ps-helmet)"></circle>
         <path d="M-15 -26 Q 0 -40 17 -26 Q 18 -10 0 -8 Q -17 -10 -15 -26Z" style="fill:var(--ps-visor)"></path>
-        <path d="M-8 -28 Q -2 -34 6 -32" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.8"></path>
-        <rect x="18" y="8" width="10" height="26" rx="5" style="fill:var(--ps-suit)" transform="rotate(-24 23 8)"></rect>
+        <path
+          d="M-8 -28 Q -2 -34 6 -32"
+          stroke="#fff"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          fill="none"
+          opacity="0.8"></path>
+        <rect x="18" y="8" width="10" height="26" rx="5" style="fill:var(--ps-suit)" transform="rotate(-24 23 8)"
+        ></rect>
       </g>
 
       <rect width="1600" height="900" filter="url(#ps-grain)" opacity="0.06"></rect>
@@ -173,12 +243,15 @@ const flowers = Array.from({ length: 70 }, () => ({
     <div class="nl-path-inner">
       <div class="nl-path-copy">
         <p class="nl-path-eyebrow">Small steps. Clearer thinking.</p>
-        <h2 id="nl-path-title" class="nl-path-title">From curious <br class="hidden sm:block" />to <em>certified.</em></h2>
+        <h2 id="nl-path-title" class="nl-path-title">
+          From curious <br class="hidden sm:block" />to <em>certified.</em>
+        </h2>
         <p class="nl-path-text">
           Read along, practise for free, and book time with me when you're stuck. This is the path most readers take.
         </p>
         <div class="mt-6 flex flex-wrap items-center gap-4">
-          <a href={steps[0].href} class="nl-path-cta">Start reading <ArrowRight class="h-4 w-4" aria-hidden="true" /></a>
+          <a href={steps[0].href} class="nl-path-cta">Start reading <ArrowRight class="h-4 w-4" aria-hidden="true" /></a
+          >
           {
             podcast && (
               <a href={podcast.url} target="_blank" rel="noopener noreferrer" class="nl-path-play">
@@ -200,7 +273,11 @@ const flowers = Array.from({ length: 70 }, () => ({
         {
           steps.map((s, i) => (
             <li class={`nl-step nl-step-${i + 1}`}>
-              <a href={s.href} {...(s.ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})} class="nl-step-card">
+              <a
+                href={s.href}
+                {...(s.ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                class="nl-step-card"
+              >
                 <span class="nl-step-icon">
                   <s.Icon class="h-4 w-4" aria-hidden="true" />
                 </span>

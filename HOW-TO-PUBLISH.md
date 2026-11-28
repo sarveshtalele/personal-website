@@ -1,17 +1,17 @@
-# How to publish a newsletter issue
+# How to publish a newsletter article
 
 You don't need to install anything. Everything below works on **github.com** in your browser. When you commit to
-`main`, the site rebuilds and your issue is live at `sarveshtalele.org/newsletter/<folder-name>` in about two minutes.
+`main`, the site rebuilds and your article is live at `sarveshtalele.org/newsletter/<folder-name>` in about two minutes.
 
 ---
 
 ## The 5-step version
 
 1. **Open** [`content/newsletter/`](content/newsletter) on GitHub.
-2. **Create the issue file.** Click **Add file → Create new file** and type the name as
-   `my-issue-name/index.md`. Typing the `/` creates the folder. The folder name becomes the URL, so use lowercase
+2. **Create the article file.** Click **Add file → Create new file** and type the name as
+   `my-article-name/index.md`. Typing the `/` creates the folder. The folder name becomes the URL, so use lowercase
    words and dashes, e.g. `claude-code-hooks-explained/index.md`.
-3. **Paste this at the top**, then write your issue below it in normal Markdown:
+3. **Paste this at the top**, then write your article below it in normal Markdown:
 
    ```md
    ---
@@ -24,29 +24,29 @@ You don't need to install anything. Everything below works on **github.com** in 
    draft: false
    ---
 
-   Your issue starts here...
+   Your article starts here...
    ```
 
 4. **Commit** the file (green **Commit changes** button).
 5. **Add images** (skip if you have none): open your new folder, click **Add file → Upload files**, and drag your
    images in. Then click **Commit changes**. In the text, add an image like this:
-   `![What the image shows](./images/screenshot-1.png)`. Images must be in an `images/` folder inside the issue's
+   `![What the image shows](./images/screenshot-1.png)`. Images must be in an `images/` folder inside the article's
    folder, so upload them as `images/cover.png` etc., or drag a whole `images` folder from your computer.
 
-That's it. Watch the **Actions** tab: when "Deploy to GitHub Pages" turns green, the issue is live.
+That's it. Watch the **Actions** tab: when "Deploy to GitHub Pages" turns green, the article is live.
 
 ---
 
 ## What happens automatically
 
-| You do                                      | The site does                                                                                                                              |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Commit `content/newsletter/<name>/index.md` | Adds the issue to `/newsletter`, numbers it (Issue #2, #3, …) by date, puts it on the homepage, the RSS feed, the sitemap, and site search |
-| Add `tags:`                                 | Creates a topic page for each tag and adds it to the archive filters                                                                       |
-| Add `cover:`                                | Uses it on the card, at the top of the issue, and as the LinkedIn/Twitter preview image                                                    |
-| Add `seoTitle:`                             | Uses it as the Google title (keep it under ~60 characters); `title` stays on the page                                                      |
-| Add `linkedin:`                             | Shows "Join the discussion on LinkedIn" at the end of the issue                                                                            |
-| Upload images                               | Resizes and compresses them for fast loading                                                                                               |
+| You do                                      | The site does                                                                                             |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Commit `content/newsletter/<name>/index.md` | Adds the article to `/newsletter` (newest first), the archive, the homepage, the sitemap, and site search |
+| Add `tags:`                                 | Creates a topic page for each tag and adds it to the archive filters and topic shelves                    |
+| Add `cover:`                                | Uses it on the card, at the top of the article, and as the LinkedIn/Twitter preview image                 |
+| Add `seoTitle:`                             | Uses it as the Google title (keep it under ~60 characters); `title` stays on the page                     |
+| Add `linkedin:`                             | Shows "Join the discussion on LinkedIn" at the end of the article                                         |
+| Upload images                               | Resizes and compresses them for fast loading                                                              |
 
 ## Every field
 
@@ -58,10 +58,9 @@ That's it. Watch the **Actions** tab: when "Deploy to GitHub Pages" turns green,
 | `tags`                | no       | `[Claude, Career]`; each becomes a topic filter                  |
 | `seoTitle`            | no       | Shorter title for search results                                 |
 | `cover`, `coverAlt`   | no       | `./images/cover.png` plus a short description for screen readers |
-| `linkedin`            | no       | Link to the LinkedIn post where you shared the issue             |
+| `linkedin`            | no       | Link to the LinkedIn post where you shared the article           |
 | `canonical`           | no       | If it first appeared elsewhere (e.g. Medium)                     |
 | `updatedDate`         | no       | Set when you make a real revision                                |
-| `issue`               | no       | Force an issue number; normally leave it out                     |
 | `draft`               | no       | `true` hides it from the live site                               |
 
 ## Already have a Markdown or MDX file?
@@ -73,19 +72,20 @@ If the file starts with a `# Title` line, delete it, because the page already sh
 ## If the build fails
 
 Open **Actions → the red run → build**. The error names the file and the problem, e.g.
-`newsletter/my-issue: image not found → ./images/cover.png` or `add pubDate: to the frontmatter`. Fix it on GitHub
+`newsletter/my-article: image not found → ./images/cover.png` or `add pubDate: to the frontmatter`. Fix it on GitHub
 and commit again.
 
 ## From your computer (optional)
 
 ```bash
-pnpm new:issue "Claude Code Hooks, Explained" --tags "Claude, Agents"   # creates the folder and file
+pnpm new:article "Claude Code Hooks, Explained" --tags "Claude, Agents"   # creates the folder and file
 pnpm dev                                                                  # preview at http://localhost:4321
 pnpm check:content                                                        # checks images and frontmatter
 ```
 
 ---
 
-Other things you can update the same way: references (`content/references/links.md`), podcasts
-(`content/media/appearances.md`), your profile, projects, and the Claude question bank. See
+Other things you can update the same way: products on the newsletter's Products tab (`content/products/products.md`),
+references (`content/references/links.md`), podcasts (`content/media/appearances.md`), your profile, projects, and the
+Claude question bank. See
 [`content/README.md`](content/README.md) for the map and [`docs/UPDATING.md`](docs/UPDATING.md) for details.

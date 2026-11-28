@@ -10,37 +10,37 @@ page is generated from Markdown in `content/`, so you never need to touch code t
 
 ## 1. "Something happened, what do I update?"
 
-| When this happens…                                 | Edit this file                                                                                                                   | What updates on the site                                                                              |
-| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| You publish a newsletter issue                     | New folder `content/newsletter/<slug>/index.md` (see [HOW-TO-PUBLISH.md](../HOW-TO-PUBLISH.md), or run `pnpm new:issue "Title"`) | Newsletter archive, homepage "Newsletter" log, topic pages, RSS, sitemap, search                      |
-| You shared the issue on LinkedIn                   | That issue's `linkedin:` field                                                                                                   | "Join the discussion on LinkedIn" at the end of the issue                                             |
-| It first appeared on Medium                        | Set `canonical:` to the Medium URL                                                                                               | Search engines credit the original                                                                    |
-| You fix a typo in an old issue                     | That issue's `index.md` (add `updatedDate:` only for real revisions)                                                             | The issue; "Updated" date if set                                                                      |
-| You post on LinkedIn or write elsewhere            | `content/references/links.md` → `items:`                                                                                         | `/references` (filters by source and topic)                                                           |
-| You appear on a podcast or give a talk             | `content/media/appearances.md` → `items:` (YouTube video ID)                                                                     | Homepage "On air" with thumbnail, `/references`                                                       |
-| You start a new job or get promoted                | `content/experience/<company-role>.md` (set old job's `current: false` + `endDate:`)                                             | Experience page, landing "Journey", dashboard "Currently" card                                        |
-| A new impact number you can prove                  | `content/dashboard/metrics.md` → `impact:`                                                                                       | Dashboard + landing impact tiles                                                                      |
-| You earn a certification                           | `content/certifications/<name>.md` (+ badge image in `public/images/badges/`)                                                    | Certifications page, About, dashboard; Claude page if the title contains "Claude Certified Architect" |
-| A paper is published                               | `content/publications/<name>.md`                                                                                                 | Publications page, dashboard "Research"                                                               |
-| You create a repo you want to show off             | `content/project-settings/projects.md` → `pinned:`                                                                               | Projects page (top, with "Pinned" badge) + landing "Pinned projects"                                  |
-| A repo is junk / a mirror                          | `projects.md` → `hidden:`                                                                                                        | Removed from Projects page and stats lists                                                            |
-| A repo has no or weak GitHub description           | `projects.md` → `overrides:`                                                                                                     | That repo's card                                                                                      |
-| You add a GitHub topic to a repo                   | Nothing here (topic must be listed under `categories:` to become a filter)                                                       | Category filter on the Projects page after the next deploy                                            |
-| Stars/forks change                                 | Nothing. The site rebuilds daily at 03:17 UTC                                                                                    | Every GitHub number                                                                                   |
-| Your title, headline, bio or socials change        | `content/profile/sarvesh.md`                                                                                                     | Navbar, hero, footer, About, SEO metadata, JSON-LD, Contact                                           |
-| The small label above the headline                 | `profile/sarvesh.md` → `heroLabel:`                                                                                              | Landing hero (currently "AI Engineer")                                                                |
-| Skill badges floating around your photo            | `profile/sarvesh.md` → `heroChips:` (up to 3)                                                                                    | Landing hero                                                                                          |
-| You learn a new tool                               | `profile/sarvesh.md` → `skills:`                                                                                                 | Toolbox cards on Home, About, and Dashboard                                                           |
-| The "How I work" steps                             | `profile/sarvesh.md` → `approach:`                                                                                               | Scroll story under the hero                                                                           |
-| The quote on the landing page                      | `profile/sarvesh.md` → `quotes:` (first entry is used)                                                                           | Hero (under the headline)                                                                             |
-| A new achievement or award                         | `profile/sarvesh.md` → `achievements:` (and update the `8×` tile in `metrics.md` if it is a TCS award)                           | About "Achievements", dashboard                                                                       |
-| You want a new Claude practice question            | `content/claude/questions/domain-<n>.md`                                                                                         | Learn & Review library, counts on Claude/landing/dashboard                                            |
-| A question has a wrong answer                      | Same file, move the `[x]` and fix the explanations                                                                               | Mock exam + library                                                                                   |
-| You want to change which questions are in the mock | Add/remove `- mock: true` (keep 60 to mirror the real exam)                                                                      | `/claude/quiz`                                                                                        |
-| Anthropic changes the exam (fee, time, domains)    | `content/claude/exams/foundations.md`                                                                                            | `/claude/foundations`                                                                                 |
-| You are ready to publish the Professional guide    | `content/claude/exams/professional.md` → fill fields, set `status: live`                                                         | New page `/claude/professional` + live card on `/claude`                                              |
-| New profile photo                                  | Replace `public/images/sarvesh-talele.jpg` (same name, square works best)                                                        | Navbar, hero, About, newsletter author line                                                           |
-| New nav item, analytics, comments                  | `src/lib/site.ts` (the only non-Markdown settings file)                                                                          | Navbar/footer, GA, Giscus                                                                             |
+| When this happens…                                 | Edit this file                                                                                                                     | What updates on the site                                                                              |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| You publish a newsletter article                   | New folder `content/newsletter/<slug>/index.md` (see [HOW-TO-PUBLISH.md](../HOW-TO-PUBLISH.md), or run `pnpm new:article "Title"`) | Newsletter home and archive, homepage "Transmissions", topic pages, sitemap, search                   |
+| You shared the article on LinkedIn                 | That article's `linkedin:` field                                                                                                   | "Join the discussion on LinkedIn" at the end of the article                                           |
+| It first appeared on Medium                        | Set `canonical:` to the Medium URL                                                                                                 | Search engines credit the original                                                                    |
+| You fix a typo in an old article                   | That article's `index.md` (add `updatedDate:` only for real revisions)                                                             | The article; "Updated" date if set                                                                    |
+| You post on LinkedIn or write elsewhere            | `content/references/links.md` → `items:`                                                                                           | `/references` (filters by source and topic)                                                           |
+| You appear on a podcast or give a talk             | `content/media/appearances.md` → `items:` (YouTube video ID)                                                                       | Homepage "On air" with thumbnail, `/references`                                                       |
+| You start a new job or get promoted                | `content/experience/<company-role>.md` (set old job's `current: false` + `endDate:`)                                               | Experience page, landing "Journey", dashboard "Currently" card                                        |
+| A new impact number you can prove                  | `content/dashboard/metrics.md` → `impact:`                                                                                         | Dashboard + landing impact tiles                                                                      |
+| You earn a certification                           | `content/certifications/<name>.md` (+ badge image in `public/images/badges/`)                                                      | Certifications page, About, dashboard; Claude page if the title contains "Claude Certified Architect" |
+| A paper is published                               | `content/publications/<name>.md`                                                                                                   | Publications page, dashboard "Research"                                                               |
+| You create a repo you want to show off             | `content/project-settings/projects.md` → `pinned:`                                                                                 | Projects page (top, with "Pinned" badge) + landing "Pinned projects"                                  |
+| A repo is junk / a mirror                          | `projects.md` → `hidden:`                                                                                                          | Removed from Projects page and stats lists                                                            |
+| A repo has no or weak GitHub description           | `projects.md` → `overrides:`                                                                                                       | That repo's card                                                                                      |
+| You add a GitHub topic to a repo                   | Nothing here (topic must be listed under `categories:` to become a filter)                                                         | Category filter on the Projects page after the next deploy                                            |
+| Stars/forks change                                 | Nothing. The site rebuilds daily at 03:17 UTC                                                                                      | Every GitHub number                                                                                   |
+| Your title, headline, bio or socials change        | `content/profile/sarvesh.md`                                                                                                       | Navbar, hero, footer, About, SEO metadata, JSON-LD, Contact                                           |
+| The small label above the headline                 | `profile/sarvesh.md` → `heroLabel:`                                                                                                | Landing hero (currently "AI Engineer")                                                                |
+| Skill badges floating around your photo            | `profile/sarvesh.md` → `heroChips:` (up to 3)                                                                                      | Landing hero                                                                                          |
+| You learn a new tool                               | `profile/sarvesh.md` → `skills:`                                                                                                   | Toolbox cards on Home, About, and Dashboard                                                           |
+| The "How I work" steps                             | `profile/sarvesh.md` → `approach:`                                                                                                 | Scroll story under the hero                                                                           |
+| The quote on the landing page                      | `profile/sarvesh.md` → `quotes:` (first entry is used)                                                                             | Hero (under the headline)                                                                             |
+| A new achievement or award                         | `profile/sarvesh.md` → `achievements:` (and update the `8×` tile in `metrics.md` if it is a TCS award)                             | About "Achievements", dashboard                                                                       |
+| You want a new Claude practice question            | `content/claude/questions/domain-<n>.md`                                                                                           | Learn & Review library, counts on Claude/landing/dashboard                                            |
+| A question has a wrong answer                      | Same file, move the `[x]` and fix the explanations                                                                                 | Mock exam + library                                                                                   |
+| You want to change which questions are in the mock | Add/remove `- mock: true` (keep 60 to mirror the real exam)                                                                        | `/claude/quiz`                                                                                        |
+| Anthropic changes the exam (fee, time, domains)    | `content/claude/exams/foundations.md`                                                                                              | `/claude/foundations`                                                                                 |
+| You are ready to publish the Professional guide    | `content/claude/exams/professional.md` → fill fields, set `status: live`                                                           | New page `/claude/professional` + live card on `/claude`                                              |
+| New profile photo                                  | Replace `public/images/sarvesh-talele.jpg` (same name, square works best)                                                          | Navbar, hero, About, newsletter author line                                                           |
+| New nav item, analytics, comments                  | `src/lib/site.ts` (the only non-Markdown settings file)                                                                            | Navbar/footer, GA, Giscus                                                                             |
 
 ---
 
@@ -57,7 +57,7 @@ page is generated from Markdown in `content/`, so you never need to touch code t
 | `heroLabel`                 | Small label above the landing headline            | e.g. `AI Engineer`                                                                             |
 | `headline`                  | Hero headline                                     | Sentences split on `. `; the **third** sentence is rendered in gold italic                     |
 | `tagline`                   | Hero paragraph, About intro                       | One sentence, concrete                                                                         |
-| `summary`                   | Default meta description, RSS description         | 150–160 characters is ideal for search                                                         |
+| `summary`                   | Default meta description                          | 150–160 characters is ideal for search                                                         |
 | `quotes`                    | Landing hero (first one)                          | `source` optional                                                                              |
 | `socials`                   | Navbar, footer, Contact, badges, JSON-LD `sameAs` | Must be `https://` links. No email is shown anywhere on the site by design                     |
 | `credentials`               | Credential cards on the landing page              | `label`, `href` (proof), optional `note` (issuer · year) and `badge` (image path in `public/`) |
@@ -85,31 +85,37 @@ page is generated from Markdown in `content/`, so you never need to touch code t
 - `overrides:` `description`, `demo` (https), `categories` per repo.
 - `pnpm check:content` fails if a pinned or hidden name doesn't exist (catches typos).
 
-### `content/newsletter/<slug>/index.md`, newsletter issues
+### `content/newsletter/<slug>/index.md`, newsletter articles
 
-**Update when:** you publish. One folder per issue; images live beside it in `images/`. Beginner guide:
+**Update when:** you publish. One folder per article; images live beside it in `images/`. Beginner guide:
 [HOW-TO-PUBLISH.md](../HOW-TO-PUBLISH.md). The `_template/` folder is never published.
 
 ```bash
-pnpm new:issue "Issue title" --tags "Claude, Agents"
+pnpm new:article "Article title" --tags "Claude, Agents"
 ```
 
 | Field                | Required    | Shown on                                                         |
 | -------------------- | ----------- | ---------------------------------------------------------------- |
-| `title` (≤140)       | yes         | Card, issue header, `<title>`, RSS                               |
+| `title` (≤140)       | yes         | Card, article header, `<title>`                                  |
 | `seoTitle` (≤70)     | no          | Google result title instead of `title`                           |
 | `description` (≤300) | yes         | Card text, meta description, social preview                      |
-| `pubDate` or `date`  | yes         | Card, issue, sort order, issue number                            |
-| `updatedDate`        | no          | "Updated" on the issue, `dateModified` in JSON-LD                |
+| `pubDate` or `date`  | yes         | Card, article, sort order                                        |
+| `updatedDate`        | no          | "Updated" on the article, `dateModified` in JSON-LD              |
 | `tags`               | no          | Topic chips, archive filters, `/newsletter/topics/<topic>` pages |
-| `cover` + `coverAlt` | recommended | Card image, issue hero, social share image                       |
+| `cover` + `coverAlt` | recommended | Card image, article hero, social share image                     |
 | `linkedin`           | no          | "Discuss on LinkedIn" button                                     |
 | `canonical`          | no          | Canonical URL if first published elsewhere                       |
-| `issue`              | no          | Force an issue number (otherwise numbered by date)               |
 | `draft`              | no          | `true` = only visible in `pnpm dev`                              |
 
-Images: reference them as `./images/name.png`. `pnpm check:content` fails if an image is missing. `.mdx` issues
+Images: reference them as `./images/name.png`. `pnpm check:content` fails if an image is missing. `.mdx` articles
 also get `<Callout type="tip|info|warning|success" title="…">`.
+
+### `content/products/products.md`, the newsletter's Products tab
+
+Each item: `title`, `type` (e.g. `Video call · 30 min`), `price` (`Free`, a price, or `See price on Topmate`), optional
+`badge`, `icon` (`bundle`, `call`, `heart`, `book`), `summary`, `includes`, and `href` (its Topmate link). Also
+`rating`/`ratings` (shown with a link to Topmate as proof) and `testimonials`. The free bundle also feeds step 3 of the
+"From curious to certified" path.
 
 ### `content/references/links.md`, posts and articles elsewhere
 
@@ -158,39 +164,40 @@ Only one entry should have `current: true`.
 
 ## 3. Theme (do not change by accident)
 
-The site follows an **Apple-style** design: lots of whitespace, the system font, soft cards, and the cream-and-brown
-palette, with tasteful motion throughout:
+The site is **"Andromeda Voyage"**: dark-only, deep indigo space with starlight text, nebula violet accents and the
+warm gold of the galaxy's core for buttons. The newsletter also has a **light paper** reading mode.
 
-- **Hero** (`IntroHero.astro`): the site's original layout, no box. Left: role, big headline, tagline, the quote
-  (words rise in), and buttons (evidence, projects, newsletter). Right: your photo with self-drawing lines, drifting colour,
-  floating badges (Claude certifications and GitHub stars are automatic; the rest come from `heroChips:` in
-  `profile/sarvesh.md`, up to 3), and social icons below. The quote is the big heading; your headline line sits
-  under it; buttons lead to the newsletter and projects. The photo tilts
-  and the chips drift with the pointer.
-- **Credential cards** (`CredentialCards.astro`): one card per item in `credentials:` with its badge (or a matching
-  icon), a short note, and a Verify / See details link.
-- **Toolbox** (`SkillsBento.astro`): one card per group in `skills:`; the pills pop in when the card scrolls into view.
-- **Cards** everywhere get a soft spotlight that follows the pointer and a slight 3D tilt.
-- **Section titles** wipe in as you scroll; numbers count up.
-- **How I work** (`ScrollStory.astro`): stacking cards. Each step is a card that sticks as you scroll while the next
-  one slides over it and the card underneath shrinks and dims. Works on phones. Edit the steps under `approach:` in
-  `profile/sarvesh.md`.
-- **⌘K / Ctrl+K quick menu** (`CommandMenu.astro`): jump to any page, newsletter issue, or pinned project. It lists
-  everything automatically.
-- **Theme toggle** reveals the new theme in a circle from the button; **back-to-top** button shows scroll progress;
-  primary buttons gently follow the pointer. All motion switches off for visitors who prefer reduced motion.
+- **Homepage voyage** (`MissionScene.astro`, `src/scripts/mission-scene.ts`): you fly first-person toward the
+  Andromeda galaxy. Scrolling is the throttle; fast scrolling stretches the stars into warp streaks. Each chapter is a
+  world you pass: Earth (Departure), an orbital station (Flight Clearance), an asteroid field (Flight Protocol), a
+  ringed giant (Mission Telemetry), a shipyard moon (Engineering Bay), a nebula relay (Transmissions), a pulsar (Comms
+  Channel), an ice world (Flight Academy), binary stars (Instrument Panel), a wormhole (Voyage Log), and a black hole
+  before Andromeda fills the screen (Open Channel). Phones get a lighter scene; reduced motion gets still frames; no
+  WebGL gets a CSS galaxy. Chapter names and headings live in `src/pages/index.astro` (`chapters`).
+- **Cockpit** (`MissionHUD.astro`): window frame, sector name, velocity, a countdown of the 2.537 million light-years
+  to Andromeda, a sound chip, and (on wide screens) a chapter rail.
+- **Soundtrack** (`SoundToggle.astro`, `src/scripts/sound.ts`): a speaker icon in the navbar. **Off by default**, it
+  only starts when someone taps it. Generated live in the browser (no audio files): an ambient pad that changes chord
+  per chapter, an engine hum that follows scroll speed, soft hover blips, and a whoosh at warp.
+- **Hero** (`IntroHero.astro`): no photo. Status line, role, the quote rising in word by word, headline, tagline,
+  buttons, highlight tags (Claude certifications and GitHub stars are automatic; the rest come from `heroChips:`), and
+  socials.
+- **Newsletter** (`src/components/newsletter/`): a night-sky illustration hero with your photo and a giant wordmark,
+  the "From curious to certified" storybook path, and a Substack-style article page. A sun/moon switch appears only on
+  newsletter pages; light paper is the default.
+- **Credential cards**, **toolbox bento**, **stacking "How I build AI systems" cards**, **⌘K quick menu**, card
+  spotlight + tilt, heading wipe-ins, count-ups and a back-to-top progress ring work as before.
 
-| Element    | Light                                                                 | Dark (default)           |
-| ---------- | --------------------------------------------------------------------- | ------------------------ |
-| Background | parchment cream `#f6f0e4`                                             | espresso `#14100c`       |
-| Text       | espresso `#2a1d14`                                                    | ivory `#f2e8d8`          |
-| Primary    | cocoa brown `#6b4226`                                                 | champagne gold `#d9b77e` |
-| Accent     | antique gold `#a67c3d`                                                | warm gold `#c99a5b`      |
-| Font       | System font (SF Pro on Apple, Segoe UI on Windows, Roboto on Android) | same                     |
+| Token                 | Dark (whole site)                        | Light paper (newsletter only)                     |
+| --------------------- | ---------------------------------------- | ------------------------------------------------- |
+| Background            | void `#070814`                           | paper `#f6f5f0`                                   |
+| Text                  | starlight `#eef0ff`                      | ink `#1c1a16`                                     |
+| Primary (`--primary`) | galactic core gold `#f3c77a`             | nebula violet `#4b2fc9`                           |
+| Accent (`--accent`)   | nebula violet `#a48bff`                  | violet `#5a3fd6`                                  |
+| Font                  | System font (SF Pro / Segoe UI / Roboto) | newsletter body: system serif (Charter / Georgia) |
 
 All colours are tokens in `src/styles/global.css`. To retune the palette, change the token values there, never
-individual pages. Motion (fade-ins, count-ups) switches off automatically for visitors who
-prefer reduced motion.
+individual pages. All motion switches off for visitors who prefer reduced motion.
 
 ---
 
@@ -233,7 +240,7 @@ workflow re-runs it automatically.
 
 | How often                       | What                                                                                  |
 | ------------------------------- | ------------------------------------------------------------------------------------- |
-| Every issue                     | New newsletter folder; add the LinkedIn post to `linkedin:` and `references/links.md` |
+| Every article                   | New newsletter folder; add the LinkedIn post to `linkedin:` and `references/links.md` |
 | Monthly                         | Review `pinned:` order; add GitHub topics to new repos                                |
 | Quarterly                       | Dashboard metrics, experience highlights, skills                                      |
 | On each credential              | Certification file + badge image; `credentials:` in profile                           |

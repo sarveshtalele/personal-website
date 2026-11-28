@@ -5,7 +5,7 @@ Guidance for AI coding agents (and humans) working on **sarveshtalele.org**.
 ## What this is
 
 A static Astro 7 site deployed to GitHub Pages. **All content is Markdown/MDX in `content/`.** Pages, cards,
-dashboards, newsletter topic pages, RSS, sitemap, search index, the Claude mock exam, and the question-bank PDFs are
+dashboards, newsletter pages and topic pages, sitemap, search index, the Claude mock exam, and the question-bank PDFs are
 all generated from those files at build time. The owner should only ever need to edit Markdown.
 
 ## Rules
@@ -19,13 +19,17 @@ all generated from those files at build time. The owner should only ever need to
    an external script means updating the CSP deliberately.
 4. **Links from content must be `https://`, `mailto:`, or start with `/`** (enforced by the `link` schema). External
    links use `target="_blank" rel="noopener noreferrer"`.
-5. **Colours only via theme tokens** in `src/styles/global.css` (`--bg`, `--fg`, `--primary`, `--accent`, …). Light =
-   cream/espresso/gold, dark = espresso/ivory/champagne. Apple-style base: system font stack only (no web fonts),
-   clean cards. Owner-requested motion: homepage is the Mission Log (`MissionScene.astro` + `src/scripts/mission-scene.ts`, a
-   lazy-loaded Three.js scroll journey with a CSS sky fallback; `MissionHUD.astro` chapter rail), unboxed hero in the
-   original layout (`IntroHero.astro`: text left, photo right),
-   credential cards, skills bento, stacking-card scroll story, ⌘K quick menu, card spotlight + tilt, magnetic buttons,
-   view-transition theme toggle, back-to-top progress ring, heading wipe-ins. No persona cards, canvas effects, or travel section.
+5. **Colours only via theme tokens** in `src/styles/global.css` (`--bg`, `--fg`, `--primary`, `--accent`, `--ion`, …).
+   "Andromeda Voyage": the site is **dark-only** (`.dark` tokens: indigo void, starlight ink, gold `--primary`, nebula
+   violet `--accent`). The light `:root` tokens are the newsletter's **paper** mode (default on `/newsletter/*`, reader can
+   switch; `nl-theme` in localStorage, set by the head script in `BaseHead.astro`). System fonts only (newsletter body
+   uses the system serif stack). Owner-requested motion: homepage voyage (`MissionScene.astro` + `src/scripts/mission-scene.ts`:
+   first-person Three.js flight, one world per chapter, procedural Andromeda, warp streaks; `MissionHUD.astro` cockpit
+   frame, readouts and chapter rail), hero without photo (`IntroHero.astro`), optional Web Audio soundtrack
+   (`SoundToggle.astro` + `src/scripts/sound.ts`, **off by default, only starts from a tap**), newsletter night-sky hero
+   and storybook path (`src/components/newsletter/`), credential cards, skills bento, stacking-card scroll story,
+   ⌘K quick menu, card spotlight + tilt, magnetic buttons, back-to-top progress ring, heading wipe-ins. The owner's photo
+   is not shown on the homepage. Film-inspired moods only: never copy ships, characters, logos or music from films.
 6. Shared component classes (`.card`, `.chip`, `.pill`, `.field`, `.btn-primary`, `.link-arrow`, `.verify-btn`) live in
    `@layer components` in `global.css` so Tailwind utilities can override them. Don't put shared classes in a single
    component's `<style is:global>`.
@@ -51,7 +55,7 @@ pnpm dev               # compile question banks, start dev server (drafts visibl
 pnpm build             # full production build: data → validate → astro → CSP → pagefind
 pnpm check:content     # validate question banks, newsletter images, pinned repo names
 pnpm check && pnpm lint
-pnpm new:issue "Title" --tags "MCP, Agents"   # newsletter issue scaffold
+pnpm new:article "Title" --tags "MCP, Agents" # newsletter article scaffold
 pnpm claude:pdf        # rebuild + verify the two question-bank PDFs
 pnpm github:sync       # refresh src/data/github.json (GITHUB_TOKEN optional)
 pnpm claude:build      # recompile Claude question banks only
@@ -66,7 +70,8 @@ Node 24 (see `.nvmrc`; minimum 22.23.4), pnpm 11.
 | Name, headline, hero label, quote, socials, skills, education, achievements, About story | `content/profile/sarvesh.md`                                                        |
 | Dashboard impact tiles and highlights                                                    | `content/dashboard/metrics.md`                                                      |
 | Pinned / hidden repos, category filters, repo description overrides                      | `content/project-settings/projects.md`                                              |
-| Newsletter issues                                                                        | `content/newsletter/<slug>/index.md` + `images/` (owner guide: `HOW-TO-PUBLISH.md`) |
+| Newsletter articles                                                                      | `content/newsletter/<slug>/index.md` + `images/` (owner guide: `HOW-TO-PUBLISH.md`) |
+| Newsletter products (Topmate) → `content/products/products.md`                           |
 | LinkedIn posts / external articles                                                       | `content/references/links.md`                                                       |
 | Podcasts and talks (YouTube ID)                                                          | `content/media/appearances.md`                                                      |
 | Claude questions (360) and mock exam selection                                           | `content/claude/questions/domain-*.md` (format: `content/claude/README.md`)         |
@@ -89,7 +94,8 @@ GitHub API ──► scripts/fetch-github.mjs ──► src/data/github.json (co
 astro build ──► scripts/csp.mjs (CSP meta) ──► pagefind (search index) ──► dist/ ──► GitHub Pages
 ```
 
-Pages: `/`, `/dashboard`, `/projects`, `/newsletter`, `/newsletter/[slug]`, `/newsletter/topics/[topic]`, `/rss.xml`,
+Pages: `/`, `/dashboard`, `/projects`, `/newsletter`, `/newsletter/archive`, `/newsletter/products`, `/newsletter/about`,
+`/newsletter/[slug]`, `/newsletter/topics/[topic]`,
 `/references`, `/claude`,
 `/claude/[exam]`, `/claude/quiz`, `/claude/review`, `/about`, `/experience`, `/certifications`, `/publications`,
 `/contact`, `/search`, `/privacy`, `/404`.

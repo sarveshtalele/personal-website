@@ -7,6 +7,11 @@
  */
 import { getProfile } from '@lib/content';
 
+interface Props {
+  eyebrow?: string;
+  title?: string;
+}
+const { eyebrow = 'My process', title = 'How I like to work.' } = Astro.props;
 const { data: profile } = await getProfile();
 const steps = profile.approach;
 ---
@@ -15,9 +20,9 @@ const steps = profile.approach;
   steps.length > 0 && (
     <section class="mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-28" data-stack aria-labelledby="stack-title">
       <div class="mx-auto max-w-2xl text-center" data-reveal>
-        <p class="eyebrow justify-center">My process</p>
+        <p class="eyebrow justify-center">{eyebrow}</p>
         <h2 id="stack-title" class="mt-3 font-display text-4xl font-bold leading-tight text-fg sm:text-5xl">
-          How I like to work.
+          {title}
         </h2>
       </div>
       <ol class="stack mt-14">

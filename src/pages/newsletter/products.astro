@@ -13,10 +13,7 @@ const isFree = (price: string) => /^free$/i.test(price.trim());
 const onTopmate = (price: string) => /topmate/i.test(price);
 ---
 
-<BaseLayout
-  title={`Products · ${profile.newsletter.name}`}
-  description={products.intro}
->
+<BaseLayout title={`Products · ${profile.newsletter.name}`} description={products.intro}>
   <NewsletterMasthead title={products.title} intro={products.intro} />
   <NewsletterTabs active="products" />
 
@@ -96,7 +93,12 @@ const onTopmate = (price: string) => /topmate/i.test(price);
               </figure>
             ))}
           </div>
-          <a href={products.profile} target="_blank" rel="noopener noreferrer" class="link-arrow mt-6 text-sm font-semibold">
+          <a
+            href={products.profile}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-arrow mt-6 text-sm font-semibold"
+          >
             Read every review on Topmate <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
           </a>
         </section>
