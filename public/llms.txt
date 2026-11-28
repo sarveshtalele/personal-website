@@ -1,16 +1,17 @@
 # Sarvesh Talele
 
-> AI Engineer at Tata Consultancy Services and Claude Certified Architect (Foundations and Professional, Anthropic). Builds agentic AI systems, MCP servers, multi-agent workflows, Graph-RAG pipelines, and secure enterprise LLM infrastructure. Writes about deterministic AI, Claude, and the philosophy of building things that think. Every page on this site is generated from Markdown/MDX.
+> AI Engineer at Tata Consultancy Services and Claude Certified Architect (Foundations and Professional, Anthropic). Builds agentic AI systems, MCP servers, multi-agent workflows, Graph-RAG pipelines, and secure enterprise LLM infrastructure. Writes the newsletter AI for Everyday Life, Simplified. Every page on this site is generated from Markdown/MDX.
 
 ## Key pages
 
-- [Home](https://sarveshtalele.org/): Philosopher, AI Engineer, Traveller. Impact metrics, pinned projects, latest writing, Claude credentials.
+- [Home](https://sarveshtalele.org/): Mission Log, an interactive story of my work: credentials, impact metrics, how I work, pinned projects, newsletter, podcast, Claude Prep, journey.
 - [Dashboard](https://sarveshtalele.org/dashboard): Evidence-backed engineering metrics (each links to its proof), GitHub statistics from the GitHub API, verified credentials and research.
 - [Projects](https://sarveshtalele.org/projects): Every public GitHub repository with stars, forks, language, and categories (Agentic AI, MCP, RAG, Claude Skills, Claude Code, Machine Learning, Developer Tools).
-- [Blog](https://sarveshtalele.org/blog): Essays on agentic AI, MCP, deterministic systems, and Claude. RSS: https://sarveshtalele.org/rss.xml
+- [Newsletter](https://sarveshtalele.org/newsletter): AI for Everyday Life, Simplified. Numbered issues on Claude, agents, MCP, and careers in AI. RSS: https://sarveshtalele.org/rss.xml
+- [References](https://sarveshtalele.org/references): Podcasts, talks, LinkedIn posts, and articles published elsewhere.
 - [Claude](https://sarveshtalele.org/claude): Claude Certified Architect badges, study guides, and free practice tools.
 - [CCAR-F Mock Exam](https://sarveshtalele.org/claude/quiz): Free timed 60-question mock exam for the Claude Certified Architect, Foundations exam (unofficial, not affiliated with Anthropic).
-- [Learn & Review](https://sarveshtalele.org/claude/review): 360 original CCAR-F practice questions grouped by domain and task statement, each with explanations and the Claude documentation page to read.
+- [Learn & Review](https://sarveshtalele.org/claude/review): 360 original CCAR-F practice questions grouped by domain and task statement, each with explanations and the Claude documentation page to read. Also as PDFs: https://sarveshtalele.org/claude/downloads/ccar-f-practice-questions-study.pdf and https://sarveshtalele.org/claude/downloads/ccar-f-practice-questions-practice.pdf
 - [Foundations exam guide](https://sarveshtalele.org/claude/foundations): CCAR-F blueprint, five domains, six scenarios, mental model, and study plan.
 - [About](https://sarveshtalele.org/about): Background story, skills, credentials, education, achievements.
 - [Experience](https://sarveshtalele.org/experience), [Certifications](https://sarveshtalele.org/certifications), [Publications](https://sarveshtalele.org/publications), [Contact](https://sarveshtalele.org/contact)

@@ -5,8 +5,8 @@ Guidance for AI coding agents (and humans) working on **sarveshtalele.org**.
 ## What this is
 
 A static Astro 7 site deployed to GitHub Pages. **All content is Markdown/MDX in `content/`.** Pages, cards,
-dashboards, tag pages, RSS, sitemap, search index, and the Claude mock exam are all generated from those files at
-build time. The owner should only ever need to edit Markdown.
+dashboards, newsletter topic pages, RSS, sitemap, search index, the Claude mock exam, and the question-bank PDFs are
+all generated from those files at build time. The owner should only ever need to edit Markdown.
 
 ## Rules
 
@@ -21,7 +21,9 @@ build time. The owner should only ever need to edit Markdown.
    links use `target="_blank" rel="noopener noreferrer"`.
 5. **Colours only via theme tokens** in `src/styles/global.css` (`--bg`, `--fg`, `--primary`, `--accent`, …). Light =
    cream/espresso/gold, dark = espresso/ivory/champagne. Apple-style base: system font stack only (no web fonts),
-   clean cards. Owner-requested motion: unboxed hero in the original layout (`IntroHero.astro`: text left, photo right),
+   clean cards. Owner-requested motion: homepage is the Mission Log (`MissionScene.astro` + `src/scripts/mission-scene.ts`, a
+   lazy-loaded Three.js scroll journey with a CSS sky fallback; `MissionHUD.astro` chapter rail), unboxed hero in the
+   original layout (`IntroHero.astro`: text left, photo right),
    credential cards, skills bento, stacking-card scroll story, ⌘K quick menu, card spotlight + tilt, magnetic buttons,
    view-transition theme toggle, back-to-top progress ring, heading wipe-ins. No persona cards, canvas effects, or travel section.
 6. Shared component classes (`.card`, `.chip`, `.pill`, `.field`, `.btn-primary`, `.link-arrow`, `.verify-btn`) live in
@@ -33,9 +35,9 @@ build time. The owner should only ever need to edit Markdown.
    `[YYYY-MM-DD HH:MM UTC] TYPE — note` (TYPE = PLAN, DECISION, ACTION, DONE, ISSUE).
 10. Commits are authored by the repo owner. Do not add AI co-author trailers.
 11. Never render the owner's email address anywhere on the site. Contact is Topmate + LinkedIn.
-13. Decorative layers (SVG lines, blobs, glows) must be `pointer-events: none` so they never cover links.
-14. Copy is first person, plain, and human (see `docs/UPDATING.md` → Writing style). Design rationale: `docs/DESIGN-PLAN.md`.
-12. Scoped component `<style>` is unlayered: never set `display` there on elements that also use Tailwind
+12. Decorative layers (SVG lines, blobs, glows) must be `pointer-events: none` so they never cover links.
+13. Copy is first person, plain, and human (see `docs/UPDATING.md` → Writing style). Design rationale: `docs/DESIGN-PLAN.md`.
+14. Scoped component `<style>` is unlayered: never set `display` there on elements that also use Tailwind
     responsive visibility (`hidden`, `lg:hidden`, `sm:inline-flex`), or the utilities stop working.
 
 ## Commands
@@ -43,9 +45,10 @@ build time. The owner should only ever need to edit Markdown.
 ```bash
 pnpm dev               # compile question banks, start dev server (drafts visible)
 pnpm build             # full production build: data → validate → astro → CSP → pagefind
-pnpm check:content     # validate question banks, blog images, pinned repo names
+pnpm check:content     # validate question banks, newsletter images, pinned repo names
 pnpm check && pnpm lint
-pnpm new:blog "Title" --category Engineering --tags "MCP, Agents"
+pnpm new:issue "Title" --tags "MCP, Agents"   # newsletter issue scaffold
+pnpm claude:pdf        # rebuild + verify the two question-bank PDFs
 pnpm github:sync       # refresh src/data/github.json (GITHUB_TOKEN optional)
 pnpm claude:build      # recompile Claude question banks only
 ```
@@ -54,32 +57,36 @@ Node 24 (see `.nvmrc`; minimum 22.23.4), pnpm 11.
 
 ## Where things live
 
-| Want to change… | Edit |
-| --- | --- |
-| Name, headline, hero label, quote, socials, skills, education, achievements, About story | `content/profile/sarvesh.md` |
-| Dashboard impact tiles and highlights | `content/dashboard/metrics.md` |
-| Pinned / hidden repos, category filters, repo description overrides | `content/project-settings/projects.md` |
-| Blog posts | `content/blog/<slug>/index.mdx` + `images/` |
-| Claude questions (360) and mock exam selection | `content/claude/questions/domain-*.md` (format: `content/claude/README.md`) |
-| Claude exam guide pages | `content/claude/exams/*.md` |
-| Jobs | `content/experience/*.md` |
-| Certifications (badge + verify link) | `content/certifications/*.md` |
-| Papers | `content/publications/*.md` |
-| Optional project case studies (`/projects/<id>`) | `content/projects/*.mdx` |
-| Nav links, analytics ID, Giscus | `src/lib/site.ts` |
+| Want to change…                                                                          | Edit                                                                                |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Name, headline, hero label, quote, socials, skills, education, achievements, About story | `content/profile/sarvesh.md`                                                        |
+| Dashboard impact tiles and highlights                                                    | `content/dashboard/metrics.md`                                                      |
+| Pinned / hidden repos, category filters, repo description overrides                      | `content/project-settings/projects.md`                                              |
+| Newsletter issues                                                                        | `content/newsletter/<slug>/index.md` + `images/` (owner guide: `HOW-TO-PUBLISH.md`) |
+| LinkedIn posts / external articles                                                       | `content/references/links.md`                                                       |
+| Podcasts and talks (YouTube ID)                                                          | `content/media/appearances.md`                                                      |
+| Claude questions (360) and mock exam selection                                           | `content/claude/questions/domain-*.md` (format: `content/claude/README.md`)         |
+| Claude exam guide pages                                                                  | `content/claude/exams/*.md`                                                         |
+| Jobs                                                                                     | `content/experience/*.md`                                                           |
+| Certifications (badge + verify link)                                                     | `content/certifications/*.md`                                                       |
+| Papers                                                                                   | `content/publications/*.md`                                                         |
+| Optional project case studies (`/projects/<id>`)                                         | `content/projects/*.mdx`                                                            |
+| Nav links, analytics ID, Giscus                                                          | `src/lib/site.ts`                                                                   |
 
-Owner-facing guide: `docs/UPDATING.md`. Keep it in sync when content files or fields change.
+Owner-facing guides: `HOW-TO-PUBLISH.md`, `content/README.md`, `docs/UPDATING.md`. Keep it in sync when content files or fields change.
 
 ## Architecture
 
 ```
 content/**.md(x) ──► content.config.ts (zod schemas) ──► src/lib/content.ts ──► pages/components
 content/claude/questions/*.md ──► scripts/build-claude-data.mjs ──► public/claude/**.json (git-ignored)
+                              └─► scripts/build-claude-pdf.mjs ──► verify-claude-pdf.mjs ──► public/claude/downloads/*.pdf
 GitHub API ──► scripts/fetch-github.mjs ──► src/data/github.json (committed snapshot) ──► src/lib/github.ts
 astro build ──► scripts/csp.mjs (CSP meta) ──► pagefind (search index) ──► dist/ ──► GitHub Pages
 ```
 
-Pages: `/`, `/dashboard`, `/projects`, `/blog`, `/blog/[slug]`, `/blog/tags/[tag]`, `/rss.xml`, `/claude`,
+Pages: `/`, `/dashboard`, `/projects`, `/newsletter`, `/newsletter/[slug]`, `/newsletter/topics/[topic]`, `/rss.xml`,
+`/references`, `/claude`,
 `/claude/[exam]`, `/claude/quiz`, `/claude/review`, `/about`, `/experience`, `/certifications`, `/publications`,
 `/contact`, `/search`, `/privacy`, `/404`.
 

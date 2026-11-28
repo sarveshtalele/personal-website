@@ -24,7 +24,7 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Validate content (question banks, blog images, pinned repos)
+      - name: Validate content (question banks, newsletter images, pinned repos)
         run: pnpm check:content
       - name: Lint
         run: pnpm lint

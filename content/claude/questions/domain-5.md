@@ -6,7 +6,7 @@ weight: 15%
 
 <!--
   Domain 5 question bank. Edit freely, then run `pnpm claude:build` (also runs on dev/build).
-  Format guide: see src/content/claude/README.md
+  Format guide: see content/claude/README.md
 -->
 
 # Task statements

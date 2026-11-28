@@ -14,26 +14,31 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2604.09685-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2604.09685)
 
 Personal website of **Sarvesh Talele**, AI Engineer and Claude Certified Architect: portfolio, evidence-backed
-dashboard, blog, and a free Claude Certified Architect (CCAR-F) mock exam with 360 practice questions.
+dashboard, a newsletter, and a free Claude Certified Architect (CCAR-F) mock exam with 360 practice questions
+(also as downloadable PDFs).
 
 **Everything on the site is generated from Markdown.** Edit a `.md` file, push, and every card, page, tag, feed,
 search entry, and dashboard tile that depends on it updates on the next deploy.
+
+**Publishing a newsletter issue?** Read [HOW-TO-PUBLISH.md](HOW-TO-PUBLISH.md): five steps, all on github.com.
+**What lives where?** [content/README.md](content/README.md).
 
 ---
 
 ## Pages
 
-| Route | What it shows | Source of truth |
-| --- | --- | --- |
-| `/` | Centered hero (photo, AI Engineer, headline, Dostoevsky quote), credentials, impact tiles, pinned repos, latest posts, Claude Prep, journey, contact | profile, dashboard, project settings, blog, experience |
-| `/dashboard` | Recruiter view: every metric links to proof, live GitHub stats, verified badges, credentials, research | `dashboard/metrics.md` + GitHub API + certifications + publications |
-| `/projects` | Every public repo, pinned first; search, category + language filters, sort by stars/forks/updated/name | GitHub API + `project-settings/projects.md` |
-| `/blog`, `/blog/<slug>`, `/blog/tags/<tag>`, `/rss.xml` | Cards with title + description, category/tag filters and search; full post with TOC, related posts | `blog/<slug>/index.mdx` |
-| `/claude` (Claude Prep) | Both Anthropic badges (verify on Credly), practice hub, study guides | certifications + `claude/exams/*.md` |
-| `/claude/foundations` | CCAR-F guide: glance, domains, scenarios, mental model, resources | `claude/exams/foundations.md` |
-| `/claude/quiz` | Timed 60-question mock exam (scored by domain) + untimed practice | `claude/questions/*.md` (`mock: true`) |
-| `/claude/review` | All 360 questions grouped by task statement, test mode, doc links | `claude/questions/*.md` |
-| `/about`, `/experience`, `/certifications`, `/publications`, `/contact` | Story, timeline, badges, papers, channels | profile, experience, certifications, publications |
+| Route                                                                         | What it shows                                                                                                                                                                                               | Source of truth                                                     |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `/`                                                                           | Mission Log: a scroll-driven Three.js space journey (lazy-loaded, static sky fallback) through hero, credentials, impact, how I work, projects, newsletter, podcast, Claude Prep, toolbox, journey, contact | profile, dashboard, project settings, newsletter, media, experience |
+| `/dashboard`                                                                  | Recruiter view: every metric links to proof, live GitHub stats, verified badges, credentials, research                                                                                                      | `dashboard/metrics.md` + GitHub API + certifications + publications |
+| `/projects`                                                                   | Every public repo, pinned first; search, category + language filters, sort by stars/forks/updated/name                                                                                                      | GitHub API + `project-settings/projects.md`                         |
+| `/newsletter`, `/newsletter/<slug>`, `/newsletter/topics/<topic>`, `/rss.xml` | Newsletter archive: masthead, numbered issues, topic filters, search; issue reading layout with TOC, share, Follow on LinkedIn                                                                              | `newsletter/<slug>/index.md`                                        |
+| `/references`                                                                 | Podcasts and talks (thumbnails), plus LinkedIn posts and articles published elsewhere, with source/topic filters and search                                                                                 | `references/links.md`, `media/appearances.md`                       |
+| `/claude` (Claude Prep)                                                       | Both Anthropic badges (verify on Credly), practice hub, study guides                                                                                                                                        | certifications + `claude/exams/*.md`                                |
+| `/claude/foundations`                                                         | CCAR-F guide: glance, domains, scenarios, mental model, resources                                                                                                                                           | `claude/exams/foundations.md`                                       |
+| `/claude/quiz`                                                                | Timed 60-question mock exam (scored by domain) + untimed practice                                                                                                                                           | `claude/questions/*.md` (`mock: true`)                              |
+| `/claude/review`                                                              | All 360 questions grouped by task statement, test mode, doc links, PDF downloads (Study + Practice editions)                                                                                                | `claude/questions/*.md`                                             |
+| `/about`, `/experience`, `/certifications`, `/publications`, `/contact`       | Story, timeline, badges, papers, channels                                                                                                                                                                   | profile, experience, certifications, publications                   |
 
 ## Quick start
 
@@ -47,17 +52,19 @@ pnpm preview
 
 ## Updating content (the only thing you normally touch)
 
-| To change… | Edit this file |
-| --- | --- |
-| Name, headline, hero label, quote, socials, skills, education, achievements, About story | `content/profile/sarvesh.md` |
-| Dashboard impact numbers (each needs a `proof:` link) | `content/dashboard/metrics.md` |
-| Pinned / hidden repos, filter categories, repo description overrides | `content/project-settings/projects.md` |
-| A blog post | `content/blog/<slug>/index.mdx` (+ `images/`) |
-| Claude questions, answers, explanations, mock-exam selection | `content/claude/questions/domain-1.md` … `domain-5.md` |
-| Claude exam guide pages | `content/claude/exams/*.md` |
-| Jobs | `content/experience/*.md` |
-| Certifications (badge image + verify URL) | `content/certifications/*.md` |
-| Papers (with badge links) | `content/publications/*.md` |
+| To change…                                                                               | Edit this file                                                                                 |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Name, headline, hero label, quote, socials, skills, education, achievements, About story | `content/profile/sarvesh.md`                                                                   |
+| Dashboard impact numbers (each needs a `proof:` link)                                    | `content/dashboard/metrics.md`                                                                 |
+| Pinned / hidden repos, filter categories, repo description overrides                     | `content/project-settings/projects.md`                                                         |
+| A newsletter issue                                                                       | `content/newsletter/<slug>/index.md` (+ `images/`), see [HOW-TO-PUBLISH.md](HOW-TO-PUBLISH.md) |
+| LinkedIn posts / articles elsewhere                                                      | `content/references/links.md`                                                                  |
+| Podcasts and talks                                                                       | `content/media/appearances.md` (YouTube video ID)                                              |
+| Claude questions, answers, explanations, mock-exam selection                             | `content/claude/questions/domain-1.md` … `domain-5.md`                                         |
+| Claude exam guide pages                                                                  | `content/claude/exams/*.md`                                                                    |
+| Jobs                                                                                     | `content/experience/*.md`                                                                      |
+| Certifications (badge image + verify URL)                                                | `content/certifications/*.md`                                                                  |
+| Papers (with badge links)                                                                | `content/publications/*.md`                                                                    |
 
 **Full guide:** [docs/UPDATING.md](docs/UPDATING.md) explains, for every part of the site, which file to edit,
 when to edit it, and what changes on the site as a result.
@@ -65,33 +72,17 @@ when to edit it, and what changes on the site as a result.
 Frontmatter is validated at build time (`content.config.ts`); a typo fails the build with the file and field
 name instead of shipping a broken page.
 
-### Write a blog post
+### Publish a newsletter issue
+
+On github.com: create `content/newsletter/<slug>/index.md`, add the frontmatter, upload images to `images/`, commit.
+Step by step: [HOW-TO-PUBLISH.md](HOW-TO-PUBLISH.md). Locally:
 
 ```bash
-pnpm new:blog "Why deterministic tools beat clever prompts" --category Engineering --tags "MCP, Agents"
+pnpm new:issue "Claude Code Hooks, Explained" --tags "Claude, Agents"
 ```
 
-This creates `content/blog/why-deterministic-tools-beat-clever-prompts/index.mdx` and an `images/` folder.
-
-```mdx
----
-title: Why deterministic tools beat clever prompts
-description: Shown on the card, in search results, and in RSS. 150–160 characters is ideal.
-pubDate: 2026-11-01
-tags: [MCP, Agents]
-category: Engineering   # Engineering | Philosophy | Claude | Career
-cover: ./images/cover.png
-coverAlt: What the cover shows
-canonical: https://medium.com/...   # optional, if first published elsewhere
-featured: false
-draft: true             # set to false to publish
----
-
-Your post. Images: ![Alt text](./images/diagram.png). Components: <Callout type="tip">Hi</Callout>
-```
-
-Set `draft: false`, commit, push. The card on `/blog`, the landing-page "From the journal" section, tag pages, RSS feed,
-sitemap, and search all update automatically. `pnpm check:content` verifies every referenced image exists.
+Issues are numbered by date, get topic pages from their tags, and appear on the homepage, `/newsletter`, RSS,
+sitemap, and search. `pnpm check:content` verifies every referenced image exists.
 
 ### Pin a repository
 
@@ -111,25 +102,27 @@ exam pages load.
 ```
 content/**.md(x) ─► zod schemas (content.config.ts) ─► src/lib/content.ts ─► pages & components
 claude/questions/*.md ─► scripts/build-claude-data.mjs ─► public/claude/**.json  (generated, git-ignored)
+                      └► scripts/build-claude-pdf.mjs ─► verify-claude-pdf.mjs ─► public/claude/downloads/*.pdf
 GitHub API ───────────► scripts/fetch-github.mjs ──────► src/data/github.json   (committed fallback snapshot)
 astro build ─► scripts/csp.mjs (hash inline scripts → CSP meta) ─► pagefind (search) ─► GitHub Pages
 ```
 
-| Script | Purpose |
-| --- | --- |
-| `pnpm build` | Compile questions → sync GitHub → validate content → Astro build → CSP → search index |
-| `pnpm check:content` | Validate question banks, blog images, pinned/hidden repo names |
-| `pnpm new:blog "Title"` | Scaffold a post folder |
-| `pnpm github:sync` | Refresh the GitHub snapshot (set `GITHUB_TOKEN` for higher rate limits) |
-| `pnpm claude:build` | Recompile only the Claude question JSON |
-| `pnpm check` / `pnpm lint` / `pnpm format` | Type-check, ESLint, Prettier |
+| Script                                     | Purpose                                                                                                     |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `pnpm build`                               | Compile questions → build + verify PDFs → sync GitHub → validate content → Astro build → CSP → search index |
+| `pnpm check:content`                       | Validate question banks, newsletter images and dates, pinned/hidden repo names                              |
+| `pnpm new:issue "Title"`                   | Scaffold a newsletter issue folder                                                                          |
+| `pnpm claude:pdf`                          | Rebuild and verify the two question-bank PDFs                                                               |
+| `pnpm github:sync`                         | Refresh the GitHub snapshot (set `GITHUB_TOKEN` for higher rate limits)                                     |
+| `pnpm claude:build`                        | Recompile only the Claude question JSON                                                                     |
+| `pnpm check` / `pnpm lint` / `pnpm format` | Type-check, ESLint, Prettier                                                                                |
 
-**Stack:** Astro 7, Tailwind CSS 4, MDX, KaTeX, Shiki, Pagefind, Lucide. Font: the system font stack (SF Pro on
-Apple devices), no web fonts. No client-side frameworks, no tracking, no third-party scripts.
+**Stack:** Astro 7, Tailwind CSS 4, MDX, KaTeX, Shiki, Pagefind, Lucide, Three.js (homepage scene only), pdfkit. Font: the system font stack (SF Pro on
+Apple devices), no web fonts. No client-side frameworks, no third-party scripts.
 
-**Design:** Apple-style. Centered hero, generous whitespace, soft cards, warm cream/brown palette in light mode and
-espresso/ivory in dark mode (dark is the default). Motion is limited to gentle fade-ins and count-ups, and respects
-`prefers-reduced-motion`.
+**Design:** Apple-style. Generous whitespace, soft cards, warm cream/brown palette in light mode and
+espresso/ivory/champagne in dark mode. The homepage is a cinematic Three.js journey; everything else is calm. All
+motion respects `prefers-reduced-motion`, and the page works fully without WebGL or JavaScript.
 
 ## Deployment
 
@@ -144,21 +137,27 @@ One-time setup: **Settings → Pages → Source: GitHub Actions**. Custom domain
 - `ci.yml` on every PR: content validation, ESLint, `astro check`, full build, `pnpm audit --audit-level high`
 - CodeQL weekly and on PRs; Dependabot for npm and GitHub Actions
 - Strict CSP with hashed inline scripts, `object-src 'none'`, `base-uri 'self'`; referrer policy; `noopener
-  noreferrer` on external links; content links restricted to `https:`/`mailto:`/site paths
+noreferrer` on external links; content links restricted to `https:`/`mailto:`/site paths
 - See [SECURITY.md](SECURITY.md) to report a vulnerability
 
 ## Repository layout
 
 ```
+content/              ← all editable content (Markdown); map in content/README.md
+  newsletter/         ← one folder per issue (+ _template/)
+  references/ media/  ← links elsewhere, podcasts and talks
+  profile/ dashboard/ project-settings/ projects/ experience/ certifications/ publications/ claude/
 src/
-  content/            ← all editable content (Markdown/MDX)
-  components/         ← Hero, RepoCard, ProjectExplorer, BlogCard, ImpactGrid, GithubPanel, CredentialWall, …
-  layouts/            ← BaseLayout (reveal + progress bar), PageLayout, ArticleLayout
-  lib/                ← site.ts (tech config), content.ts, github.ts, blog.ts
+  components/         ← IntroHero, MissionScene, MissionHUD, IssueCard, PodcastCard, CredentialCards, …
+  layouts/            ← BaseLayout, PageLayout, ArticleLayout
+  lib/                ← site.ts (tech config), content.ts, github.ts, newsletter.ts
   pages/              ← routes
+  scripts/            ← client modules (mission-scene.ts: the Three.js scene)
   data/               ← github.json snapshot, claude-stats.json (generated)
   styles/global.css   ← theme tokens + shared component classes
-scripts/              ← build-claude-data, fetch-github, validate-content, csp, new-blog
+scripts/              ← build-claude-data, build/verify-claude-pdf, fetch-github, validate-content, csp, new-issue
+docs/                 ← UPDATING.md (owner guide), DESIGN-PLAN.md, PLAN-2026-11.md
+HOW-TO-PUBLISH.md     ← publishing a newsletter issue from github.com
 progress.md           ← timestamped log of every structural decision
 CLAUDE.md             ← rules for AI agents editing this repo
 ```

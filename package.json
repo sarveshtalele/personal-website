@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Personal site of Sarvesh Talele: AI engineering portfolio, blog, and free Claude Certified Architect exam prep. All content is Markdown.",
+  "description": "Personal site of Sarvesh Talele: 3D story homepage, newsletter, references, projects, and free Claude Certified Architect exam prep. All content is Markdown.",
   "engines": {
     "node": ">=22.23.4"
   },
@@ -17,10 +17,10 @@
     "check:content": "node scripts/build-claude-data.mjs && node scripts/validate-content.mjs",
     "claude:build": "node scripts/build-claude-data.mjs",
     "github:sync": "node scripts/fetch-github.mjs",
-    "new:blog": "node scripts/new-blog.mjs",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "claude:pdf": "node scripts/build-claude-data.mjs && node scripts/build-claude-pdf.mjs && node scripts/verify-claude-pdf.mjs"
+    "claude:pdf": "node scripts/build-claude-data.mjs && node scripts/build-claude-pdf.mjs && node scripts/verify-claude-pdf.mjs",
+    "new:issue": "node scripts/new-issue.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.4",
