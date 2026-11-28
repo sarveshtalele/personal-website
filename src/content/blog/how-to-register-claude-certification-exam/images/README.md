@@ -1,0 +1,1 @@
+These images accompany the Claude certification registration guide.
