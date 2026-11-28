@@ -4,7 +4,7 @@
  *   pnpm new:blog "Why deterministic tools beat clever prompts"
  *   pnpm new:blog "On Sisyphus and shipping" --category Philosophy --tags "Camus, Craft"
  *
- * Creates src/content/blog/<slug>/index.mdx (+ an images/ folder) with every
+ * Creates content/blog/<slug>/index.mdx (+ an images/ folder) with every
  * frontmatter field filled in. The post is a draft until you set draft: false.
  * Cards, tag pages, the RSS feed, search, and the landing page update on the
  * next build automatically; there is nothing else to register.
@@ -44,7 +44,7 @@ const slug = title
   .replace(/[\s_]+/g, '-')
   .replace(/-+/g, '-')
   .slice(0, 80);
-const dir = join(ROOT, 'src/content/blog', slug);
+const dir = join(ROOT, 'content/blog', slug);
 if (existsSync(dir)) {
   console.error(`✖ ${dir} already exists`);
   process.exit(1);
@@ -73,4 +73,4 @@ Images: drop files into this post's images/ folder and embed them with a normal 
 whose path starts with ./images/ (pnpm check:content verifies the file exists).
 `,
 );
-console.log(`✔ Created src/content/blog/${slug}/index.mdx (draft). Preview with: pnpm dev → /blog/${slug}`);
+console.log(`✔ Created content/blog/${slug}/index.mdx (draft). Preview with: pnpm dev → /blog/${slug}`);

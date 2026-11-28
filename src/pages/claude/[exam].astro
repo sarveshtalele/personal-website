@@ -4,7 +4,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 import { ArrowRight, ExternalLink, GraduationCap, BookOpen } from '@lucide/astro';
 import claudeStats from '../../data/claude-stats.json';
 
-// One page per exam guide in src/content/claude/exams/ with `status: live`.
+// One page per exam guide in content/claude/exams/ with `status: live`.
 export async function getStaticPaths() {
   const exams = await getCollection('claudeExams', ({ data }) => data.status === 'live');
   return exams.map((exam) => ({ params: { exam: exam.id }, props: { exam } }));

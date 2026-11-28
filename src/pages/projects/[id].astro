@@ -6,7 +6,7 @@ import { mdxComponents } from '@components/mdx-components';
 import { ExternalLink, FileText } from '@lucide/astro';
 import GithubIcon from '@components/icons/GithubIcon.astro';
 
-// Optional long-form case studies: add src/content/projects/<id>.mdx
+// Optional long-form case studies: add content/projects/<id>.mdx
 export async function getStaticPaths() {
   const projects = await getCollection('projects', ({ data }) => !data.draft);
   return projects.map((project) => ({ params: { id: project.id }, props: { project } }));

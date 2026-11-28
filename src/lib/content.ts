@@ -1,5 +1,5 @@
 /**
- * Typed accessors for the singleton Markdown files in src/content/.
+ * Typed accessors for the singleton Markdown files in content/.
  * Components call these instead of hard-coding personal data.
  */
 import { getCollection, getEntry, render } from 'astro:content';
@@ -8,19 +8,19 @@ import { byDateDesc } from '@utils/format';
 
 export async function getProfile() {
   const entry = await getEntry('profile', 'sarvesh');
-  if (!entry) throw new Error('Missing src/content/profile/sarvesh.md');
+  if (!entry) throw new Error('Missing content/profile/sarvesh.md');
   return entry;
 }
 
 export async function getDashboard() {
   const entry = await getEntry('dashboard', 'metrics');
-  if (!entry) throw new Error('Missing src/content/dashboard/metrics.md');
+  if (!entry) throw new Error('Missing content/dashboard/metrics.md');
   return entry.data;
 }
 
 export async function getProjectSettings() {
   const entry = await getEntry('projectSettings', 'projects');
-  if (!entry) throw new Error('Missing src/content/project-settings/projects.md');
+  if (!entry) throw new Error('Missing content/project-settings/projects.md');
   return entry.data;
 }
 

@@ -1,6 +1,6 @@
 /**
  * Technical, rarely-changing site config. Everything about *you* (name, bio,
- * socials, skills, stats) lives in Markdown under src/content/ — see
+ * socials, skills, stats) lives in Markdown under content/ — see
  * src/lib/content.ts for the typed accessors.
  */
 export const SITE = {

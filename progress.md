@@ -112,3 +112,10 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 19:27 UTC] ACTION — Credential chips → CredentialCards (badge/icon, note, Verify link; credentials schema gained badge/note). Skills marquee (duplicated, cut-off words) → SkillsBento on Home/About/Dashboard; SkillsDashboard + SkillsMarquee removed. How I work numbers moved to top-right in solid gradient (were hidden under the next stacked card); glow toned down. Dashboard shields badges removed. Review page: stats pills, sticky control bar (large search with clear button, real switch for test mode, count pill, domain jump chips), TOC hidden below 1024px, anchor/scrollspy offsets updated. Copy rewritten in plain first person across profile, dashboard, landing sections, page descriptions.
 [2026-10-23 19:27 UTC] DONE — Audit (21 pages × 375/820/1440 × light/dark): 0 broken links/images, 0 JS errors, 0 overflow; remaining 'blocked' hits are sidebar-internal-scroll false positives. Interaction tests: palette, stacking, numbers visible, social links clickable, back-to-top, theme toggle, quiz practice flow, review 360 rendered.
 [2026-10-23 19:28 UTC] DONE — Deploy 40011504130 succeeded; live page verified (credential cards, toolbox, new copy, no email).
+
+## Session 10 — Newsletter, story page, PDF, references (planning)
+
+[2026-11-28 13:45 UTC] ACTION — Inspected upload: claude-cert-guide.zip (MDX guide ~2.8k words, 8 screenshots, cover, LinkedIn companion post) extracted to scratchpad; Guinness certificate photo received.
+[2026-11-28 13:45 UTC] PLAN — Owner asked to brainstorm, plan, and ask clarifying questions before building. Drafted plan; asking 4 questions (story page placement, subscribe method, PDF edition, content folder location).
+[2026-11-28 13:52 UTC] DECISION — Owner answers: 3D story replaces homepage; site is standalone newsletter hub + Follow on LinkedIn; both PDF editions; top-level content/ folder. Plan saved to docs/PLAN-2026-11.md.
+[2026-11-28 13:52 UTC] ACTION — Phase 1: moving src/content → content/.

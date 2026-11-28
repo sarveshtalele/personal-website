@@ -1,6 +1,6 @@
 /**
  * Content collections — every editable piece of the site lives in Markdown/MDX
- * under src/content/. Each schema below validates its files at build time, so a
+ * under content/. Each schema below validates its files at build time, so a
  * typo in frontmatter fails the build with a clear message instead of shipping
  * a broken page. See CLAUDE.md → "Editing content" for the field reference.
  */
@@ -17,7 +17,7 @@ const link = z.string().refine((v) => v.startsWith('/') || /^https:\/\//.test(v)
 /* Profile — the single source of truth for who you are                       */
 /* -------------------------------------------------------------------------- */
 const profile = defineCollection({
-  loader: glob({ pattern: '*.md', base: './src/content/profile' }),
+  loader: glob({ pattern: '*.md', base: './content/profile' }),
   schema: z.object({
     name: z.string(),
     fullName: z.string(),
@@ -61,7 +61,7 @@ const profile = defineCollection({
 /* Dashboard — evidence-backed metrics. Every number must cite proof.          */
 /* -------------------------------------------------------------------------- */
 const dashboard = defineCollection({
-  loader: glob({ pattern: '*.md', base: './src/content/dashboard' }),
+  loader: glob({ pattern: '*.md', base: './content/dashboard' }),
   schema: z.object({
     title: z.string(),
     intro: z.string(),
@@ -84,7 +84,7 @@ const dashboard = defineCollection({
 /* Projects — settings for the GitHub-powered projects page                   */
 /* -------------------------------------------------------------------------- */
 const projectSettings = defineCollection({
-  loader: glob({ pattern: '*.md', base: './src/content/project-settings' }),
+  loader: glob({ pattern: '*.md', base: './content/project-settings' }),
   schema: z.object({
     /** Repo names (exact, case-sensitive) shown first, in this order. */
     pinned: z.array(z.string()).default([]),
@@ -108,7 +108,7 @@ const projectSettings = defineCollection({
 
 /** Optional long-form case studies for individual projects (/projects/<id>). */
 const projects = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './content/projects' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -126,12 +126,12 @@ const projects = defineCollection({
 });
 
 /* -------------------------------------------------------------------------- */
-/* Blog — one folder per post: src/content/blog/<slug>/index.mdx + images      */
+/* Blog — one folder per post: content/blog/<slug>/index.mdx + images      */
 /* -------------------------------------------------------------------------- */
 const blog = defineCollection({
   loader: glob({
     pattern: '**/index.{md,mdx}',
-    base: './src/content/blog',
+    base: './content/blog',
     generateId: ({ entry }) => entry.split('/')[0],
   }),
   schema: ({ image }) =>
@@ -154,7 +154,7 @@ const blog = defineCollection({
 /* Claude exam guides (the question banks are compiled by a script instead)    */
 /* -------------------------------------------------------------------------- */
 const claudeExams = defineCollection({
-  loader: glob({ pattern: '*.md', base: './src/content/claude/exams' }),
+  loader: glob({ pattern: '*.md', base: './content/claude/exams' }),
   schema: z.object({
     title: z.string(),
     code: z.string(),
@@ -172,7 +172,7 @@ const claudeExams = defineCollection({
 });
 
 const publications = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/publications' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './content/publications' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -186,7 +186,7 @@ const publications = defineCollection({
 });
 
 const certifications = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/certifications' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './content/certifications' }),
   schema: z.object({
     title: z.string(),
     issuer: z.string(),
@@ -198,7 +198,7 @@ const certifications = defineCollection({
 });
 
 const experience = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/experience' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './content/experience' }),
   schema: z.object({
     company: z.string(),
     role: z.string(),

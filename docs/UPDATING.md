@@ -1,7 +1,7 @@
 # Updating sarveshtalele.org
 
 This guide tells you **which file to edit, when to edit it, and what changes on the website** as a result. Every
-page is generated from Markdown in `src/content/`, so you never need to touch code to keep the site current.
+page is generated from Markdown in `content/`, so you never need to touch code to keep the site current.
 
 > **The loop for every change:** edit the Markdown file → commit → push to `main` → GitHub Actions rebuilds and
 > deploys in about 2 minutes. You can also edit directly on github.com (pencil icon on any file → "Commit changes").
@@ -12,30 +12,30 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 
 | When this happens… | Edit this file | What updates on the site |
 | --- | --- | --- |
-| You publish a new article | New folder `src/content/blog/<slug>/index.mdx` (run `pnpm new:blog "Title"`) | Blog card, landing "From the journal", tag pages, RSS, sitemap, search |
+| You publish a new article | New folder `content/blog/<slug>/index.mdx` (run `pnpm new:blog "Title"`) | Blog card, landing "From the journal", tag pages, RSS, sitemap, search |
 | You cross-post from Medium | Same as above, set `canonical:` to the Medium URL | Adds an "Originally published on medium.com" note |
 | You fix a typo in an old post | That post's `index.mdx` (add `updatedDate:` only for real revisions) | The post; "Updated" date if set |
-| You start a new job or get promoted | `src/content/experience/<company-role>.md` (set old job's `current: false` + `endDate:`) | Experience page, landing "Journey", dashboard "Currently" card |
-| A new impact number you can prove | `src/content/dashboard/metrics.md` → `impact:` | Dashboard + landing impact tiles |
-| You earn a certification | `src/content/certifications/<name>.md` (+ badge image in `public/images/badges/`) | Certifications page, About, dashboard; Claude page if the title contains "Claude Certified Architect" |
-| A paper is published | `src/content/publications/<name>.md` | Publications page, dashboard "Research" |
-| You create a repo you want to show off | `src/content/project-settings/projects.md` → `pinned:` | Projects page (top, with "Pinned" badge) + landing "Pinned projects" |
+| You start a new job or get promoted | `content/experience/<company-role>.md` (set old job's `current: false` + `endDate:`) | Experience page, landing "Journey", dashboard "Currently" card |
+| A new impact number you can prove | `content/dashboard/metrics.md` → `impact:` | Dashboard + landing impact tiles |
+| You earn a certification | `content/certifications/<name>.md` (+ badge image in `public/images/badges/`) | Certifications page, About, dashboard; Claude page if the title contains "Claude Certified Architect" |
+| A paper is published | `content/publications/<name>.md` | Publications page, dashboard "Research" |
+| You create a repo you want to show off | `content/project-settings/projects.md` → `pinned:` | Projects page (top, with "Pinned" badge) + landing "Pinned projects" |
 | A repo is junk / a mirror | `projects.md` → `hidden:` | Removed from Projects page and stats lists |
 | A repo has no or weak GitHub description | `projects.md` → `overrides:` | That repo's card |
 | You add a GitHub topic to a repo | Nothing here (topic must be listed under `categories:` to become a filter) | Category filter on the Projects page after the next deploy |
 | Stars/forks change | Nothing. The site rebuilds daily at 03:17 UTC | Every GitHub number |
-| Your title, headline, bio or socials change | `src/content/profile/sarvesh.md` | Navbar, hero, footer, About, SEO metadata, JSON-LD, Contact |
+| Your title, headline, bio or socials change | `content/profile/sarvesh.md` | Navbar, hero, footer, About, SEO metadata, JSON-LD, Contact |
 | The small label above the headline | `profile/sarvesh.md` → `heroLabel:` | Landing hero (currently "AI Engineer") |
 | Skill badges floating around your photo | `profile/sarvesh.md` → `heroChips:` (up to 3) | Landing hero |
 | You learn a new tool | `profile/sarvesh.md` → `skills:` | Toolbox cards on Home, About, and Dashboard |
 | The "How I work" steps | `profile/sarvesh.md` → `approach:` | Scroll story under the hero |
 | The quote on the landing page | `profile/sarvesh.md` → `quotes:` (first entry is used) | Hero (under the headline) |
 | A new achievement or award | `profile/sarvesh.md` → `achievements:` (and update the `8×` tile in `metrics.md` if it is a TCS award) | About "Achievements", dashboard |
-| You want a new Claude practice question | `src/content/claude/questions/domain-<n>.md` | Learn & Review library, counts on Claude/landing/dashboard |
+| You want a new Claude practice question | `content/claude/questions/domain-<n>.md` | Learn & Review library, counts on Claude/landing/dashboard |
 | A question has a wrong answer | Same file, move the `[x]` and fix the explanations | Mock exam + library |
 | You want to change which questions are in the mock | Add/remove `- mock: true` (keep 60 to mirror the real exam) | `/claude/quiz` |
-| Anthropic changes the exam (fee, time, domains) | `src/content/claude/exams/foundations.md` | `/claude/foundations` |
-| You are ready to publish the Professional guide | `src/content/claude/exams/professional.md` → fill fields, set `status: live` | New page `/claude/professional` + live card on `/claude` |
+| Anthropic changes the exam (fee, time, domains) | `content/claude/exams/foundations.md` | `/claude/foundations` |
+| You are ready to publish the Professional guide | `content/claude/exams/professional.md` → fill fields, set `status: live` | New page `/claude/professional` + live card on `/claude` |
 | New profile photo | Replace `public/images/sarvesh-talele.jpg` (same name, square works best) | Navbar, hero, About, blog author line |
 | New nav item, analytics, comments | `src/lib/site.ts` (the only non-Markdown settings file) | Navbar/footer, GA, Giscus |
 
@@ -43,7 +43,7 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 
 ## 2. File-by-file reference
 
-### `src/content/profile/sarvesh.md`, who you are
+### `content/profile/sarvesh.md`, who you are
 **Update when:** your role, employer, headline, socials, skills, education, or story changes. Review every 3 months.
 
 | Field | Shown on | Notes |
@@ -61,7 +61,7 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 | `education`, `skills` | About, Dashboard | Skills are grouped; groups become filter pills |
 | Body (Markdown below `---`) | About page story | Plain Markdown, links allowed |
 
-### `src/content/dashboard/metrics.md`, the numbers recruiters see
+### `content/dashboard/metrics.md`, the numbers recruiters see
 **Update when:** you have a new, defensible number. Review every quarter.
 
 - `impact:` → `value` (e.g. `50K+`, `4+ yrs`, `Top 15`; the first number animates), `label`, `context` (one line),
@@ -70,7 +70,7 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 - **Rule:** never add a number you cannot link to. GitHub numbers are computed automatically; don't type them here.
 - If a metric lives on LinkedIn only, link `proof:` to your LinkedIn profile or a post.
 
-### `src/content/project-settings/projects.md`, the Projects page
+### `content/project-settings/projects.md`, the Projects page
 **Update when:** you ship a repo worth featuring, or want to retire one from the top.
 
 - `pinned:` exact repo names, in display order. The first six also appear on the landing page.
@@ -79,7 +79,7 @@ page is generated from Markdown in `src/content/`, so you never need to touch co
 - `overrides:` `description`, `demo` (https), `categories` per repo.
 - `pnpm check:content` fails if a pinned or hidden name doesn't exist (catches typos).
 
-### `src/content/blog/<slug>/index.mdx`, articles
+### `content/blog/<slug>/index.mdx`, articles
 **Update when:** you publish. One folder per post, images live beside it in `images/`.
 
 ```bash
@@ -102,22 +102,22 @@ pnpm new:blog "Post title" --category Engineering --tags "MCP, Agents"
 Images: put files in the post's `images/` folder and reference them as `./images/name.png`. `pnpm check:content`
 fails if an image is missing. MDX also gives you `<Callout type="tip|info|warning|success" title="…">`.
 
-### `src/content/experience/*.md`, jobs
+### `content/experience/*.md`, jobs
 **Update when:** you change role, company, or have new highlights (each bullet should contain a measurable result).
 Only one entry should have `current: true`.
 
-### `src/content/certifications/*.md`, credentials
+### `content/certifications/*.md`, credentials
 **Update when:** you earn one. Add `credentialUrl` (the issuer's verify link, e.g. Credly) and `badge` (an image in
 `public/images/badges/`). `featured: true` lists it on the landing page Claude block.
 
-### `src/content/publications/*.md`, papers
+### `content/publications/*.md`, papers
 **Update when:** a paper is accepted or gets a DOI/indexing. `badges:` adds verify buttons (arXiv, NASA ADS, code).
 
-### `src/content/claude/questions/domain-*.md`, the question bank
+### `content/claude/questions/domain-*.md`, the question bank
 **Update when:** you add questions, fix an answer, or the exam guide changes. The exact format is in
-[`src/content/claude/README.md`](../src/content/claude/README.md). Every count on the site updates by itself.
+[`content/claude/README.md`](../content/claude/README.md). Every count on the site updates by itself.
 
-### `src/content/claude/exams/*.md`, exam guide pages
+### `content/claude/exams/*.md`, exam guide pages
 **Update when:** Anthropic changes the exam facts, or a new track is ready (`status: live`).
 
 ### `src/lib/site.ts`, the only code-level settings

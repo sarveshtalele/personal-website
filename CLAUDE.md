@@ -4,14 +4,14 @@ Guidance for AI coding agents (and humans) working on **sarveshtalele.org**.
 
 ## What this is
 
-A static Astro 7 site deployed to GitHub Pages. **All content is Markdown/MDX in `src/content/`.** Pages, cards,
+A static Astro 7 site deployed to GitHub Pages. **All content is Markdown/MDX in `content/`.** Pages, cards,
 dashboards, tag pages, RSS, sitemap, search index, and the Claude mock exam are all generated from those files at
 build time. The owner should only ever need to edit Markdown.
 
 ## Rules
 
 1. **Never hard-code personal data in components.** Names, bios, socials, stats, skills, and quotes come from
-   `src/content/profile/sarvesh.md` and `src/content/dashboard/metrics.md` via `src/lib/content.ts`.
+   `content/profile/sarvesh.md` and `content/dashboard/metrics.md` via `src/lib/content.ts`.
 2. **Every dashboard number must link to proof** (`proof:` field). Do not invent metrics. GitHub numbers are computed,
    never typed.
 3. **No client-side API calls or third-party scripts.** GitHub data is fetched at build time
@@ -56,16 +56,16 @@ Node 24 (see `.nvmrc`; minimum 22.23.4), pnpm 11.
 
 | Want to change… | Edit |
 | --- | --- |
-| Name, headline, hero label, quote, socials, skills, education, achievements, About story | `src/content/profile/sarvesh.md` |
-| Dashboard impact tiles and highlights | `src/content/dashboard/metrics.md` |
-| Pinned / hidden repos, category filters, repo description overrides | `src/content/project-settings/projects.md` |
-| Blog posts | `src/content/blog/<slug>/index.mdx` + `images/` |
-| Claude questions (360) and mock exam selection | `src/content/claude/questions/domain-*.md` (format: `src/content/claude/README.md`) |
-| Claude exam guide pages | `src/content/claude/exams/*.md` |
-| Jobs | `src/content/experience/*.md` |
-| Certifications (badge + verify link) | `src/content/certifications/*.md` |
-| Papers | `src/content/publications/*.md` |
-| Optional project case studies (`/projects/<id>`) | `src/content/projects/*.mdx` |
+| Name, headline, hero label, quote, socials, skills, education, achievements, About story | `content/profile/sarvesh.md` |
+| Dashboard impact tiles and highlights | `content/dashboard/metrics.md` |
+| Pinned / hidden repos, category filters, repo description overrides | `content/project-settings/projects.md` |
+| Blog posts | `content/blog/<slug>/index.mdx` + `images/` |
+| Claude questions (360) and mock exam selection | `content/claude/questions/domain-*.md` (format: `content/claude/README.md`) |
+| Claude exam guide pages | `content/claude/exams/*.md` |
+| Jobs | `content/experience/*.md` |
+| Certifications (badge + verify link) | `content/certifications/*.md` |
+| Papers | `content/publications/*.md` |
+| Optional project case studies (`/projects/<id>`) | `content/projects/*.mdx` |
 | Nav links, analytics ID, Giscus | `src/lib/site.ts` |
 
 Owner-facing guide: `docs/UPDATING.md`. Keep it in sync when content files or fields change.
@@ -73,8 +73,8 @@ Owner-facing guide: `docs/UPDATING.md`. Keep it in sync when content files or fi
 ## Architecture
 
 ```
-src/content/**.md(x) ──► content.config.ts (zod schemas) ──► src/lib/content.ts ──► pages/components
-src/content/claude/questions/*.md ──► scripts/build-claude-data.mjs ──► public/claude/**.json (git-ignored)
+content/**.md(x) ──► content.config.ts (zod schemas) ──► src/lib/content.ts ──► pages/components
+content/claude/questions/*.md ──► scripts/build-claude-data.mjs ──► public/claude/**.json (git-ignored)
 GitHub API ──► scripts/fetch-github.mjs ──► src/data/github.json (committed snapshot) ──► src/lib/github.ts
 astro build ──► scripts/csp.mjs (CSP meta) ──► pagefind (search index) ──► dist/ ──► GitHub Pages
 ```

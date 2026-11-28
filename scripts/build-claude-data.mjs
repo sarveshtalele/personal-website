@@ -3,7 +3,7 @@
  * Compiles the Claude exam question banks (Markdown) into the JSON files the
  * mock exam (/claude/quiz) and Learn & Review library (/claude/review) load.
  *
- *   Source:  src/content/claude/questions/domain-*.md   (you edit these)
+ *   Source:  content/claude/questions/domain-*.md   (you edit these)
  *   Output:  public/claude/review/questions.json        (all questions)
  *            public/claude/review/concepts.json         (task statements)
  *            public/claude/quiz/questions.json          (questions marked `mock: true`)
@@ -18,7 +18,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const SRC = join(ROOT, 'src/content/claude/questions');
+const SRC = join(ROOT, 'content/claude/questions');
 const OUT_REVIEW = join(ROOT, 'public/claude/review');
 const OUT_QUIZ = join(ROOT, 'public/claude/quiz');
 const LETTERS = ['A', 'B', 'C', 'D'];

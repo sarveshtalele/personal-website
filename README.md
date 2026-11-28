@@ -49,20 +49,20 @@ pnpm preview
 
 | To change… | Edit this file |
 | --- | --- |
-| Name, headline, hero label, quote, socials, skills, education, achievements, About story | `src/content/profile/sarvesh.md` |
-| Dashboard impact numbers (each needs a `proof:` link) | `src/content/dashboard/metrics.md` |
-| Pinned / hidden repos, filter categories, repo description overrides | `src/content/project-settings/projects.md` |
-| A blog post | `src/content/blog/<slug>/index.mdx` (+ `images/`) |
-| Claude questions, answers, explanations, mock-exam selection | `src/content/claude/questions/domain-1.md` … `domain-5.md` |
-| Claude exam guide pages | `src/content/claude/exams/*.md` |
-| Jobs | `src/content/experience/*.md` |
-| Certifications (badge image + verify URL) | `src/content/certifications/*.md` |
-| Papers (with badge links) | `src/content/publications/*.md` |
+| Name, headline, hero label, quote, socials, skills, education, achievements, About story | `content/profile/sarvesh.md` |
+| Dashboard impact numbers (each needs a `proof:` link) | `content/dashboard/metrics.md` |
+| Pinned / hidden repos, filter categories, repo description overrides | `content/project-settings/projects.md` |
+| A blog post | `content/blog/<slug>/index.mdx` (+ `images/`) |
+| Claude questions, answers, explanations, mock-exam selection | `content/claude/questions/domain-1.md` … `domain-5.md` |
+| Claude exam guide pages | `content/claude/exams/*.md` |
+| Jobs | `content/experience/*.md` |
+| Certifications (badge image + verify URL) | `content/certifications/*.md` |
+| Papers (with badge links) | `content/publications/*.md` |
 
 **Full guide:** [docs/UPDATING.md](docs/UPDATING.md) explains, for every part of the site, which file to edit,
 when to edit it, and what changes on the site as a result.
 
-Frontmatter is validated at build time (`src/content.config.ts`); a typo fails the build with the file and field
+Frontmatter is validated at build time (`content.config.ts`); a typo fails the build with the file and field
 name instead of shipping a broken page.
 
 ### Write a blog post
@@ -71,7 +71,7 @@ name instead of shipping a broken page.
 pnpm new:blog "Why deterministic tools beat clever prompts" --category Engineering --tags "MCP, Agents"
 ```
 
-This creates `src/content/blog/why-deterministic-tools-beat-clever-prompts/index.mdx` and an `images/` folder.
+This creates `content/blog/why-deterministic-tools-beat-clever-prompts/index.mdx` and an `images/` folder.
 
 ```mdx
 ---
@@ -95,21 +95,21 @@ sitemap, and search all update automatically. `pnpm check:content` verifies ever
 
 ### Pin a repository
 
-Add its exact name under `pinned:` in `src/content/project-settings/projects.md`. Pinned repos show first (in that
+Add its exact name under `pinned:` in `content/project-settings/projects.md`. Pinned repos show first (in that
 order), get a "Pinned" badge, and appear on the landing page. Add a GitHub topic listed under `categories:` to put a
 repo in a filter.
 
 ### Edit the Claude question bank
 
 Questions are plain Markdown; the format is documented in
-[`src/content/claude/README.md`](src/content/claude/README.md). `pnpm check:content` validates every question (four
+[`content/claude/README.md`](content/claude/README.md). `pnpm check:content` validates every question (four
 options, exactly one `[x]`, an explanation for each wrong option, an `https://` doc link) and compiles the JSON the
 exam pages load.
 
 ## How it works
 
 ```
-src/content/**.md(x) ─► zod schemas (content.config.ts) ─► src/lib/content.ts ─► pages & components
+content/**.md(x) ─► zod schemas (content.config.ts) ─► src/lib/content.ts ─► pages & components
 claude/questions/*.md ─► scripts/build-claude-data.mjs ─► public/claude/**.json  (generated, git-ignored)
 GitHub API ───────────► scripts/fetch-github.mjs ──────► src/data/github.json   (committed fallback snapshot)
 astro build ─► scripts/csp.mjs (hash inline scripts → CSP meta) ─► pagefind (search) ─► GitHub Pages

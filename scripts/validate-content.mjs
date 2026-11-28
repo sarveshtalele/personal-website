@@ -14,7 +14,7 @@ const problems = [];
 // 1. Pinned / hidden / override repo names must exist in the GitHub snapshot.
 const gh = JSON.parse(readFileSync(join(ROOT, 'src/data/github.json'), 'utf8'));
 const names = new Set(gh.repos.map((r) => r.name));
-const settings = readFileSync(join(ROOT, 'src/content/project-settings/projects.md'), 'utf8');
+const settings = readFileSync(join(ROOT, 'content/project-settings/projects.md'), 'utf8');
 const block = (key) => {
   const m = settings.match(new RegExp(`^${key}:\\n((?:  - .+\\n)+)`, 'm'));
   return m ? [...m[1].matchAll(/  - (.+)/g)].map((x) => x[1].trim()) : [];
@@ -25,7 +25,7 @@ for (const name of [...block('pinned'), ...block('hidden')]) {
 }
 
 // 2. Every blog post folder has index.md(x) and the images it references.
-const blogDir = join(ROOT, 'src/content/blog');
+const blogDir = join(ROOT, 'content/blog');
 for (const slug of readdirSync(blogDir)) {
   const dir = join(blogDir, slug);
   if (!statSync(dir).isDirectory()) continue;

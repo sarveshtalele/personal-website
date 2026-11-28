@@ -1,7 +1,7 @@
 /**
  * Build-time GitHub data (src/data/github.json, refreshed by
  * scripts/fetch-github.mjs) merged with the pin/hide/category settings from
- * src/content/project-settings/projects.md.
+ * content/project-settings/projects.md.
  */
 import raw from '../data/github.json';
 import { getProjectSettings } from './content';
