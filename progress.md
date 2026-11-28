@@ -123,3 +123,6 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-11-04 16:39 UTC] ACTION — Open PR #20 against main with the article, cover, animated SVG and repo-local Stageshow guidance: https://github.com/sarveshtalele/personal-website/pull/20.
 [2026-11-04 16:39 UTC] DONE — PR is open and mergeable. Initial CI content validation, lint, type-check, build and dependency audit passed; CodeQL analysis completed successfully. Final CI reruns after the progress-log update.
 [2026-11-04 16:39 UTC] DONE — Exported a companion 720 × 405 GIF at 6fps (12 seconds) for download and reuse. The blog embeds the SVG animation to retain vector sharpness and a reduced-motion static state.
+
+[2026-11-28 13:20 UTC] PLAN — Add the November 27 Claude certification registration guide to the MDX blog, using the supplied wide Claude Partner Academy cover as the hero and preserving all seven in-article registration/prep screenshots.
+[2026-11-28 13:20 UTC] ACTION — Converted the uploaded HTML guide to the site's MDX blog format; copied the supplied cover and seven article screenshots into the new post's images directory. Shared author/header, article layout, metadata, and SEO are rendered by the existing site templates.
