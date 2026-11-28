@@ -1,0 +1,97 @@
+---
+/** A podcast or talk: YouTube thumbnail with a play button, show, date, and summary. Opens on YouTube. */
+import { Play, Mic } from '@lucide/astro';
+import { formatDate } from '@utils/format';
+
+interface Props {
+  item: {
+    title: string;
+    show: string;
+    host?: string;
+    date: Date;
+    url: string;
+    thumb: string;
+    summary: string;
+    topics: string[];
+  };
+  wide?: boolean;
+}
+const { item, wide = false } = Astro.props;
+---
+
+<article
+  class:list={['pod card card-hover group relative overflow-hidden', wide && 'md:grid md:grid-cols-[1.2fr_1fr]']}
+>
+  <div class="relative aspect-video overflow-hidden bg-black">
+    <img
+      src={item.thumb}
+      alt={`Thumbnail for ${item.title}`}
+      width="480"
+      height="360"
+      loading="lazy"
+      decoding="async"
+      referrerpolicy="no-referrer"
+      class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+    />
+    <span class="play" aria-hidden="true"><Play class="h-7 w-7 translate-x-0.5" /></span>
+    <span class="chip chip-gold absolute left-3 top-3 backdrop-blur"
+      ><Mic class="h-3 w-3" aria-hidden="true" /> Podcast</span
+    >
+  </div>
+  <div class="flex flex-col p-6 sm:p-8">
+    <p class="text-xs font-semibold text-accent">
+      {item.show}{item.host && <span class="font-medium text-fg-faint"> · with {item.host}</span>}
+      <span class="font-medium text-fg-faint"> · {formatDate(item.date)}</span>
+    </p>
+    <h3 class="mt-2 text-xl font-bold leading-snug tracking-tight text-fg sm:text-2xl">
+      <a
+        href={item.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="after:absolute after:inset-0 after:content-[''] group-hover:text-primary"
+      >
+        {item.title}
+      </a>
+    </h3>
+    {item.summary && <p class="mt-3 text-sm leading-relaxed text-fg-muted">{item.summary}</p>}
+    <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+      <Play class="h-4 w-4" aria-hidden="true" /> Watch on YouTube
+    </span>
+  </div>
+</article>
+
+<style>
+  .play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    height: 4rem;
+    width: 4rem;
+    translate: -50% -50%;
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--primary) 88%, transparent);
+    color: var(--on-primary);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.4);
+    transition: transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .pod:hover .play {
+    transform: scale(1.12);
+  }
+  .play::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: inherit;
+    border: 2px solid color-mix(in srgb, var(--primary) 50%, transparent);
+    animation: ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  @keyframes ping {
+    75%,
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+</style>

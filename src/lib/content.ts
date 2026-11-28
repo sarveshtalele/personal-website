@@ -37,3 +37,15 @@ export async function getIssues(): Promise<(CollectionEntry<'newsletter'> & { is
 }
 
 export { render };
+
+/** Podcasts and talks, newest first, with ready-made YouTube links and thumbnails. */
+export async function getAppearances() {
+  const entry = await getEntry('media', 'appearances');
+  return (entry?.data.items ?? [])
+    .map((m) => ({
+      ...m,
+      url: `https://www.youtube.com/watch?v=${m.youtube}`,
+      thumb: `https://i.ytimg.com/vi/${m.youtube}/hqdefault.jpg`,
+    }))
+    .sort((a, b) => b.date.valueOf() - a.date.valueOf());
+}

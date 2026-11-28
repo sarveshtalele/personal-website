@@ -2,6 +2,8 @@
 import { getEntry } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
 import FollowLinkedIn from '@components/FollowLinkedIn.astro';
+import PodcastCard from '@components/PodcastCard.astro';
+import { getAppearances } from '@lib/content';
 import { ArrowUpRight, Search } from '@lucide/astro';
 import { formatDate, slugifyTag } from '@utils/format';
 
@@ -11,10 +13,26 @@ const { title, intro, items } = entry.data;
 const sorted = [...items].sort((a, b) => b.date.valueOf() - a.date.valueOf());
 const sources = [...new Set(sorted.map((i) => i.source))].sort();
 const topics = [...new Set(sorted.flatMap((i) => i.topics))].sort();
+const appearances = await getAppearances();
 const host = (u: string) => new URL(u).hostname.replace(/^www\./, '');
 ---
 
 <PageLayout title={title} description={intro} eyebrow="Elsewhere" crumbs={[{ label: title }]}>
+  {
+    appearances.length > 0 && (
+      <section class="mb-14" aria-labelledby="pods">
+        <h2 id="pods" class="mb-5 text-2xl font-bold tracking-tight text-fg">
+          Podcasts & talks
+        </h2>
+        <div class="grid gap-6">
+          {appearances.map((a) => (
+            <PodcastCard item={a} wide />
+          ))}
+        </div>
+      </section>
+    )
+  }
+  <h2 class="mb-5 text-2xl font-bold tracking-tight text-fg">Posts & articles</h2>
   <div data-refs>
     <div class="card mb-8 flex flex-col gap-4 p-4 sm:p-5">
       <label class="relative block">

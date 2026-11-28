@@ -12,6 +12,12 @@
 title: References
 intro: Things I've written or shared outside this site. Filter by where it was published or what it's about, then open the original.
 items:
+  - title: "Podcast: Mechanical Engineer to AI Engineer, How I Cleared 2 Claude Certifications"
+    url: https://www.youtube.com/watch?v=ke1gVk8Ksno
+    source: Podcast
+    date: 2026-09-02
+    note: My conversation with Mansi Mutreja on Enqurious TV about moving into AI, production vs proof of concept, and the Claude exams.
+    topics: [Career, Claude, Agents]
   - title: I Built a Financial AI That Refuses to Guess
     url: https://medium.com/datadriveninvestor/i-built-a-financial-ai-that-refuses-to-guess-dd4d26e0f578
     source: Medium

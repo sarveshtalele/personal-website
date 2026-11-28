@@ -168,6 +168,29 @@ const newsletter = defineCollection({
 });
 
 /* -------------------------------------------------------------------------- */
+/* Media: podcasts and talks I've appeared on                                 */
+/* -------------------------------------------------------------------------- */
+const media = defineCollection({
+  loader: glob({ pattern: '*.md', base: './content/media' }),
+  schema: z.object({
+    items: z
+      .array(
+        z.object({
+          title: z.string(),
+          show: z.string(),
+          host: z.string().optional(),
+          date: z.coerce.date(),
+          /** YouTube video ID; the link and thumbnail are built from it. */
+          youtube: z.string().regex(/^[\w-]{6,20}$/, 'use just the video ID, e.g. ke1gVk8Ksno'),
+          summary: z.string().default(''),
+          topics: z.array(z.string()).default([]),
+        }),
+      )
+      .default([]),
+  }),
+});
+
+/* -------------------------------------------------------------------------- */
 /* References: links to posts and articles published elsewhere               */
 /* -------------------------------------------------------------------------- */
 const references = defineCollection({
@@ -259,6 +282,7 @@ export const collections = {
   projects,
   newsletter,
   references,
+  media,
   claudeExams,
   publications,
   certifications,
