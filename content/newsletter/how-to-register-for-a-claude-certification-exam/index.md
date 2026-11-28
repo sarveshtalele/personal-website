@@ -1,0 +1,362 @@
+---
+title: "How to Register for a Claude Certification Exam: A Beginner's Guide for Partners"
+seoTitle: "Claude Certification: How to Register (2026 Guide)"
+description: "A beginner-friendly, step-by-step guide for Anthropic partners: eligibility, registration, scheduling, fees, prep courses, and exam-day rules."
+pubDate: 2026-11-27
+tags: [Claude, Certification, Anthropic, Career]
+cover: ./images/cover.png
+coverAlt: "Cover image for the guide on registering for a Claude certification exam"
+---
+
+> **Disclaimer:** This is an independent guide. It is not an official Anthropic publication, and it is not endorsed by Anthropic or Pearson VUE. All product names and screenshots belong to their respective owners. The details were checked on November 27, 2026. Prices, policies, and screens can change, so please confirm them in Anthropic Partner Academy before you pay.
+
+Have you heard colleagues talk about "getting Claude certified" and wondered where to begin? Perhaps you are not even sure what Claude is. You are in the right place.
+
+By the end of this guide, you will know which exam suits you, how to register, how to prepare, and what to expect on exam day.
+
+> **Heads-up:** Three exams change on **December 7, 2026**: Associate – Foundations, Developer – Foundations, and Architect – Professional. Study with the exam guide that matches your exam date.
+
+## First, what is Claude?
+
+**Claude** is an AI assistant made by a company called **Anthropic**. You type a request in everyday language, and Claude responds. It can read documents, draft and edit text, help you reason through problems, write code, and work with other tools you connect to it.
+
+A **Claude certification** is a proctored exam that shows you can do real work with Claude. *Proctored* means that someone supervises you while you take it. If you pass, you receive a digital badge that you can share on LinkedIn.
+
+### A quick glossary
+
+- **Anthropic Partner Academy:** the website where partners take courses and register for exams.
+- **Claude Partner Network:** Anthropic's program for organizations that deliver Claude work.
+- **Pearson VUE:** the company that delivers the exams.
+- **Single sign-on (SSO):** one login that carries you from one site to another.
+- **API:** a way for software to send requests to Claude.
+- **Claude Code:** Claude's tool for coding tasks.
+- **Model Context Protocol (MCP):** a standard way to connect Claude to tools and data.
+- **Credly:** the platform that issues your digital badge.
+
+## Who can take the exam?
+
+Check each item before you do anything else:
+
+- Your organization belongs to the **Claude Partner Network**.
+- You have a **company email address** on a domain listed in your organization's partner record. Personal email addresses do not work.
+- You are **at least 18 years old**.
+- You have a **valid, government-issued ID**.
+- You are in a [country or region that Anthropic supports](https://www.anthropic.com/supported-countries).
+
+**Does Partner Academy say you are not signed in with a partner company email?** First, confirm that you used your work address. If the problem continues, email **partner-support@anthropic.com**. Adding a domain takes 7 to 10 days, so act early.
+
+**Not a partner?** You cannot register for these exams at present. You can still learn through the public Claude Academy, or your organization can apply at [claude.com/partners](https://claude.com/partners).
+
+## Which exam should you choose, and how much does it cost?
+
+There are five certifications across three roles. Prices below are list prices in US dollars.
+
+- **Claude Certified Associate – Foundations ($99):** for people who use Claude in their daily work, such as consultants, analysts, project managers, marketers, and HR teams.
+- **Claude Certified Developer – Foundations ($125):** for software engineers who build applications and agents with Claude.
+- **Claude Certified Developer – Professional ($175):** for experienced engineers who run Claude systems in production.
+- **Claude Certified Architect – Foundations ($125):** for solution architects who design and build applications with Claude.
+- **Claude Certified Architect – Professional ($175):** for mid-level to senior professionals who design and deliver large, production-grade solutions.
+
+**New to all of this?** The Associate exam is a natural starting point. It has no prerequisites. Please note that it **does not count** toward your organization's Partner Network tier eligibility. The other four do.
+
+The Professional exams do not require the Foundations certification, although it is recommended.
+
+![Three role cards on the certifications page: Associate, Developer, and Architect, each outlined in red](./images/03-choose-your-role.png)
+
+*(1) Associate, (2) Developer, and (3) Architect.*
+
+### Partner discounts
+
+Your discount depends on your organization's partner tier:
+
+- **Registered:** full price.
+- **Select and Preferred:** 50% off.
+- **Global Premier:** 100% off through December 31, 2026, and 50% off after that date.
+
+The discount applies automatically at checkout. It is based on the date you **schedule** your exam.
+
+## How to register, step by step
+
+Since **November 12, 2026**, you register through Partner Academy, move to Pearson VUE with single sign-on, and pay at Pearson checkout. You may still see older pages that mention separate Pearson usernames or paying on Partner Academy. Follow the newer process described here.
+
+### Step 1: Sign in and open the certifications page
+
+Sign in to [Anthropic Partner Academy](https://anthropic-partners.skilljar.com/) with your company email. Then open the [certifications page](https://anthropic-partners.skilljar.com/page/partner-certifications).
+
+![Certifications home page with the exam update banner, the Browse certifications button, and the Go to my Pearson account button highlighted](./images/01-certifications-home.png)
+
+*(1) Read the exam update notice. (2) New candidates select **Browse certifications**. (3) If you have already registered, use **Go to my Pearson account**.*
+
+### Step 2: Use the menu as your map
+
+Select **Certifications and badges** at the top of any page.
+
+![Open Certifications and badges menu showing the five exams, prep course links, and help links](./images/02-certifications-menu.png)
+
+*(1) Open the menu. (2) Choose your exam. (3) Open its prep course. (4) Read the help pages before you register.*
+
+### Step 3: Where to click Register
+
+Scroll to **All certifications**. Check the price, download the correct exam guide, and then select **Register** beside your exam.
+
+![All certifications table with the Price, Exam guide, and Register columns highlighted](./images/04-all-certifications.png)
+
+*(1) Price. (2) Exam guides, arranged by test date. (3) The **Register** buttons.*
+
+You register once for either language. You choose English or Japanese when you schedule.
+
+### Step 4: Know where to find official help
+
+The [Certification FAQ](https://anthropic-partners.skilljar.com/page/faq-certifications) has a short PDF guide to the new sign-in and checkout process. Keep it open while you register.
+
+![Certification FAQ page with the Pearson single sign-on notice and PDF guide button highlighted](./images/05-faq-sso-notice.png)
+
+*(1) The single sign-on notice and its **View the guide (PDF)** button.*
+
+### Step 5: Check your name very carefully
+
+After you select **Register**, you are asked to confirm your first and last name.
+
+> **Stop and read this:** Your name must **exactly match** the government-issued ID that you will show on exam day. You can change it yourself only **once per year**, and confirming your profile locks it for a year.
+
+Enter your name in Latin letters, including any accents. Add a middle name only if your ID shows one. If you have a single legal name, put a period (.) in the last-name field. Browser autofill can add unwanted text, so review every field.
+
+![The official registration steps in the FAQ, with the Register step, the name check, and the checkout step highlighted](./images/06-register-steps.png)
+
+*(1) Do not register twice. (2) Check your name. (3) Your discount is applied at checkout.*
+
+### Step 6: Schedule and pay at Pearson VUE
+
+1. Continue to Pearson. You arrive already signed in.
+2. Under **Schedule an exam**, select your exam.
+3. Choose **OnVUE** (online, from your own computer) or a **Pearson test center**.
+4. Review and accept the policies and terms.
+5. Select your exam language, date, and time.
+6. Check the total, and then pay.
+
+**Is the total wrong?** Do not pay. Sign out of Partner Academy, sign in again, and retry. If it is still wrong, email **certifications-support@anthropic.com** with a screenshot of the checkout total.
+
+### Step 7: Save your confirmation email
+
+Pearson emails you a confirmation. Keep it. For an online exam, it contains the link that you use to start.
+
+### Already registered?
+
+Do **not** register again. Open your exam in Partner Academy and select **Go to my Pearson account** or **Already registered for this exam?** Payments made before November 12, 2026, are honored, so your checkout total should be $0.
+
+## Prepare with the official prep courses
+
+Each certification has its own preparation material on the [exam prep courses page](https://anthropic-partners.skilljar.com/page/claude-certification-exam-prep-courses).
+
+![Exam prep courses page with the Associate Foundations prep course highlighted](./images/07-exam-prep-courses.png)
+
+*(1) Open the prep course that matches your exam.*
+
+### Associate – Foundations: 8 modules, about 6.5 hours
+
+[Open the Associate prep course](https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations)
+
+1. Claude Platform & Model Foundations (59 min)
+2. Prompting & Task Execution (53 min)
+3. Evaluating & Validating Claude's Output (74 min)
+4. Workflow Integration & Solution Design (63 min)
+5. Configuration & Knowledge Management (47 min)
+6. Governance, Risk & Responsible Use (55 min)
+7. Troubleshooting & Optimization (30 min)
+8. Course Summary & Next Steps (8 min)
+
+### Developer – Foundations: 5 courses, about 13 hours
+
+[Open the Developer Foundations prep course](https://anthropic-partners.skilljar.com/path/claude-certified-developer-foundations)
+
+1. MSO Foundations: model fundamentals (57 min)
+2. Production-Grade Prompting, Agents & Tool Use (209 min)
+3. Claude Code, MCP & Integration (142 min)
+4. Production Engineering, Evals & Security (211 min)
+5. Accelerators & IP Contribution (155 min)
+
+### Developer – Professional: 8 courses
+
+[Open the Developer Professional prep courses](https://anthropic-partners.skilljar.com/path/claude-certified-developer-professional)
+
+The material follows the exam's eight topic areas: agent architecture, production integration, monitoring, incident response, evaluation, cost and speed, security, and operating teams of coding agents.
+
+### Architect – Foundations: 7 courses
+
+[Open the Architect Foundations prep courses](https://anthropic-partners.skilljar.com/page/claude-certified-architect-foundations-prep-courses)
+
+1. AI Fluency: Framework & Foundations
+2. Claude 101
+3. Building with the Claude API
+4. Introduction to Model Context Protocol
+5. Claude Code in Action
+6. Claude with Amazon Bedrock
+7. Claude on Google Cloud
+
+### Architect – Professional: 5 courses, about 12 hours
+
+[Open the Architect Professional prep course](https://anthropic-partners.skilljar.com/path/claude-certified-architect-professional)
+
+1. Claude Platform & Solution Design (238 min)
+2. Enterprise Integration & Production (158 min)
+3. Responsible AI, Safety & Risk for Architects (114 min)
+4. Stakeholder Engagement, Lifecycle & GTM (178 min)
+5. Team Enablement & Operational Productivity (45 min)
+
+*GTM means "go-to-market."*
+
+## What each exam covers
+
+The percentages show how much of the exam each topic represents. The authoritative source is always your exam guide.
+
+### Associate – Foundations exam topics (from December 7)
+
+- Output Evaluation and Quality Control: 20%
+- Workflow Design and Integration: 18%
+- Responsible Use, Data Protection, and Governance: 17%
+- Task Definition and Prompting: 15%
+- Capability, Model, and Context Selection: 15%
+- Configuration and Knowledge Management: 15%
+
+### Developer – Foundations exam topics (from December 7)
+
+- Applications and Integration: 20%
+- Agents and Workflows: 17%
+- Prompt and Context Engineering: 15%
+- Model Selection and Optimization: 12%
+- Evaluation, Testing, and Debugging: 10%
+- Tools and MCP: 10%
+- Claude Code: 8%
+- Security and Safety: 8%
+
+The guide suggests one to five years of software engineering experience, at least six months of hands-on work with Claude, and skill in Python or TypeScript.
+
+### Developer – Professional exam topics
+
+- Production Integration, Reliability, and Knowledge Grounding: 20%
+- Advanced Agent Architecture and Orchestration: 17%
+- Observability and Production Monitoring: 12%
+- Evaluation Engineering and Quality Assurance: 12%
+- Runtime Guardrails and Production Security: 11%
+- Advanced Debugging and Incident Response: 10%
+- Agent Fleet Operations for Software Delivery: 10%
+- Cost and Latency Optimization at Scale: 8%
+
+Candidates are expected to have built and deployed at least one tool-using agent in production.
+
+### Architect – Foundations exam topics
+
+- Agentic Architecture & Orchestration: 27%
+- Claude Code Configuration & Workflows: 20%
+- Prompt Engineering & Structured Output: 20%
+- Tool Design & MCP Integration: 18%
+- Context Management & Reliability: 15%
+
+### Architect – Professional exam topics (from December 7)
+
+- Integration: 21%
+- Solution Design and Architecture: 18%
+- Evaluation, Testing, and Optimization: 17%
+- Governance, Safety, and Risk Management: 16%
+- Claude Models, Prompting, and Context Engineering: 13%
+- Developer Productivity and Operational Enablement: 8%
+- Stakeholder Communication and Lifecycle Management: 7%
+
+## Starting from zero? Follow this route
+
+1. Take [Claude 101](https://anthropic-partners.skilljar.com/claude-101). It covers your first conversation, projects, artifacts, skills, connected tools, and research.
+2. Take **AI Fluency: Framework & Foundations** to learn how to work with AI effectively, ethically, and safely.
+3. Follow the [learning path](https://anthropic-partners.skilljar.com/page/learning-paths) closest to your role.
+4. Complete the prep course for your exam.
+5. Read your exam guide and try its sample questions.
+6. Register and schedule.
+
+### Learning paths by role
+
+- **Claude Associate** (about 9 hours): redesign your own work with Claude. It is designed for business functions such as marketing, finance, HR, legal, and operations.
+- **Claude Developer** (about 8 hours): build and test agents. You should already write code for a living.
+- **Claude Architect** (about 9 hours): design Claude solutions for clients. Experience with software system design is expected.
+- **Claude Forward Deployed Engineer** (about 9.5 hours): take a customer from a first use case to a working pilot.
+- **Claude Administrator:** set up, govern, and run Claude for an organization.
+
+There are also guides for consultants, adoption and change leads, practice leads, and technical pre-sales teams.
+
+### Additional courses worth exploring
+
+Browse them all on the [courses page](https://anthropic-partners.skilljar.com/page/all-courses).
+
+- **Everyday work:** Introduction to Claude Cowork
+- **Building:** Claude Platform 101, AI Fluency for Builders, Claude Code 101, Claude Code in Action
+- **Agents and tools:** Introduction to agent skills, Introduction to subagents, Model Context Protocol: Advanced Topics
+- **Client delivery:** Product Foundations, Installation and Environments, Deployment Architecture, Security and Governance, Administration and Measurement, Delivery Methodology
+- **Adoption:** Driving enterprise adoption of Claude
+
+## What happens on exam day?
+
+### How long is the exam, and what score passes?
+
+- **Time:** 120 minutes to answer. Plan for about 135 minutes in total.
+- **Questions:** multiple-choice and scenario-based multiple-response. Architect – Foundations has 60. The other four exams have 70, of which 10 are unscored.
+- **Passing score:** 720 on a scale from 100 to 1,000.
+- **Closed book:** no notes, documentation, translation tools, or AI assistants.
+
+### Before the day
+
+- Check that your ID is valid and matches your registered name.
+- For an online exam, run Pearson's system test in advance. [Pearson's Anthropic exam page](https://www.pearsonvue.com/us/en/anthropic.html) is a good place to start. Ask your IT team for help if you use a managed work computer.
+- If you need accommodations, request them through Pearson **before you schedule**, at least 10 days before you plan to test.
+- If English is your second language, you can request extra time through Pearson. Arrange this before you book.
+- Check the FAQ for country and ID restrictions on online testing.
+
+## Plans changed? Rescheduling and cancellation
+
+Manage your appointment in your Pearson account, which you open through Partner Academy.
+
+- **Test center:** reschedule or cancel at least **48 hours** before your appointment.
+- **Online (OnVUE):** reschedule or cancel at least **1 hour** before your appointment.
+- **Late changes or no-shows:** you lose the exam fee.
+- **Refunds:** payments made at Pearson checkout are refunded automatically in 7 to 10 business days.
+
+**Tip:** Rescheduling keeps your price. Cancelling and booking again uses the price and discount in effect at that later time.
+
+## After the exam
+
+You see your score on screen when you finish. Your score report shows how you performed in each section. If you pass, Credly emails you an invitation to claim your badge.
+
+### If you do not pass
+
+Do not lose heart. Use the section scores to plan your revision.
+
+- Wait **14 days** after the first failed attempt, **30 days** after the second, and **90 days** after the third.
+- You can take each exam up to **4 times** in a rolling 12 months.
+- Each retake costs the full fee, and your partner discount applies.
+
+### Keeping your certification
+
+Your certification is valid for **12 months**. If you renew on time, you complete a free, non-proctored assessment. If it lapses, you must retake the full exam at the full fee.
+
+## Where to get help
+
+- **Registration, checkout totals, names, and missing exams:** certifications-support@anthropic.com
+- **Partner records and email domains:** partner-support@anthropic.com
+- **Scheduling, online exam problems, and test centers:** Pearson VUE support
+- **Digital badges:** support.credly.com
+
+## Your final checklist
+
+- [ ] I work for a Claude Partner Network organization.
+- [ ] I signed in with my company email.
+- [ ] I chose the right exam.
+- [ ] I have the exam guide that matches my test date.
+- [ ] I completed the prep material.
+- [ ] My name matches my ID exactly.
+- [ ] I checked the total before paying.
+- [ ] I saved my confirmation email.
+
+## Ready when you are
+
+You do not need to learn everything today. Open one prep course, finish one module, and build from there.
+
+**Which certification are you planning to take?** Share it in the comments, and pass this guide to a colleague who is just getting started.
+
+**Follow Sarvesh Talele — AI for Everyday life, Simplified** for more plain-English guides.

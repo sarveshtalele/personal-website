@@ -9,19 +9,19 @@ import Container from '@components/Container.astro';
 import Section from '@components/Section.astro';
 import ImpactGrid from '@components/ImpactGrid.astro';
 import RepoCard from '@components/RepoCard.astro';
-import BlogCard from '@components/BlogCard.astro';
+import IssueCard from '@components/IssueCard.astro';
 import Timeline from '@components/Timeline.astro';
 import TopmateCTA from '@components/TopmateCTA.astro';
 import { GraduationCap, BookOpen } from '@lucide/astro';
-import { getPosts, getProjectSettings } from '@lib/content';
+import { getIssues, getProjectSettings } from '@lib/content';
 import { getGithubStats } from '@lib/github';
-import { minutesRead } from '@lib/blog';
+import { minutesRead } from '@lib/newsletter';
 import { byDateDesc } from '@utils/format';
 import claudeStats from '../data/claude-stats.json';
 
 const settings = await getProjectSettings();
 const gh = await getGithubStats();
-const posts = (await getPosts()).slice(0, 3);
+const posts = (await getIssues()).slice(0, 3);
 const minutes = Object.fromEntries(await Promise.all(posts.map(async (p) => [p.id, await minutesRead(p)] as const)));
 const experience = (await getCollection('experience')).sort(byDateDesc((e) => e.data.startDate));
 const claudeCerts = (await getCollection('certifications'))
@@ -95,11 +95,11 @@ const claudeCerts = (await getCollection('certifications'))
 
     {
       posts.length > 0 && (
-        <Section eyebrow="Writing" title="Latest from the blog." href="/blog" linkLabel="All posts">
+        <Section eyebrow="Newsletter" title="Latest from the newsletter." href="/newsletter" linkLabel="All issues">
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((p, i) => (
               <div data-reveal class:list={[`reveal-i-${i + 1}`, posts.length === 1 && 'sm:col-span-2 lg:col-span-3']}>
-                <BlogCard post={p} minutes={minutes[p.id]} featured={posts.length === 1} />
+                <IssueCard issue={p} minutes={minutes[p.id]} lead={posts.length === 1} />
               </div>
             ))}
           </div>

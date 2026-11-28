@@ -30,7 +30,8 @@ export const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Dashboard', href: '/dashboard' },
   { label: 'Projects', href: '/projects' },
-  { label: 'Blog', href: '/blog' },
+  { label: 'Newsletter', href: '/newsletter' },
+  { label: 'References', href: '/references' },
   { label: 'Claude Prep', href: '/claude' },
   { label: 'About', href: '/about' },
 ] as const;
@@ -40,6 +41,7 @@ export const FOOTER_LINKS = [
   { label: 'Certifications', href: '/certifications' },
   { label: 'Publications', href: '/publications' },
   { label: 'Mock exam', href: '/claude/quiz' },
+  { label: 'RSS', href: '/rss.xml' },
   { label: 'Contact', href: '/contact' },
   { label: 'Privacy', href: '/privacy' },
 ] as const;

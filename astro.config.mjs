@@ -12,6 +12,11 @@ import { remarkReadingTime } from './src/lib/remark-reading-time.mjs';
 export default defineConfig({
   site: 'https://sarveshtalele.org',
   trailingSlash: 'ignore',
+  // The blog became the newsletter; keep old links working.
+  redirects: {
+    '/blog': '/newsletter',
+    '/blog/i-built-a-financial-ai-that-refuses-to-guess': '/newsletter',
+  },
   integrations: [mdx(), sitemap()],
   markdown: {
     processor: unified(),

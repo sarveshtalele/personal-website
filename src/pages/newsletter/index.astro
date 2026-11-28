@@ -1,0 +1,134 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Container from '@components/Container.astro';
+import IssueCard from '@components/IssueCard.astro';
+import FollowLinkedIn from '@components/FollowLinkedIn.astro';
+import { Search } from '@lucide/astro';
+import { getIssues, getProfile } from '@lib/content';
+import { minutesRead, topicIndex } from '@lib/newsletter';
+
+const { data: profile } = await getProfile();
+const nl = profile.newsletter;
+const issues = await getIssues();
+const minutes = Object.fromEntries(await Promise.all(issues.map(async (p) => [p.id, await minutesRead(p)] as const)));
+const topics = topicIndex(issues);
+const [lead, ...rest] = issues;
+---
+
+<BaseLayout title={`${nl.name} · Newsletter`} description={nl.tagline}>
+  <section class="masthead border-b border-line">
+    <Container class="py-14 text-center sm:py-20">
+      <p class="eyebrow justify-center">The Newsletter</p>
+      <h1
+        class="mx-auto mt-4 max-w-3xl text-[clamp(2.4rem,6vw,4.25rem)] font-bold leading-[1.05] tracking-tight text-fg"
+      >
+        {nl.name}
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg text-fg-muted sm:text-xl">{nl.tagline}</p>
+      <p class="mx-auto mt-3 max-w-xl text-sm text-fg-faint">{nl.about}</p>
+      <div class="mt-8 flex justify-center">
+        <FollowLinkedIn size="lg" />
+      </div>
+      <p class="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-fg-faint">
+        By {profile.name} · {issues.length} issue{issues.length === 1 ? '' : 's'} so far
+      </p>
+    </Container>
+  </section>
+
+  <Container class="py-14">
+    {
+      issues.length === 0 ? (
+        <p class="text-center text-fg-muted">The first issue is on its way.</p>
+      ) : (
+        <div data-archive>
+          <p class="eyebrow">Latest issue</p>
+          <div class="mt-5" data-reveal>
+            <IssueCard issue={lead} minutes={minutes[lead.id]} lead />
+          </div>
+
+          <div class="mt-16 flex flex-wrap items-end justify-between gap-4">
+            <h2 class="text-3xl font-bold tracking-tight text-fg">All issues</h2>
+            <label class="relative block w-full sm:w-72">
+              <span class="sr-only">Search issues</span>
+              <Search
+                class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-faint"
+                aria-hidden="true"
+              />
+              <input type="search" class="field pl-9" placeholder="Search issues…" data-q autocomplete="off" />
+            </label>
+          </div>
+          {topics.length > 0 && (
+            <div class="mt-5 flex flex-wrap gap-2" role="group" aria-label="Filter by topic">
+              <button type="button" class="pill" data-topic="" aria-pressed="true">
+                All topics
+              </button>
+              {topics.map((t) => (
+                <button type="button" class="pill" data-topic={t.slug} aria-pressed="false">
+                  {t.label} <span class="opacity-60">{t.count}</span>
+                </button>
+              ))}
+            </div>
+          )}
+          <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-grid>
+            {[lead, ...rest].map((p, i) => (
+              <div data-reveal class={`reveal-i-${(i % 3) + 1}`}>
+                <IssueCard issue={p} minutes={minutes[p.id]} />
+              </div>
+            ))}
+          </div>
+          <p class="hidden py-16 text-center text-fg-muted" data-empty>
+            No issues match that. Try another topic or word.
+          </p>
+        </div>
+      )
+    }
+  </Container>
+</BaseLayout>
+
+<style>
+  .masthead {
+    background:
+      linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 100% 2.2rem,
+      radial-gradient(70% 80% at 50% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%);
+    background-blend-mode: normal;
+  }
+  :global(.dark) .masthead {
+    background:
+      linear-gradient(color-mix(in srgb, var(--border) 60%, transparent) 1px, transparent 1px) 0 0 / 100% 2.2rem,
+      radial-gradient(70% 80% at 50% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-archive]');
+  if (root) {
+    const items = [...root.querySelectorAll<HTMLElement>('[data-grid] > div')];
+    const q = root.querySelector<HTMLInputElement>('[data-q]')!;
+    const btns = [...root.querySelectorAll<HTMLButtonElement>('[data-topic]')];
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+    const params = new URLSearchParams(location.search);
+    let topic = params.get('topic') ?? '';
+    q.value = params.get('q') ?? '';
+    const apply = () => {
+      const term = q.value.trim().toLowerCase();
+      let shown = 0;
+      for (const item of items) {
+        const card = item.querySelector<HTMLElement>('[data-issue]')!;
+        const ok =
+          (!topic || (card.dataset.topics ?? '').split(',').includes(topic)) &&
+          (!term || (card.dataset.text ?? '').includes(term));
+        item.hidden = !ok;
+        if (ok) shown++;
+      }
+      btns.forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.topic ?? '') === topic)));
+      empty.classList.toggle('hidden', shown > 0);
+      const next = new URLSearchParams();
+      if (term) next.set('q', term);
+      if (topic) next.set('topic', topic);
+      history.replaceState(null, '', next.toString() ? `?${next}` : location.pathname);
+    };
+    btns.forEach((b) => b.addEventListener('click', () => ((topic = b.dataset.topic ?? ''), apply())));
+    q.addEventListener('input', apply);
+    apply();
+  }
+</script>

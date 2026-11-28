@@ -12,6 +12,11 @@ heroLabel: AI Engineer
 # Floating badges around your photo in the hero (up to 3), next to the
 # automatic Claude-certification and GitHub-stars badges.
 heroChips: [AI Security, Harness Engineering, Azure Cloud]
+# Newsletter masthead. Every post lives here first; LinkedIn is where I share it.
+newsletter:
+  name: AI for Everyday Life, Simplified
+  tagline: Plain-English notes on Claude, AI agents, and building things people can trust.
+  about: I write when I've learned something worth saving you the trouble of learning the hard way. Every issue lives here; I share each one on LinkedIn too.
 headline: Simple problems. Complex methods. Simple explanations.
 tagline: I'm an AI engineer at Tata Consultancy Services. I build AI agents and the plumbing around them, so big companies can actually rely on them.
 summary: Sarvesh Talele, AI engineer at TCS and Claude Certified Architect. I build AI agents for enterprise teams, write about what works, and share free Claude exam prep.

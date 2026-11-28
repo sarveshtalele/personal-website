@@ -24,10 +24,16 @@ export async function getProjectSettings() {
   return entry.data;
 }
 
-/** Published posts, newest first. Drafts show only in `pnpm dev`. */
-export async function getPosts(): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft);
-  return posts.sort(byDateDesc((p) => p.data.pubDate));
+/** Published newsletter issues, newest first, each with its issue number. Drafts show only in `pnpm dev`. */
+export async function getIssues(): Promise<(CollectionEntry<'newsletter'> & { issueNo: number })[]> {
+  const all = await getCollection(
+    'newsletter',
+    ({ id, data }) => !id.startsWith('_') && (import.meta.env.DEV || !data.draft),
+  );
+  const oldestFirst = all.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+  return oldestFirst
+    .map((e, i) => Object.assign(e, { issueNo: e.data.issue ?? i + 1 }))
+    .sort(byDateDesc((p) => p.data.pubDate));
 }
 
 export { render };

@@ -24,20 +24,23 @@ for (const name of [...block('pinned'), ...block('hidden')]) {
     problems.push(`project-settings: "${name}" is not a repo in src/data/github.json (typo, or run pnpm github:sync)`);
 }
 
-// 2. Every blog post folder has index.md(x) and the images it references.
-const blogDir = join(ROOT, 'content/blog');
-for (const slug of readdirSync(blogDir)) {
-  const dir = join(blogDir, slug);
-  if (!statSync(dir).isDirectory()) continue;
-  const file = ['index.mdx', 'index.md'].map((f) => join(dir, f)).find(existsSync);
-  if (!file) {
-    problems.push(`blog/${slug}: missing index.mdx`);
-    continue;
-  }
+// 2. Every newsletter issue has its images (folder issues and single-file issues).
+const nlDir = join(ROOT, 'content/newsletter');
+const issueFiles = [];
+for (const name of readdirSync(nlDir)) {
+  const p = join(nlDir, name);
+  if (statSync(p).isDirectory()) {
+    const file = ['index.md', 'index.mdx'].map((f) => join(p, f)).find(existsSync);
+    if (file) issueFiles.push([name, file, p]);
+    else problems.push(`newsletter/${name}: folder has no index.md`);
+  } else if (/\.mdx?$/.test(name)) issueFiles.push([name, p, nlDir]);
+}
+for (const [name, file, dir] of issueFiles) {
   const text = readFileSync(file, 'utf8');
-  for (const m of text.matchAll(/\]\((\.\/[^)\s]+)\)|^cover:\s*(\.\/\S+)/gm)) {
+  if (!/^(pubDate|date):/m.test(text)) problems.push(`newsletter/${name}: add a pubDate: line to the frontmatter`);
+  for (const m of text.matchAll(/\]\((\.\/[^)\s]+)\)|^cover:\s*["']?(\.\/[^"'\s]+)/gm)) {
     const rel = m[1] ?? m[2];
-    if (!existsSync(join(dir, rel))) problems.push(`blog/${slug}: image not found → ${rel}`);
+    if (!existsSync(join(dir, rel))) problems.push(`newsletter/${name}: image not found → ${rel}`);
   }
 }
 

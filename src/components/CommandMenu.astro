@@ -1,14 +1,14 @@
 ---
 /**
- * ⌘K / Ctrl+K quick menu: jump to any page, pinned project, or blog post.
+ * ⌘K / Ctrl+K quick menu: jump to any page, pinned project, or newsletter issue.
  * Items are rendered at build time; the script only filters and navigates.
  */
 import { Search, FileText, FolderGit2, Compass, ArrowUpRight } from '@lucide/astro';
 import { NAV_LINKS, FOOTER_LINKS } from '@lib/site';
-import { getPosts } from '@lib/content';
+import { getIssues } from '@lib/content';
 import { getGithubStats } from '@lib/github';
 
-const posts = await getPosts();
+const posts = await getIssues();
 const gh = await getGithubStats();
 const groups = [
   {
@@ -17,9 +17,9 @@ const groups = [
     items: [...NAV_LINKS, ...FOOTER_LINKS].map((l) => ({ label: l.label, href: l.href, external: false })),
   },
   {
-    label: 'Writing',
+    label: 'Newsletter',
     icon: FileText,
-    items: posts.map((p) => ({ label: p.data.title, href: `/blog/${p.id}`, external: false })),
+    items: posts.map((p) => ({ label: p.data.title, href: `/newsletter/${p.id}`, external: false })),
   },
   {
     label: 'Projects',

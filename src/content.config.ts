@@ -30,6 +30,9 @@ const profile = defineCollection({
     photo: z.string(),
     heroLabel: z.string().default('AI Engineer'),
     heroChips: z.array(z.string()).max(3).default([]),
+    newsletter: z
+      .object({ name: z.string(), tagline: z.string(), about: z.string() })
+      .default({ name: 'Newsletter', tagline: '', about: '' }),
     approach: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
     quotes: z.array(z.object({ text: z.string(), author: z.string(), source: z.string().optional() })).min(1),
     socials: z.object({
@@ -126,28 +129,62 @@ const projects = defineCollection({
 });
 
 /* -------------------------------------------------------------------------- */
-/* Blog — one folder per post: content/blog/<slug>/index.mdx + images      */
+/* Newsletter: one issue per folder (content/newsletter/<slug>/index.md +      */
+/* images/) or a single file (content/newsletter/<slug>.md).                    */
 /* -------------------------------------------------------------------------- */
-const blog = defineCollection({
+const newsletter = defineCollection({
   loader: glob({
-    pattern: '**/index.{md,mdx}',
-    base: './content/blog',
-    generateId: ({ entry }) => entry.split('/')[0],
+    pattern: '**/*.{md,mdx}',
+    base: './content/newsletter',
+    // "my-issue/index.md" and "my-issue.md" both become the URL /newsletter/my-issue
+    generateId: ({ entry }) => entry.replace(/\/index\.mdx?$/, '').replace(/\.mdx?$/, ''),
   }),
   schema: ({ image }) =>
-    z.object({
-      title: z.string().max(120),
-      description: z.string().max(260),
-      pubDate: z.coerce.date(),
-      updatedDate: z.coerce.date().optional(),
-      tags: z.array(z.string()).default([]),
-      category: z.enum(['Engineering', 'Philosophy', 'Claude', 'Career']).default('Engineering'),
-      cover: image().optional(),
-      coverAlt: z.string().default(''),
-      canonical: link.optional(),
-      featured: z.boolean().default(false),
-      draft: z.boolean().default(false),
-    }),
+    z
+      .object({
+        title: z.string().max(140),
+        /** Shorter title for Google results (optional, ~60 characters). */
+        seoTitle: z.string().max(70).optional(),
+        description: z.string().max(300),
+        /** Either `pubDate` or `date` works. */
+        pubDate: z.coerce.date().optional(),
+        date: z.coerce.date().optional(),
+        updatedDate: z.coerce.date().optional(),
+        /** Issue number. Leave it out and issues are numbered by date automatically. */
+        issue: z.number().int().positive().optional(),
+        tags: z.array(z.string()).default([]),
+        cover: image().optional(),
+        coverAlt: z.string().default(''),
+        /** Where this was also posted, e.g. the LinkedIn post or Medium article. */
+        linkedin: link.optional(),
+        canonical: link.optional(),
+        draft: z.boolean().default(false),
+      })
+      .refine((d) => d.pubDate || d.date, { message: 'add `pubDate:` (or `date:`) to the frontmatter' })
+      .transform((d) => ({ ...d, pubDate: (d.pubDate ?? d.date)! })),
+});
+
+/* -------------------------------------------------------------------------- */
+/* References: links to posts and articles published elsewhere               */
+/* -------------------------------------------------------------------------- */
+const references = defineCollection({
+  loader: glob({ pattern: '*.md', base: './content/references' }),
+  schema: z.object({
+    title: z.string(),
+    intro: z.string(),
+    items: z
+      .array(
+        z.object({
+          title: z.string(),
+          url: link,
+          source: z.string(),
+          date: z.coerce.date(),
+          note: z.string().default(''),
+          topics: z.array(z.string()).default([]),
+        }),
+      )
+      .default([]),
+  }),
 });
 
 /* -------------------------------------------------------------------------- */
@@ -217,7 +254,8 @@ export const collections = {
   dashboard,
   projectSettings,
   projects,
-  blog,
+  newsletter,
+  references,
   claudeExams,
   publications,
   certifications,
