@@ -113,6 +113,16 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-10-23 19:27 UTC] DONE — Audit (21 pages × 375/820/1440 × light/dark): 0 broken links/images, 0 JS errors, 0 overflow; remaining 'blocked' hits are sidebar-internal-scroll false positives. Interaction tests: palette, stacking, numbers visible, social links clickable, back-to-top, theme toggle, quiz practice flow, review 360 rendered.
 [2026-10-23 19:28 UTC] DONE — Deploy 40011504130 succeeded; live page verified (credential cards, toolbox, new copy, no email).
 
+## Session — Stageshow motion visual for the engineering apprenticeship article
+
+[2026-11-04 16:33 UTC] PLAN — Integrate the Stageshow workflow from benjitaylor/skills into this Astro site as a repo-local agent skill; create a story-led animation for the AI engineering apprenticeship article; keep the implementation aligned with the site palette, local asset pipeline and reduced-motion support.
+[2026-11-04 16:34 UTC] DECISION — Use a site-adapted skill guide rather than copying the complete upstream React kit into this static Astro project. The guide links to the upstream skill and records the composition, motion, framing and rehearsal rules needed for future work.
+[2026-11-04 16:35 UTC] ACTION — Create a 12-second visual story: junior task → delegate to agent → repository inspection / implementation / tests → pull request ready → interrupted practice step → apprenticeship question. The loop resets under an opaque veil; the reduced-motion media query shows the completed, question-led frame.
+[2026-11-04 16:36 UTC] ACTION — Add the article, accessible cover and motion graphic to the existing MDX blog collection. Update CLAUDE.md and add AGENTS.md guidance so coding agents can discover the Stageshow playbook.
+
+[2026-11-04 16:39 UTC] ACTION — Open PR #20 against main with the article, cover, animated SVG and repo-local Stageshow guidance: https://github.com/sarveshtalele/personal-website/pull/20.
+[2026-11-04 16:39 UTC] DONE — PR is open and mergeable. Initial CI content validation, lint, type-check, build and dependency audit passed; CodeQL analysis completed successfully. Final CI reruns after the progress-log update.
+[2026-11-04 16:39 UTC] DONE — Exported a companion 720 × 405 GIF at 6fps (12 seconds) for download and reuse. The blog embeds the SVG animation to retain vector sharpness and a reduced-motion static state.
 ## Session 10 — Newsletter, story page, PDF, references (planning)
 
 [2026-11-28 13:45 UTC] ACTION — Inspected upload: claude-cert-guide.zip (MDX guide ~2.8k words, 8 screenshots, cover, LinkedIn companion post) extracted to scratchpad; Guinness certificate photo received.
@@ -129,3 +139,4 @@ Format: `[YYYY-MM-DD HH:MM UTC] TYPE — note` where TYPE is PLAN, DECISION, ACT
 [2026-11-28 17:09 UTC] ACTION — Phase 5: homepage is now the 'Mission Log' 3D story. mission-scene.ts (three 0.187, lazy-loaded after load/idle): 3-layer round starfield tunnel, one canvas-textured planet per chapter (rings/halos), primitive-built ship with engine glow + trail, nebula sprites, shooting stars, CatmullRom camera path driven by scroll (smoothed), pointer parallax, theme-aware (dawn vs deep space), mobile quality tier, pauses when hidden, reduced-motion renders static frames, CSS sky fallback without WebGL. 11 chapters (Launch→Contact) incl. new 'On air' podcast chapter; MissionHUD rail + current-chapter pill; readability veil per chapter. Fixed: square stars → round sprite texture; ship moved clear of text; veil overflow clipped; pill hidden over hero.
 [2026-11-28 17:09 UTC] DONE — WebGL verified in headless Chromium (SwiftShader) light/dark, 1440 + 390: renders, no errors, no overflow, HUD tracks chapters.
 [2026-11-28 17:12 UTC] DONE — Publishing workflow: scripts/new-issue.mjs (pnpm new:issue), HOW-TO-PUBLISH.md, content/README.md; README, CLAUDE.md, docs/UPDATING.md, llms.txt, PR template and CI labels updated for newsletter/references/media/PDFs/Mission Log.
+[2026-11-28 17:15 UTC] DECISION — Merged owner commits from main: kept AGENTS.md, .agents/skills/stageshow, CLAUDE.md motion note. Removed src/content/blog/how-to-register-claude-certification-exam (duplicate of newsletter issue how-to-register-for-a-claude-certification-exam; blog collection no longer exists; its cover was a .b64 text file).
