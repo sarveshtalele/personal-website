@@ -32,5 +32,7 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    // three.js is one lazy-loaded chunk on the homepage only.
+    build: { chunkSizeWarningLimit: 700 },
   },
 });

@@ -7,11 +7,13 @@ interface Props {
   linkLabel?: string;
   class?: string;
   id?: string;
+  /** Extra attributes (e.g. data-chapter) are passed to the <section>. */
+  [key: string]: unknown;
 }
-const { title, eyebrow, description, href, linkLabel = 'View all', class: className, id } = Astro.props;
+const { title, eyebrow, description, href, linkLabel = 'View all', class: className, id, ...rest } = Astro.props;
 ---
 
-<section class:list={['py-16 sm:py-20', className]} id={id}>
+<section class:list={['py-16 sm:py-20', className]} id={id} {...rest}>
   {
     (title || eyebrow) && (
       <div class="mb-10 flex flex-wrap items-end justify-between gap-4" data-reveal>

@@ -1,0 +1,190 @@
+---
+/**
+ * Mission Log HUD for the homepage: a pill showing the current chapter and,
+ * on desktop, a rail of chapter dots you can click to jump.
+ */
+interface Props {
+  chapters: { id: string; title: string }[];
+}
+const { chapters } = Astro.props;
+const pad = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<div class="hud-pill" data-hud-pill aria-hidden="true">
+  <span class="hud-dot"></span>
+  <span class="hud-label">Mission log</span>
+  <span class="hud-num" data-hud-num>01</span><span class="hud-total">/{pad(chapters.length - 1)}</span>
+  <span class="hud-title" data-hud-title>{chapters[0]?.title}</span>
+</div>
+
+<nav class="hud-rail" aria-label="Homepage chapters">
+  <ol>
+    {
+      chapters.map((c, i) => (
+        <li>
+          <a href={`#${c.id}`} data-hud-link={c.id} aria-label={`Chapter ${i + 1}: ${c.title}`}>
+            <span class="rail-label">
+              {pad(i)} · {c.title}
+            </span>
+            <span class="rail-dot" />
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .hud-pill {
+    position: fixed;
+    left: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--card) 82%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 0.45rem 0.9rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+    box-shadow: var(--shadow-card);
+    white-space: nowrap;
+    transition:
+      opacity 400ms ease,
+      translate 400ms ease;
+  }
+  /* Hidden over the hero; appears once the journey starts. */
+  :global(.js) .hud-pill:not(.is-on) {
+    opacity: 0;
+    translate: 0 0.75rem;
+    pointer-events: none;
+  }
+  .hud-dot {
+    height: 0.45rem;
+    width: 0.45rem;
+    border-radius: 9999px;
+    background: var(--success);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 25%, transparent);
+    animation: blink 2s ease-in-out infinite;
+  }
+  .hud-label {
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+  }
+  .hud-num {
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .hud-total {
+    margin-left: -0.4rem;
+    color: var(--fg-faint);
+  }
+  .hud-title {
+    color: var(--fg);
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0.35;
+    }
+  }
+  .hud-rail {
+    position: fixed;
+    right: 1.1rem;
+    top: 50%;
+    z-index: 40;
+    translate: 0 -50%;
+  }
+  .hud-rail ol {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .hud-rail a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    padding: 0.15rem 0;
+  }
+  .rail-dot {
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 9999px;
+    border: 1.5px solid var(--fg-faint);
+    transition: all 300ms ease;
+  }
+  .rail-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+    opacity: 0;
+    translate: 6px 0;
+    transition: all 250ms ease;
+    white-space: nowrap;
+  }
+  .hud-rail a:hover .rail-label,
+  .hud-rail a:focus-visible .rail-label,
+  .hud-rail a[aria-current='true'] .rail-label {
+    opacity: 1;
+    translate: 0 0;
+  }
+  .hud-rail a[aria-current='true'] .rail-dot {
+    height: 0.65rem;
+    width: 0.65rem;
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  .hud-rail a[aria-current='true'] .rail-label {
+    color: var(--accent);
+  }
+  @media (max-width: 1279px) {
+    .hud-rail {
+      display: none;
+    }
+  }
+  @media (max-width: 640px) {
+    .hud-label {
+      display: none;
+    }
+    .hud-pill {
+      left: 1rem;
+      padding: 0.4rem 0.75rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hud-dot {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-hud-link]')];
+  const num = document.querySelector<HTMLElement>('[data-hud-num]');
+  const title = document.querySelector<HTMLElement>('[data-hud-title]');
+  const sections = links.map((l) => document.getElementById(l.dataset.hudLink!)).filter(Boolean) as HTMLElement[];
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        const i = sections.indexOf(e.target as HTMLElement);
+        links.forEach((l, k) => l.setAttribute('aria-current', String(k === i)));
+        if (num) num.textContent = String(i + 1).padStart(2, '0');
+        if (title) title.textContent = links[i]?.getAttribute('aria-label')?.replace(/^Chapter \d+: /, '') ?? '';
+      }
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
+  sections.forEach((s) => io.observe(s));
+  const pill = document.querySelector<HTMLElement>('[data-hud-pill]');
+  const togglePill = () => pill?.classList.toggle('is-on', scrollY > innerHeight * 0.6);
+  addEventListener('scroll', togglePill, { passive: true });
+  togglePill();
+</script>

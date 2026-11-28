@@ -1,0 +1,55 @@
+---
+/**
+ * Fixed 3D sky behind the homepage. The canvas is decoration only
+ * (aria-hidden, pointer-events: none). Three.js loads after the page has
+ * painted; until then, and when WebGL is unavailable, the CSS sky shows.
+ */
+---
+
+<div class="mission-sky" aria-hidden="true">
+  <canvas data-mission-canvas></canvas>
+</div>
+
+<style>
+  .mission-sky {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(80% 60% at 70% 10%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
+      radial-gradient(70% 60% at 10% 90%, color-mix(in srgb, var(--primary) 14%, transparent), transparent 70%),
+      linear-gradient(180deg, var(--bg-alt), var(--bg) 60%);
+  }
+  :global(.dark) .mission-sky {
+    background:
+      radial-gradient(70% 50% at 75% 15%, rgb(201 154 91 / 0.18), transparent 70%),
+      radial-gradient(60% 60% at 15% 85%, rgb(70 98 122 / 0.22), transparent 70%),
+      linear-gradient(180deg, #0f0b08, #15100c 50%, #0b0907);
+  }
+  canvas {
+    display: block;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  canvas.is-ready {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-mission-canvas]');
+  if (canvas) {
+    const boot = async () => {
+      const { startMissionScene } = await import('../scripts/mission-scene');
+      const chapters = document.querySelectorAll('[data-chapter]').length || 8;
+      if (startMissionScene(canvas, chapters)) canvas.classList.add('is-ready');
+    };
+    const later = (cb: () => void) =>
+      'requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 1500 }) : setTimeout(cb, 300);
+    if (document.readyState === 'complete') later(boot);
+    else addEventListener('load', () => later(boot), { once: true });
+  }
+</script>

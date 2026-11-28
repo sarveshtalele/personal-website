@@ -12,14 +12,19 @@ import RepoCard from '@components/RepoCard.astro';
 import IssueCard from '@components/IssueCard.astro';
 import Timeline from '@components/Timeline.astro';
 import TopmateCTA from '@components/TopmateCTA.astro';
+import MissionScene from '@components/MissionScene.astro';
+import MissionHUD from '@components/MissionHUD.astro';
+import PodcastCard from '@components/PodcastCard.astro';
+import FollowLinkedIn from '@components/FollowLinkedIn.astro';
 import { GraduationCap, BookOpen } from '@lucide/astro';
-import { getIssues, getProjectSettings } from '@lib/content';
+import { getIssues, getProjectSettings, getAppearances } from '@lib/content';
 import { getGithubStats } from '@lib/github';
 import { minutesRead } from '@lib/newsletter';
 import { byDateDesc } from '@utils/format';
 import claudeStats from '../data/claude-stats.json';
 
 const settings = await getProjectSettings();
+const appearances = await getAppearances();
 const gh = await getGithubStats();
 const posts = (await getIssues()).slice(0, 3);
 const minutes = Object.fromEntries(await Promise.all(posts.map(async (p) => [p.id, await minutesRead(p)] as const)));
@@ -27,153 +32,256 @@ const experience = (await getCollection('experience')).sort(byDateDesc((e) => e.
 const claudeCerts = (await getCollection('certifications'))
   .filter((c) => c.data.featured && c.data.badge)
   .sort(byDateDesc((c) => c.data.date));
+
+// The homepage is a flight past one planet per chapter (see MissionScene).
+const chapters = [
+  { id: 'launch', title: 'Launch' },
+  { id: 'proof', title: 'Credentials' },
+  { id: 'impact', title: 'Impact' },
+  { id: 'process', title: 'How I work' },
+  { id: 'projects', title: 'Projects' },
+  ...(posts.length ? [{ id: 'newsletter', title: 'Newsletter' }] : []),
+  ...(appearances.length ? [{ id: 'on-air', title: 'On air' }] : []),
+  { id: 'claude', title: 'Claude Prep' },
+  { id: 'toolbox', title: 'Toolbox' },
+  { id: 'journey', title: 'Journey' },
+  { id: 'contact', title: 'Contact' },
+];
+const n = (id: string) => String(chapters.findIndex((c) => c.id === id) + 1).padStart(2, '0');
+const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id === id)!.title}`;
 ---
 
 <BaseLayout title="Sarvesh Talele">
-  <IntroHero />
-  <Container>
-    <Section
-      id="proof"
-      eyebrow="Credentials"
-      title="Things you can check."
-      description="Certifications, research, and recognition. Each card opens the proof."
-    >
-      <CredentialCards />
-    </Section>
-  </Container>
+  <MissionScene />
+  <MissionHUD chapters={chapters} />
+  <div class="mission relative z-[1]">
+    <div class="chapter" id="launch" data-chapter="launch"><IntroHero /></div>
+    <Container>
+      <Section
+        id="proof"
+        class="chapter"
+        data-chapter="proof"
+        eyebrow={eyebrow('proof')}
+        title="Things you can check."
+        description="Certifications, research, and recognition. Each card opens the proof."
+      >
+        <CredentialCards />
+      </Section>
+    </Container>
 
-  <ScrollStory />
+    <div class="chapter" id="process" data-chapter="process"><ScrollStory /></div>
 
-  <Container>
-    <Section
-      eyebrow="Impact"
-      title="What my work has done so far."
-      description="Numbers from real projects at TCS. Tap any card to see where it comes from."
-      href="/dashboard"
-      linkLabel="Full dashboard"
-    >
-      <ImpactGrid />
-      <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4" data-reveal>
-        <a href={gh.profileUrl} target="_blank" rel="noopener noreferrer" class="mini-stat card card-hover p-4">
-          <span class="font-display text-3xl font-semibold text-fg" data-count>{gh.stars}</span>
-          <span class="text-xs text-fg-muted">GitHub stars</span>
-        </a>
-        <a href={gh.profileUrl} target="_blank" rel="noopener noreferrer" class="mini-stat card card-hover p-4">
-          <span class="font-display text-3xl font-semibold text-fg" data-count>{gh.forks}</span>
-          <span class="text-xs text-fg-muted">Forks by others</span>
-        </a>
-        <a href="/projects" class="mini-stat card card-hover p-4">
-          <span class="font-display text-3xl font-semibold text-fg" data-count>{gh.publicRepos}</span>
-          <span class="text-xs text-fg-muted">Public repositories</span>
-        </a>
-        <a href="/claude/review" class="mini-stat card card-hover p-4">
-          <span class="font-display text-3xl font-semibold text-fg" data-count>{claudeStats.total}</span>
-          <span class="text-xs text-fg-muted">Practice questions I wrote</span>
-        </a>
-      </div>
-    </Section>
-  </Container>
+    <Container>
+      <Section
+        id="impact"
+        class="chapter"
+        data-chapter="impact"
+        eyebrow={eyebrow('impact')}
+        title="What my work has done so far."
+        description="Numbers from real projects at TCS. Tap any card to see where it comes from."
+        href="/dashboard"
+        linkLabel="Full dashboard"
+      >
+        <ImpactGrid />
+        <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4" data-reveal>
+          <a href={gh.profileUrl} target="_blank" rel="noopener noreferrer" class="mini-stat card card-hover p-4">
+            <span class="font-display text-3xl font-semibold text-fg" data-count>{gh.stars}</span>
+            <span class="text-xs text-fg-muted">GitHub stars</span>
+          </a>
+          <a href={gh.profileUrl} target="_blank" rel="noopener noreferrer" class="mini-stat card card-hover p-4">
+            <span class="font-display text-3xl font-semibold text-fg" data-count>{gh.forks}</span>
+            <span class="text-xs text-fg-muted">Forks by others</span>
+          </a>
+          <a href="/projects" class="mini-stat card card-hover p-4">
+            <span class="font-display text-3xl font-semibold text-fg" data-count>{gh.publicRepos}</span>
+            <span class="text-xs text-fg-muted">Public repositories</span>
+          </a>
+          <a href="/claude/review" class="mini-stat card card-hover p-4">
+            <span class="font-display text-3xl font-semibold text-fg" data-count>{claudeStats.total}</span>
+            <span class="text-xs text-fg-muted">Practice questions I wrote</span>
+          </a>
+        </div>
+      </Section>
+    </Container>
 
-  <Container>
-    <Section
-      eyebrow="Projects"
-      title="A few things I've built."
-      description="My favourite open-source work. Star and fork counts update from GitHub every day."
-      href="/projects"
-      linkLabel="All projects"
-    >
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          gh.pinned.slice(0, 6).map((repo, i) => (
-            <div data-reveal class={`reveal-i-${(i % 3) + 1}`}>
-              <RepoCard repo={repo} categoryLabels={settings.categories} />
-            </div>
-          ))
-        }
-      </div>
-    </Section>
-
-    {
-      posts.length > 0 && (
-        <Section eyebrow="Newsletter" title="Latest from the newsletter." href="/newsletter" linkLabel="All issues">
-          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((p, i) => (
-              <div data-reveal class:list={[`reveal-i-${i + 1}`, posts.length === 1 && 'sm:col-span-2 lg:col-span-3']}>
-                <IssueCard issue={p} minutes={minutes[p.id]} lead={posts.length === 1} />
-              </div>
-            ))}
-          </div>
-        </Section>
-      )
-    }
-
-    <Section
-      eyebrow="Claude Prep"
-      title="I passed both Claude exams. Here's how you can too."
-      href="/claude"
-      linkLabel="Open Claude Prep"
-    >
-      <div class="card grid gap-8 overflow-hidden p-6 sm:p-10 lg:grid-cols-[1fr_1.2fr] lg:items-center" data-reveal>
-        <div class="flex items-center justify-center gap-4 sm:gap-8">
+    <Container>
+      <Section
+        id="projects"
+        class="chapter"
+        data-chapter="projects"
+        eyebrow={eyebrow('projects')}
+        title="A few things I've built."
+        description="My favourite open-source work. Star and fork counts update from GitHub every day."
+        href="/projects"
+        linkLabel="All projects"
+      >
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {
-            claudeCerts.map((c) => (
-              <a href={c.data.credentialUrl} target="_blank" rel="noopener noreferrer" class="group text-center">
-                <img
-                  src={c.data.badge}
-                  alt={`${c.data.title} badge, verify on Credly`}
-                  width="150"
-                  height="150"
-                  loading="lazy"
-                  class="mx-auto h-28 w-28 object-contain drop-shadow-xl transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-2 sm:h-36 sm:w-36"
-                />
-                <span class="mt-2 block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-accent">
-                  Verify ↗
-                </span>
-              </a>
+            gh.pinned.slice(0, 6).map((repo, i) => (
+              <div data-reveal class={`reveal-i-${(i % 3) + 1}`}>
+                <RepoCard repo={repo} categoryLabels={settings.categories} />
+              </div>
             ))
           }
         </div>
-        <div>
-          <p class="text-fg-muted">
-            I wrote <strong class="text-fg">{claudeStats.total} practice questions</strong> while preparing for the Foundations
-            exam, and put them all online for free. There's a timed {claudeStats.mock}-question mock exam, and every
-            answer explains why the other options are wrong.
-          </p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a
-              href="/claude/quiz"
-              class="btn-primary relative inline-flex items-center gap-2 overflow-hidden rounded-full px-5 py-2.5 text-sm font-medium transition-all hover:-translate-y-0.5"
-            >
-              <GraduationCap class="h-4 w-4" aria-hidden="true" /> Take the mock exam
-            </a>
-            <a
-              href="/claude/review"
-              class="inline-flex items-center gap-2 rounded-full border border-line-strong px-5 py-2.5 text-sm font-medium text-fg transition-all hover:-translate-y-0.5 hover:border-accent"
-            >
-              <BookOpen class="h-4 w-4" aria-hidden="true" /> Study all {claudeStats.total}
-            </a>
+      </Section>
+
+      {
+        posts.length > 0 && (
+          <Section
+            id="newsletter"
+            class="chapter"
+            data-chapter="newsletter"
+            eyebrow={eyebrow('newsletter')}
+            title="Latest from the newsletter."
+            description="Every issue lives here first. I share each one on LinkedIn too."
+            href="/newsletter"
+            linkLabel="All issues"
+          >
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {posts.map((p, i) => (
+                <div
+                  data-reveal
+                  class:list={[`reveal-i-${i + 1}`, posts.length === 1 && 'sm:col-span-2 lg:col-span-3']}
+                >
+                  <IssueCard issue={p} minutes={minutes[p.id]} lead={posts.length === 1} />
+                </div>
+              ))}
+            </div>
+          </Section>
+        )
+      }
+
+      {
+        appearances.length > 0 && (
+          <Section
+            id="on-air"
+            class="chapter"
+            data-chapter="on-air"
+            eyebrow={eyebrow('on-air')}
+            title="Heard on podcasts."
+            description="Conversations about moving into AI, shipping it for real, and the Claude exams."
+            href="/references"
+            linkLabel="All references"
+          >
+            <div class="grid gap-6" data-reveal>
+              {appearances.slice(0, 2).map((a) => (
+                <PodcastCard item={a} wide />
+              ))}
+            </div>
+          </Section>
+        )
+      }
+
+      <Section
+        id="claude"
+        class="chapter"
+        data-chapter="claude"
+        eyebrow={eyebrow('claude')}
+        title="I passed both Claude exams. Here's how you can too."
+        href="/claude"
+        linkLabel="Open Claude Prep"
+      >
+        <div class="card grid gap-8 overflow-hidden p-6 sm:p-10 lg:grid-cols-[1fr_1.2fr] lg:items-center" data-reveal>
+          <div class="flex items-center justify-center gap-4 sm:gap-8">
+            {
+              claudeCerts.map((c) => (
+                <a href={c.data.credentialUrl} target="_blank" rel="noopener noreferrer" class="group text-center">
+                  <img
+                    src={c.data.badge}
+                    alt={`${c.data.title} badge, verify on Credly`}
+                    width="150"
+                    height="150"
+                    loading="lazy"
+                    class="mx-auto h-28 w-28 object-contain drop-shadow-xl transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-2 sm:h-36 sm:w-36"
+                  />
+                  <span class="mt-2 block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-accent">
+                    Verify ↗
+                  </span>
+                </a>
+              ))
+            }
+          </div>
+          <div>
+            <p class="text-fg-muted">
+              I wrote <strong class="text-fg">{claudeStats.total} practice questions</strong> while preparing for the Foundations
+              exam, and put them all online for free. There's a timed {claudeStats.mock}-question mock exam, and every
+              answer explains why the other options are wrong.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a
+                href="/claude/quiz"
+                class="btn-primary relative inline-flex items-center gap-2 overflow-hidden rounded-full px-5 py-2.5 text-sm font-medium transition-all hover:-translate-y-0.5"
+              >
+                <GraduationCap class="h-4 w-4" aria-hidden="true" /> Take the mock exam
+              </a>
+              <a
+                href="/claude/review"
+                class="inline-flex items-center gap-2 rounded-full border border-line-strong px-5 py-2.5 text-sm font-medium text-fg transition-all hover:-translate-y-0.5 hover:border-accent"
+              >
+                <BookOpen class="h-4 w-4" aria-hidden="true" /> Study all {claudeStats.total}
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    </Section>
+      </Section>
 
-    <Section eyebrow="Toolbox" title="What I work with." href="/about" linkLabel="More about me">
-      <SkillsBento />
-    </Section>
+      <Section
+        id="toolbox"
+        class="chapter"
+        data-chapter="toolbox"
+        eyebrow={eyebrow('toolbox')}
+        title="What I work with."
+        href="/about"
+        linkLabel="More about me"
+      >
+        <SkillsBento />
+      </Section>
 
-    <Section eyebrow="Experience" title="Where I've worked." href="/experience" linkLabel="Full history">
-      <div data-reveal>
-        <Timeline entries={experience.slice(0, 3)} maxHighlights={2} />
-      </div>
-    </Section>
+      <Section
+        id="journey"
+        class="chapter"
+        data-chapter="journey"
+        eyebrow={eyebrow('journey')}
+        title="Where I've worked."
+        href="/experience"
+        linkLabel="Full history"
+      >
+        <div data-reveal>
+          <Timeline entries={experience.slice(0, 3)} maxHighlights={2} />
+        </div>
+      </Section>
 
-    <section class="pb-8 pt-8">
-      <TopmateCTA />
-    </section>
-  </Container>
+      <section class="chapter pb-8 pt-16" id="contact" data-chapter="contact">
+        <p class="eyebrow mb-4">{eyebrow('contact')}</p>
+        <TopmateCTA />
+        <div class="mt-8 flex justify-center"><FollowLinkedIn /></div>
+      </section>
+    </Container>
+  </div>
 </BaseLayout>
 
 <style>
+  /* Soft veil behind each chapter so text stays readable as planets pass. */
+  :global(.mission) {
+    overflow-x: clip;
+  }
+  :global(.mission .chapter) {
+    position: relative;
+    scroll-margin-top: 4.5rem;
+  }
+  :global(.mission .chapter)::before {
+    content: '';
+    position: absolute;
+    inset: 0 -6vw;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(70% 65% at 50% 50%, color-mix(in srgb, var(--bg) 72%, transparent), transparent 78%);
+  }
+  :global(.mission .hero) {
+    background: none;
+    border-bottom: 0;
+  }
   .mini-stat {
     display: flex;
     flex-direction: column;
