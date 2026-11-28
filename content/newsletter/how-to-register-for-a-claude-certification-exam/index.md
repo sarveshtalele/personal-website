@@ -4,8 +4,8 @@ seoTitle: "Claude Certification: How to Register (2026 Guide)"
 description: "A beginner-friendly, step-by-step guide for Anthropic partners: eligibility, registration, scheduling, fees, prep courses, and exam-day rules."
 pubDate: 2026-11-27
 tags: [Claude, Certification, Anthropic, Career]
-cover: ./images/cover.png
-coverAlt: "Cover image for the guide on registering for a Claude certification exam"
+cover: ./images/cover.webp
+coverAlt: "How to Register for a Claude Certification Exam: A Beginner's Guide for Partners, with Sarvesh Talele and the Foundations and Professional badges"
 ---
 
 > **Disclaimer:** This is an independent guide. It is not an official Anthropic publication, and it is not endorsed by Anthropic or Pearson VUE. All product names and screenshots belong to their respective owners. The details were checked on November 27, 2026. Prices, policies, and screens can change, so please confirm them in Anthropic Partner Academy before you pay.

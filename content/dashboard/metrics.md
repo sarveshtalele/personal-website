@@ -14,16 +14,16 @@ impact:
     context: AI Engineer at Tata Consultancy Services since June 2022
     proof: /experience
     proofLabel: Career timeline
+  - value: 25+
+    label: Agent skills across the AI SDLC
+    context: A skill for every stage, from requirements and design to testing, security, and release
+    proof: https://github.com/sarveshtalele/devcrew
+    proofLabel: devcrew on GitHub
   - value: 100+
-    label: Enterprise users on secure LLM proxy
-    context: Azure-hosted proxy with tracing and audit, 20% lower latency
-    proof: /experience
-    proofLabel: TCS role
-  - value: 45%
-    label: Manual processing time cut
-    context: 3+ multi-agent workflows on Microsoft Foundry SDK and MCP
-    proof: /experience
-    proofLabel: TCS role
+    label: BFSI calculation tools over MCP
+    context: Deterministic financial calculators served to any MCP client
+    proof: https://github.com/sarveshtalele/personal-finance-mcp
+    proofLabel: personal-finance-mcp
   - value: Top 15
     label: Research paper, 10,000+ engineers
     context: Graph-RAG and hybrid retrieval architecture

@@ -168,6 +168,33 @@ const newsletter = defineCollection({
 });
 
 /* -------------------------------------------------------------------------- */
+/* Products: Topmate offerings shown in the newsletter                         */
+/* -------------------------------------------------------------------------- */
+const products = defineCollection({
+  loader: glob({ pattern: '*.md', base: './content/products' }),
+  schema: z.object({
+    title: z.string(),
+    intro: z.string(),
+    profile: link,
+    rating: z.number().min(0).max(5).optional(),
+    ratings: z.number().int().nonnegative().optional(),
+    items: z.array(
+      z.object({
+        title: z.string(),
+        type: z.string(),
+        price: z.string(),
+        badge: z.string().optional(),
+        icon: z.enum(['bundle', 'call', 'heart', 'book']).default('book'),
+        summary: z.string(),
+        includes: z.array(z.string()).default([]),
+        href: link,
+      }),
+    ),
+    testimonials: z.array(z.object({ text: z.string(), author: z.string() })).default([]),
+  }),
+});
+
+/* -------------------------------------------------------------------------- */
 /* Media: podcasts and talks I've appeared on                                 */
 /* -------------------------------------------------------------------------- */
 const media = defineCollection({
@@ -283,6 +310,7 @@ export const collections = {
   newsletter,
   references,
   media,
+  products,
   claudeExams,
   publications,
   certifications,

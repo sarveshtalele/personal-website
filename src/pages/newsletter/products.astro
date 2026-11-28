@@ -1,0 +1,181 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import NewsletterMasthead from '@components/newsletter/NewsletterMasthead.astro';
+import NewsletterTabs from '@components/newsletter/NewsletterTabs.astro';
+import PathSection from '@components/newsletter/PathSection.astro';
+import { Package, Video, Heart, BookOpen, Check, ArrowUpRight, Star, Quote } from '@lucide/astro';
+import { getProducts, getProfile } from '@lib/content';
+
+const { data: profile } = await getProfile();
+const products = await getProducts();
+const icons = { bundle: Package, call: Video, heart: Heart, book: BookOpen };
+const isFree = (price: string) => /^free$/i.test(price.trim());
+const onTopmate = (price: string) => /topmate/i.test(price);
+---
+
+<BaseLayout
+  title={`Products · ${profile.newsletter.name}`}
+  description={products.intro}
+>
+  <NewsletterMasthead title={products.title} intro={products.intro} />
+  <NewsletterTabs active="products" />
+
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    {
+      products.rating && (
+        <a
+          href={products.profile}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rating inline-flex flex-wrap items-center gap-3 rounded-full border border-line bg-surface px-4 py-2 text-sm"
+        >
+          <span class="flex text-[#f3a93b]" aria-hidden="true">
+            {Array.from({ length: 5 }, (_, i) => (
+              <Star class="h-4 w-4" fill={i < Math.round(products.rating!) ? 'currentColor' : 'none'} />
+            ))}
+          </span>
+          <span class="font-semibold text-fg">{products.rating} out of 5</span>
+          {products.ratings && <span class="text-fg-faint">from {products.ratings} ratings on Topmate</span>}
+          <ArrowUpRight class="h-4 w-4 text-fg-faint" aria-hidden="true" />
+        </a>
+      )
+    }
+
+    <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        products.items.map((p, i) => {
+          const Icon = icons[p.icon];
+          return (
+            <article class:list={['product', i === 0 && 'product-lead']} data-reveal>
+              <div class="flex items-start justify-between gap-3">
+                <span class="product-icon">
+                  <Icon class="h-5 w-5" aria-hidden="true" />
+                </span>
+                {p.badge && <span class="product-badge">{p.badge}</span>}
+              </div>
+              <p class="mt-5 text-xs font-semibold uppercase tracking-[0.14em] text-fg-faint">{p.type}</p>
+              <h2 class="mt-1.5 text-2xl font-bold tracking-tight text-fg">{p.title}</h2>
+              <p class="mt-2 text-[0.95rem] leading-relaxed text-fg-muted">{p.summary}</p>
+              {p.includes.length > 0 && (
+                <ul class="mt-5 grid gap-2 text-sm text-fg-muted">
+                  {p.includes.map((x) => (
+                    <li class="flex gap-2">
+                      <Check class="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+                      <span>{x}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div class="mt-auto flex flex-wrap items-center justify-between gap-3 pt-7">
+                <p class:list={['price', isFree(p.price) && 'price-free', onTopmate(p.price) && 'price-note']}>
+                  {p.price}
+                </p>
+                <a href={p.href} target="_blank" rel="noopener noreferrer" class="product-cta">
+                  {isFree(p.price) ? 'Get it free' : p.icon === 'call' ? 'Book on Topmate' : 'Open on Topmate'}
+                  <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
+                </a>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    {
+      products.testimonials.length > 0 && (
+        <section class="mt-20" aria-labelledby="kind-words">
+          <h2 id="kind-words" class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
+            What people say
+          </h2>
+          <div class="mt-6 grid gap-5 md:grid-cols-3">
+            {products.testimonials.map((t) => (
+              <figure class="card p-6" data-reveal>
+                <Quote class="h-5 w-5 text-accent" aria-hidden="true" />
+                <blockquote class="mt-3 text-lg leading-snug text-fg">{t.text}</blockquote>
+                <figcaption class="mt-4 text-sm text-fg-faint">{t.author}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <a href={products.profile} target="_blank" rel="noopener noreferrer" class="link-arrow mt-6 text-sm font-semibold">
+            Read every review on Topmate <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
+          </a>
+        </section>
+      )
+    }
+  </div>
+
+  <PathSection />
+</BaseLayout>
+
+<style>
+  .product {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    border-radius: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition:
+      transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      box-shadow 300ms ease;
+  }
+  .product:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+  .product-lead {
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    background:
+      radial-gradient(80% 60% at 100% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
+      var(--surface);
+  }
+  .product-icon {
+    display: inline-flex;
+    height: 3rem;
+    width: 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .product-badge {
+    border-radius: 9999px;
+    background: var(--fg);
+    color: var(--bg);
+    padding: 0.25rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+  .price {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+  }
+  .price-free {
+    color: var(--success);
+  }
+  .price-note {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--fg-faint);
+    letter-spacing: 0;
+  }
+  .product-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 9999px;
+    background: var(--fg);
+    color: var(--bg);
+    padding: 0.65rem 1.1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: gap 200ms ease;
+  }
+  .product-cta:hover {
+    gap: 0.65rem;
+  }
+</style>

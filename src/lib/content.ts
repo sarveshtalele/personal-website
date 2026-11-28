@@ -38,6 +38,13 @@ export async function getIssues(): Promise<(CollectionEntry<'newsletter'> & { is
 
 export { render };
 
+/** Topmate products for the newsletter. */
+export async function getProducts() {
+  const entry = await getEntry('products', 'products');
+  if (!entry) throw new Error('Missing content/products/products.md');
+  return entry.data;
+}
+
 /** Podcasts and talks, newest first, with ready-made YouTube links and thumbnails. */
 export async function getAppearances() {
   const entry = await getEntry('media', 'appearances');

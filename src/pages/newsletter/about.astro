@@ -1,0 +1,133 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import NewsletterMasthead from '@components/newsletter/NewsletterMasthead.astro';
+import NewsletterTabs from '@components/newsletter/NewsletterTabs.astro';
+import FollowLinkedIn from '@components/FollowLinkedIn.astro';
+import { BadgeCheck, ArrowRight } from '@lucide/astro';
+import { getIssues, getProfile } from '@lib/content';
+import { topicIndex } from '@lib/newsletter';
+
+const { data: profile } = await getProfile();
+const nl = profile.newsletter;
+const articles = await getIssues();
+const topics = topicIndex(articles);
+const creds = profile.credentials.slice(0, 4);
+---
+
+<BaseLayout title={`About · ${nl.name}`} description={nl.about}>
+  <NewsletterMasthead title={`About ${nl.name}`} intro={nl.tagline} />
+  <NewsletterTabs active="about" />
+
+  <div class="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+    <div class="about-prose">
+      <h2>Why this exists</h2>
+      <p>{nl.about}</p>
+      <p>
+        Most writing about AI is either hype or a wall of jargon. I try to do the opposite: take one real problem,
+        explain how I solved it, and leave out anything you don't need. If an article saves you an afternoon, it did its
+        job.
+      </p>
+      <h2>What you'll find here</h2>
+      <ul>
+        <li>Step-by-step guides, like registering for and passing the Claude certification exams.</li>
+        <li>How I build AI agents and MCP servers at work, and what broke along the way.</li>
+        <li>Notes on moving into AI engineering, for people starting where I did.</li>
+      </ul>
+      {
+        topics.length > 0 && (
+          <>
+            <h2>Topics so far</h2>
+            <div class="not-prose flex flex-wrap gap-2">
+              {topics.map((t) => (
+                <a href={`/newsletter/archive?topic=${t.slug}`} class="pill">
+                  {t.label} <span class="opacity-60">{t.count}</span>
+                </a>
+              ))}
+            </div>
+          </>
+        )
+      }
+      <h2>How to follow along</h2>
+      <p>
+        Every article lives on this site first. I share each one on LinkedIn, so following me there is the easiest way to
+        know when a new one is out.
+      </p>
+      <div class="not-prose mt-5 flex flex-wrap items-center gap-4">
+        <FollowLinkedIn size="lg" />
+        <a href="/newsletter/archive" class="link-arrow text-sm font-semibold">
+          Read the archive <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+
+    <aside class="writer card h-fit p-6">
+      <img
+        src="/images/sarvesh-talele.webp"
+        alt={profile.fullName}
+        width="800"
+        height="800"
+        class="aspect-square w-full rounded-2xl object-cover"
+        loading="lazy"
+      />
+      <p class="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-fg-faint">The writer</p>
+      <p class="mt-1 text-xl font-bold text-fg">{profile.name}</p>
+      <p class="mt-1 text-sm text-fg-muted">{profile.tagline}</p>
+      <ul class="mt-5 grid gap-2 text-sm">
+        {
+          creds.map((c) => (
+            <li class="flex gap-2 text-fg-muted">
+              <BadgeCheck class="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+              <span>{c.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <a href="/about" class="link-arrow mt-5 text-sm font-semibold">
+        My full story <ArrowRight class="h-4 w-4" aria-hidden="true" />
+      </a>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-prose {
+    max-width: 42rem;
+    font-family: Charter, 'Bitstream Charter', 'Iowan Old Style', 'Sitka Text', Cambria, Georgia, serif;
+    font-size: 1.2rem;
+    line-height: 1.75;
+    color: var(--fg);
+  }
+  .about-prose h2 {
+    margin-top: 2.25rem;
+    font-family: var(--font-sans);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .about-prose h2:first-child {
+    margin-top: 0;
+  }
+  .about-prose p,
+  .about-prose ul {
+    margin-top: 1rem;
+  }
+  .about-prose ul {
+    list-style: disc;
+    padding-left: 1.4rem;
+  }
+  .about-prose li + li {
+    margin-top: 0.4rem;
+  }
+  .about-prose li::marker {
+    color: var(--accent);
+  }
+  .not-prose {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+  }
+  @media (max-width: 640px) {
+    .about-prose {
+      font-size: 1.1rem;
+    }
+  }
+</style>

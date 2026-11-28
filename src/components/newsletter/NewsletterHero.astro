@@ -1,0 +1,404 @@
+---
+/**
+ * Newsletter hero: the night-sky scene with my photo card, three link columns
+ * and a giant wordmark. Always a night scene, in both newsletter themes.
+ */
+import NightScene from './NightScene.astro';
+import FollowLinkedIn from '@components/FollowLinkedIn.astro';
+import { ArrowRight } from '@lucide/astro';
+import { getProfile, getIssues } from '@lib/content';
+
+const { data: profile } = await getProfile();
+const nl = profile.newsletter;
+const [latest] = await getIssues();
+const first = profile.name.split(' ')[0].toUpperCase();
+
+const cols = [
+  {
+    title: 'Read',
+    links: [
+      { label: 'Home', href: '/newsletter' },
+      { label: 'Archive', href: '/newsletter/archive' },
+      { label: 'Products', href: '/newsletter/products' },
+      { label: 'About', href: '/newsletter/about' },
+    ],
+  },
+  {
+    title: 'Follow',
+    links: [
+      { label: 'LinkedIn', href: profile.socials.linkedin },
+      { label: 'GitHub', href: profile.socials.github },
+      ...(profile.socials.medium ? [{ label: 'Medium', href: profile.socials.medium }] : []),
+      ...(profile.socials.topmate ? [{ label: 'Topmate', href: profile.socials.topmate }] : []),
+    ],
+  },
+];
+const ext = (href: string) => href.startsWith('http');
+---
+
+<section class="nl-hero" aria-labelledby="nl-hero-title" data-nl-hero>
+  <div class="nl-hero-frame">
+    <NightScene />
+    <div class="nl-hero-shade" aria-hidden="true"></div>
+
+    <div class="nl-hero-inner">
+      <div class="nl-hero-top">
+        <span class="nl-est">Est. 2026 · {profile.location}</span>
+        <span class="nl-slogan">Simple problems. Simple explanations.</span>
+      </div>
+
+      <div class="nl-id">
+        <img
+          src="/images/sarvesh-talele-320.webp"
+          alt={profile.fullName}
+          width="96"
+          height="96"
+          class="nl-photo"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <div class="min-w-0">
+          <p class="nl-kicker">The newsletter</p>
+          <h1 id="nl-hero-title" class="nl-title">{nl.name}</h1>
+          <p class="nl-by">by {profile.name} · AI Engineer, 2× Claude Certified Architect</p>
+          <p class="nl-tag">{nl.tagline}</p>
+          <div class="mt-4 flex flex-wrap items-center gap-3">
+            <FollowLinkedIn />
+            {
+              latest && (
+                <a href={`/newsletter/${latest.id}`} class="nl-ghost">
+                  Read the latest <ArrowRight class="h-4 w-4" aria-hidden="true" />
+                </a>
+              )
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="nl-cols">
+        {
+          cols.map((c) => (
+            <nav aria-label={c.title}>
+              <p class="nl-col-title">{c.title}</p>
+              <ul>
+                {c.links.map((l) => (
+                  <li>
+                    <a
+                      href={l.href}
+                      {...(ext(l.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      class="nl-col-link"
+                    >
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))
+        }
+        <div>
+          <p class="nl-col-title">Start here</p>
+          <ul>
+            {
+              latest && (
+                <li>
+                  <a href={`/newsletter/${latest.id}`} class="nl-col-link line-clamp-2">
+                    {latest.data.title}
+                  </a>
+                </li>
+              )
+            }
+            <li><a href="/claude" class="nl-col-link">Free Claude exam prep</a></li>
+          </ul>
+          {
+            profile.socials.topmate && (
+              <a href={profile.socials.topmate} target="_blank" rel="noopener noreferrer" class="nl-pill">
+                Book a 1:1
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </div>
+
+    <svg class="nl-word" viewBox="0 0 1000 190" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+      <defs>
+        <linearGradient id="nl-word-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity="0.04"></stop>
+          <stop offset="0.55" stop-color="#fff" stop-opacity="0.6"></stop>
+          <stop offset="1" stop-color="#fff"></stop>
+        </linearGradient>
+      </defs>
+      <text
+        x="500"
+        y="186"
+        text-anchor="middle"
+        textLength="980"
+        lengthAdjust="spacingAndGlyphs"
+        fill="url(#nl-word-fill)"
+        font-size="230"
+        font-weight="900"
+        letter-spacing="-6">{first}</text
+      >
+    </svg>
+  </div>
+</section>
+
+<style>
+  .nl-hero {
+    padding: 0.75rem;
+  }
+  @media (min-width: 640px) {
+    .nl-hero {
+      padding: 1.25rem 1.5rem 0;
+    }
+  }
+  .nl-hero-frame {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 1.75rem;
+    background: #070814;
+    color: #eef0ff;
+    min-height: min(56rem, 100svh);
+    box-shadow:
+      0 30px 80px -30px rgb(8 10 40 / 0.65),
+      0 0 0 1px rgb(255 255 255 / 0.06);
+    max-width: 92rem;
+    margin: 0 auto;
+  }
+  /* Phones: keep the galaxy and clouds in view instead of cropping to empty sky. */
+  @media (max-width: 767px) {
+    .nl-hero-frame :global(.night-scene) {
+      width: auto;
+      aspect-ratio: 16 / 9;
+      left: 50%;
+      transform: translateX(-61%);
+    }
+  }
+  .nl-hero-shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgb(6 9 30 / 0.15) 0%, transparent 30%),
+      linear-gradient(0deg, rgb(7 8 20 / 0.95) 0%, rgb(7 8 20 / 0.55) 22%, transparent 48%);
+  }
+  .nl-hero-inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding: 1.25rem 1.25rem calc(min(100vw, 92rem) * 0.19 + 2rem);
+  }
+  @media (min-width: 768px) {
+    .nl-hero-inner {
+      padding: 1.75rem 2.5rem calc(min(100vw, 92rem) * 0.19 + 2.5rem);
+      gap: 3.5rem;
+    }
+  }
+  @media (min-width: 1100px) {
+    .nl-hero-inner {
+      padding: 2rem 3.5rem calc(min(100vw, 92rem) * 0.19 + 2.5rem);
+    }
+  }
+  .nl-hero-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .nl-est {
+    color: rgb(238 240 255 / 0.7);
+  }
+  .nl-slogan {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    background: linear-gradient(90deg, #f3c77a, #ffd2b0 40%, #ffffff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .nl-id {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 40rem;
+    padding: 1.25rem;
+    border-radius: 1.5rem;
+    background: rgb(10 12 34 / 0.5);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+  @media (min-width: 640px) {
+    .nl-id {
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 1.5rem 1.75rem;
+    }
+  }
+  .nl-photo {
+    width: 5.5rem;
+    height: 5.5rem;
+    flex: none;
+    border-radius: 9999px;
+    object-fit: cover;
+    box-shadow:
+      0 0 0 3px rgb(7 8 20 / 0.6),
+      0 0 0 5px #f3c77a,
+      0 0 40px 6px rgb(243 199 122 / 0.35);
+  }
+  .nl-kicker {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #f3c77a;
+  }
+  .nl-title {
+    margin-top: 0.35rem;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    color: #fff;
+  }
+  .nl-by {
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
+    color: rgb(238 240 255 / 0.78);
+  }
+  .nl-tag {
+    margin-top: 0.35rem;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: rgb(238 240 255 / 0.9);
+  }
+  .nl-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 9999px;
+    border: 1px solid rgb(255 255 255 / 0.55);
+    padding: 0.6rem 1.15rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    transition:
+      background-color 200ms ease,
+      gap 200ms ease;
+  }
+  .nl-ghost:hover {
+    background: rgb(255 255 255 / 0.12);
+    gap: 0.7rem;
+  }
+  .nl-cols {
+    display: grid;
+    gap: 1.75rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .nl-cols {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .nl-cols {
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 2.5rem;
+    }
+  }
+  .nl-col-title {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid rgb(255 255 255 / 0.55);
+    margin-bottom: 0.7rem;
+  }
+  .nl-cols ul {
+    display: grid;
+    gap: 0.3rem;
+  }
+  .nl-col-link {
+    font-size: 0.95rem;
+    color: rgb(238 240 255 / 0.82);
+    transition: color 200ms ease;
+  }
+  .nl-col-link:hover {
+    color: #f3c77a;
+  }
+  .nl-pill {
+    display: inline-flex;
+    margin-top: 1rem;
+    border: 1px solid rgb(255 255 255 / 0.8);
+    border-radius: 9999px;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    color: #fff;
+    transition: all 200ms ease;
+  }
+  .nl-pill:hover {
+    background: #f3c77a;
+    border-color: #f3c77a;
+    color: #120d05;
+  }
+  .nl-word {
+    position: absolute;
+    left: 2%;
+    right: 2%;
+    bottom: -0.6%;
+    width: 96%;
+    height: auto;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    font-family: var(--font-display);
+  }
+</style>
+
+<script>
+  // Parallax: scene layers drift with the pointer and with scroll.
+  const hero = document.querySelector<HTMLElement>('[data-nl-hero]');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (hero && !reduce) {
+    const layers = [...hero.querySelectorAll<SVGGElement>('[data-depth]')];
+    let px = 0;
+    let py = 0;
+    let sy = 0;
+    let raf = 0;
+    const paint = () => {
+      raf = 0;
+      for (const l of layers) {
+        const d = Number(l.dataset.depth);
+        l.style.transform = `translate(${(px * d * 22).toFixed(1)}px, ${(py * d * 12 - sy * (1 - d) * 0.25).toFixed(1)}px)`;
+      }
+    };
+    const queue = () => (raf ||= requestAnimationFrame(paint));
+    if (matchMedia('(pointer: fine)').matches) {
+      hero.addEventListener('pointermove', (e) => {
+        const r = hero.getBoundingClientRect();
+        px = (e.clientX - r.left) / r.width - 0.5;
+        py = (e.clientY - r.top) / r.height - 0.5;
+        queue();
+      });
+    }
+    addEventListener(
+      'scroll',
+      () => {
+        sy = Math.min(scrollY, 900);
+        queue();
+      },
+      { passive: true },
+    );
+  }
+</script>

@@ -12,11 +12,11 @@ heroLabel: AI Engineer
 # Floating badges around your photo in the hero (up to 3), next to the
 # automatic Claude-certification and GitHub-stars badges.
 heroChips: [AI Security, Harness Engineering, Azure Cloud]
-# Newsletter masthead. Every post lives here first; LinkedIn is where I share it.
+# Newsletter name, tagline and about text (newsletter hero, About tab, article footer).
 newsletter:
-  name: AI for Everyday Life, Simplified
-  tagline: Plain-English notes on Claude, AI agents, and building things people can trust.
-  about: I write when I've learned something worth saving you the trouble of learning the hard way. Every issue lives here; I share each one on LinkedIn too.
+  name: Sarvesh's AI Newsletter
+  tagline: Plain-English notes on Claude, AI agents, and building AI people can trust.
+  about: I write when I've learned something worth saving you the trouble of learning the hard way. Every article lives here first, and I share each one on LinkedIn.
 headline: Simple problems. Complex methods. Simple explanations.
 tagline: I'm an AI engineer at Tata Consultancy Services. I build AI agents and the plumbing around them, so big companies can actually rely on them.
 summary: Sarvesh Talele, AI engineer at TCS and Claude Certified Architect. I build AI agents for enterprise teams, write about what works, and share free Claude exam prep.
@@ -110,7 +110,7 @@ tell them, nothing more. That lesson stuck with me: **if something has to be pre
 These days I'm an AI engineer at Tata Consultancy Services. I work with the leadership team to turn slow, manual
 processes into AI agents. I've built multi-agent workflows on Microsoft Foundry and MCP, a Graph-RAG retrieval
 system that made it into the top 15 internal research papers in a division of 10,000+ engineers, and a secure LLM
-gateway on Azure that 100+ people use every day.
+gateway on Azure that enterprise teams rely on every day.
 
 I hold both Anthropic certifications, **Claude Certified Architect: Foundations and Professional**. I like sharing
 what I learn, so my [exam guide](https://github.com/sarveshtalele/claude-architect-exam-guide) is open source, and

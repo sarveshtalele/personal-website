@@ -1,0 +1,338 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import NewsletterMasthead from '@components/newsletter/NewsletterMasthead.astro';
+import NewsletterTabs from '@components/newsletter/NewsletterTabs.astro';
+import ArticleCard from '@components/newsletter/ArticleCard.astro';
+import { Search, X, LayoutGrid, List } from '@lucide/astro';
+import { getIssues, getProfile } from '@lib/content';
+import { minutesRead, topicIndex } from '@lib/newsletter';
+
+const { data: profile } = await getProfile();
+const articles = await getIssues();
+const minutes = Object.fromEntries(await Promise.all(articles.map(async (p) => [p.id, await minutesRead(p)] as const)));
+const topics = topicIndex(articles);
+const years = [...new Set(articles.map((a) => a.data.pubDate.getFullYear()))].sort((a, b) => b - a);
+---
+
+<BaseLayout
+  title={`Archive · ${profile.newsletter.name}`}
+  description={`Every article from ${profile.newsletter.name}, searchable by topic, year, and reading time.`}
+>
+  <NewsletterMasthead
+    title="The archive"
+    intro={`All ${articles.length} article${articles.length === 1 ? '' : 's'}, newest first. Search, filter, and share any view.`}
+  />
+  <NewsletterTabs active="archive" />
+
+  <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6" data-archive>
+    <div class="controls">
+      <label class="relative block min-w-0 flex-1">
+        <span class="sr-only">Search articles</span>
+        <Search
+          class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-faint"
+          aria-hidden="true"
+        />
+        <input
+          id="nl-q"
+          type="search"
+          class="field h-12 rounded-full pl-11 text-base"
+          placeholder="Search titles, summaries, topics…"
+          autocomplete="off"
+          data-q
+        />
+      </label>
+      <div class="flex flex-wrap items-center gap-2">
+        <label class="sr-only" for="nl-sort">Sort</label>
+        <select id="nl-sort" class="field h-12 w-auto rounded-full pr-8" data-sort>
+          <option value="new">Newest first</option>
+          <option value="old">Oldest first</option>
+          <option value="quick">Quick reads first</option>
+        </select>
+        {
+          years.length > 1 && (
+            <>
+              <label class="sr-only" for="nl-year">
+                Year
+              </label>
+              <select id="nl-year" class="field h-12 w-auto rounded-full pr-8" data-year>
+                <option value="">All years</option>
+                {years.map((y) => (
+                  <option value={y}>{y}</option>
+                ))}
+              </select>
+            </>
+          )
+        }
+        <div class="view-toggle" role="group" aria-label="Layout">
+          <button type="button" data-view="grid" aria-pressed="true" aria-label="Grid view">
+            <LayoutGrid class="h-4 w-4" aria-hidden="true" />
+          </button>
+          <button type="button" data-view="list" aria-pressed="false" aria-label="List view">
+            <List class="h-4 w-4" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {
+      topics.length > 0 && (
+        <div class="mt-5 flex flex-wrap gap-2" role="group" aria-label="Filter by topic (pick any)">
+          {topics.map((t) => (
+            <button type="button" class="pill" data-topic={t.slug} aria-pressed="false">
+              {t.label} <span class="opacity-60">{t.count}</span>
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4 text-sm">
+      <p class="text-fg-muted" aria-live="polite" data-count></p>
+      <button type="button" class="hidden items-center gap-1.5 font-semibold text-accent hover:underline" data-clear>
+        <X class="h-4 w-4" aria-hidden="true" /> Clear filters
+      </button>
+    </div>
+
+    <div class="results mt-8" data-grid data-mode="grid">
+      {
+        articles.map((a) => (
+          <div class="result">
+            <ArticleCard article={a} minutes={minutes[a.id]} />
+          </div>
+        ))
+      }
+    </div>
+    <p class="hidden py-16 text-center text-fg-muted" data-empty>No articles match. Try another word or topic.</p>
+
+    <nav class="mt-12 flex items-center justify-between gap-4" aria-label="Pages" data-pager>
+      <button type="button" class="pager-arrow" data-prev aria-label="Previous page">←</button>
+      <ol class="flex flex-wrap items-center justify-center gap-1.5" data-pages></ol>
+      <button type="button" class="pager-arrow" data-next aria-label="Next page">→</button>
+    </nav>
+  </div>
+</BaseLayout>
+
+<style>
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  @media (min-width: 768px) {
+    .controls {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+  .view-toggle {
+    display: inline-flex;
+    height: 3rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0.25rem;
+  }
+  .view-toggle button {
+    display: inline-flex;
+    width: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    color: var(--fg-faint);
+  }
+  .view-toggle button[aria-pressed='true'] {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  .results {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .results[data-mode='grid'] {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  }
+  .results[data-mode='list'] {
+    grid-template-columns: 1fr;
+    max-width: 52rem;
+  }
+  .results[data-mode='list'] :global(.acard) {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .results[data-mode='list'] :global(.acard-thumb) {
+    width: 34%;
+    max-width: 15rem;
+    flex: none;
+    aspect-ratio: auto;
+    min-height: 9rem;
+  }
+  @media (max-width: 520px) {
+    .results[data-mode='list'] :global(.acard-desc) {
+      display: none;
+    }
+  }
+  .pager-arrow {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+  }
+  .pager-arrow:disabled {
+    opacity: 0.35;
+  }
+  [data-pages] :global(button) {
+    min-width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+  }
+  [data-pages] :global(button[aria-current='page']) {
+    background: var(--fg);
+    color: var(--bg);
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  const PER_PAGE = 9;
+  const root = document.querySelector<HTMLElement>('[data-archive]');
+  if (root) {
+    const grid = root.querySelector<HTMLElement>('[data-grid]')!;
+    const items = [...grid.querySelectorAll<HTMLElement>('.result')];
+    const q = root.querySelector<HTMLInputElement>('[data-q]')!;
+    const sortSel = root.querySelector<HTMLSelectElement>('[data-sort]')!;
+    const yearSel = root.querySelector<HTMLSelectElement>('[data-year]');
+    const topicBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-topic]')];
+    const viewBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-view]')];
+    const count = root.querySelector<HTMLElement>('[data-count]')!;
+    const clear = root.querySelector<HTMLButtonElement>('[data-clear]')!;
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+    const pager = root.querySelector<HTMLElement>('[data-pager]')!;
+    const pages = root.querySelector<HTMLElement>('[data-pages]')!;
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-next]')!;
+    const meta = (el: HTMLElement) => el.querySelector<HTMLElement>('[data-article]')!.dataset;
+
+    const params = new URLSearchParams(location.search);
+    const state = {
+      q: params.get('q') ?? '',
+      topics: new Set((params.get('topic') ?? '').split(',').filter(Boolean)),
+      sort: params.get('sort') ?? 'new',
+      year: params.get('year') ?? '',
+      view: params.get('view') ?? 'grid',
+      page: Math.max(1, Number(params.get('page') ?? 1)),
+    };
+    try {
+      if (!params.get('view')) state.view = localStorage.getItem('nl-view') ?? 'grid';
+    } catch {
+      /* storage blocked */
+    }
+    q.value = state.q;
+    sortSel.value = state.sort;
+    if (yearSel) yearSel.value = state.year;
+
+    const render = (resetPage = false) => {
+      if (resetPage) state.page = 1;
+      const term = state.q.trim().toLowerCase();
+      const matches = items.filter((el) => {
+        const d = meta(el);
+        const ts = (d.topics ?? '').split(',');
+        return (
+          (!term || (d.text ?? '').includes(term)) &&
+          (state.topics.size === 0 || [...state.topics].some((t) => ts.includes(t))) &&
+          (!state.year || d.year === state.year)
+        );
+      });
+      matches.sort((a, b) => {
+        const A = meta(a);
+        const B = meta(b);
+        if (state.sort === 'old') return A.date!.localeCompare(B.date!);
+        if (state.sort === 'quick') return Number(A.min) - Number(B.min) || B.date!.localeCompare(A.date!);
+        return B.date!.localeCompare(A.date!);
+      });
+      const totalPages = Math.max(1, Math.ceil(matches.length / PER_PAGE));
+      state.page = Math.min(state.page, totalPages);
+      const start = (state.page - 1) * PER_PAGE;
+      const visible = new Set(matches.slice(start, start + PER_PAGE));
+      items.forEach((el) => (el.hidden = !visible.has(el)));
+      matches.forEach((el) => grid.appendChild(el));
+
+      const filtered = !!term || state.topics.size > 0 || !!state.year;
+      count.textContent = filtered
+        ? `${matches.length} of ${items.length} article${items.length === 1 ? '' : 's'}`
+        : `${items.length} article${items.length === 1 ? '' : 's'}`;
+      clear.classList.toggle('hidden', !filtered);
+      clear.classList.toggle('inline-flex', filtered);
+      empty.classList.toggle('hidden', matches.length > 0);
+      topicBtns.forEach((b) => b.setAttribute('aria-pressed', String(state.topics.has(b.dataset.topic!))));
+      grid.dataset.mode = state.view;
+      viewBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === state.view)));
+
+      pager.hidden = totalPages <= 1;
+      prev.disabled = state.page <= 1;
+      next.disabled = state.page >= totalPages;
+      pages.replaceChildren(
+        ...Array.from({ length: totalPages }, (_, i) => {
+          const li = document.createElement('li');
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = String(i + 1);
+          if (i + 1 === state.page) b.setAttribute('aria-current', 'page');
+          b.addEventListener('click', () => go(i + 1));
+          li.append(b);
+          return li;
+        }),
+      );
+
+      const out = new URLSearchParams();
+      if (term) out.set('q', term);
+      if (state.topics.size) out.set('topic', [...state.topics].join(','));
+      if (state.sort !== 'new') out.set('sort', state.sort);
+      if (state.year) out.set('year', state.year);
+      if (state.view !== 'grid') out.set('view', state.view);
+      if (state.page > 1) out.set('page', String(state.page));
+      history.replaceState(null, '', out.toString() ? `?${out}` : location.pathname);
+    };
+    const go = (p: number) => {
+      state.page = p;
+      render();
+      root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    q.addEventListener('input', () => ((state.q = q.value), render(true)));
+    sortSel.addEventListener('change', () => ((state.sort = sortSel.value), render(true)));
+    yearSel?.addEventListener('change', () => ((state.year = yearSel.value), render(true)));
+    topicBtns.forEach((b) =>
+      b.addEventListener('click', () => {
+        const t = b.dataset.topic!;
+        if (state.topics.has(t)) state.topics.delete(t);
+        else state.topics.add(t);
+        render(true);
+      }),
+    );
+    viewBtns.forEach((b) =>
+      b.addEventListener('click', () => {
+        state.view = b.dataset.view!;
+        try {
+          localStorage.setItem('nl-view', state.view);
+        } catch {
+          /* storage blocked */
+        }
+        render();
+      }),
+    );
+    clear.addEventListener('click', () => {
+      state.q = '';
+      q.value = '';
+      state.topics.clear();
+      state.year = '';
+      if (yearSel) yearSel.value = '';
+      render(true);
+    });
+    prev.addEventListener('click', () => go(state.page - 1));
+    next.addEventListener('click', () => go(state.page + 1));
+    render();
+  }
+</script>

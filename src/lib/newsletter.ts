@@ -24,4 +24,4 @@ export function topicIndex(issues: Issue[]) {
   return [...map.values()].sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
 }
 
-export const issueLabel = (n: number) => `Issue #${n}`;
+export const articleLabel = (n: number) => `Article ${n}`;

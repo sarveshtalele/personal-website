@@ -6,7 +6,7 @@ import { Sun, Moon } from '@lucide/astro';
   id="theme-toggle"
   type="button"
   class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-fg-muted transition-colors hover:bg-bg-alt hover:text-fg"
-  aria-label="Toggle dark mode"
+  aria-label="Switch between light paper and dark reading mode"
 >
   <Sun class="h-[18px] w-[18px] dark:hidden" aria-hidden="true" />
   <Moon class="hidden h-[18px] w-[18px] dark:block" aria-hidden="true" />
@@ -26,7 +26,7 @@ import { Sun, Moon } from '@lucide/astro';
   const apply = () => {
     const dark = document.documentElement.classList.toggle('dark');
     try {
-      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      localStorage.setItem('nl-theme', dark ? 'dark' : 'light');
     } catch {
       /* storage blocked: theme still applies for this page view */
     }

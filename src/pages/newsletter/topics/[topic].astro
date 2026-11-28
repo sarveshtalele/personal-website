@@ -1,6 +1,6 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
-import IssueCard from '@components/IssueCard.astro';
+import ArticleCard from '@components/newsletter/ArticleCard.astro';
 import FollowLinkedIn from '@components/FollowLinkedIn.astro';
 import { getIssues } from '@lib/content';
 import { minutesRead, topicIndex } from '@lib/newsletter';
@@ -19,15 +19,15 @@ const minutes = Object.fromEntries(await Promise.all(issues.map(async (p) => [p.
 
 <PageLayout
   title={label}
-  description={`${issues.length} newsletter issue${issues.length === 1 ? '' : 's'} about ${label}.`}
+  description={`${issues.length} article${issues.length === 1 ? '' : 's'} about ${label} in Sarvesh's AI Newsletter.`}
   eyebrow="Newsletter topic"
   crumbs={[{ label: 'Newsletter', href: '/newsletter' }, { label }]}
 >
   <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {issues.map((p) => <IssueCard issue={p} minutes={minutes[p.id]} />)}
+    {issues.map((p) => <ArticleCard article={p} minutes={minutes[p.id]} />)}
   </div>
   <div class="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8">
-    <a href="/newsletter" class="link-arrow text-sm font-medium">← All issues</a>
-    <FollowLinkedIn showRss={false} />
+    <a href="/newsletter/archive" class="link-arrow text-sm font-medium">← All articles</a>
+    <FollowLinkedIn />
   </div>
 </PageLayout>

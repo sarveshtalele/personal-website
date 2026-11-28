@@ -76,15 +76,13 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [per
 <meta name="description" content={description} />
 <meta name="author" content={profile.fullName} />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
-<meta name="theme-color" content="#f6f0e4" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#14100c" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#070814" />
 <meta name="format-detection" content="telephone=no" />
 <link rel="canonical" href={canonicalURL} />
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link rel="alternate" type="application/rss+xml" title={`${SITE.name} · Newsletter`} href="/rss.xml" />
 {noindex && <meta name="robots" content="noindex" />}
 
 <meta property="og:type" content={type} />
@@ -109,14 +107,19 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [per
 <script is:inline>
   (function () {
     const d = document.documentElement;
+    // The site is dark-only. Newsletter pages open in light "paper" mode and
+    // the reader can switch; that choice is remembered for newsletter pages.
+    const nl = /^\/newsletter(\/|$)/.test(location.pathname);
     let stored = null;
-    try {
-      stored = localStorage.getItem('theme');
-    } catch {
-      /* storage blocked */
+    if (nl) {
+      try {
+        stored = localStorage.getItem('nl-theme');
+      } catch {
+        /* storage blocked */
+      }
     }
-    const dark = stored ? stored === 'dark' : true; // dark by default
-    d.classList.toggle('dark', dark);
+    d.classList.toggle('dark', nl ? stored === 'dark' : true);
+    if (nl) d.classList.add('nl');
     d.classList.add('js');
   })();
 </script>

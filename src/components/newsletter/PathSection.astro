@@ -1,0 +1,586 @@
+---
+/**
+ * "From curious to certified": a storybook hillside with a small explorer and
+ * four floating step cards along a winding trail. Each step links to a real
+ * thing: the newsletter, the free question bank, my Topmate offerings, and the
+ * registration guide. Scene colours follow the newsletter theme (day / night).
+ */
+import { BookOpen, Library, Video, Award, ArrowRight, Play } from '@lucide/astro';
+import { getProducts, getIssues, getAppearances } from '@lib/content';
+
+const products = await getProducts();
+const issues = await getIssues();
+const [podcast] = await getAppearances();
+const guide = issues.find((i) => /register/i.test(i.id)) ?? issues[0];
+const bundle = products.items.find((p) => p.icon === 'bundle');
+const call = products.items.find((p) => p.icon === 'call');
+
+const steps = [
+  { n: 1, title: 'Read the newsletter', note: 'Plain-English articles', href: '/newsletter/archive', Icon: BookOpen, ext: false },
+  { n: 2, title: 'Practise for free', note: '360 questions + mock exam', href: '/claude/review', Icon: Library, ext: false },
+  {
+    n: 3,
+    title: 'Get unstuck',
+    note: bundle && /free/i.test(bundle.price) ? 'Free prep bundle + 1:1 calls' : 'Prep bundle + 1:1 calls',
+    href: bundle?.href ?? call?.href ?? products.profile,
+    Icon: Video,
+    ext: true,
+  },
+  {
+    n: 4,
+    title: 'Get certified',
+    note: 'How to register, step by step',
+    href: guide ? `/newsletter/${guide.id}` : '/claude',
+    Icon: Award,
+    ext: false,
+  },
+];
+
+let seed = 11;
+const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+const flowers = Array.from({ length: 70 }, () => ({
+  x: rnd() * 1600,
+  y: 770 + rnd() * 130,
+  r: 2 + rnd() * 4,
+  c: ['#ffd36e', '#ffffff', '#ffb0c4', '#c9b8ff'][Math.floor(rnd() * 4)],
+}));
+---
+
+<section class="nl-path" aria-labelledby="nl-path-title">
+  <div class="nl-path-frame">
+    <svg class="nl-path-scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="ps-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style="stop-color:var(--ps-sky1)"></stop>
+          <stop offset="0.55" style="stop-color:var(--ps-sky2)"></stop>
+          <stop offset="0.85" style="stop-color:var(--ps-sky3)"></stop>
+        </linearGradient>
+        <radialGradient id="ps-planet" cx="0.38" cy="0.35" r="0.7">
+          <stop offset="0" style="stop-color:var(--ps-planet1)"></stop>
+          <stop offset="1" style="stop-color:var(--ps-planet2)"></stop>
+        </radialGradient>
+        <linearGradient id="ps-cloud" gradientUnits="userSpaceOnUse" x1="0" y1="140" x2="0" y2="620">
+          <stop offset="0" style="stop-color:var(--ps-cloud1)"></stop>
+          <stop offset="1" style="stop-color:var(--ps-cloud2)"></stop>
+        </linearGradient>
+        <linearGradient id="ps-far" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style="stop-color:var(--ps-far1)"></stop>
+          <stop offset="1" style="stop-color:var(--ps-far2)"></stop>
+        </linearGradient>
+        <linearGradient id="ps-water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style="stop-color:var(--ps-water1)"></stop>
+          <stop offset="1" style="stop-color:var(--ps-water2)"></stop>
+        </linearGradient>
+        <linearGradient id="ps-near" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style="stop-color:var(--ps-near1)"></stop>
+          <stop offset="1" style="stop-color:var(--ps-near2)"></stop>
+        </linearGradient>
+        <filter id="ps-fluff" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="9"></feTurbulence>
+          <feDisplacementMap in="SourceGraphic" scale="30"></feDisplacementMap>
+          <feGaussianBlur stdDeviation="1"></feGaussianBlur>
+        </filter>
+        <filter id="ps-paint">
+          <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3"></feTurbulence>
+          <feDisplacementMap in="SourceGraphic" scale="3"></feDisplacementMap>
+        </filter>
+        <filter id="ps-grain">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence>
+          <feColorMatrix type="saturate" values="0"></feColorMatrix>
+        </filter>
+      </defs>
+
+      <rect width="1600" height="900" fill="url(#ps-sky)"></rect>
+      <g class="ps-stars" fill="#fff">
+        <circle cx="200" cy="90" r="1.4"></circle><circle cx="420" cy="150" r="1"></circle><circle cx="640" cy="70" r="1.6"></circle>
+        <circle cx="900" cy="120" r="1.1"></circle><circle cx="1120" cy="60" r="1.5"></circle><circle cx="1500" cy="250" r="1.2"></circle>
+        <circle cx="760" cy="210" r="0.9"></circle><circle cx="80" cy="220" r="1.1"></circle><circle cx="1300" cy="180" r="0.9"></circle>
+      </g>
+
+      <!-- Ringed planet where the sun would be -->
+      <g class="ps-planet" transform="translate(1380 150)">
+        <circle r="78" style="fill:var(--ps-halo)" opacity="0.35"></circle>
+        <circle r="54" fill="url(#ps-planet)"></circle>
+        <path d="M-50 -8 Q 0 -22 50 -6" style="stroke:var(--ps-planet2)" stroke-width="5" fill="none" opacity="0.25"></path>
+        <ellipse rx="98" ry="20" transform="rotate(-16)" fill="none" style="stroke:var(--ps-ring)" stroke-width="5" opacity="0.9"></ellipse>
+      </g>
+
+      <g class="ps-cloud ps-c1" filter="url(#ps-fluff)">
+        <circle cx="0" cy="210" r="90" fill="url(#ps-cloud)"></circle><circle cx="110" cy="250" r="70" fill="url(#ps-cloud)"></circle>
+        <circle cx="40" cy="300" r="80" fill="url(#ps-cloud)"></circle>
+      </g>
+      <g class="ps-cloud ps-c2" filter="url(#ps-fluff)">
+        <circle cx="900" cy="200" r="70" fill="url(#ps-cloud)"></circle><circle cx="990" cy="230" r="58" fill="url(#ps-cloud)"></circle>
+        <circle cx="840" cy="245" r="50" fill="url(#ps-cloud)"></circle><circle cx="1060" cy="260" r="40" fill="url(#ps-cloud)"></circle>
+      </g>
+      <g class="ps-cloud ps-c3" filter="url(#ps-fluff)">
+        <circle cx="1540" cy="430" r="100" fill="url(#ps-cloud)"></circle><circle cx="1420" cy="470" r="70" fill="url(#ps-cloud)"></circle>
+        <circle cx="1330" cy="500" r="48" fill="url(#ps-cloud)"></circle>
+      </g>
+      <g class="ps-cloud ps-c4" filter="url(#ps-fluff)" opacity="0.85">
+        <circle cx="250" cy="560" r="60" fill="url(#ps-cloud)"></circle><circle cx="340" cy="580" r="48" fill="url(#ps-cloud)"></circle>
+        <circle cx="160" cy="585" r="44" fill="url(#ps-cloud)"></circle>
+      </g>
+
+      <!-- Distant mountains, a lake, and an observatory on the far shore -->
+      <g filter="url(#ps-paint)">
+        <path d="M600 640 L760 540 L860 600 L980 500 L1120 590 L1260 520 L1420 610 L1600 560 V700 H600Z" fill="url(#ps-far)"></path>
+        <path d="M640 660 C 900 640 1200 650 1600 640 V730 H640Z" fill="url(#ps-water)"></path>
+        <path d="M980 650 C 1080 630 1200 628 1320 650 L1330 700 L980 700Z" style="fill:var(--ps-shore)"></path>
+      </g>
+      <g transform="translate(1170 628)">
+        <rect x="-30" y="-6" width="60" height="16" rx="2" style="fill:var(--ps-build)"></rect>
+        <path d="M-24 -6 A 24 24 0 0 1 24 -6Z" style="fill:var(--ps-dome)"></path>
+        <rect x="-3" y="-30" width="6" height="16" style="fill:var(--ps-build)" transform="rotate(30)"></rect>
+        <rect x="40" y="0" width="34" height="10" rx="2" style="fill:var(--ps-build)"></rect>
+        <path d="M43 0 A 14 14 0 0 1 71 0Z" style="fill:var(--ps-dome)"></path>
+        <circle cx="0" cy="4" r="2.2" style="fill:var(--ps-window)"></circle><circle cx="57" cy="5" r="1.8" style="fill:var(--ps-window)"></circle>
+      </g>
+
+      <!-- Cypress trees -->
+      <g style="fill:var(--ps-tree)">
+        <ellipse cx="70" cy="640" rx="30" ry="140"></ellipse><ellipse cx="140" cy="690" rx="22" ry="100"></ellipse>
+        <ellipse cx="1520" cy="660" rx="30" ry="150"></ellipse><ellipse cx="1450" cy="720" rx="20" ry="90"></ellipse>
+      </g>
+
+      <!-- Foreground hill -->
+      <path d="M0 760 C 220 700 420 690 620 730 C 820 770 1000 800 1200 790 C 1380 782 1500 770 1600 760 V900 H0Z" fill="url(#ps-near)"></path>
+      <ellipse cx="380" cy="830" rx="70" ry="34" style="fill:var(--ps-rock)"></ellipse>
+      <ellipse cx="410" cy="818" rx="40" ry="18" style="fill:var(--ps-rock-hi)" opacity="0.5"></ellipse>
+      <ellipse cx="1100" cy="850" rx="54" ry="24" style="fill:var(--ps-rock)"></ellipse>
+      {flowers.map((f) => <circle cx={f.x.toFixed(1)} cy={f.y.toFixed(1)} r={f.r.toFixed(1)} fill={f.c} opacity="0.85" />)}
+
+      <!-- The explorer: a small astronaut with a backpack -->
+      <g class="ps-explorer" transform="translate(520 690)">
+        <ellipse cx="0" cy="66" rx="34" ry="7" fill="#000" opacity="0.18"></ellipse>
+        <rect x="-30" y="-6" width="22" height="40" rx="9" style="fill:var(--ps-pack)"></rect>
+        <rect x="-20" y="0" width="40" height="46" rx="16" style="fill:var(--ps-suit)"></rect>
+        <rect x="-15" y="40" width="12" height="24" rx="5" style="fill:var(--ps-suit-shade)"></rect>
+        <rect x="3" y="40" width="12" height="24" rx="5" style="fill:var(--ps-suit-shade)"></rect>
+        <rect x="-17" y="60" width="16" height="8" rx="4" style="fill:var(--ps-boot)"></rect>
+        <rect x="1" y="60" width="16" height="8" rx="4" style="fill:var(--ps-boot)"></rect>
+        <rect x="-6" y="12" width="12" height="8" rx="2" style="fill:var(--ps-badge)"></rect>
+        <circle cx="0" cy="-22" r="25" style="fill:var(--ps-helmet)"></circle>
+        <path d="M-15 -26 Q 0 -40 17 -26 Q 18 -10 0 -8 Q -17 -10 -15 -26Z" style="fill:var(--ps-visor)"></path>
+        <path d="M-8 -28 Q -2 -34 6 -32" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.8"></path>
+        <rect x="18" y="8" width="10" height="26" rx="5" style="fill:var(--ps-suit)" transform="rotate(-24 23 8)"></rect>
+      </g>
+
+      <rect width="1600" height="900" filter="url(#ps-grain)" opacity="0.06"></rect>
+    </svg>
+    <div class="nl-path-fade" aria-hidden="true"></div>
+
+    <div class="nl-path-inner">
+      <div class="nl-path-copy">
+        <p class="nl-path-eyebrow">Small steps. Clearer thinking.</p>
+        <h2 id="nl-path-title" class="nl-path-title">From curious <br class="hidden sm:block" />to <em>certified.</em></h2>
+        <p class="nl-path-text">
+          Read along, practise for free, and book time with me when you're stuck. This is the path most readers take.
+        </p>
+        <div class="mt-6 flex flex-wrap items-center gap-4">
+          <a href={steps[0].href} class="nl-path-cta">Start reading <ArrowRight class="h-4 w-4" aria-hidden="true" /></a>
+          {
+            podcast && (
+              <a href={podcast.url} target="_blank" rel="noopener noreferrer" class="nl-path-play">
+                <span class="nl-play-dot">
+                  <Play class="h-3.5 w-3.5" aria-hidden="true" />
+                </span>
+                Watch my podcast
+              </a>
+            )
+          }
+        </div>
+      </div>
+
+      <svg class="nl-trail" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M33 79 C 38 78 40 74 44 70 S 52 58 56 53 S 64 40 69 35 S 78 22 82 17" pathLength="1"></path>
+      </svg>
+
+      <ol class="nl-steps">
+        {
+          steps.map((s, i) => (
+            <li class={`nl-step nl-step-${i + 1}`}>
+              <a href={s.href} {...(s.ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})} class="nl-step-card">
+                <span class="nl-step-icon">
+                  <s.Icon class="h-4 w-4" aria-hidden="true" />
+                </span>
+                <span class="min-w-0">
+                  <span class="nl-step-n">Step {s.n}</span>
+                  <span class="nl-step-title">{s.title}</span>
+                  <span class="nl-step-note">{s.note}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .nl-path {
+    --ps-sky1: #4f86e0;
+    --ps-sky2: #8fbaf2;
+    --ps-sky3: #ffe1c6;
+    --ps-planet1: #ffd27a;
+    --ps-planet2: #f08a3c;
+    --ps-halo: #ffd27a;
+    --ps-ring: #fff0cf;
+    --ps-cloud1: #ffffff;
+    --ps-cloud2: #ffcfc0;
+    --ps-far1: #7ea3c9;
+    --ps-far2: #5c86a8;
+    --ps-water1: #6aa7d6;
+    --ps-water2: #3f7fb2;
+    --ps-shore: #6f9a5e;
+    --ps-build: #f5efe3;
+    --ps-dome: #ffffff;
+    --ps-window: #f3b341;
+    --ps-tree: #2d5a3a;
+    --ps-near1: #7cb85a;
+    --ps-near2: #3f7a3a;
+    --ps-rock: #a59c8f;
+    --ps-rock-hi: #e4ddd1;
+    --ps-pack: #5b8a4a;
+    --ps-suit: #f4f1ea;
+    --ps-suit-shade: #d9d3c7;
+    --ps-boot: #4b2fc9;
+    --ps-badge: #ff7a59;
+    --ps-helmet: #ffffff;
+    --ps-visor: #2b2f6b;
+    --ps-ink: #10204a;
+    --ps-ink-soft: #2b3a66;
+    --ps-card: rgb(255 255 255 / 0.94);
+    --ps-card-border: rgb(255 255 255 / 0.9);
+    --ps-trail: #c88a4a;
+    padding: 4rem 0.75rem 1rem;
+  }
+  :global(.dark) .nl-path {
+    --ps-sky1: #060a24;
+    --ps-sky2: #1b2350;
+    --ps-sky3: #4a3d6e;
+    --ps-planet1: #c9b8ff;
+    --ps-planet2: #5b3fd6;
+    --ps-halo: #7b5cff;
+    --ps-ring: #f3c77a;
+    --ps-cloud1: #9b8fc7;
+    --ps-cloud2: #3c3a6e;
+    --ps-far1: #34406e;
+    --ps-far2: #232b52;
+    --ps-water1: #2a3768;
+    --ps-water2: #161d40;
+    --ps-shore: #1f3a32;
+    --ps-build: #cfd3ef;
+    --ps-dome: #e9ecff;
+    --ps-window: #f3c77a;
+    --ps-tree: #0f2420;
+    --ps-near1: #1f4433;
+    --ps-near2: #0b1a16;
+    --ps-rock: #3a3f5c;
+    --ps-rock-hi: #6a6f95;
+    --ps-pack: #2d5a46;
+    --ps-suit: #dfe3f6;
+    --ps-suit-shade: #aab0d4;
+    --ps-boot: #7b5cff;
+    --ps-badge: #f3c77a;
+    --ps-helmet: #eef0ff;
+    --ps-visor: #0e1238;
+    --ps-ink: #eef0ff;
+    --ps-ink-soft: #c3c8ea;
+    --ps-card: rgb(18 21 48 / 0.94);
+    --ps-card-border: rgb(164 139 255 / 0.3);
+    --ps-trail: #f3c77a;
+  }
+  @media (min-width: 640px) {
+    .nl-path {
+      padding: 5rem 1.5rem 1rem;
+    }
+  }
+  .nl-path-frame {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    max-width: 92rem;
+    margin: 0 auto;
+    border-radius: 1.75rem;
+    min-height: 40rem;
+    box-shadow: 0 30px 80px -40px rgb(20 40 90 / 0.45);
+  }
+  .nl-path-scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .nl-path-fade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--ps-sky1) 35%, transparent), transparent 45%);
+  }
+  .nl-path-inner {
+    position: relative;
+    z-index: 1;
+    min-height: 40rem;
+    padding: 2.5rem 1.5rem 2rem;
+  }
+  @media (min-width: 1024px) {
+    .nl-path-inner {
+      min-height: 44rem;
+      padding: 4.5rem 4rem;
+    }
+    .nl-path-frame {
+      min-height: 44rem;
+    }
+  }
+  .nl-path-copy {
+    max-width: 30rem;
+    color: var(--ps-ink);
+  }
+  :global(html:not(.dark)) .nl-path-copy {
+    color: #fff;
+    text-shadow: 0 1px 18px rgb(20 50 110 / 0.35);
+  }
+  .nl-path-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+  .nl-path-title {
+    margin-top: 0.9rem;
+    font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+  .nl-path-title em {
+    font-family: Charter, 'Iowan Old Style', Georgia, serif;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: -0.01em;
+    color: var(--ps-ring);
+  }
+  :global(html:not(.dark)) .nl-path-title em {
+    color: #fff3d6;
+  }
+  .nl-path-text {
+    margin-top: 1rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+  .nl-path-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background: #0e1538;
+    color: #fff;
+    padding: 0.8rem 1.4rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-shadow: none;
+    box-shadow: 0 10px 30px -10px rgb(14 21 56 / 0.6);
+    transition:
+      gap 200ms ease,
+      transform 200ms ease;
+  }
+  :global(.dark) .nl-path-cta {
+    background: var(--primary);
+    color: var(--on-primary);
+  }
+  .nl-path-cta:hover {
+    gap: 0.75rem;
+    transform: translateY(-2px);
+  }
+  .nl-path-play {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .nl-play-dot {
+    display: inline-flex;
+    height: 2.4rem;
+    width: 2.4rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.9);
+    color: #10204a;
+    box-shadow: 0 6px 20px -6px rgb(0 0 0 / 0.35);
+    transition: transform 200ms ease;
+  }
+  .nl-path-play:hover .nl-play-dot {
+    transform: scale(1.08);
+  }
+
+  /* Steps: a vertical trail on phones, floating cards on a winding path on desktop. */
+  .nl-trail {
+    display: none;
+  }
+  .nl-steps {
+    position: relative;
+    margin-top: 2.25rem;
+    display: grid;
+    gap: 0.75rem;
+    padding-left: 1.25rem;
+    border-left: 2px dashed var(--ps-trail);
+    max-width: 24rem;
+  }
+  .nl-step-card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+    border-radius: 1rem;
+    background: var(--ps-card);
+    border: 1px solid var(--ps-card-border);
+    color: var(--ps-ink);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 16px 40px -18px rgb(10 20 60 / 0.45);
+    transition:
+      transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      box-shadow 300ms ease;
+  }
+  .nl-step-card:hover {
+    transform: translateY(-4px) rotate(-0.5deg);
+    box-shadow: 0 22px 50px -18px rgb(10 20 60 / 0.55);
+  }
+  .nl-step-icon {
+    display: inline-flex;
+    flex: none;
+    height: 2.2rem;
+    width: 2.2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: #2f9a5a;
+    color: #fff;
+  }
+  .nl-step-1 .nl-step-icon {
+    background: #4b2fc9;
+  }
+  .nl-step-4 .nl-step-icon {
+    background: #e0662e;
+  }
+  .nl-step-n {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ps-ink-soft);
+  }
+  .nl-step-title {
+    display: block;
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .nl-step-note {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.8rem;
+    color: var(--ps-ink-soft);
+  }
+  @media (min-width: 1024px) {
+    .nl-trail {
+      display: block;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .nl-trail path {
+      fill: none;
+      stroke: var(--ps-trail);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 0.012 0.012;
+      vector-effect: non-scaling-stroke;
+      opacity: 0.9;
+    }
+    .nl-steps {
+      position: static;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      max-width: none;
+    }
+    .nl-step {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 15.5rem;
+      animation: bob 6s ease-in-out infinite;
+    }
+    .nl-step-1 {
+      left: 44%;
+      top: 70%;
+    }
+    .nl-step-2 {
+      left: 56%;
+      top: 53%;
+      animation-delay: -1.5s;
+    }
+    .nl-step-3 {
+      left: 69%;
+      top: 35%;
+      animation-delay: -3s;
+    }
+    .nl-step-4 {
+      left: 82%;
+      top: 17%;
+      animation-delay: -4.5s;
+    }
+  }
+  @keyframes bob {
+    50% {
+      translate: 0 -8px;
+    }
+  }
+  .ps-explorer {
+    animation: explorer 4s ease-in-out infinite;
+  }
+  @keyframes explorer {
+    50% {
+      translate: 0 -3px;
+    }
+  }
+  .ps-c1,
+  .ps-c3 {
+    animation: ps-drift 26s ease-in-out infinite alternate;
+  }
+  .ps-c2,
+  .ps-c4 {
+    animation: ps-drift 32s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes ps-drift {
+    to {
+      translate: 30px 0;
+    }
+  }
+  .ps-stars {
+    opacity: 0;
+  }
+  :global(.dark) .ps-stars {
+    opacity: 0.8;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nl-step,
+    .ps-explorer,
+    .ps-c1,
+    .ps-c2,
+    .ps-c3,
+    .ps-c4 {
+      animation: none;
+    }
+  }
+</style>

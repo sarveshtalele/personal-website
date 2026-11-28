@@ -1,0 +1,106 @@
+---
+/** Compact night-sky masthead for the Archive, Products and About tabs. */
+import NightScene from './NightScene.astro';
+import FollowLinkedIn from '@components/FollowLinkedIn.astro';
+import { getProfile } from '@lib/content';
+
+interface Props {
+  title: string;
+  intro?: string;
+}
+const { title, intro } = Astro.props;
+const { data: profile } = await getProfile();
+---
+
+<section class="nl-mast">
+  <div class="nl-mast-frame">
+    <NightScene />
+    <div class="nl-mast-shade" aria-hidden="true"></div>
+    <div class="nl-mast-inner">
+      <a href="/newsletter" class="nl-mast-brand">
+        <img src="/images/sarvesh-talele-320.webp" alt="" width="44" height="44" class="nl-mast-photo" />
+        <span>{profile.newsletter.name}</span>
+      </a>
+      <h1 class="nl-mast-title">{title}</h1>
+      {intro && <p class="nl-mast-intro">{intro}</p>}
+      <div class="mt-5"><FollowLinkedIn /></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .nl-mast {
+    padding: 0.75rem;
+  }
+  @media (min-width: 640px) {
+    .nl-mast {
+      padding: 1.25rem 1.5rem 0;
+    }
+  }
+  .nl-mast-frame {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    max-width: 92rem;
+    margin: 0 auto;
+    border-radius: 1.5rem;
+    background: #070814;
+    color: #eef0ff;
+  }
+  @media (max-width: 767px) {
+    .nl-mast-frame :global(.night-scene) {
+      width: auto;
+      aspect-ratio: 16 / 9;
+      left: 50%;
+      transform: translateX(-61%);
+    }
+  }
+  .nl-mast-shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgb(7 8 20 / 0.85) 0%, rgb(7 8 20 / 0.45) 55%, transparent 100%);
+  }
+  .nl-mast-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 2.25rem 1.25rem 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .nl-mast-inner {
+      padding: 3.5rem 2.5rem 3.75rem;
+    }
+  }
+  .nl-mast-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgb(238 240 255 / 0.9);
+  }
+  .nl-mast-photo {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    object-fit: cover;
+    box-shadow: 0 0 0 2px #f3c77a;
+  }
+  .nl-mast-title {
+    margin-top: 1.1rem;
+    font-size: clamp(2.1rem, 5vw, 3.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.04;
+    color: #fff;
+  }
+  .nl-mast-intro {
+    margin-top: 0.75rem;
+    max-width: 38rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgb(238 240 255 / 0.85);
+  }
+</style>

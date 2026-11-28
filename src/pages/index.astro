@@ -9,7 +9,7 @@ import Container from '@components/Container.astro';
 import Section from '@components/Section.astro';
 import ImpactGrid from '@components/ImpactGrid.astro';
 import RepoCard from '@components/RepoCard.astro';
-import IssueCard from '@components/IssueCard.astro';
+import ArticleCard from '@components/newsletter/ArticleCard.astro';
 import Timeline from '@components/Timeline.astro';
 import TopmateCTA from '@components/TopmateCTA.astro';
 import MissionScene from '@components/MissionScene.astro';
@@ -144,7 +144,7 @@ const eyebrow = (id: string) => `Log ${n(id)} · ${chapters.find((c) => c.id ===
                   data-reveal
                   class:list={[`reveal-i-${i + 1}`, posts.length === 1 && 'sm:col-span-2 lg:col-span-3']}
                 >
-                  <IssueCard issue={p} minutes={minutes[p.id]} lead={posts.length === 1} />
+                  <ArticleCard article={p} minutes={minutes[p.id]} variant={posts.length === 1 ? 'featured' : 'card'} />
                 </div>
               ))}
             </div>

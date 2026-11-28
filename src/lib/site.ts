@@ -41,7 +41,6 @@ export const FOOTER_LINKS = [
   { label: 'Certifications', href: '/certifications' },
   { label: 'Publications', href: '/publications' },
   { label: 'Mock exam', href: '/claude/quiz' },
-  { label: 'RSS', href: '/rss.xml' },
   { label: 'Contact', href: '/contact' },
   { label: 'Privacy', href: '/privacy' },
 ] as const;
