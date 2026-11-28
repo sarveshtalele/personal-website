@@ -14,11 +14,6 @@ impact:
     context: AI Engineer at Tata Consultancy Services since June 2022
     proof: /experience
     proofLabel: Career timeline
-  - value: 50K+
-    label: Daily requests served
-    context: 10+ FastAPI agentic services with sub-second responses
-    proof: /experience
-    proofLabel: TCS role
   - value: 100+
     label: Enterprise users on secure LLM proxy
     context: Azure-hosted proxy with tracing and audit, 20% lower latency

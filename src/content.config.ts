@@ -52,6 +52,9 @@ const profile = defineCollection({
         badge: z.string().optional(),
         /** Short line under the title, e.g. issuer or year. */
         note: z.string().optional(),
+        /** Optional full image (e.g. a certificate photo) shown in a lightbox. */
+        image: z.string().optional(),
+        imageAlt: z.string().optional(),
       }),
     ),
     achievements: z.array(z.object({ text: z.string(), href: link.optional() })),

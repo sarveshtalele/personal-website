@@ -66,7 +66,10 @@ credentials:
     note: Harvard Extension School · 2024
     href: /certifications
   - label: Guinness World Record participant
-    note: Online programming lesson · 2021
+    note: Most users in an online programming lesson in 24 hours · April 2021
+    badge: /images/achievements/guinness-seal.webp
+    image: /images/achievements/guinness-world-record-certificate.webp
+    imageAlt: Guinness World Records certificate of participation for Sarvesh K Talele, record of 112,314 users taking an online programming lesson in 24 hours, 24–25 April 2021
     href: /about#achievements
   - label: 8 awards at TCS
     note: Tata Consultancy Services
